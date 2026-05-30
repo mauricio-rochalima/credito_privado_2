@@ -35,23 +35,23 @@
 html { font-size: 16px; scroll-behavior: smooth; }
 body { font-family: var(--sans); background: var(--bg); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-.cfg-btn { position: fixed; top: 24px; right: 24px; z-index: 100; background: var(--card); border: 1px solid var(--border); padding: 10px 20px; border-radius: 99px; font-family: var(--sans); font-weight: 600; font-size: 13px; color: var(--bb-blue); cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+.cfg-btn { position: fixed; top: 24px; right: 24px; z-index: 100; background: var(--card); border: 1px solid var(--border); padding: 12px 24px; border-radius: 99px; font-family: var(--sans); font-weight: 700; font-size: 15px; color: var(--bb-blue); cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
 .cfg-btn:hover { background: var(--bb-blue-light); }
-.cfg-panel { position: fixed; top: 0; right: 0; width: 340px; height: 100vh; background: var(--card); box-shadow: -10px 0 30px rgba(0,0,0,0.1); z-index: 101; transform: translateX(100%); transition: transform 0.3s ease; padding: 24px; overflow-y: auto; border-left: 4px solid var(--bb-yellow); }
+.cfg-panel { position: fixed; top: 0; right: 0; width: 380px; height: 100vh; background: var(--card); box-shadow: -10px 0 30px rgba(0,0,0,0.1); z-index: 101; transform: translateX(100%); transition: transform 0.3s ease; padding: 24px; overflow-y: auto; border-left: 4px solid var(--bb-yellow); }
 .cfg-panel.open { transform: translateX(0); }
-.cfg-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+.cfg-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-muted); }
 
-.cfg-panel h2 { font-family: var(--serif); color: var(--bb-blue); margin-bottom: 24px; font-size: 24px; }
-.cfg-group { margin-bottom: 20px; }
-.cfg-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-.cfg-input, .cfg-select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: var(--sans); font-size: 14px; background: var(--bg); color: var(--text-main); outline: none; transition: border-color 0.2s; }
+.cfg-panel h2 { font-family: var(--serif); color: var(--bb-blue); margin-bottom: 24px; font-size: 26px; }
+.cfg-group { margin-bottom: 24px; }
+.cfg-label { display: block; font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+.cfg-input, .cfg-select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-family: var(--sans); font-size: 15px; background: var(--bg); color: var(--text-main); outline: none; transition: border-color 0.2s; }
 .cfg-input:focus, .cfg-select:focus { border-color: var(--bb-blue); background: #fff; box-shadow: 0 0 0 3px var(--bb-blue-light); }
 .cfg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .cfg-divider { height: 1px; background: var(--border); margin: 24px 0; border: none; }
 
-.btn-primary { width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--sans); font-weight: 700; cursor: pointer; transition: 0.2s; background: var(--bb-blue); color: #fff; display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 12px; }
+.btn-primary { width: 100%; padding: 14px; border: none; border-radius: 8px; font-family: var(--sans); font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; background: var(--bb-blue); color: #fff; display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 12px; }
 .btn-primary:hover { background: var(--bb-blue-dark); }
-.fgc-alert { background: var(--bb-yellow-soft); border: 1px solid var(--bb-yellow); color: #b45309; padding: 12px; border-radius: 8px; font-size: 12px; font-weight: 500; display: none; margin-bottom: 16px; line-height: 1.5; }
+.fgc-alert { background: var(--bb-yellow-soft); border: 1px solid var(--bb-yellow); color: #b45309; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 600; display: none; margin-bottom: 16px; line-height: 1.5; }
 
 .slides-container { display: flex; flex-direction: column; }
 .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 10%; position: relative; border-bottom: 1px solid var(--border); background: var(--bg); }
@@ -59,65 +59,74 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
 
 /* Navegação por pontos (Dots) */
 .nav-dots { position: fixed; left: 32px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 50; }
-.nav-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; transition: 0.3s; border: none; padding: 0; }
+.nav-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border); cursor: pointer; transition: 0.3s; border: none; padding: 0; }
 .nav-dot.active { background: var(--bb-blue); transform: scale(1.5); }
 .nav-dot:hover { background: var(--bb-blue-light); }
 
 /* Identidade Visual nos Slides */
-.slide-watermark { position: absolute; top: 40px; left: 10%; display: flex; align-items: center; gap: 8px; font-family: var(--serif); font-size: 18px; color: var(--bb-blue); }
-.slide-watermark .icon { background: var(--bb-yellow); color: var(--bb-blue); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: sans-serif; font-size: 14px; font-weight: bold; }
-.slide-tag { position: absolute; top: 44px; right: 10%; font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; font-family: var(--mono); }
+.slide-watermark { position: absolute; top: 40px; left: 10%; display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 22px; color: var(--bb-blue); }
+.slide-watermark .icon { background: var(--bb-yellow); color: var(--bb-blue); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: sans-serif; font-size: 16px; font-weight: bold; }
+.slide-tag { position: absolute; top: 46px; right: 10%; font-size: 14px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; font-family: var(--mono); }
 
-.h1 { font-family: var(--serif); font-size: clamp(40px, 5vw, 64px); line-height: 1.1; color: var(--bb-blue); margin-bottom: 24px; }
-.h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 48px); line-height: 1.15; color: var(--text-main); margin-bottom: 20px; }
+/* Títulos Maiores */
+.h1 { font-family: var(--serif); font-size: clamp(48px, 5.5vw, 72px); line-height: 1.1; color: var(--bb-blue); margin-bottom: 24px; }
+.h2 { font-family: var(--serif); font-size: clamp(36px, 4.5vw, 56px); line-height: 1.15; color: var(--text-main); margin-bottom: 20px; }
 .h1 em, .h2 em { font-style: italic; color: var(--bb-yellow); text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
-.lead { font-size: clamp(16px, 1.5vw, 20px); color: var(--text-muted); max-width: 700px; line-height: 1.6; }
+.lead { font-size: clamp(18px, 1.8vw, 24px); color: var(--text-muted); max-width: 800px; line-height: 1.6; }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 36px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
 
-.history-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 16px; }
-.history-table th { text-align: left; padding: 16px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-.history-table td { padding: 16px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-weight: 500; }
-.history-table .year { font-family: var(--sans); font-weight: 700; color: var(--bb-blue); font-size: 18px; }
-.tag { padding: 6px 12px; border-radius: 99px; font-size: 13px; font-weight: 700; font-family: var(--sans); display: inline-block; }
+.history-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 18px; }
+.history-table th { text-align: left; padding: 16px; border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+.history-table td { padding: 20px 16px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-weight: 500; }
+.history-table .year { font-family: var(--sans); font-weight: 700; color: var(--bb-blue); font-size: 20px; }
+.tag { padding: 8px 16px; border-radius: 99px; font-size: 15px; font-weight: 700; font-family: var(--sans); display: inline-block; }
 .tag.red { background: var(--red-light); color: var(--red); }
 .tag.green { background: var(--green-light); color: var(--green); }
 
+/* Tabela Memória de Cálculo */
+.calc-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.calc-table th { background: var(--bg); padding: 16px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+.calc-table td { padding: 16px; border-bottom: 1px solid var(--border); font-weight: 500; }
+.calc-table td:nth-child(n+2) { font-family: var(--mono); }
+.calc-table tr.highlight td { background: var(--green-light); color: var(--green); font-weight: 700; }
+
 /* Cards de Alocação */
-.alloc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
-.alloc-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; border-top: 4px solid var(--bb-blue); display: flex; flex-direction: column; }
+.alloc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+.alloc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 28px; border-top: 6px solid var(--bb-blue); display: flex; flex-direction: column; }
 .alloc-card.gold { border-top-color: var(--bb-yellow); }
 .alloc-card.green { border-top-color: var(--green); }
-.alloc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-.alloc-title { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
-.alloc-sub { font-size: 12px; color: var(--text-muted); font-family: var(--mono); }
-.alloc-pct { font-family: var(--serif); font-size: 32px; color: var(--bb-blue); line-height: 1; }
+.alloc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+.alloc-title { font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+.alloc-sub { font-size: 14px; color: var(--text-muted); font-family: var(--mono); }
+.alloc-pct { font-family: var(--serif); font-size: 40px; color: var(--bb-blue); line-height: 1; }
 .alloc-card.gold .alloc-pct { color: var(--bb-gold); }
-.alloc-features { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 16px; border-top: 1px dashed var(--border); }
-.feat { font-size: 11px; font-weight: 600; background: #fff; border: 1px solid var(--border); padding: 4px 10px; border-radius: 6px; color: var(--text-muted); }
+.alloc-features { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 20px; border-top: 1px dashed var(--border); }
+.feat { font-size: 13px; font-weight: 600; background: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color: var(--text-muted); }
 .feat.highlight { background: var(--bb-blue-light); color: var(--bb-blue); border-color: var(--bb-blue-light); }
+.feat.highlight-gold { background: var(--bb-yellow-soft); color: var(--bb-gold); border-color: var(--bb-yellow); }
 
 /* Comparador de Barras */
-.bar-wrap { margin-bottom: 24px; }
-.bar-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 600; color: var(--text-main); }
-.bar-val { font-family: var(--mono); color: var(--bb-blue); font-size: 18px; }
-.bar-track { height: 32px; background: var(--border); border-radius: 8px; overflow: hidden; }
-.bar-fill { height: 100%; display: flex; align-items: center; padding-left: 16px; color: #fff; font-size: 12px; font-weight: 700; transition: width 1s ease; white-space: nowrap; }
+.bar-wrap { margin-bottom: 28px; }
+.bar-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 600; color: var(--text-main); font-size: 18px; }
+.bar-val { font-family: var(--mono); color: var(--bb-blue); font-size: 22px; }
+.bar-track { height: 40px; background: var(--border); border-radius: 8px; overflow: hidden; }
+.bar-fill { height: 100%; display: flex; align-items: center; padding-left: 20px; color: #fff; font-size: 14px; font-weight: 700; transition: width 1s ease; white-space: nowrap; }
 
 /* Script WhatsApp */
-.wa-box { background: var(--green-light); border: 1px dashed var(--green); border-radius: var(--radius); padding: 24px; cursor: pointer; transition: 0.2s; margin-top: 24px; }
+.wa-box { background: var(--green-light); border: 1px dashed var(--green); border-radius: 12px; padding: 32px; cursor: pointer; transition: 0.2s; margin-top: 24px; }
 .wa-box:active { opacity: 0.6; transform: scale(0.98); }
-.wa-title { font-size: 12px; font-weight: 700; color: var(--green); text-transform: uppercase; margin-bottom: 12px; }
-.wa-text { font-size: 14px; color: #064e3b; line-height: 1.6; }
+.wa-title { font-size: 14px; font-weight: 700; color: var(--green); text-transform: uppercase; margin-bottom: 16px; }
+.wa-text { font-size: 16px; color: #064e3b; line-height: 1.6; }
 
 @media (max-width: 1024px) {
   .grid-2 { grid-template-columns: 1fr; gap: 32px; }
   .slide { padding: 80px 24px 40px; height: auto; min-height: 100vh; }
   .nav-dots { display: none; }
   .cfg-panel { width: 100%; }
-  .h1 { font-size: 36px; }
-  .h2 { font-size: 28px; }
+  .h1 { font-size: 42px; }
+  .h2 { font-size: 32px; }
   .alloc-grid { grid-template-columns: 1fr; }
 }
 
@@ -130,7 +139,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
     page-break-after: always; 
     background: #fff !important; 
     border: none !important; 
-    padding: 40px 60px !important;
+    padding: 50px 80px !important;
     justify-content: center !important;
   }
   .card, .alloc-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; background: #fff !important; }
@@ -141,7 +150,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
 </head>
 <body>
 
-<button class="cfg-btn" onclick="toggleCfg()">⚙️ Configurar Proposta</button>
+<button class="cfg-btn" onclick="toggleCfg()">⚙️ Personalizar Proposta</button>
 
 <aside class="cfg-panel" id="cfgPanel">
   <button class="cfg-close" onclick="toggleCfg()">×</button>
@@ -160,11 +169,23 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
     </div>
   </div>
 
+  <div class="cfg-group" style="background: var(--bg); padding: 12px; border-radius: 8px;">
+    <span class="cfg-label" style="color: var(--bb-blue);">Raio-X (LCA que Venceu)</span>
+    <div class="cfg-row" style="margin-bottom: 8px;">
+      <div><span style="font-size:11px;color:var(--text-muted)">CDI Realizado (%)</span><input type="number" step="0.1" id="cdiPass" class="cfg-input" value="11.5" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">IPCA Realizado (%)</span><input type="number" step="0.1" id="ipcaPass" class="cfg-input" value="4.62" oninput="calc()"/></div>
+    </div>
+    <div class="cfg-row">
+      <select id="lcaPassTipo" class="cfg-select" onchange="calc()"><option value="pos">LCA Pós</option><option value="pre">LCA Pré</option></select>
+      <input type="number" step="0.1" id="lcaPassTaxa" class="cfg-input" value="90" placeholder="Taxa" oninput="calc()"/>
+    </div>
+  </div>
+
   <div class="cfg-group">
     <span class="cfg-label">Cenário Futuro (Média Anual)</span>
     <div class="cfg-row">
-      <div><span style="font-size:10px;color:var(--text-muted)">CDI (%)</span><input type="number" step="0.1" id="cdi" class="cfg-input" value="10.5" oninput="calc()"/></div>
-      <div><span style="font-size:10px;color:var(--text-muted)">IPCA (%)</span><input type="number" step="0.1" id="ipca" class="cfg-input" value="4.5" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">CDI (%)</span><input type="number" step="0.1" id="cdi" class="cfg-input" value="10.5" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">IPCA (%)</span><input type="number" step="0.1" id="ipca" class="cfg-input" value="4.5" oninput="calc()"/></div>
     </div>
   </div>
 
@@ -173,23 +194,23 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
   <div class="cfg-group">
     <span class="cfg-label">Pesos da Carteira (%)</span>
     <div class="cfg-row" style="margin-bottom: 8px;">
-      <div><span style="font-size:10px;color:var(--text-muted)">LCA (FGC)</span><input type="number" id="w_lca" class="cfg-input" value="40" oninput="calc()"/></div>
-      <div><span style="font-size:10px;color:var(--text-muted)">LP High (D+0)</span><input type="number" id="w_lp" class="cfg-input" value="32" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">LCA (FGC)</span><input type="number" id="w_lca" class="cfg-input" value="40" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">LP High (D+0)</span><input type="number" id="w_lp" class="cfg-input" value="32" oninput="calc()"/></div>
     </div>
     <div class="cfg-row" style="margin-bottom: 8px;">
-      <div><span style="font-size:10px;color:var(--text-muted)">Deb. IPCA+</span><input type="number" id="w_deb" class="cfg-input" value="10" oninput="calc()"/></div>
-      <div><span style="font-size:10px;color:var(--text-muted)">Régia CP</span><input type="number" id="w_regia" class="cfg-input" value="8" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">Deb. IPCA+</span><input type="number" id="w_deb" class="cfg-input" value="10" oninput="calc()"/></div>
+      <div><span style="font-size:11px;color:var(--text-muted)">Régia CP</span><input type="number" id="w_regia" class="cfg-input" value="8" oninput="calc()"/></div>
     </div>
-    <div><span style="font-size:10px;color:var(--text-muted)">Tesouro IPCA+</span><input type="number" id="w_tes" class="cfg-input" value="10" oninput="calc()"/></div>
+    <div><span style="font-size:11px;color:var(--text-muted)">Tesouro IPCA+</span><input type="number" id="w_tes" class="cfg-input" value="10" oninput="calc()"/></div>
   </div>
 
   <hr class="cfg-divider"/>
 
   <div class="cfg-group">
-    <span class="cfg-label">Taxas dos Ativos Base</span>
-    <input type="text" id="bancoLca" class="cfg-input" value="Banco ABC" placeholder="Banco da LCA" oninput="calc()"/>
+    <span class="cfg-label">Taxas dos Ativos Futuros</span>
+    <input type="text" id="bancoLca" class="cfg-input" value="Banco ABC" placeholder="Banco da Nova LCA" oninput="calc()"/>
     <div class="cfg-row">
-      <select id="lcaTipo" class="cfg-select" onchange="calc()"><option value="pos">LCA (% CDI)</option><option value="pre">LCA (Pré)</option></select>
+      <select id="lcaTipo" class="cfg-select" onchange="calc()"><option value="pos">Nova LCA (CDI)</option><option value="pre">Nova LCA (Pré)</option></select>
       <input type="number" step="0.1" id="lcaTaxa" class="cfg-input" value="90" oninput="calc()"/>
     </div>
     <div class="cfg-row" style="margin-top: 8px;">
@@ -210,22 +231,22 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
 
 <main class="slides-container" id="slidesContainer">
 
-  <!-- SLIDE 1: A PROVA HISTÓRICA -->
+  <!-- SLIDE 1: A PROVA HISTÓRICA (MACRO) -->
   <section class="slide" id="s1">
     <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
     <div class="slide-tag">01 · A Realidade</div>
     
     <div class="grid-2">
       <div>
-        <h1 class="h1">Seu dinheiro cresce.<br/><em>Mas o poder de compra acompanha?</em></h1>
-        <p class="lead">A tendência natural após o vencimento de uma LCA é renovar tudo no mesmo produto. Porém, os dados mostram que confiar 100% no CDI é um risco silencioso.</p>
-        <p class="lead" style="margin-top: 16px;">Em anos de choque inflacionário, o rendimento da renda fixa tradicional não foi suficiente nem para cobrir o aumento do custo de vida. <strong>Veja o histórico recente:</strong></p>
+        <h1 class="h1">O dinheiro cresce.<br/><em>Mas o poder de compra acompanha?</em></h1>
+        <p class="lead">Renovar automaticamente em produtos atrelados 100% ao CDI é um risco silencioso.</p>
+        <p class="lead" style="margin-top: 16px;">Em anos de choque inflacionário, a renda fixa tradicional não foi suficiente nem para cobrir o custo de vida. <strong>Veja o histórico recente de quem ficou só no CDI:</strong></p>
       </div>
       <div>
         <div class="card" style="padding: 0; overflow: hidden;">
           <table class="history-table">
             <thead>
-              <tr><th>Ano</th><th>Ganho (CDI)</th><th>Custo (IPCA)</th><th>Poder de Compra</th></tr>
+              <tr><th>Ano</th><th>Rendimento CDI</th><th>Inflação (IPCA)</th><th>Poder de Compra Real</th></tr>
             </thead>
             <tbody>
               <tr><td class="year">2020</td><td>2,77%</td><td>4,52%</td><td><span class="tag red">−1,67% Perda Real</span></td></tr>
@@ -234,49 +255,82 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
               <tr><td class="year">2023</td><td>13,05%</td><td>4,62%</td><td><span class="tag green">+8,05% Ganho Real</span></td></tr>
             </tbody>
           </table>
-          <div style="background: var(--bg); padding: 16px 24px; font-size: 13px; color: var(--text-muted);">
-            <strong>A lição:</strong> O CDI é ótimo para estabilidade nominal, mas falha em garantir o seu enriquecimento efetivo quando a inflação sai do controle.
+          <div style="background: var(--bg); padding: 20px 24px; font-size: 15px; color: var(--text-muted);">
+            <strong>A Lição:</strong> O CDI não garante seu enriquecimento quando a inflação foge do controle. Você precisa de proteção real.
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 2: OS RISCOS DA CONCENTRAÇÃO -->
+  <!-- SLIDE 2: RAIO-X DA LCA DO CLIENTE -->
   <section class="slide" id="s2">
     <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
-    <div class="slide-tag">02 · O Risco Escondido</div>
+    <div class="slide-tag">02 · O Seu Raio-X</div>
 
     <div class="grid-2">
       <div>
-        <h2 class="h2">Por que não colocar tudo<br/>na <em>próxima LCA?</em></h2>
-        <p class="lead">A sensação de segurança ao investir tudo em um único banco pode ser uma armadilha. Ao concentrar seu patrimônio, você se expõe a três riscos imediatos:</p>
+        <h2 class="h2">E a sua LCA que acabou de vencer?</h2>
+        <p class="lead">Vamos olhar para os números reais do seu bolso.</p>
+        <p class="lead" style="margin-top: 16px;">Aplicamos o cenário econômico dos últimos 12 meses (<span id="rx-txt-cdi"></span> de CDI e <span id="rx-txt-ipca"></span> de inflação) sobre o capital que você investiu na LCA.</p>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <div class="card" style="border-left: 4px solid var(--red);">
-          <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 8px;">1. O Limite do FGC</h3>
-          <p style="font-size: 14px; color: var(--text-muted);">A garantia do FGC protege apenas <strong>R$ 250.000 por instituição</strong>. Se você concentrar um capital maior no mesmo banco, o excedente fica totalmente descoberto.</p>
-        </div>
-        <div class="card" style="border-left: 4px solid var(--bb-yellow);">
-          <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 8px;">2. Falta de Liquidez</h3>
-          <p style="font-size: 14px; color: var(--text-muted);">LCAs tradicionais prendem seu dinheiro até o vencimento. Se surgir uma oportunidade ou emergência, você não consegue resgatar sem severas penalidades.</p>
-        </div>
-        <div class="card" style="border-left: 4px solid var(--bb-blue);">
-          <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 8px;">3. Risco de Reinvestimento</h3>
-          <p style="font-size: 14px; color: var(--text-muted);">Se a taxa Selic cair nos próximos anos, quando sua nova LCA vencer, você será forçado a renovar com taxas muito menores. Não há trava de ganho a longo prazo.</p>
+      <div>
+        <div class="card">
+          <h3 style="font-size: 18px; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.05em;">Desempenho da LCA (<span id="rx-txt-taxa"></span>)</h3>
+          
+          <div class="bar-wrap">
+            <div class="bar-info"><span style="color: var(--text-main);">1. Capital Analisado</span><span class="bar-val" style="color: var(--text-main);" id="rx-cap">—</span></div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-info"><span style="color: var(--bb-blue);">2. Rendimento Bruto (Nominal)</span><span class="bar-val" id="rx-rend">—</span></div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-info"><span style="color: var(--red);">3. Corrosão pela Inflação</span><span class="bar-val" style="color: var(--red);" id="rx-infl">—</span></div>
+          </div>
+          
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 2px dashed var(--border);">
+            <div class="bar-info"><span style="color: var(--green); font-size: 22px;">Ganho Real Efetivo</span><span class="bar-val" style="color: var(--green); font-size: 32px;" id="rx-real">—</span></div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-top: 8px;">Este é o dinheiro que de fato aumentou o seu poder de compra no supermercado, imóveis e serviços.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 3: A CARTEIRA BB -->
+  <!-- SLIDE 3: OS RISCOS DA CONCENTRAÇÃO (FGC) -->
   <section class="slide" id="s3">
     <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
-    <div class="slide-tag">03 · A Solução BB</div>
+    <div class="slide-tag">03 · O Risco Escondido</div>
 
-    <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="grid-2">
+      <div>
+        <h2 class="h2">O perigo de concentrar<br/>tudo em <em>uma única garantia.</em></h2>
+        <p class="lead">A sensação de segurança ao investir tudo em uma única LCA de um único banco pode ser uma armadilha, especialmente para grandes patrimônios.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="card" style="border-left: 6px solid var(--red);">
+          <h3 style="font-size: 22px; color: var(--text-main); margin-bottom: 8px;">O Limite Cego do FGC</h3>
+          <p style="font-size: 18px; color: var(--text-muted);">A garantia do Fundo Garantidor de Créditos protege <strong>apenas R$ 250.000 por instituição</strong>.</p>
+          <div style="background: var(--red-light); color: var(--red); padding: 12px 16px; border-radius: 8px; font-weight: 700; margin-top: 16px; font-size: 15px;" id="fgc-calc-alert">
+            Se você aplicar todo o capital (R$ 500k), R$ 250k ficarão TOTALMENTE DESCOBERTOS.
+          </div>
+        </div>
+        <div class="card" style="border-left: 6px solid var(--bb-yellow);">
+          <h3 style="font-size: 22px; color: var(--text-main); margin-bottom: 8px;">Falta de Liquidez e Reinvestimento</h3>
+          <p style="font-size: 16px; color: var(--text-muted);">LCAs prendem seu dinheiro até o vencimento. Além disso, se a Selic cair nos próximos anos, você será forçado a renovar com taxas muito menores. Não há trava de longo prazo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: A CARTEIRA BB (CURADORIA) -->
+  <section class="slide" id="s4">
+    <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
+    <div class="slide-tag">04 · A Solução BB</div>
+
+    <div style="text-align: center; max-width: 900px; margin: 0 auto;">
       <h2 class="h2">A <em>Carteira Conservadora</em> BB-BI</h2>
-      <p class="lead" style="margin: 0 auto;">Dividir para proteger. Desenhamos uma estrutura onde cada parte do seu dinheiro cumpre uma função específica, maximizando a segurança e garantindo ganhos reais.</p>
+      <p class="lead" style="margin: 0 auto;">Dividir para proteger. Cada parte do seu dinheiro cumpre uma função específica, maximizando a segurança e garantindo ganhos reais.</p>
     </div>
 
     <div class="alloc-grid">
@@ -286,9 +340,9 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
           <div><div class="alloc-title">Reserva de Segurança</div><div class="alloc-sub">LCA <span id="v_banco">Banco</span></div></div>
           <div class="alloc-pct" id="v_pct_lca">40%</div>
         </div>
-        <div style="font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_lca">R$ —</div>
+        <div style="font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_lca">R$ —</div>
         <div class="alloc-features">
-          <span class="feat highlight">Garantia FGC</span><span class="feat">Isento de IR</span><span class="feat">Risco Mínimo</span>
+          <span class="feat highlight">Garantia FGC (até R$ 250k)</span><span class="feat">Isento de IR</span>
         </div>
       </div>
       <!-- LP HIGH -->
@@ -297,20 +351,20 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
           <div><div class="alloc-title">Liquidez Imediata</div><div class="alloc-sub">Fundo BB RF LP High</div></div>
           <div class="alloc-pct" id="v_pct_lp">32%</div>
         </div>
-        <div style="font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_lp">R$ —</div>
+        <div style="font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_lp">R$ —</div>
         <div class="alloc-features">
-          <span class="feat highlight">Resgate em D+0</span><span class="feat">Caixa Imediato</span><span class="feat">14,3% (12m)</span>
+          <span class="feat highlight">Resgate em D+0</span><span class="feat">Gestão BB Asset</span>
         </div>
       </div>
       <!-- DEBENTURE -->
       <div class="alloc-card gold">
         <div class="alloc-header">
-          <div><div class="alloc-title">Motor Anti-Inflação</div><div class="alloc-sub">Debêntures IPCA+ (Seleção BB)</div></div>
+          <div><div class="alloc-title">Motor Anti-Inflação</div><div class="alloc-sub">Debêntures IPCA+</div></div>
           <div class="alloc-pct" id="v_pct_deb">10%</div>
         </div>
-        <div style="font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_deb">R$ —</div>
+        <div style="font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_deb">R$ —</div>
         <div class="alloc-features">
-          <span class="feat highlight">Ganho Real Fixo</span><span class="feat">Isento de IR</span><span class="feat">Rating brAAA</span>
+          <span class="feat highlight-gold">Curadoria Research BB-BI</span><span class="feat">Rating brAAA</span><span class="feat">Isento de IR</span>
         </div>
       </div>
       <!-- REGIA -->
@@ -319,32 +373,32 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
           <div><div class="alloc-title">Acelerador de Crédito</div><div class="alloc-sub">Fundo BB Régia Equilíbrio CP</div></div>
           <div class="alloc-pct" id="v_pct_regia">8%</div>
         </div>
-        <div style="font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_regia">R$ —</div>
+        <div style="font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;" id="v_val_regia">R$ —</div>
         <div class="alloc-features">
-          <span class="feat highlight">Risco Pulverizado</span><span class="feat">Gestão BB Asset</span><span class="feat">14,6% (12m)</span>
+          <span class="feat highlight">Risco Pulverizado em dezenas de empresas</span><span class="feat">Resgate D+6</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 4: PROJEÇÃO -->
-  <section class="slide" id="s4">
+  <!-- SLIDE 5: PROJEÇÃO -->
+  <section class="slide" id="s5">
     <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
-    <div class="slide-tag">04 · A Projeção</div>
+    <div class="slide-tag">05 · A Projeção</div>
 
     <div class="grid-2" style="align-items: flex-start;">
       <div class="card">
-        <h3 style="font-size: 14px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;">Evolução do Patrimônio (<span class="v_prazo">5</span> anos)</h3>
-        <div style="height: 350px; width: 100%; position: relative;"><canvas id="projChart"></canvas></div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-top: 16px; line-height: 1.5;">Projeção bruta baseada no cenário constante. A carteira BB otimiza os retornos reduzindo o risco de concentração. Fundos e Tesouro sofrem marcação a mercado e tributação no resgate.</p>
+        <h3 style="font-size: 16px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px;">Evolução do Patrimônio (<span class="v_prazo">5</span> anos)</h3>
+        <div style="height: 400px; width: 100%; position: relative;"><canvas id="projChart"></canvas></div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 16px; line-height: 1.5;">Projeção bruta baseada no cenário constante estimado. A carteira BB otimiza os retornos reduzindo o risco de concentração.</p>
       </div>
       <div>
-        <h2 class="h2">O resultado de<br/><em>não deixar dinheiro na mesa.</em></h2>
-        <p class="lead" style="font-size: 16px;">A estratégia diversificada gera um "colchão" adicional de rentabilidade através da inteligência institucional, sem abrir mão da segurança.</p>
+        <h2 class="h2">A diferença de<br/><em>não deixar dinheiro na mesa.</em></h2>
+        <p class="lead" style="font-size: 18px;">A estratégia diversificada gera um "colchão" adicional de rentabilidade através da inteligência institucional, protegendo contra a inflação sem abrir mão da segurança.</p>
         
         <div class="card" style="margin-top: 32px; background: var(--bg);">
           <div class="bar-wrap">
-            <div class="bar-info"><span>100% na LCA Antiga</span><span class="bar-val" id="b_val_lca">—</span></div>
+            <div class="bar-info"><span>Se mantiver 100% na LCA</span><span class="bar-val" id="b_val_lca">—</span></div>
             <div class="bar-track"><div class="bar-fill" style="background: var(--text-muted);" id="b_bar_lca">—</div></div>
           </div>
           <div class="bar-wrap" style="margin-bottom: 0;">
@@ -356,43 +410,82 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text-main);
     </div>
   </section>
 
-  <!-- SLIDE 5: FECHAMENTO -->
-  <section class="slide" id="s5">
+  <!-- SLIDE 6: MEMÓRIA DE CÁLCULO -->
+  <section class="slide" id="s6">
     <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
-    <div class="slide-tag">05 · Fechamento</div>
+    <div class="slide-tag">06 · Transparência</div>
+
+    <div class="grid-2">
+      <div>
+        <h2 class="h2">Como projetamos<br/><em>esses números?</em></h2>
+        <p class="lead">Para total transparência na sua tomada de decisão, detalhamos as premissas econômicas utilizadas e a expectativa de rentabilidade líquida de cada produto selecionado.</p>
+        
+        <div class="card" style="margin-top: 32px; background: var(--bb-blue-light); border-color: var(--bb-blue);">
+          <h3 style="font-size: 16px; color: var(--bb-blue); margin-bottom: 12px;">Cenário Macroeconômico Estimado</h3>
+          <div style="display: flex; gap: 32px;">
+            <div>
+              <div style="font-size: 14px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">CDI Médio Anual</div>
+              <div style="font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--bb-blue);" id="mc_cdi">—</div>
+            </div>
+            <div>
+              <div style="font-size: 14px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Inflação (IPCA) Anual</div>
+              <div style="font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--bb-blue);" id="mc_ipca">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <table class="calc-table">
+            <thead>
+              <tr>
+                <th>Classe de Ativo</th>
+                <th>Taxa Bruta (Estimada)</th>
+                <th>IR Estimado</th>
+                <th>Taxa Efetiva Líquida</th>
+              </tr>
+            </thead>
+            <tbody id="calc_body">
+              <!-- Gerado via JS -->
+            </tbody>
+          </table>
+          <div style="padding: 16px 24px; font-size: 13px; color: var(--text-muted); background: var(--bg);">* Fundos sujeitos a come-cotas e Tesouro à taxa B3. Simulação simplificada de IR médio de 15% no resgate para fins didáticos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: FECHAMENTO -->
+  <section class="slide" id="s7">
+    <div class="slide-watermark"><div class="icon">BB</div> BB Investimentos</div>
+    <div class="slide-tag">07 · Fechamento</div>
 
     <div class="grid-2">
       <div>
         <h2 class="h2">A mesma calma.<br/>Uma defesa <em>muito melhor.</em></h2>
-        <ul style="list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 24px;">
-          <li style="display: flex; gap: 16px;">
-            <div style="width: 32px; height: 32px; background: var(--bb-blue-light); color: var(--bb-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">1</div>
+        <ul style="list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 32px;">
+          <li style="display: flex; gap: 20px;">
+            <div style="width: 40px; height: 40px; background: var(--bb-blue-light); color: var(--bb-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; flex-shrink: 0;">1</div>
             <div>
-              <h4 style="font-size: 16px; color: var(--text-main); margin-bottom: 4px;">A base permanece segura (<span id="f_pct_seg">—</span>)</h4>
-              <p style="font-size: 14px; color: var(--text-muted);">Sua maior fatia fica travada no FGC (LCA) e em liquidez diária D+0 (Fundo LP High).</p>
+              <h4 style="font-size: 20px; color: var(--text-main); margin-bottom: 4px;">Segurança Institucional mantida</h4>
+              <p style="font-size: 16px; color: var(--text-muted);">Sua maior fatia fica travada na LCA e em liquidez diária D+0, garantindo acessibilidade e FGC nos limites corretos.</p>
             </div>
           </li>
-          <li style="display: flex; gap: 16px;">
-            <div style="width: 32px; height: 32px; background: var(--bb-yellow-soft); color: var(--bb-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</div>
+          <li style="display: flex; gap: 20px;">
+            <div style="width: 40px; height: 40px; background: var(--green-light); color: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 20px; flex-shrink: 0;">2</div>
             <div>
-              <h4 style="font-size: 16px; color: var(--text-main); margin-bottom: 4px;">O Risco é pulverizado (<span id="f_pct_pulv">—</span>)</h4>
-              <p style="font-size: 14px; color: var(--text-muted);">Com o Fundo Régia e Tesouro, diluímos o risco de crédito em dezenas de emissores robustos com gestão ativa.</p>
-            </div>
-          </li>
-          <li style="display: flex; gap: 16px;">
-            <div style="width: 32px; height: 32px; background: var(--green-light); color: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">3</div>
-            <div>
-              <h4 style="font-size: 16px; color: var(--text-main); margin-bottom: 4px;">A Inflação é anulada (<span id="f_pct_inf">—</span>)</h4>
-              <p style="font-size: 14px; color: var(--text-muted);">A parcela de Debêntures IPCA+ isentas (Rating brAAA) garante crescimento real do poder de compra.</p>
+              <h4 style="font-size: 20px; color: var(--text-main); margin-bottom: 4px;">Poder de Compra blindado</h4>
+              <p style="font-size: 16px; color: var(--text-muted);">A parcela de IPCA+ garante que seu patrimônio cresça de forma real, independentemente dos choques inflacionários.</p>
             </div>
           </li>
         </ul>
       </div>
       <div>
         <div class="wa-box" onclick="copiarScript(this)">
-          <div class="wa-title">💬 Script Resumo (Clique para Copiar)</div>
+          <div class="wa-title">💬 Resumo Executivo (Clique para Copiar)</div>
           <div class="wa-text" id="wa-script">—</div>
-          <div style="font-size: 11px; color: var(--green); margin-top: 12px; font-weight: 700;">👆 Enviar para o cliente.</div>
+          <div style="font-size: 13px; color: var(--green); margin-top: 16px; font-weight: 700;">👆 Enviar para o cliente.</div>
         </div>
       </div>
     </div>
@@ -418,7 +511,10 @@ const SEL = {
 };
 
 // UI: Config Panel Toggle
-function toggleCfg() { $('cfgPanel').classList.toggle('open'); }
+function toggleCfg() { 
+  const panel = $('cfgPanel');
+  if(panel) panel.classList.toggle('open'); 
+}
 
 // UI: Copy WhatsApp
 function copiarScript(el) {
@@ -448,9 +544,9 @@ function otimizarBB() {
   let w_lca = 40, w_lp = 32, w_tes = 10, w_regia = 8, w_deb = 10;
 
   // Ajuste fino caso 40% LCA exceda 250k
-  if ((cap * 0.40) > maxFGC) {
+  if ((cap * (w_lca/100)) > maxFGC) {
     w_lca = (maxFGC / cap) * 100;
-    // Joga o excedente no LP High (Caixa)
+    // Joga o excedente no LP High (Caixa, risco pulverizado soberano/baixo risco)
     w_lp = 100 - w_lca - w_tes - w_regia - w_deb;
   }
   
@@ -463,7 +559,6 @@ function otimizarBB() {
   calc();
 }
 
-// Inicializa Observer para os Nav Dots (Full Screen Scrolling)
 const slides = document.querySelectorAll('.slide');
 const navDotsContainer = $('navDots');
 
@@ -488,6 +583,7 @@ slides.forEach(slide => observer.observe(slide));
 
 // Motor de Cálculo Principal
 function calc() {
+  // Inputs Principais
   const cap = gV('capital', 500000);
   const prazo = gV('prazo', 5);
   const cdi = gV('cdi', 10.5) / 100;
@@ -498,6 +594,12 @@ function calc() {
   const lcaTaxaV = gV('lcaTaxa', 90) / 100;
   const debTaxa = gV('debTaxa', 7.5) / 100;
 
+  // Inputs Raio-X Passado
+  const cdiP = gV('cdiPass', 11.5) / 100;
+  const ipcaP = gV('ipcaPass', 4.62) / 100;
+  const lcaPTaxaV = gV('lcaPassTaxa', 90) / 100;
+  const lcaPTipo = $('lcaPassTipo').value;
+
   // Pesos
   const wLca = gV('w_lca', 40) / 100;
   const wLp = gV('w_lp', 32) / 100;
@@ -507,19 +609,36 @@ function calc() {
 
   // Alerta FGC
   const fgcAlert = $('fgcAlert');
+  const fgcCalcAlert = $('fgc-calc-alert');
   if ((cap * wLca) > 250000) {
     fgcAlert.style.display = 'block';
-    fgcAlert.innerHTML = `⚠️ <strong>Atenção ao FGC:</strong> A parcela em LCA ultrapassa R$ 250 mil. Considere clicar em "Aplicar Regra BB e FGC" para realocar o excedente.`;
+    fgcCalcAlert.style.display = 'block';
+    fgcAlert.innerHTML = `⚠️ <strong>Atenção FGC:</strong> A LCA de R$ ${fmt(cap * wLca)} ultrapassa o teto. Clique em "Aplicar Regra BB".`;
+    fgcCalcAlert.innerHTML = `Risco Oculto: Se você mantiver 100% ou a fatia atual na LCA, <strong>R$ ${fmt((cap * wLca) - 250000)} ficarão sem cobertura do FGC</strong>.`;
   } else {
     fgcAlert.style.display = 'none';
+    fgcCalcAlert.style.display = 'none';
   }
 
-  // Taxas Anuais Estimadas (Brutas para comparabilidade de crescimento)
+  // --- CÁLCULOS DO RAIO-X (Passado) ---
+  const ratePass = lcaPTipo === 'pos' ? cdiP * lcaPTaxaV : lcaPTaxaV;
+  const rBrutoPass = cap * ratePass;
+  const pInflPass = cap * ipcaP;
+  const gRealPass = rBrutoPass - pInflPass;
+
+  // --- TAXAS FUTURAS ESTIMADAS ---
   const rateLca = lcaTipo === 'pos' ? cdi * lcaTaxaV : lcaTaxaV;
-  const rateLp = cdi * 0.97; // Aproximação LP High bruta
+  const rateLp = cdi * 0.97; // Aproximação LP High bruta (97% CDI médio)
   const rateRegia = cdi * 0.99; // Aproximação Régia CP bruta
-  const rateTes = (1 + ipca) * (1 + 0.06) - 1; // IPCA + 6% estimativa Tesouro
+  const rateTes = (1 + ipca) * (1 + 0.06) - 1; // IPCA + 6%
   const rateDeb = (1 + ipca) * (1 + debTaxa) - 1; // IPCA + Deb
+
+  // Taxas Líquidas (Memória de cálculo - Assumindo 15% IR para tributados)
+  const netLca = rateLca; // Isento
+  const netLp = rateLp * 0.85;
+  const netRegia = rateRegia * 0.85;
+  const netTes = rateTes * 0.85;
+  const netDeb = rateDeb; // Isento
 
   // Projeção Final (Bruta)
   const finalLca100 = cap * Math.pow(1 + rateLca, prazo);
@@ -532,15 +651,25 @@ function calc() {
   );
 
   // --- ATUALIZANDO A UI (DOM) ---
-  
-  // Slide 3: Cards
+
+  // Slide 2: Raio-X
+  $('rx-txt-cdi').textContent = fmtPct(cdiP * 100);
+  $('rx-txt-ipca').textContent = fmtPct(ipcaP * 100);
+  $('rx-txt-taxa').textContent = lcaPTipo === 'pos' ? `${gV('lcaPassTaxa', 90)}% CDI` : `Pré ${gV('lcaPassTaxa', 90)}% a.a.`;
+  $('rx-cap').textContent = fmt(cap);
+  $('rx-rend').textContent = '+ ' + fmt(rBrutoPass);
+  $('rx-infl').textContent = '− ' + fmt(pInflPass);
+  $('rx-real').textContent = (gRealPass >= 0 ? '+ ' : '') + fmt(gRealPass);
+  $('rx-real').style.color = gRealPass >= 0 ? 'var(--green)' : 'var(--red)';
+
+  // Slide 4: Cards
   $('v_banco').textContent = bancoLca;
   $('v_pct_lca').textContent = fmtPct(wLca * 100); $('v_val_lca').textContent = fmt(cap * wLca);
   $('v_pct_lp').textContent = fmtPct(wLp * 100); $('v_val_lp').textContent = fmt(cap * wLp);
   $('v_pct_deb').textContent = fmtPct(wDeb * 100); $('v_val_deb').textContent = fmt(cap * wDeb);
   $('v_pct_regia').textContent = fmtPct(wRegia * 100); $('v_val_regia').textContent = fmt(cap * wRegia);
 
-  // Slide 4: Comparativo
+  // Slide 5: Comparativo
   document.querySelectorAll('.v_prazo').forEach(el => el.textContent = prazo);
   const maxV = Math.max(finalLca100, finalDiv);
   $('b_val_lca').textContent = fmt(finalLca100);
@@ -551,12 +680,20 @@ function calc() {
   $('b_bar_div').style.width = Math.round((finalDiv / maxV) * 90) + '%';
   $('b_bar_div').textContent = `Diversificação BB`;
 
-  // Slide 5: Fechamento & Script
-  $('f_pct_seg').textContent = fmtPct((wLca + wLp) * 100);
-  $('f_pct_pulv').textContent = fmtPct((wRegia + wTes) * 100);
-  $('f_pct_inf').textContent = fmtPct((wDeb) * 100);
+  // Slide 6: Memória de Cálculo
+  $('mc_cdi').textContent = fmtPct(cdi * 100);
+  $('mc_ipca').textContent = fmtPct(ipca * 100);
+  
+  $('calc_body').innerHTML = `
+    <tr><td>LCA (${bancoLca})</td><td>${fmtPct(rateLca * 100)}</td><td>Isento</td><td>${fmtPct(netLca * 100)}</td></tr>
+    <tr><td>BB RF LP High</td><td>${fmtPct(rateLp * 100)}</td><td>~15%</td><td>${fmtPct(netLp * 100)}</td></tr>
+    <tr><td>BB Régia Equilíbrio</td><td>${fmtPct(rateRegia * 100)}</td><td>~15%</td><td>${fmtPct(netRegia * 100)}</td></tr>
+    <tr><td>Tesouro IPCA+</td><td>${fmtPct(rateTes * 100)}</td><td>~15%</td><td>${fmtPct(netTes * 100)}</td></tr>
+    <tr class="highlight"><td>Debênture IPCA+</td><td>${fmtPct(rateDeb * 100)}</td><td>Isento</td><td>${fmtPct(netDeb * 100)}</td></tr>
+  `;
 
-  $('wa-script').textContent = `Oi! Sua LCA venceu. Em vez de reaplicar tudo na mesma LCA e concentrar os riscos num banco só, montei uma Carteira Conservadora alinhada à política do Banco do Brasil.\n\nProtegemos a base: ${fmtPct(wLca*100)} ficam na LCA (${bancoLca}) com FGC, e ${fmtPct(wLp*100)} vão para o fundo LP High (liquidez diária D+0).\n\nPara blindar contra a inflação e aumentar a segurança, o restante pulverizamos no fundo de crédito BB Régia, Tesouro Nacional e Debêntures isentas de IR (IPCA+${(debTaxa*100).toFixed(1)}%).\n\nO resultado em ${prazo} anos é uma rentabilidade excelente, mas com o risco de crédito muito mais distribuído e protegido pelo nosso research. Podemos aplicar?`;
+  // Slide 7: Fechamento & Script
+  $('wa-script').textContent = `Oi! Analisei a sua LCA que venceu. O rendimento foi bom nominalmente, mas a inflação do último ano corroeu grande parte desse ganho (Custo de vida comeu R$ ${fmt(pInflPass)} do rendimento).\n\nEm vez de reaplicar tudo num banco só (e correr o risco do limite do FGC de 250k), montei uma Carteira Conservadora pela política do Banco do Brasil.\n\nProtegemos a base: ${fmtPct(wLca*100)} ficam na LCA (${bancoLca}) garantindo o FGC, e ${fmtPct(wLp*100)} vão para o fundo LP High (liquidez D+0 para emergências).\n\nPara blindar de verdade contra a inflação, pulverizamos o restante no fundo de crédito BB Régia (D+6), Tesouro Nacional e Debêntures com nota máxima brAAA e isentas de IR (IPCA+${(debTaxa*100).toFixed(1)}%).\n\nEssa é a melhor forma de proteger seu patrimônio nos próximos ${prazo} anos. Posso dar andamento?`;
 
   // --- ATUALIZA GRÁFICO (CHART.JS) ---
   const labels = [];
@@ -588,14 +725,16 @@ function calc() {
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom', labels: { font: { family: "'DM Sans', sans-serif" } } } },
-      scales: { y: { ticks: { font: { family: "'JetBrains Mono', monospace" }, callback: v => 'R$ ' + (v/1000) + 'k' } } }
+      plugins: { legend: { position: 'bottom', labels: { font: { family: "'DM Sans', sans-serif", size: 14 } } } },
+      scales: { y: { ticks: { font: { family: "'JetBrains Mono', monospace", size: 14 }, callback: v => 'R$ ' + (v/1000) + 'k' } } }
     }
   });
 }
 
-// Inicializa a aplicação
-otimizarBB();
+// Inicializa a aplicação na inicialização da janela
+window.onload = function () {
+  otimizarBB();
+};
 
 </script>
 </body>
