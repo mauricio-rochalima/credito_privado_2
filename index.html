@@ -5,12 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de Crédito Privado BB — Painel do Consultor</title>
   
-  <!-- Tailwind CSS para Estilização Robusta e Responsiva -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Iconografia Lucide e FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     tailwind.config = {
@@ -18,19 +14,14 @@
         extend: {
           colors: {
             bb: {
-              navy: '#0A2540',      // Azul corporativo escuro premium
-              blue: '#003B8E',      // Azul institucional Banco do Brasil
-              yellow: '#FFDF00',    // Amarelo institucional Banco do Brasil
-              accent: '#E6F0FA',    // Azul suave para backgrounds
-              emerald: '#059669',   // Verde de rendimento positivo
-              gold: '#D97706',      // Dourado para avisos do FGC
-              cardbg: '#FFFFFF',
-              darkbg: '#0F172A',
+              navy: '#0A2540',
+              blue: '#003B8E',
+              yellow: '#FFDF00',
+              accent: '#E6F0FA',
             }
           },
-          borderRadius: {
-            'xl': '12px',
-            '2xl': '16px',
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
           }
         }
       }
@@ -38,38 +29,26 @@
   </script>
 
   <style>
-    /* Estilos customizados para garantir scroll suave e sem barras nativas feias */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #F1F5F9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94A3B8;
-    }
-    .custom-shadow {
-      box-shadow: 0 4px 20px -2px rgba(10, 37, 64, 0.08);
-    }
-    input[type=number]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #F1F5F9; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    .custom-shadow { box-shadow: 0 4px 20px -2px rgba(10, 37, 64, 0.08); }
+    input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen font-sans">
+<body class="bg-slate-50 text-slate-800 min-h-screen">
 
-  <!-- CONTAINER PRINCIPAL -->
   <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen">
     
-    <!-- LATERAL: PAINEL DE CONTROLE / ENTRADA DE DADOS -->
-    <aside class="col-span-1 lg:col-span-3 bg-bb-navy text-white p-6 flex flex-col justify-between border-r border-slate-700">
+    <!-- LATERAL: CONTROLES -->
+    <aside class="col-span-1 lg:col-span-3 bg-bb-navy text-white p-6 flex flex-col justify-between border-r border-slate-700 h-full lg:h-screen lg:overflow-y-auto lg:sticky lg:top-0">
       <div>
-        <!-- Logo e Cabeçalho -->
         <div class="flex items-center gap-3 pb-6 border-b border-slate-700/60 mb-6">
           <div class="w-10 h-10 bg-bb-blue rounded-xl flex items-center justify-center border border-bb-yellow/30 shadow-md">
             <i class="fa-solid fa-chart-line text-bb-yellow text-lg"></i>
@@ -78,820 +57,491 @@
             <h1 class="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
               InvesTalk <span class="text-xs bg-bb-blue text-bb-yellow px-1.5 py-0.5 rounded font-mono">BB</span>
             </h1>
-            <p class="text-xs text-slate-400">Consultor de Crédito Privado</p>
+            <p class="text-[11px] text-slate-400">Consultor de Crédito Privado</p>
           </div>
         </div>
 
-        <!-- Seletor de Perfil de Investidor (Baseado na Carteira BB) -->
         <div class="mb-5">
-          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Perfil Recomendado (Maio 2026)</label>
+          <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Perfil Recomendado</label>
           <div class="grid grid-cols-2 gap-2">
-            <button id="btn-perf-conservador" onclick="setProfile('conservador')" class="py-2 px-2 rounded-lg text-xs font-medium border text-center transition-all bg-bb-blue border-bb-yellow text-bb-yellow">
+            <button id="btn-perf-conservador" onclick="setProfile('conservador')" class="py-2 px-2 rounded-lg text-xs font-medium border transition-all bg-bb-blue border-bb-yellow text-bb-yellow">
               Conservador
             </button>
-            <button id="btn-perf-moderado" onclick="setProfile('moderado')" class="py-2 px-2 rounded-lg text-xs font-medium border text-center transition-all bg-transparent border-slate-700 text-slate-300 hover:bg-slate-800">
+            <button id="btn-perf-moderado" onclick="setProfile('moderado')" class="py-2 px-2 rounded-lg text-xs font-medium border transition-all bg-transparent border-slate-700 text-slate-300 hover:bg-slate-800">
               Moderado
             </button>
           </div>
         </div>
 
-        <!-- Dados Financeiros da Simulação -->
         <div class="space-y-4">
           <div>
-            <label for="capital" class="block text-xs font-medium text-slate-300 mb-1">Capital a Investir</label>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Capital a Investir</label>
             <div class="relative">
               <span class="absolute left-3 top-2 text-slate-400 text-sm">R$</span>
-              <input type="number" id="capital" value="300000" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm text-white font-semibold focus:outline-none focus:border-bb-yellow transition">
+              <input type="number" id="capital" value="300000" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:outline-none focus:border-bb-yellow">
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1" for="prazo">Prazo (Anos)</label>
-              <input type="number" id="prazo" value="5" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg py-2 px-3 text-sm text-white font-semibold focus:outline-none focus:border-bb-yellow transition">
+              <label class="block text-xs font-medium text-slate-300 mb-1">Prazo (Anos)</label>
+              <input type="number" id="prazo" value="5" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-bb-yellow">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1" for="debPct">Alocação em CP (%)</label>
-              <input type="number" id="debPct" value="15" min="0" max="100" class="w-full bg-slate-800/80 border border-slate-700 rounded-lg py-2 px-3 text-sm text-white font-semibold focus:outline-none focus:border-bb-yellow transition">
+              <label class="block text-xs font-medium text-slate-300 mb-1">Alocação CP (%)</label>
+              <input type="number" id="debPct" value="15" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-2 px-3 text-sm text-white focus:outline-none focus:border-bb-yellow">
             </div>
           </div>
 
           <div class="border-t border-slate-700/60 my-4 pt-3">
-            <p class="text-xs font-semibold text-bb-yellow mb-2 uppercase tracking-wider"><i class="fa-solid fa-compass mr-1"></i> Cenário BB Projetado</p>
+            <p class="text-xs font-semibold text-bb-yellow mb-2 uppercase"><i class="fa-solid fa-compass mr-1"></i> Projeção Macro</p>
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-[11px] text-slate-400 mb-0.5">CDI Médio Proj.</label>
+                <label class="block text-[11px] text-slate-400 mb-0.5">CDI Médio</label>
                 <div class="relative">
-                  <input type="number" step="0.05" id="cdiFuturo" value="11.5" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-1.5 px-2 text-xs text-white focus:outline-none focus:border-bb-yellow">
-                  <span class="absolute right-2 top-2 text-slate-500 text-[10px]">% a.a.</span>
+                  <input type="number" step="0.1" id="cdiFuturo" value="11.5" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-1.5 px-2 text-xs text-white">
+                  <span class="absolute right-2 top-1.5 text-slate-500 text-[10px]">% a.a.</span>
                 </div>
               </div>
               <div>
-                <label class="block text-[11px] text-slate-400 mb-0.5">IPCA Médio Proj.</label>
+                <label class="block text-[11px] text-slate-400 mb-0.5">IPCA Médio</label>
                 <div class="relative">
-                  <input type="number" step="0.05" id="ipcaFuturo" value="4.35" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-1.5 px-2 text-xs text-white focus:outline-none focus:border-bb-yellow">
-                  <span class="absolute right-2 top-2 text-slate-500 text-[10px]">% a.a.</span>
+                  <input type="number" step="0.1" id="ipcaFuturo" value="4.35" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-1.5 px-2 text-xs text-white">
+                  <span class="absolute right-2 top-1.5 text-slate-500 text-[10px]">% a.a.</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="border-t border-slate-700/60 my-4 pt-3">
-            <p class="text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">Ativos Definidos</p>
-            <div class="space-y-2">
-              <div>
-                <label class="block text-[11px] text-slate-400 mb-1">LCA de Origem (Isenta)</label>
-                <div class="grid grid-cols-2 gap-2">
-                  <select id="lcaTipo" class="bg-slate-800 text-xs border border-slate-700 rounded-lg py-1.5 px-2">
-                    <option value="pos">Pós % CDI</option>
-                    <option value="pre">Prefixado</option>
-                  </select>
-                  <input type="number" id="lcaTaxa" value="85" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-1.5 px-2 text-xs text-white">
-                </div>
+          <div class="border-t border-slate-700/60 my-4 pt-3 space-y-3">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">LCA Base (Isenta)</label>
+              <div class="flex gap-2">
+                <select id="lcaTipo" class="bg-slate-800 text-xs text-white border border-slate-700 rounded-lg p-1.5 w-1/2">
+                  <option value="pos">Pós % CDI</option>
+                  <option value="pre">Prefixado</option>
+                </select>
+                <input type="number" id="lcaTaxa" value="85" class="w-1/2 bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-xs text-white text-center">
               </div>
-              <div>
-                <label class="block text-[11px] text-slate-400 mb-1">Debênture IPCA+ (Isenta)</label>
-                <div class="relative">
-                  <span class="absolute left-2 top-1.5 text-slate-400 text-xs">IPCA +</span>
-                  <input type="number" step="0.1" id="debTaxa" value="7.25" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-1.5 pl-14 pr-2 text-xs text-white">
-                </div>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Debênture (Isenta)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1.5 text-slate-400 text-xs">IPCA +</span>
+                <input type="number" step="0.1" id="debTaxa" value="7.25" class="w-full bg-slate-800 border border-slate-700 rounded-lg py-1.5 pl-14 pr-3 text-xs text-white text-right">
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Alerta de Proteção FGC Dinâmico -->
         <div id="alertaFGC" class="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl hidden">
           <div class="flex gap-2 items-start">
             <i class="fa-solid fa-shield-halved text-amber-500 mt-0.5 text-xs"></i>
             <div>
-              <p class="text-[11px] font-bold text-amber-400 uppercase">Ajuste de Segurança FGC</p>
-              <p class="text-[10px] text-slate-300 leading-relaxed mt-0.5">
-                Para manter a proteção do FGC, limitamos a LCA em R$ 250.000. O excedente de R$ <span id="fgcExcedente"></span> foi realocado estrategicamente em Crédito Privado de altíssima solidez.
-              </p>
+              <p class="text-[11px] font-bold text-amber-400 uppercase">Trava FGC Ativa</p>
+              <p class="text-[10px] text-slate-300 mt-0.5 leading-tight">LCA limitada a R$ 250 mil. R$ <span id="fgcExcedente"></span> foram realocados em CP brAAA.</p>
             </div>
           </div>
         </div>
-
       </div>
-
-      <div class="pt-6 border-t border-slate-700/60 text-center mt-6">
-        <p class="text-[10px] text-slate-500">Base de dados sugerida: Maio 2026</p>
-        <p class="text-[9px] text-slate-500 mt-1">Isenções fiscais com base na Lei Federal 12.431.</p>
+      
+      <div class="pt-4 border-t border-slate-700/60 text-center mt-6">
+        <p class="text-[10px] text-slate-500">Diretrizes: Maio/2026</p>
       </div>
     </aside>
 
-    <!-- ÁREA PRINCIPAL: APRESENTAÇÃO E MÉTRICAS -->
     <main class="col-span-1 lg:col-span-9 flex flex-col min-h-screen">
       
-      <!-- HEADER DO DASHBOARD -->
-      <header class="bg-white border-b border-slate-200 py-4 px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <span class="text-xs font-bold text-bb-blue uppercase tracking-widest bg-bb-accent/60 px-2.5 py-1 rounded-full">Painel do Consultor</span>
-          <h2 class="text-xl font-extrabold text-slate-900 mt-1 flex items-center gap-2">
-            Apresentação de Alocação de Ativos
-            <span class="text-xs font-normal text-slate-500 bg-slate-100 py-0.5 px-2 rounded-full border border-slate-200" id="headerProfileBadge">Perfil Conservador</span>
-          </h2>
+      <header class="bg-white border-b border-slate-200 py-4 px-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div>
+            <span class="text-[10px] font-bold text-bb-blue uppercase tracking-widest bg-bb-accent px-2 py-1 rounded-md">Painel Educativo</span>
+            <h2 class="text-xl font-bold text-slate-900 mt-1">Estratégia Otimizada InvesTalk</h2>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-slate-500 block mb-0.5">Perfil de Alocação</span>
+            <span id="headerProfileBadge" class="text-sm font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">Conservador</span>
+          </div>
         </div>
         
-        <!-- Tabs de Navegação Principal -->
-        <nav class="flex bg-slate-100 p-1 rounded-xl border border-slate-200 w-full md:w-auto overflow-x-auto whitespace-nowrap">
-          <button onclick="switchTab('tab-proposta', this)" class="tab-button px-4 py-2 text-xs font-semibold rounded-lg text-bb-blue bg-white shadow-sm transition-all duration-200 flex items-center gap-1.5">
-            <i class="fa-solid fa-presentation-screen"></i> Proposta Didática
+        <nav class="flex bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto whitespace-nowrap gap-1">
+          <button onclick="switchTab('tab-proposta', this)" class="tab-button bg-white text-bb-blue shadow-sm font-semibold flex-1 py-2 px-4 rounded-lg text-xs transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-presentation-screen"></i> Proposta
           </button>
-          <button onclick="switchTab('tab-equivalencia', this)" class="tab-button px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 bg-transparent transition-all duration-200 flex items-center gap-1.5">
-            <i class="fa-solid fa-calculator"></i> Equivalência de Taxas
-          </button>
-          <button onclick="switchTab('tab-selecao-cp', this)" class="tab-button px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 bg-transparent transition-all duration-200 flex items-center gap-1.5">
-            <i class="fa-solid fa-gem"></i> Seleção CP (BB-BI)
-          </button>
-          <button onclick="switchTab('tab-cenario', this)" class="tab-button px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 bg-transparent transition-all duration-200 flex items-center gap-1.5">
+          <button onclick="switchTab('tab-cenario', this)" class="tab-button text-slate-600 hover:bg-white/50 font-medium flex-1 py-2 px-4 rounded-lg text-xs transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-compass"></i> Contexto BB
           </button>
-          <button onclick="switchTab('tab-historico', this)" class="tab-button px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 bg-transparent transition-all duration-200 flex items-center gap-1.5">
-            <i class="fa-solid fa-clock-rotate-left"></i> Histórico & Blindagem
+          <button onclick="switchTab('tab-selecao', this)" class="tab-button text-slate-600 hover:bg-white/50 font-medium flex-1 py-2 px-4 rounded-lg text-xs transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-gem"></i> Seleção CP
+          </button>
+          <button onclick="switchTab('tab-equiv', this)" class="tab-button text-slate-600 hover:bg-white/50 font-medium flex-1 py-2 px-4 rounded-lg text-xs transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-scale-balanced"></i> Equivalência
           </button>
         </nav>
       </header>
 
-      <!-- KPI STRIP (Banner Superior de Resultados) -->
-      <section class="bg-white p-6 border-b border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
-          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Capital Total</p>
-          <p class="text-xl font-bold text-slate-900" id="kpiCapital">R$ 300.000</p>
-          <p class="text-[10px] text-slate-400 mt-1">Patrimônio disponível</p>
+      <div class="bg-white p-4 lg:p-6 border-b border-slate-100 grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p class="text-[11px] font-semibold text-slate-500 uppercase">Capital Total</p>
+          <p class="text-lg lg:text-xl font-bold text-slate-900 mt-0.5" id="kpiCapital">R$ 0</p>
         </div>
-        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100">
-          <p class="text-xs font-semibold text-emerald-800 uppercase tracking-wider mb-1">Lucro Estimado Extra</p>
-          <p class="text-xl font-bold text-emerald-700" id="kpiGanhoExtra">R$ 15.420</p>
-          <p class="text-[10px] text-emerald-600 mt-1" id="kpiGanhoExtraPct">+5.4% acima da LCA</p>
+        <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 relative overflow-hidden">
+          <div class="absolute -right-2 -bottom-2 opacity-10"><i class="fa-solid fa-money-bill-trend-up text-4xl text-emerald-600"></i></div>
+          <p class="text-[11px] font-semibold text-emerald-800 uppercase relative z-10">Lucro Extra (Líquido)</p>
+          <p class="text-lg lg:text-xl font-bold text-emerald-700 mt-0.5 relative z-10" id="kpiGanhoExtra">R$ 0</p>
         </div>
-        <div class="bg-bb-accent/40 p-4 rounded-xl border border-blue-100">
-          <p class="text-xs font-semibold text-bb-blue uppercase tracking-wider mb-1">Total Final Estimado</p>
-          <p class="text-xl font-bold text-bb-blue" id="kpiTotalFinal">R$ 485.200</p>
-          <p class="text-[10px] text-slate-500 mt-1" id="kpiLcaComparativa">LCA simples: R$ 469.780</p>
+        <div class="bg-bb-accent p-4 rounded-xl border border-blue-100">
+          <p class="text-[11px] font-semibold text-bb-blue uppercase">Total Final Estimado</p>
+          <p class="text-lg lg:text-xl font-bold text-bb-blue mt-0.5" id="kpiTotalFinal">R$ 0</p>
         </div>
-        <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100">
-          <p class="text-xs font-semibold text-amber-800 uppercase tracking-wider mb-1">Equivalente CDB Bruto</p>
-          <p class="text-xl font-bold text-amber-700" id="kpiEquivCdi">132% do CDI</p>
-          <p class="text-[10px] text-amber-600 mt-1">Dificílimo achar em Bancos</p>
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p class="text-[11px] font-semibold text-slate-500 uppercase">CDB Equivalente</p>
+          <p class="text-lg lg:text-xl font-bold text-slate-800 mt-0.5" id="kpiEquivCdi">0% CDI</p>
         </div>
-      </section>
+      </div>
 
-      <!-- CONTEÚDO DAS TABS -->
-      <div class="p-6 flex-1 overflow-y-auto space-y-6">
-
-        <!-- TAB 1: PROPOSTA DIDÁTICA (Foco no Conservador) -->
-        <div id="tab-proposta" class="tab-content block space-y-6">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Explicação Lúdica sobre Segurança e Solidez (Card 1) -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow lg:col-span-7 space-y-5">
-              <div class="border-b border-slate-100 pb-3">
-                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <i class="fa-solid fa-shield-halved text-bb-blue"></i>
-                  A Solidez do Crédito Privado High Grade (brAAA)
-                </h3>
-                <p class="text-xs text-slate-500 mt-0.5">Segurança comparável ao risco bancário, com rendimento de inflação mais taxa fixa.</p>
-              </div>
-
-              <div class="space-y-4">
-                <p class="text-xs text-slate-600 leading-relaxed">
-                  Para um investidor conservador, a segurança é primordial. Muitas vezes acredita-se que apenas a poupança ou LCA de bancos tradicionais são seguras. No entanto, o mercado de <strong>Crédito Privado High Grade (Debêntures brAAA)</strong> é composto pelas maiores e mais sólidas empresas do Brasil, responsáveis por serviços essenciais de infraestrutura (saneamento, linhas de transmissão de energia, rodovias estaduais):
-                </p>
-
-                <!-- Gráfico Comparativo de Risco Lúdico -->
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-3">
-                  <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Comparativo de Solidez Operacional</h4>
-                  
-                  <div class="space-y-2.5">
-                    <div>
-                      <div class="flex justify-between text-[11px] mb-1 font-semibold text-slate-700">
-                        <span>LCA de Banco Comercial Médio (Risco de Mercado)</span>
-                        <span class="text-bb-blue">Risco Médio / Baixo</span>
-                      </div>
-                      <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                        <div class="bg-slate-400 h-full rounded-full" style="width: 75%"></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="flex justify-between text-[11px] mb-1 font-semibold text-slate-700">
-                        <span>Debênture de Infraestrutura de Energia (Ex: Neoenergia, Taesa)</span>
-                        <span class="text-emerald-700 font-bold">Risco Extremamente Baixo (brAAA)</span>
-                      </div>
-                      <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                        <div class="bg-emerald-600 h-full rounded-full" style="width: 95%"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="text-[10px] text-slate-400 mt-2 leading-relaxed">
-                    *Nota: Empresas de infraestrutura essencial recebem rating <strong>brAAA</strong> de agências multinacionais de risco, o que sinaliza capacidade quase infalível de pagamento.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Termômetro de Divisão de Capital e Rentabilidade -->
-              <div class="space-y-3">
-                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Como seu patrimônio será dividido:</h4>
-                <div class="flex h-6 rounded-lg overflow-hidden border border-slate-200 shadow-inner">
-                  <div id="bar-alloc-lca" class="bg-slate-400 text-white text-[10px] font-bold flex items-center justify-center transition-all" style="width: 85%;">
-                    LCA (85%)
-                  </div>
-                  <div id="bar-alloc-deb" class="bg-bb-blue text-white text-[10px] font-bold flex items-center justify-center transition-all" style="width: 15%;">
-                    Crédito Privado (15%)
-                  </div>
-                </div>
-                <div class="flex justify-between text-[10px] text-slate-500">
-                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-slate-400 rounded"></span> LCA Segura (Isenta)</span>
-                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-bb-blue rounded"></span> Debênture IPCA+ (Blindagem Fiscal)</span>
-                </div>
-              </div>
-
-              <!-- NOVO: Abordagem Educativa sobre o FGC -->
-              <div class="mt-4 p-5 bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl border border-slate-200/80 shadow-sm relative overflow-hidden">
-                <div class="absolute -right-4 -top-4 opacity-10">
-                  <i class="fa-solid fa-building-columns text-6xl text-slate-500"></i>
-                </div>
-                <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2 mb-2">
-                  <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Por que o FGC não é "tudo isso"?
-                </h4>
-                <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
-                  <p>Muitos investidores conservadores limitam seus ganhos focando 100% no FGC. No entanto, o <strong>FGC é um seguro</strong>, e bancos que pagam as maiores taxas de LCA/CDB geralmente são os de maior risco (bancos médios e pequenos).</p>
-                  
-                  <div class="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200">
-                    <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center shrink-0 border border-rose-100">
-                      <i class="fa-solid fa-car-burst text-rose-500 text-lg"></i>
-                    </div>
-                    <p class="text-[11px]">Você compraria um carro com defeito crônico no motor apenas porque ele tem um seguro total? <strong>Investir pelo FGC é focar no seguro, e não na qualidade do ativo.</strong></p>
-                  </div>
-                  
-                  <p>O <strong>Crédito Privado High Grade (brAAA)</strong>, por outro lado, foca na <strong>solidez primária</strong>. São debêntures de gigantes da infraestrutura (energia, saneamento, ferrovias). Se uma transmissora de energia nacional quebrar, o banco médio já quebrou muito antes. O risco de calote de uma empresa brAAA é estatisticamente quase nulo.</p>
-                </div>
-              </div>
-              <!-- FIM Abordagem FGC -->
-
-            </div>
-
-            <!-- Por que sair dos 100% LCA? Explicando a Corrosão da Inflação (Card 2) -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow lg:col-span-5 space-y-4">
-              <div class="border-b border-slate-100 pb-3">
-                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <i class="fa-solid fa-fire text-amber-500"></i>
-                  A Armadilha do Rendimento Nominal
-                </h3>
-                <p class="text-xs text-slate-500 mt-0.5">O perigo oculto da inflação alta sobre investimentos pós-fixados puros.</p>
-              </div>
-
-              <p class="text-xs text-slate-600 leading-relaxed">
-                Investidores conservadores tendem a preferir rendimentos pós-fixados simples (Ex: 85% do CDI). No entanto, o relatório oficial do BB de Maio de 2026 alerta para uma <strong>"desancoragem das expectativas de inflação"</strong>. 
-              </p>
-
-              <!-- Termômetro do Ganho Real -->
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60 space-y-3">
-                <h4 class="text-xs font-bold text-slate-700">O que é Ganho Real Efetivo?</h4>
-                <div class="space-y-2">
-                  <div class="flex justify-between text-xs">
-                    <span class="text-slate-500">Rendimento Nominal Estimado:</span>
-                    <span class="font-bold text-slate-800" id="realNominalVal">11.5% a.a.</span>
-                  </div>
-                  <div class="flex justify-between text-xs text-amber-700">
-                    <span>(-) Perda por Inflação (IPCA Proj.):</span>
-                    <span class="font-bold">-4.35% a.a.</span>
-                  </div>
-                  <hr class="border-slate-200 my-1">
-                  <div class="flex justify-between text-xs text-emerald-700 font-bold">
-                    <span>(=) Ganho Real Efetivo da Carteira:</span>
-                    <span id="realGanhoEfetivoVal">7.15% a.a.</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="text-[11px] text-slate-500 leading-relaxed space-y-1">
-                <p><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> <strong>A Solução:</strong> A debênture IPCA+ blinda integralmente seu poder de compra, pagando sempre a inflação do período mais um prêmio fixo.</p>
-                <p><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> <strong>Sem IR:</strong> Toda a rentabilidade simulada nesta proposta é 100% livre de imposto para pessoa física.</p>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- COMPARATIVO GRÁFICO DE BARRAS DE RETORNO LÍQUIDO -->
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow space-y-5">
-            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-chart-column text-bb-blue"></i>
-              Comparativo de Retorno Acumulado no Longo Prazo (<span class="span-prazo">5</span> Anos)
-            </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              <div class="md:col-span-8 space-y-4">
-                
-                <!-- Barra 1: LCA 100% -->
-                <div>
-                  <div class="flex justify-between text-xs font-semibold mb-1">
-                    <span class="text-slate-600">Estratégia Tradicional: 100% LCA</span>
-                    <span class="text-slate-800" id="barNominalLca">R$ 469.780</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-8 overflow-hidden border border-slate-200">
-                    <div id="bar-ret-lca" class="bg-slate-400 h-full rounded-full transition-all duration-500 flex items-center pl-4 text-xs font-bold text-white" style="width: 80%;">
-                      100% LCA Básica
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Barra 2: Estratégia Otimizada -->
-                <div>
-                  <div class="flex justify-between text-xs font-semibold mb-1">
-                    <span class="text-bb-blue font-bold">Estratégia Recomendada BB: LCA + Crédito Privado</span>
-                    <span class="text-emerald-700 font-extrabold" id="barNominalEstrat">R$ 485.200</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-10 overflow-hidden border border-emerald-200 shadow-sm">
-                    <div id="bar-ret-estrat" class="bg-gradient-to-r from-bb-blue to-emerald-600 h-full rounded-full transition-all duration-500 flex items-center justify-between px-4 text-xs font-bold text-white" style="width: 100%;">
-                      <span>LCA + Crédito Otimizado</span>
-                      <span class="bg-white text-emerald-800 text-[10px] px-2 py-0.5 rounded-full" id="lucroExtraBadge">+ R$ 15.420</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Barra 3: CDB Tributado Normal (Compara a perda de impostos) -->
-                <div>
-                  <div class="flex justify-between text-xs font-semibold mb-1">
-                    <span class="text-slate-600">CDB Bancário Comum (Tributado com IR 15%)</span>
-                    <span class="text-slate-700" id="barNominalCdb">R$ 442.100</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-8 overflow-hidden border border-slate-200">
-                    <div id="bar-ret-cdb" class="bg-rose-900/10 h-full rounded-full transition-all duration-500 flex items-center pl-4 text-xs font-bold text-rose-800" style="width: 70%;">
-                      Sujeito a Come-Cotas e Imposto
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- Box Explicativa de Dinheiro no Bolso -->
-              <div class="md:col-span-4 bg-emerald-50 border border-emerald-200 p-5 rounded-2xl flex flex-col justify-center items-center text-center space-y-2">
-                <i class="fa-solid fa-piggy-bank text-emerald-600 text-3xl"></i>
-                <h4 class="text-sm font-bold text-emerald-900">Isenção de Imposto Convertida em Retorno</h4>
-                <p class="text-[11px] text-emerald-700 leading-relaxed">
-                  Ao combinar LCA e Debêntures, você recebe o ganho líquido direto na conta. Sem necessidade de declarações complexas de retenção de IR na fonte.
-                </p>
-                <div class="text-xl font-black text-emerald-800" id="boxLucroReal">+ R$ 15.420</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- TAB 2: EQUIVALÊNCIA DE TAXAS (Módulo Matemático e Didático) -->
-        <div id="tab-equivalencia" class="tab-content hidden space-y-6">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow space-y-6">
-            <div class="border-b border-slate-100 pb-3">
-              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-scale-balanced text-bb-blue"></i>
-                Termômetro de Equivalência Tributária
+      <div class="p-4 lg:p-6 flex-1 overflow-y-auto">
+        <div id="tab-proposta" class="tab-content active space-y-6">
+          
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Box FGC e Risco -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow flex flex-col justify-center">
+              <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                <i class="fa-solid fa-shield-halved text-bb-blue"></i> Por que o FGC não é tudo isso?
               </h3>
-              <p class="text-xs text-slate-500 mt-0.5">Veja quanto um CDB tradicional precisaria render para igualar a nossa proposta isenta.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="bg-slate-50 p-5 rounded-xl border border-slate-200/60 text-center space-y-1">
-                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Sua Taxa na LCA</p>
-                <p class="text-2xl font-black text-slate-900" id="eqLcaTaxa">85% CDI</p>
-                <p class="text-[10px] text-slate-400">Totalmente isenta de IR</p>
-              </div>
-              <div class="bg-bb-accent/50 p-5 rounded-xl border border-bb-blue/20 text-center space-y-1">
-                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Equivalente Bruto do Crédito Privado</p>
-                <p class="text-2xl font-black text-bb-blue" id="eqDebTaxa">132.5% do CDI</p>
-                <p class="text-[10px] text-slate-500">Considerando Alíquota de IR de 15%</p>
-              </div>
-              <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 text-center space-y-1">
-                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Taxa Equivalente Bruta Anual</p>
-                <p class="text-2xl font-black text-emerald-800" id="eqCdbAnual">14.35% a.a.</p>
-                <p class="text-[10px] text-emerald-600">Para empatar com o Crédito Privado</p>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Muitos investidores limitam seus ganhos focando 100% no FGC. Porém, <strong>o FGC é apenas um seguro</strong> de emergência. Bancos que pagam as maiores taxas de LCA costumam ser os de maior risco.
+              </p>
+              <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 flex gap-4 items-start">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 border border-amber-300 shadow-sm">
+                  <i class="fa-solid fa-car-burst text-amber-600"></i>
+                </div>
+                <p class="text-[11px] text-amber-900 leading-relaxed">
+                  Você compraria um carro com motor ruim só porque ele tem um seguro total? <strong>O Crédito Privado brAAA foca na solidez primária</strong>. São gigantes da infraestrutura nacional (energia, saneamento). O risco de calote dessas gigantes é estatisticamente menor que o de muitos bancos.
+                </p>
               </div>
             </div>
 
-            <!-- Pitch de Vendas da Equivalência -->
-            <div class="bg-slate-50 border-l-4 border-bb-blue p-4 rounded-r-xl">
-              <h4 class="text-xs font-bold text-bb-blue uppercase tracking-wider">Argumento de Negociação:</h4>
-              <p class="text-xs text-slate-600 mt-1 leading-relaxed" id="pitchEquivalencia">
-                Para conseguir o mesmo retorno líquido de sua debênture IPCA+7.25% (isenta), você precisaria de um CDB pagando 132% do CDI — ou 14.35% a.a. brutos. Esse tipo de retorno simplesmente não existe para produtos conservadores tradicionais em bancos de grande porte.
+            <!-- Box Armadilha Inflação -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow flex flex-col justify-center">
+              <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                <i class="fa-solid fa-fire text-rose-500"></i> A Armadilha da Inflação
+              </h3>
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-600">Rendimento Nominal (Pós-Fixado):</span>
+                  <span class="font-bold" id="txt-nom-proj">11.5% a.a.</span>
+                </div>
+                <div class="flex justify-between text-xs text-rose-600">
+                  <span>(-) Perda por Inflação (IPCA Proj.):</span>
+                  <span class="font-bold" id="txt-ipca-proj">-4.35% a.a.</span>
+                </div>
+                <div class="border-t border-slate-200 pt-2 flex justify-between text-xs text-emerald-700 font-bold">
+                  <span>(=) Ganho Real Efetivo:</span>
+                  <span id="txt-ganho-real">7.15% a.a.</span>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-4 leading-relaxed">
+                A debênture IPCA+ blinda integralmente seu poder de compra, pagando sempre a inflação do período mais um prêmio fixo isento de IR.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow">
+            <h3 class="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-bb-blue"></i> Retorno Acumulado no Prazo Selecionado
+            </h3>
+            <div class="space-y-5">
+              <div>
+                <div class="flex justify-between text-[11px] font-semibold mb-1 text-slate-600">
+                  <span>Tradição: 100% LCA Pós</span><span id="barValLca">R$ 0</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-7 overflow-hidden">
+                  <div id="bar-lca" class="bg-slate-400 h-full flex items-center pl-3 text-[10px] text-white font-bold transition-all duration-700 w-[75%]">LCA Básica</div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[11px] font-semibold mb-1 text-emerald-700">
+                  <span>Estratégia: LCA + Crédito Privado</span><span id="barValEstrat">R$ 0</span>
+                </div>
+                <div class="w-full bg-emerald-50 rounded-full h-9 overflow-hidden border border-emerald-200 shadow-sm">
+                  <div id="bar-estrat" class="bg-gradient-to-r from-bb-blue to-emerald-500 h-full flex items-center justify-between px-3 text-[11px] text-white font-bold transition-all duration-700 w-[100%]">
+                    <span>Proposta Otimizada</span>
+                    <span id="badgeLucroChart" class="bg-white text-emerald-800 px-2 py-0.5 rounded-md text-[10px]">+ R$ 0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-cenario" class="tab-content space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow">
+            <div class="border-b border-slate-100 pb-4 mb-5 flex justify-between items-center">
+              <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-bullhorn text-bb-blue"></i> Visão Macro e Posicionamento (Maio 2026)
+              </h3>
+              <span class="bg-bb-blue text-white text-[9px] font-bold px-2 py-1 rounded uppercase tracking-wide">InvesTalk BB</span>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+                <p>O cenário macro BB indica <strong>"desancoragem de expectativas"</strong>. Com a elevação das projeções de inflação, os títulos indexados à inflação ganham relevância suprema para proteção de capital.</p>
+                <div class="bg-slate-50 border-l-4 border-bb-blue p-4 rounded-r-xl">
+                  <p class="italic">"Em momentos de maior estresse, temos preferência pelos títulos atrelados ao IPCA+, por trazer proteção real neste novo cenário..." <br><span class="font-bold text-slate-800 mt-2 block">— Especialista BB</span></p>
+                </div>
+              </div>
+
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <p class="text-xs font-bold text-slate-800 mb-3 uppercase tracking-wider">Classes de Ativos (BB)</p>
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center p-2 bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <span class="text-[11px] font-semibold text-slate-700">Renda Fixa Inflação (IPCA+)</span>
+                    <span class="bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded">OPORTUNIDADE (+)</span>
+                  </div>
+                  <div class="flex justify-between items-center p-2 bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <span class="text-[11px] font-semibold text-slate-700">Crédito Privado Bancos CP</span>
+                    <span class="bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded">ALTO PESO (72%)</span>
+                  </div>
+                  <div class="flex justify-between items-center p-2 bg-slate-100 border border-slate-200 rounded-lg">
+                    <span class="text-[11px] text-slate-500">Renda Variável Brasil</span>
+                    <span class="bg-slate-200 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded">NEUTRO (=)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-selecao" class="tab-content space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-2">
+              <i class="fa-solid fa-gem text-bb-blue"></i> Seleção BB-BI de Crédito Privado
+            </h3>
+            <p class="text-[11px] text-slate-500 mb-6">Ativos Premium brAAA filtrados por solidez e previsibilidade de caixa (Foco: Infraestrutura).</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- NEOENERGIA -->
+              <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="text-sm font-bold text-slate-800">Neoenergia <span class="text-[10px] font-normal text-slate-500">(CEPEB7)</span></h4>
+                  <span class="bg-bb-navy text-white text-[9px] font-bold px-2 py-0.5 rounded">brAAA</span>
+                </div>
+                <p class="text-[10px] font-semibold text-emerald-700 mb-3 border-b border-slate-200 pb-2">IPCA+ | Vencimento: 2040 | Energia Elétrica</p>
+                <p class="text-[10px] text-slate-600 leading-relaxed">Concessões de longo prazo, receitas ajustadas pela inflação e alta previsibilidade de caixa no segmento de distribuição.</p>
+              </div>
+
+              <!-- EQUATORIAL -->
+              <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="text-sm font-bold text-slate-800">Equatorial <span class="text-[10px] font-normal text-slate-500">(EQMAA2/CGOSB0)</span></h4>
+                  <span class="bg-bb-navy text-white text-[9px] font-bold px-2 py-0.5 rounded">AA+ / brAAA</span>
+                </div>
+                <p class="text-[10px] font-semibold text-emerald-700 mb-3 border-b border-slate-200 pb-2">IPCA+ | Vencimento: 2036/37 | Energia & Saneamento</p>
+                <p class="text-[10px] text-slate-600 leading-relaxed">3º maior grupo em clientes. Tarifas blindadas reajustadas por índices de inflação. Expansão segura com ativos da Sabesp.</p>
+              </div>
+
+              <!-- KLABIN -->
+              <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="text-sm font-bold text-slate-800">Klabin <span class="text-[10px] font-normal text-slate-500">(KLBNA5)</span></h4>
+                  <span class="bg-bb-navy text-white text-[9px] font-bold px-2 py-0.5 rounded">brAAA</span>
+                </div>
+                <p class="text-[10px] font-semibold text-emerald-700 mb-3 border-b border-slate-200 pb-2">IPCA+ | Vencimento: 2039 | Papel e Celulose</p>
+                <p class="text-[10px] text-slate-600 leading-relaxed">Liderança na América Latina. Forte exportação garante hedge natural (dólar). Caixa robusto e independente do mercado interno.</p>
+              </div>
+
+              <!-- MRS LOGÍSTICA -->
+              <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="text-sm font-bold text-slate-800">MRS Logística <span class="text-[10px] font-normal text-slate-500">(MRSAC2)</span></h4>
+                  <span class="bg-bb-navy text-white text-[9px] font-bold px-2 py-0.5 rounded">brAAA</span>
+                </div>
+                <p class="text-[10px] font-semibold text-emerald-700 mb-3 border-b border-slate-200 pb-2">IPCA+ | Vencimento: 2039 | Transporte e Logística</p>
+                <p class="text-[10px] text-slate-600 leading-relaxed">Concessão renovada até 2056. Contratos blindados "take-or-pay" com gigantes (Vale, CSN). Operacional altamente previsível.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-equiv" class="tab-content space-y-6">
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow">
+             <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2 mb-6">
+              <i class="fa-solid fa-scale-balanced text-bb-blue"></i> Matemática da Isenção Fiscal
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+              <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <p class="text-[10px] text-slate-500 uppercase tracking-wide">Taxa LCA</p>
+                <p class="text-xl font-bold text-slate-800" id="lbl-eq-lca">85% CDI</p>
+                <p class="text-[9px] text-emerald-600 mt-1 font-semibold">Isento IR</p>
+              </div>
+              <div class="p-4 bg-bb-accent rounded-xl border border-blue-200">
+                <p class="text-[10px] text-bb-blue uppercase tracking-wide">Crédito Privado Bruto</p>
+                <p class="text-xl font-bold text-bb-blue" id="lbl-eq-deb">132% CDI</p>
+                <p class="text-[9px] text-slate-500 mt-1">Se fosse tributado (15%)</p>
+              </div>
+              <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                <p class="text-[10px] text-emerald-800 uppercase tracking-wide">CDB Necessário</p>
+                <p class="text-xl font-bold text-emerald-700" id="lbl-eq-cdb">14.3% a.a.</p>
+                <p class="text-[9px] text-emerald-600 mt-1 font-semibold">Para empatar o jogo</p>
+              </div>
+            </div>
+            <div class="mt-6 bg-slate-50 border-l-4 border-bb-blue p-4 rounded-r-lg">
+              <p class="text-xs text-slate-700 leading-relaxed" id="txt-equiv-pitch">
+                O cliente precisaria encontrar um CDB pagando absurdos 132% do CDI em um bancão para conseguir colocar no bolso o mesmo valor líquido que esta debênture brAAA oferece hoje. É uma oportunidade assimétrica.
               </p>
             </div>
           </div>
         </div>
 
-        <!-- TAB 3: SELEÇÃO CP BB-BI (NOVO MÓDULO) -->
-        <div id="tab-selecao-cp" class="tab-content hidden space-y-6">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow space-y-6">
-            <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
-              <div>
-                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <i class="fa-solid fa-gem text-bb-blue"></i>
-                  Seleção BB-BI de Crédito Privado (Maio 2026)
-                </h3>
-                <p class="text-xs text-slate-500 mt-0.5">As melhores debêntures incentivadas brAAA filtradas pelos especialistas do Banco do Brasil.</p>
-              </div>
-              <span class="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 py-1 px-2.5 rounded-md border border-emerald-200">High Grade Isento</span>
-            </div>
+      </div>
 
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Para a nossa estratégia, utilizamos ativos selecionados pelo BB de empresas líderes em setores altamente previsíveis, como transmissão de energia, ferrovias e celulose. Abaixo estão os papéis que compõem o nosso "motor de rentabilidade real".
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              
-              <!-- CARD 1: NEOENERGIA -->
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-bb-blue transition-colors group">
-                <div class="flex justify-between items-start mb-3">
-                  <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fa-solid fa-bolt"></i></div>
-                    <div>
-                      <h4 class="text-sm font-bold text-slate-900">Neoenergia (Celpe)</h4>
-                      <p class="text-[10px] text-slate-500 font-mono">CEPEB7 • Venc: 2040</p>
-                    </div>
-                  </div>
-                  <span class="text-[10px] font-black bg-bb-blue text-white px-2 py-0.5 rounded shadow-sm">brAAA</span>
-                </div>
-                <div class="space-y-2">
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Setor:</span><span class="font-semibold text-slate-700">Energia Elétrica</span>
-                  </div>
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Indexador:</span><span class="font-bold text-emerald-600">IPCA+ (Isento)</span>
-                  </div>
-                </div>
-                <div class="mt-3 bg-white p-2.5 rounded-lg border border-slate-100 text-[11px] text-slate-600 leading-relaxed">
-                  <strong>Pontos Fortes:</strong> Diversificação geográfica e de segmentos. Concessões de longuíssimo prazo que trazem <strong>extrema previsibilidade de caixa</strong>. Receitas ajustadas automaticamente pela inflação.
-                </div>
-              </div>
-
-              <!-- CARD 2: EQUATORIAL -->
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-bb-blue transition-colors group">
-                <div class="flex justify-between items-start mb-3">
-                  <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-plug-circle-bolt"></i></div>
-                    <div>
-                      <h4 class="text-sm font-bold text-slate-900">Grupo Equatorial</h4>
-                      <p class="text-[10px] text-slate-500 font-mono">EQMAA2 / CGOSB0 • Venc: 2036/37</p>
-                    </div>
-                  </div>
-                  <span class="text-[10px] font-black bg-bb-blue text-white px-2 py-0.5 rounded shadow-sm">AA+ / brAAA</span>
-                </div>
-                <div class="space-y-2">
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Setores:</span><span class="font-semibold text-slate-700">Energia & Saneamento</span>
-                  </div>
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Indexador:</span><span class="font-bold text-emerald-600">IPCA+ (Isento)</span>
-                  </div>
-                </div>
-                <div class="mt-3 bg-white p-2.5 rounded-lg border border-slate-100 text-[11px] text-slate-600 leading-relaxed">
-                  <strong>Pontos Fortes:</strong> 3º maior grupo do país em clientes. Tarifas blindadas, reajustadas anualmente por índices de inflação. Expansão segura com ativos da Sabesp e Echoenergia.
-                </div>
-              </div>
-
-              <!-- CARD 3: KLABIN -->
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-bb-blue transition-colors group">
-                <div class="flex justify-between items-start mb-3">
-                  <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-tree"></i></div>
-                    <div>
-                      <h4 class="text-sm font-bold text-slate-900">Klabin</h4>
-                      <p class="text-[10px] text-slate-500 font-mono">KLBNA5 • Venc: 2039</p>
-                    </div>
-                  </div>
-                  <span class="text-[10px] font-black bg-bb-blue text-white px-2 py-0.5 rounded shadow-sm">brAAA</span>
-                </div>
-                <div class="space-y-2">
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Setor:</span><span class="font-semibold text-slate-700">Papel e Celulose</span>
-                  </div>
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Indexador:</span><span class="font-bold text-emerald-600">IPCA+ (Isento)</span>
-                  </div>
-                </div>
-                <div class="mt-3 bg-white p-2.5 rounded-lg border border-slate-100 text-[11px] text-slate-600 leading-relaxed">
-                  <strong>Pontos Fortes:</strong> Liderança absoluta na América Latina. Alta exposição à exportação (Hedge cambial natural). Geração de caixa robusta e independente do cenário interno brasileiro.
-                </div>
-              </div>
-
-              <!-- CARD 4: MRS LOGÍSTICA -->
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-bb-blue transition-colors group">
-                <div class="flex justify-between items-start mb-3">
-                  <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center"><i class="fa-solid fa-train-subway"></i></div>
-                    <div>
-                      <h4 class="text-sm font-bold text-slate-900">MRS Logística</h4>
-                      <p class="text-[10px] text-slate-500 font-mono">MRSAC2 • Venc: 2039</p>
-                    </div>
-                  </div>
-                  <span class="text-[10px] font-black bg-bb-blue text-white px-2 py-0.5 rounded shadow-sm">brAAA</span>
-                </div>
-                <div class="space-y-2">
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Setor:</span><span class="font-semibold text-slate-700">Transporte e Logística</span>
-                  </div>
-                  <div class="flex justify-between text-xs border-b border-slate-200/60 pb-1">
-                    <span class="text-slate-500">Indexador:</span><span class="font-bold text-emerald-600">IPCA+ (Isento)</span>
-                  </div>
-                </div>
-                <div class="mt-3 bg-white p-2.5 rounded-lg border border-slate-100 text-[11px] text-slate-600 leading-relaxed">
-                  <strong>Pontos Fortes:</strong> Concessão ferroviária renovada até 2056. Contratos "take-or-pay" com clientes cativos gigantes (Vale, CSN, Gerdau, Usiminas). Risco operacional blindado.
-                </div>
-              </div>
-
-            </div>
-          </div>
+      <footer class="bg-slate-900 text-white p-5 lg:p-6 border-t border-slate-800">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-bb-yellow"><i class="fa-solid fa-paper-plane mr-1"></i> Roteiro de Venda (WhatsApp)</span>
+          <button onclick="copyPitch()" class="bg-bb-blue hover:bg-blue-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1">
+            <i class="fa-solid fa-copy"></i> Copiar
+          </button>
         </div>
+        <p id="pitchText" class="text-[11px] text-slate-300 italic leading-relaxed bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+          Olá! Montei um estudo baseado no comitê de Maio/2026 do Banco do Brasil. Como a projeção oficial mostra desancoragem de inflação, o BB orienta alocação em IPCA+. Sugiro transferir 15% da sua LCA para Crédito Privado de Infraestrutura (Rating brAAA, os mais seguros do país). O resto continua com proteção FGC. Sem mudar seu perfil Conservador, vamos blindar o seu patrimônio contra a inflação e adicionar um lucro extra isento projetado de R$ 15.000,00 na conta. Vamos bater um papo amanhã cedo?
+        </p>
+      </footer>
+    </main>
+  </div>
 
-        <!-- TAB 4: CARTEIRA RECOMENDADA BB (Maio 2026) -->
-        <div id="tab-cenario" class="tab-content hidden space-y-6">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 custom-shadow space-y-6">
-            <div class="border-b border-slate-100 pb-3 flex justify-between items-center">
-              <div>
-                <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <i class="fa-solid fa-compass text-bb-blue"></i>
-                  Contexto e Diretrizes BB (Maio 2026)
-                </h3>
-                <p class="text-xs text-slate-500 mt-0.5">Alinhamento estrito com a Palavra do Especialista InvesTalk.</p>
-              </div>
-              <span class="text-xs bg-bb-blue text-bb-yellow font-bold py-1 px-3 rounded-full">Oficial InvesTalk</span>
-            </div>
+  <script>
+    const FGC_LIMIT = 250000;
+    
+    // Utilitário de Formatação
+    const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
+    const formatPct = (val) => val.toFixed(2) + '%';
 
-            <!-- Resumo do Relatório do Banco do Brasil -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              
-              <!-- Visão macro -->
-              <div class="space-y-4">
-                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-100 pb-1">Cenário Nebuloso e Alta de Projeções</h4>
-                <p class="text-xs text-slate-600 leading-relaxed">
-                  De acordo com a publicação oficial da <strong>InvesTalk BB (Maio 2026)</strong>, o Copom deu um tom mais duro em seu último comunicado, atualizando as projeções de inflação para cima. Isso é classificado pelo Banco Central como <strong>"desancoragem de expectativas"</strong>.
-                </p>
-                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-xs text-amber-800 space-y-2">
-                  <p class="font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Palavra do Especialista BB:</p>
-                  <blockquote class="italic border-l-2 border-amber-400 pl-3 leading-relaxed">
-                    "Em momentos de maior estresse e incerteza, com desancoragem de expectativas, os títulos indexados à inflação ganham ainda mais relevância, por oferecerem proteção real ao investidor... Temos preferência pelos títulos atrelados ao IPCA+, por trazer proteção nesse novo cenário."
-                  </blockquote>
-                </div>
-              </div>
-
-              <!-- Posicionamento de Classes BB -->
-              <div class="bg-slate-50 p-5 rounded-xl border border-slate-200/60 space-y-4">
-                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Posicionamento Institucional BB (Classes)</h4>
-                <p class="text-[11px] text-slate-500 mb-2">Visão oficial da equipe de inteligência de mercado InvesTalk para a alocação de portfólios no momento atual:</p>
-                
-                <div class="space-y-2">
-                  <div class="flex justify-between items-center p-2.5 bg-white rounded-lg border border-slate-200 text-xs">
-                    <span class="font-semibold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-chart-line text-emerald-600"></i> Renda Fixa Inflação</span>
-                    <span class="bg-emerald-100 text-emerald-800 px-3 py-0.5 rounded font-bold text-[10px] border border-emerald-200">OPORTUNIDADE (+)</span>
-                  </div>
-                  <div class="flex justify-between items-center p-2.5 bg-white rounded-lg border border-slate-200 text-xs">
-                    <span class="font-semibold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-chart-pie text-emerald-600"></i> Renda Fixa Pré</span>
-                    <span class="bg-emerald-100 text-emerald-800 px-3 py-0.5 rounded font-bold text-[10px] border border-emerald-200">OPORTUNIDADE (+)</span>
-                  </div>
-                  <div class="flex justify-between items-center p-2.5 bg-white rounded-lg border border-slate-200 text-xs">
-                    <span class="font-semibold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-globe text-emerald-600"></i> Investimentos no Exterior</span>
-                    <span class="bg-emerald-100 text-emerald-800 px-3 py-0.5 rounded font-bold text-[10px] border border-emerald-200">OPORTUNIDADE (+)</span>
-                  </div>
-                  <div class="flex justify-between items-center p-2.5 bg-white rounded-lg border border-slate-200 text-xs opacity-70">
-                    <span class="font-semibold text-slate-700">Multimercado</span>
-                    <span class="bg-slate-200 text-slate-600 px-3 py-0.5 rounded font-bold text-[10px]">NEUTRO (=)</span>
-                  </div>
-                  <div class="flex justify-between items-center p-2.5 bg-white rounded-lg border border-slate-200 text-xs opacity-70">
-                    <span class="font-semibold text-slate-700">Renda Variável</span>
-                    <span class="bg-slate-200 text-slate-600 px-3 py-0.5 rounded font-bold text-[10px]">NEUTRO (=)</span>
-                  </div>
-                </div>
-
-                <p class="text-[10px] text-slate-500 italic mt-3 leading-relaxed">
-                  *Nossa proposta atende diretamente à recomendação de oportunidade em "Renda Fixa Inflação" (IPCA+) usando Crédito Privado brAAA (Alta Solidez e Isenção).
-                </p>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 5: HISTÓRICO & BLINDAGEM CONTRA INFLAÇÃO -->
-      // Esconde todos os conteúdos de abas
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.add('hidden');
-        tab.classList.remove('block');
+    // Controle de Abas
+    window.switchTab = function(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(el => {
+        el.classList.remove('bg-white', 'text-bb-blue', 'shadow-sm');
+        el.classList.add('text-slate-600');
       });
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('bg-white', 'text-bb-blue', 'shadow-sm');
+      btn.classList.remove('text-slate-600');
+    };
 
-      // Remove estilos ativos de todos os botões de abas
-      document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.remove('bg-white', 'text-bb-blue', 'shadow-sm');
-        btn.classList.add('text-slate-600', 'hover:text-slate-900', 'bg-transparent');
-      });
-
-      // Exibe a aba ativa
-      const activeTab = document.getElementById(tabId);
-      activeTab.classList.remove('hidden');
-      activeTab.classList.add('block');
-
-      // Aplica estilo ativo ao botão pressionado
-      buttonEl.classList.add('bg-white', 'text-bb-blue', 'shadow-sm');
-      buttonEl.classList.remove('text-slate-600', 'hover:text-slate-900', 'bg-transparent');
-    }
-
-    // Configuração Dinâmica dos Perfis
-    function setProfile(profileKey) {
-      currentProfile = profileKey;
+    // Controle de Perfil
+    window.setProfile = function(profile) {
+      const isConservador = profile === 'conservador';
       
-      // Ajuste visual dos botões
-      const btnConservador = document.getElementById('btn-perf-conservador');
-      const btnModerado = document.getElementById('btn-perf-moderado');
+      document.getElementById('btn-perf-conservador').className = isConservador ? 
+        'py-2 px-2 rounded-lg text-xs font-medium border transition-all bg-bb-blue border-bb-yellow text-bb-yellow' : 
+        'py-2 px-2 rounded-lg text-xs font-medium border transition-all bg-transparent border-slate-700 text-slate-300 hover:bg-slate-800';
+      
+      document.getElementById('btn-perf-moderado').className = !isConservador ? 
+        'py-2 px-2 rounded-lg text-xs font-medium border transition-all bg-bb-blue border-bb-yellow text-bb-yellow' : 
+        'py-2 px-2 rounded-lg text-xs font-medium border transition-all bg-transparent border-slate-700 text-slate-300 hover:bg-slate-800';
 
-      if (profileKey === 'conservador') {
-        btnConservador.className = 'py-2 px-2 rounded-lg text-xs font-medium border text-center transition-all bg-bb-blue border-bb-yellow text-bb-yellow';
-        btnModerado.className = 'py-2 px-2 rounded-lg text-xs font-medium border text-center transition-all bg-transparent border-slate-700 text-slate-300 hover:bg-slate-800';
-      } else {
-        btnModerado.className = 'py-2 px-2 rounded-lg text-xs font-medium border text-center transition-all bg-bb-blue border-bb-yellow text-bb-yellow';
-        btnConservador.className = 'py-2 px-2 rounded-lg text-xs font-medium border text-center transition-all bg-transparent border-slate-700 text-slate-300 hover:bg-slate-800';
-      }
+      document.getElementById('headerProfileBadge').innerText = isConservador ? 'Conservador' : 'Moderado';
+      document.getElementById('capital').value = isConservador ? 300000 : 500000;
+      document.getElementById('debPct').value = isConservador ? 15 : 30;
+      
+      calculate();
+    };
 
-      // Preencher formulário de acordo com presets
-      const data = profilePresets[profileKey];
-      document.getElementById('capital').value = data.capital;
-      document.getElementById('prazo').value = data.prazo;
-      document.getElementById('debPct').value = data.debPct;
-      document.getElementById('cdiFuturo').value = data.cdiFuturo;
-      document.getElementById('ipcaFuturo').value = data.ipcaFuturo;
-      document.getElementById('lcaTipo').value = data.lcaTipo;
-      document.getElementById('lcaTaxa').value = data.lcaTaxa;
-      document.getElementById('debTaxa').value = data.debTaxa;
+    // Copiar Texto
+    window.copyPitch = function() {
+      const text = document.getElementById('pitchText').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('footer button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado!';
+        btn.classList.replace('bg-bb-blue', 'bg-emerald-600');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.replace('bg-emerald-600', 'bg-bb-blue');
+        }, 2000);
+      });
+    };
 
-      document.getElementById('headerProfileBadge').textContent = data.title;
-
-      // Executa recálculo automático
-      calcularEstrategia();
-    }
-
-    // Função de Formatação Financeira do Real Brasileiro
-    function formatBRL(valor) {
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      }).format(valor);
-    }
-
-    // Execução Matemática das Simulações Financeiras
-    function calcularEstrategia() {
-      // Receber dados de entrada e validar nulidade
-      const capital = Math.max(0, parseFloat(document.getElementById('capital').value) || 0);
-      const prazo = Math.max(1, parseInt(document.getElementById('prazo').value) || 1);
-      const debPctOriginal = Math.max(0, Math.min(100, parseFloat(document.getElementById('debPct').value) || 0));
-      const cdiFut = (parseFloat(document.getElementById('cdiFuturo').value) || 0) / 100;
-      const ipcaFut = (parseFloat(document.getElementById('ipcaFuturo').value) || 0) / 100;
+    // Motor de Cálculo Principal
+    function calculate() {
+      const cap = parseFloat(document.getElementById('capital').value) || 0;
+      const prazo = parseInt(document.getElementById('prazo').value) || 1;
+      const debPctRaw = parseFloat(document.getElementById('debPct').value) || 0;
+      
+      const cdi = (parseFloat(document.getElementById('cdiFuturo').value) || 0) / 100;
+      const ipca = (parseFloat(document.getElementById('ipcaFuturo').value) || 0) / 100;
       
       const lcaTipo = document.getElementById('lcaTipo').value;
-      const lcaTaxaRaw = (parseFloat(document.getElementById('lcaTaxa').value) || 0) / 100;
-      const debTaxaRaw = (parseFloat(document.getElementById('debTaxa').value) || 0) / 100;
+      const lcaTaxaVal = (parseFloat(document.getElementById('lcaTaxa').value) || 0) / 100;
+      const debTaxaVal = (parseFloat(document.getElementById('debTaxa').value) || 0) / 100;
 
-      // Cálculo de Rentabilidade de Origem
-      const lcaAnual = lcaTipo === 'pos' ? cdiFut * lcaTaxaRaw : lcaTaxaRaw;
-      // Fórmula de Taxa Real de Debêntures IPCA+: (1 + IPCA) * (1 + Taxa) - 1
-      const debAnual = (1 + ipcaFut) * (1 + debTaxaRaw) - 1;
+      // Taxas Anuais
+      const lcaAnual = lcaTipo === 'pos' ? cdi * lcaTaxaVal : lcaTaxaVal;
+      const debAnual = (1 + ipca) * (1 + debTaxaVal) - 1;
 
-      // Gestão de Segurança e Proteção FGC
-      let allocLcaCapital = capital * ((100 - debPctOriginal) / 100);
-      let allocDebCapital = capital * (debPctOriginal / 100);
-      let isFgcTriggered = false;
-
-      // Se capital LCA ultrapassar o teto protetivo do FGC
-      if (allocLcaCapital > FGC_MAX_LCA) {
-        const excedente = allocLcaCapital - FGC_MAX_LCA;
-        allocLcaCapital = FGC_MAX_LCA;
-        allocDebCapital += excedente;
-        isFgcTriggered = true;
-
-        document.getElementById('fgcExcedente').textContent = formatBRL(excedente);
+      // Divisão e FGC
+      let cpLca = cap * ((100 - debPctRaw) / 100);
+      let cpDeb = cap * (debPctRaw / 100);
+      
+      if (cpLca > FGC_LIMIT) {
+        const exc = cpLca - FGC_LIMIT;
+        cpLca = FGC_LIMIT;
+        cpDeb += exc;
+        document.getElementById('fgcExcedente').innerText = formatBRL(exc);
         document.getElementById('alertaFGC').classList.remove('hidden');
       } else {
         document.getElementById('alertaFGC').classList.add('hidden');
       }
 
-      // Porcentagem Efetiva de Alocação Ajustada
-      const pctLcaEfetiva = (allocLcaCapital / capital) * 100;
-      const pctDebEfetiva = (allocDebCapital / capital) * 100;
-
-      // Simulações Acumuladas no Prazo Final (Composto)
-      const montanteLcaEfetivo = allocLcaCapital * Math.pow(1 + lcaAnual, prazo);
-      const montanteDebEfetivo = allocDebCapital * Math.pow(1 + debAnual, prazo);
+      // Projeções
+      const montanteLca = cpLca * Math.pow(1 + lcaAnual, prazo);
+      const montanteDeb = cpDeb * Math.pow(1 + debAnual, prazo);
+      const totalEstrat = montanteLca + montanteDeb;
+      const totalLcaOnly = cap * Math.pow(1 + lcaAnual, prazo);
       
-      // Total da Estratégia Segura Otimizada
-      const totalEstrategiaFinal = montanteLcaEfetivo + montanteDebEfetivo;
-
-      // Total Comparativo Alternativo: 100% LCA Básica
-      const totalLcaUnico = capital * Math.pow(1 + lcaAnual, prazo);
+      const lucroExtra = totalEstrat - totalLcaOnly;
       
-      // Lucro Extra direto no bolso
-      const ganhoExtraBruto = totalEstrategiaFinal - totalLcaUnico;
-      const ganhoExtraPct = (ganhoExtraBruto / totalLcaUnico) * 100;
+      // Equivalência
+      const ir = 0.15;
+      const brutoNecessario = totalEstrat / (1 - ir);
+      const cdbAnualEq = Math.pow(brutoNecessario / cap, 1 / prazo) - 1;
+      const pctCdi = (cdbAnualEq / cdi) * 100;
 
-      // Cálculo Comparativo CDB Tributado (Considerando alíquota mínima de IR de 15% para LP)
-      // Para encontrar o CDB equivalente necessário, descontamos 15% de imposto no prazo final
-      const totalCdbEquivalente = totalEstrategiaFinal / 1.15; // Bruto simulado aproximado
-      const cdbAnualEquiv = Math.pow(totalEstrategiaFinal / capital, 1 / prazo) - 1;
-      const cdbBrutoAnualEquiv = cdbAnualEquiv / 0.85; // Ajustando isenção de IR
+      // Atualiza DOM - Top KPIs
+      document.getElementById('kpiCapital').innerText = formatBRL(cap);
+      document.getElementById('kpiGanhoExtra').innerText = formatBRL(lucroExtra);
+      document.getElementById('kpiTotalFinal').innerText = formatBRL(totalEstrat);
+      document.getElementById('kpiEquivCdi').innerText = Math.round(pctCdi) + '% CDI';
 
-      const equivCdiPct = (cdbBrutoAnualEquiv / cdiFut) * 100;
+      // Atualiza DOM - Aba 1
+      document.getElementById('txt-nom-proj').innerText = formatPct(cdi * 100) + ' a.a.';
+      document.getElementById('txt-ipca-proj').innerText = '-' + formatPct(ipca * 100) + ' a.a.';
+      document.getElementById('txt-ganho-real').innerText = formatPct(debTaxaVal * 100) + ' a.a.';
 
-      // ==========================================
-      // ATUALIZAÇÃO VISUAL E RENDIMENTO DE KPIS
-      // ==========================================
-      document.getElementById('kpiCapital').textContent = formatBRL(capital);
-      document.getElementById('kpiGanhoExtra').textContent = formatBRL(ganhoExtraBruto);
-      document.getElementById('kpiGanhoExtraPct').textContent = `+${ganhoExtraPct.toFixed(1)}% vs. 100% LCA`;
-      document.getElementById('kpiTotalFinal').textContent = formatBRL(totalEstrategiaFinal);
-      document.getElementById('kpiLcaComparativa').textContent = `100% LCA Básica: ${formatBRL(totalLcaUnico)}`;
-      document.getElementById('kpiEquivCdi').textContent = `${equivCdiPct.toFixed(0)}% do CDI`;
+      document.getElementById('barValLca').innerText = formatBRL(totalLcaOnly);
+      document.getElementById('barValEstrat').innerText = formatBRL(totalEstrat);
+      document.getElementById('badgeLucroChart').innerText = '+ ' + formatBRL(lucroExtra);
 
-      // Atualização de Textos em Abas de Rendimentos
-      document.querySelectorAll('.span-prazo').forEach(el => el.textContent = prazo);
-      document.getElementById('realNominalVal').textContent = `${(debAnual * 100).toFixed(2)}% a.a.`;
-      
-      const ganhoRealDeb = debTaxaRaw * 100;
-      document.getElementById('realGanhoEfetivoVal').textContent = `+${ganhoRealDeb.toFixed(2)}% acima do IPCA`;
+      // Atualiza DOM - Equivalência
+      const strLcaType = lcaTipo === 'pos' ? (lcaTaxaVal*100).toFixed(0) + '% CDI' : (lcaTaxaVal*100).toFixed(2) + '% Pré';
+      document.getElementById('lbl-eq-lca').innerText = strLcaType;
+      document.getElementById('lbl-eq-deb').innerText = Math.round(pctCdi) + '% CDI';
+      document.getElementById('lbl-eq-cdb').innerText = formatPct(cdbAnualEq * 100);
+      document.getElementById('txt-equiv-pitch').innerHTML = `O cliente precisaria encontrar um <strong>CDB pagando absurdos ${Math.round(pctCdi)}% do CDI</strong> em um grande banco para colocar no bolso o mesmo valor líquido que esta combinação oferece. Para o público conservador, produtos abertos com essas taxas exigem prazos engessados ou trazem riscos ocultos. As debêntures brAAA trazem a solidez primária.`;
 
-      // Barras de Rentabilidade do Longo Prazo (Proporções de Gráficos de Barra)
-      const maxMontante = Math.max(totalEstrategiaFinal, totalLcaUnico, totalLcaUnico * 0.95);
-      const pctBarLca = (totalLcaUnico / maxMontante) * 100;
-      const pctBarEstrat = (totalEstrategiaFinal / maxMontante) * 100;
-      const pctBarCdb = ((totalEstrategiaFinal * 0.91) / maxMontante) * 100; // Simulação de perda tributária de CDB de mercado
-
-      document.getElementById('bar-ret-lca').style.width = `${pctBarLca}%`;
-      document.getElementById('bar-ret-lca').textContent = `100% LCA de Entrada: ${formatBRL(totalLcaUnico)}`;
-      
-      document.getElementById('bar-ret-estrat').style.width = `${pctBarEstrat}%`;
-      document.getElementById('barNominalEstrat').textContent = formatBRL(totalEstrategiaFinal);
-      document.getElementById('lucroExtraBadge').textContent = `+ ${formatBRL(ganhoExtraBruto)}`;
-
-      document.getElementById('bar-ret-cdb').style.width = `${pctBarCdb}%`;
-      document.getElementById('bar-ret-cdb').textContent = `CDB de Varejo (Tributado): ~ ${formatBRL(totalEstrategiaFinal * 0.91)}`;
-      document.getElementById('barNominalCdb').textContent = formatBRL(totalEstrategiaFinal * 0.91);
-      document.getElementById('barNominalLca').textContent = formatBRL(totalLcaUnico);
-
-      // Divisão das Barras de Alocação do Capital Primário
-      document.getElementById('bar-alloc-lca').style.width = `${pctLcaEfetiva}%`;
-      document.getElementById('bar-alloc-lca').textContent = `LCA: ${pctLcaEfetiva.toFixed(0)}% (${formatBRL(allocLcaCapital)})`;
-      document.getElementById('bar-alloc-deb').style.width = `${pctDebEfetiva}%`;
-      document.getElementById('bar-alloc-deb').textContent = `CP brAAA: ${pctDebEfetiva.toFixed(0)}% (${formatBRL(allocDebCapital)})`;
-
-      document.getElementById('boxLucroReal').textContent = `+ ${formatBRL(ganhoExtraBruto)}`;
-
-      // ==========================================
-      // ATUALIZAÇÃO DA TAB 2 (EQUIVALÊNCIA DE TAXAS)
-      // ==========================================
-      document.getElementById('eqLcaTaxa').textContent = lcaTipo === 'pos' ? `${(lcaTaxaRaw * 100).toFixed(0)}% CDI` : `${(lcaTaxaRaw * 100).toFixed(2)}% a.a.`;
-      document.getElementById('eqDebTaxa').textContent = `${equivCdiPct.toFixed(0)}% do CDI`;
-      document.getElementById('eqCdbAnual').textContent = `${(cdbBrutoAnualEquiv * 100).toFixed(2)}% a.a.`;
-
-      const debSpreadText = (debTaxaRaw * 100).toFixed(2);
-      document.getElementById('pitchEquivalencia').textContent = `Para conseguir o mesmo retorno líquido de sua debênture IPCA+${debSpreadText}% (totalmente isenta de imposto), seu cliente precisaria de um CDB tradicional ou outro ativo bancário rendendo pelo menos ${equivCdiPct.toFixed(0)}% do CDI — ou ${(cdbBrutoAnualEquiv * 100).toFixed(2)}% brutos ao ano. Este rendimento de emissão não possui paralelo no mercado conservador sem expor o cliente a riscos especulativos severos.`;
-
-      // Atualização Dinâmica do Script WhatsApp para Envio Seguro
-      const whatsappPitch = `Olá! Montei nossa proposta com base na Carteira Recomendada InvesTalk do Banco do Brasil de Maio de 2026. Como o cenário macroeconômico indica uma alta na inflação projetada (o que o Copom chama de desancoragem), o especialista do BB recomenda expressamente a alocação tática em ativos IPCA+. Propus direcionar ${pctDebEfetiva.toFixed(0)}% do seu capital para Crédito Privado brAAA (isenção tributária total) e manter os ${pctLcaEfetiva.toFixed(0)}% na LCA clássica. Essa simples mudança de diversificação irá blindar seu poder de compra de forma estruturada e gerar um acréscimo estimado de ${formatBRL(ganhoExtraBruto)} adicionais sem alterar seu perfil de risco conservador. O que acha de darmos uma olhada rápida amanhã de manhã?`;
-      
-      document.getElementById('whatsappPitchText').textContent = whatsappPitch;
+      // Atualiza DOM - WhatsApp
+      const percDebReal = Math.round((cpDeb / cap) * 100);
+      const isCon = document.getElementById('headerProfileBadge').innerText === 'Conservador';
+      document.getElementById('pitchText').innerText = `Olá! Montei um estudo baseado no comitê InvesTalk de Maio/2026. Como a projeção oficial mostra desancoragem de inflação, o BB orienta fortemente a proteção em IPCA+. Sugiro alocar ${percDebReal}% do capital em Crédito Privado de Infraestrutura (Rating brAAA, ativos premium como Neoenergia e Klabin). O resto continua na LCA. Sem alterar seu perfil ${isCon?'Conservador':'Moderado'}, vamos blindar seu dinheiro contra a inflação e gerar um lucro extra estimado de ${formatBRL(lucroExtra)} isentos de imposto. Podemos alinhar em 5 min amanhã?`;
     }
 
-    // Copiar Roteiro de Conversão para Clipboard
-    function copiarPitch() {
-      const pitchText = document.getElementById('whatsappPitchText').textContent;
-      
-      // Cria elemento temporário para cópia estável em iframe/pages
-      const tempInput = document.createElement("textarea");
-      tempInput.value = pitchText.trim();
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-
-      // Efeito visual temporário de sucesso no banner
-      const banner = document.getElementById('whatsappPitchText').parentElement;
-      const originalBg = banner.className;
-      banner.className = "bg-emerald-950/90 cursor-pointer p-4 rounded-xl border border-emerald-500 text-emerald-200 text-xs leading-relaxed font-sans italic relative transition-all duration-300";
-      
-      setTimeout(() => {
-        banner.className = originalBg;
-      }, 1500);
-    }
-
-    // Inicialização do Escopo do App no carregamento inicial da janela
-    window.onload = function() {
-      // Escutar inputs para recálculo instantâneo sem lentidão
-      const inputIds = ['capital', 'prazo', 'debPct', 'cdiFuturo', 'ipcaFuturo', 'lcaTipo', 'lcaTaxa', 'debTaxa'];
-      inputIds.forEach(id => {
-        document.getElementById(id).addEventListener('input', calcularEstrategia);
-      });
-      document.getElementById('lcaTipo').addEventListener('change', calcularEstrategia);
-
-      // Inicializa com o perfil Conservador por padrão
-      setProfile('conservador');
-    };
+    // Bind Listeners
+    window.addEventListener('DOMContentLoaded', () => {
+      const inputs = ['capital', 'prazo', 'debPct', 'cdiFuturo', 'ipcaFuturo', 'lcaTipo', 'lcaTaxa', 'debTaxa'];
+      inputs.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+      calculate();
+    });
   </script>
 </body>
 </html>
