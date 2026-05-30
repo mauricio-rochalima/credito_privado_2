@@ -166,6 +166,57 @@
           <!-- ÁREA DE EXPORTAÇÃO (Conteúdo que vai pra imagem) -->
           <div id="exportArea" class="flex flex-col gap-6 p-2 -mx-2 bg-slate-100">
             
+            <!-- NOVO CARD 0: O RESUMO EXECUTIVO (Para clientes visuais) -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative mb-2">
+              <div class="bg-gradient-to-r from-blue-800 to-blue-600 text-white p-5 text-center">
+                <h3 class="font-bold text-xl leading-tight">O Resumo da Proposta</h3>
+                <p class="text-blue-100 text-sm opacity-90 mt-1">Sua estratégia blindada em 3 passos simples</p>
+              </div>
+
+              <div class="p-5 space-y-4">
+                
+                <!-- Passo 1: Segurança -->
+                <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="w-12 h-12 shrink-0 bg-blue-100 rounded-full flex items-center justify-center border-2 border-blue-200">
+                    <i data-lucide="lock" class="text-blue-600" width="20" height="20"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-800 text-sm">1. O Cinto de Segurança</h4>
+                    <p class="text-[12px] text-slate-600 leading-tight mt-0.5">
+                      Travamos <strong><span data-out="pctLcaEfetiva"></span>%</strong> do capital na LCA da <span data-out="lcaNovaBanco"></span>. É a sua fundação segura com garantia do FGC e isenção de IR.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Passo 2: Crescimento -->
+                <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="w-12 h-12 shrink-0 bg-green-100 rounded-full flex items-center justify-center border-2 border-green-200">
+                    <i data-lucide="rocket" class="text-green-600" width="20" height="20"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-800 text-sm">2. O Motor de Crescimento</h4>
+                    <p class="text-[12px] text-slate-600 leading-tight mt-0.5">
+                      Usamos <strong><span data-out="pctDebEfetiva"></span>%</strong> em Crédito Privado Premium para garantir ganho acima da inflação, independente de onde a Selic for.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Passo 3: Resultado (O "E Daí?") -->
+                <div class="mt-4 p-4 bg-yellow-50 border border-yellow-300 rounded-xl text-center shadow-inner relative overflow-hidden">
+                  <div class="absolute -right-4 -top-4 opacity-10">
+                    <i data-lucide="coins" width="80" height="80"></i>
+                  </div>
+                  <span class="block text-xs font-bold text-yellow-800 uppercase tracking-wider mb-1">O Benefício no seu Bolso</span>
+                  <p class="text-[13px] text-slate-700 font-medium mb-2 relative z-10">
+                    Em <span data-out="prazo"></span> anos, essa simples divisão vai te entregar o mesmo lucro líquido de um CDB pagando <strong class="text-slate-900"><span data-out="equivCdiPct"></span>% do CDI</strong>, gerando:
+                  </p>
+                  <span class="block text-3xl font-black text-green-600 drop-shadow-sm relative z-10">+ <span data-out="estGanhoAdicional"></span></span>
+                  <span class="block text-[10px] text-yellow-800 mt-1 relative z-10">A mais do que se ficasse 100% na LCA, totalmente isento de IR.</span>
+                </div>
+
+              </div>
+            </div>
+
             <!-- CARD 1: O EFEITO DA INFLAÇÃO -->
             <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative">
               <div class="bg-[#003da5] text-white p-5">
