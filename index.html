@@ -332,7 +332,108 @@
               </div>
             </div>
 
-            <!-- Dicas de Copiar e Colar (Fica fora da imagem de exportação ou dentro, deixei dentro para ajudar o corretor) -->
+            <!-- CARD 5: EQUIVALÊNCIA CDI -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative w-full mt-2">
+              <div class="bg-slate-900 text-white p-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <i data-lucide="bar-chart-horizontal" class="text-yellow-400" width="18" height="18"></i>
+                  <h3 class="font-bold text-md">A Equivalência "Escondida"</h3>
+                </div>
+                <p class="text-slate-300 text-xs">Quanto um investimento com IR precisaria pagar para empatar?</p>
+              </div>
+              <div class="p-5 space-y-4">
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Para conseguir o mesmo retorno líquido (já descontando 15% de IR) que a proposta em <strong>Crédito Privado Isento</strong> oferece, você precisaria encontrar no mercado um CDB que pagasse incríveis:
+                </p>
+                
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center shadow-sm">
+                  <span class="block text-4xl font-black text-slate-800"><span data-out="equivCdiPct"></span>% <span class="text-lg text-slate-600 font-bold">do CDI</span></span>
+                  <span class="block text-xs text-yellow-800 mt-2 font-medium">
+                    (Equivalente a uma taxa bruta de <span data-out="equivCdbAA"></span>)
+                  </span>
+                </div>
+
+                <div class="space-y-3 mt-5">
+                  <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Termômetro de Retorno</h4>
+                  
+                  <div class="relative w-full bg-slate-100 rounded-full h-7 flex items-center shadow-inner overflow-hidden">
+                    <div class="absolute left-0 top-0 h-full bg-slate-300 rounded-full" style="width: 60%"></div>
+                    <span class="relative z-10 text-[11px] font-bold text-slate-700 ml-3 drop-shadow-sm">Sua LCA Nova (<span data-out="lcaNovaTaxa"></span>% CDI)</span>
+                  </div>
+
+                  <div class="relative w-full bg-slate-100 rounded-full h-7 flex items-center shadow-inner overflow-hidden">
+                    <div class="absolute left-0 top-0 h-full bg-slate-400 rounded-full" style="width: 70%"></div>
+                    <span class="relative z-10 text-[11px] font-bold text-white ml-3 drop-shadow-md">CDB Padrão (100% CDI)</span>
+                  </div>
+
+                  <div class="relative w-full bg-slate-100 rounded-full h-7 flex items-center shadow-inner overflow-hidden">
+                    <div class="absolute left-0 top-0 h-full bg-blue-600 rounded-full border border-blue-500" style="width: 100%"></div>
+                    <span class="relative z-10 text-[11px] font-bold text-white ml-3 drop-shadow-md">Debênture (Equivale a <span data-out="equivCdiPct"></span>% CDI Bruto)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 6: COMPARAÇÃO TESOURO E FUNDOS (NOVO ARGUMENTO) -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative w-full mt-2">
+              <div class="bg-red-800 text-white p-4">
+                <div class="flex items-center gap-2 mb-1">
+                  <i data-lucide="alert-triangle" class="text-red-300" width="18" height="18"></i>
+                  <h3 class="font-bold text-md">O Custo das "Taxas Ocultas"</h3>
+                </div>
+                <p class="text-red-200 text-xs">A diferença líquida após <span data-out="prazo"></span> anos ao descontar Impostos, Come-Cotas e B3.</p>
+              </div>
+              
+              <div class="p-5 space-y-4">
+                <p class="text-[13px] text-slate-600 font-medium">
+                  Veja quanto dinheiro você deixaria na mesa se optasse por veículos que não possuem a mesma blindagem tributária da nossa Estratégia Isenta:
+                </p>
+
+                <div class="space-y-3 mt-2">
+                  <!-- Tesouro Selic -->
+                  <div class="flex justify-between items-center p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                    <div class="w-1/2">
+                      <span class="block font-bold text-slate-700 text-sm">Tesouro Selic (Reserva)</span>
+                      <span class="block text-[10px] text-red-500 font-bold mt-0.5">IR (15%) + Taxa B3 (0,2% a.a.)</span>
+                    </div>
+                    <div class="text-right w-1/2">
+                      <span class="block font-bold text-slate-800 text-sm" data-out="tesouroLiquido"></span>
+                      <span class="block text-[11px] text-red-600 font-bold">Perde <span data-out="perdaTesouro"></span></span>
+                    </div>
+                  </div>
+
+                  <!-- Fundo LP -->
+                  <div class="flex justify-between items-center p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                    <div class="w-1/2">
+                      <span class="block font-bold text-slate-700 text-sm">Fundo DI (Longo Prazo)</span>
+                      <span class="block text-[10px] text-red-500 font-bold mt-0.5">Efeito "Come-Cotas" Semestral</span>
+                    </div>
+                    <div class="text-right w-1/2">
+                      <span class="block font-bold text-slate-800 text-sm" data-out="fundoLiquido"></span>
+                      <span class="block text-[11px] text-red-600 font-bold">Perde <span data-out="perdaFundo"></span></span>
+                    </div>
+                  </div>
+
+                  <!-- Estratégia Sugerida -->
+                  <div class="flex justify-between items-center p-3 bg-green-50 border border-green-300 rounded-xl shadow-md transform scale-105 my-2">
+                    <div class="w-1/2">
+                      <span class="block font-black text-green-800 text-sm">Nossa Estratégia</span>
+                      <span class="block text-[10px] text-green-600 font-bold mt-0.5"><span data-out="pctLcaEfetiva"></span>% LCA + <span data-out="pctDebEfetiva"></span>% Debênture</span>
+                    </div>
+                    <div class="text-right w-1/2">
+                      <span class="block font-black text-green-700 text-base" data-out="estTotal"></span>
+                      <span class="block text-[11px] text-green-700 font-bold bg-green-200 px-2 py-0.5 rounded inline-block mt-1">Totalmente Isenta</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-[9px] text-slate-400 text-center mt-4">
+                  *Simulação para <span data-out="prazo"></span> anos. Tesouro considera 100% CDI e isenção da taxa B3 apenas até R$10 mil. Fundo LP considera rentabilidade de 100% CDI e taxa de administração ZERO, isolando apenas o efeito destrutivo matemático do Come-Cotas (15% a cada 6 meses).
+                </p>
+              </div>
+            </div>
+
+            <!-- Dicas de Copiar e Colar -->
             <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 my-2" data-html2canvas-ignore="true">
               <h4 class="flex items-center gap-2 text-sm font-bold text-blue-800 mb-2">
                 <i data-lucide="info" width="16" height="16"></i> Script para enviar junto:
@@ -426,51 +527,6 @@
               </div>
             </div>
 
-            <!-- CARD 5: EQUIVALÊNCIA CDI (NOVO ARGUMENTO DE VENDA) -->
-            <div class="bg-white rounded-2xl overflow-hidden shadow-xl border border-slate-200 relative w-full mt-2">
-              <div class="bg-slate-900 text-white p-4">
-                <div class="flex items-center gap-2 mb-1">
-                  <i data-lucide="bar-chart-horizontal" class="text-yellow-400" width="18" height="18"></i>
-                  <h3 class="font-bold text-md">A Equivalência "Escondida"</h3>
-                </div>
-                <p class="text-slate-300 text-xs">Quanto um investimento com IR precisaria pagar para empatar?</p>
-              </div>
-              <div class="p-5 space-y-4">
-                <p class="text-sm text-slate-600 leading-relaxed">
-                  Para conseguir o mesmo retorno líquido (já descontando 15% de IR) que a proposta em <strong>Crédito Privado Isento</strong> oferece, você precisaria encontrar no mercado um CDB que pagasse incríveis:
-                </p>
-                
-                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center shadow-sm">
-                  <span class="block text-4xl font-black text-slate-800"><span data-out="equivCdiPct"></span>% <span class="text-lg text-slate-600 font-bold">do CDI</span></span>
-                  <span class="block text-xs text-yellow-800 mt-2 font-medium">
-                    (Equivalente a uma taxa bruta de <span data-out="equivCdbAA"></span>)
-                  </span>
-                </div>
-
-                <div class="space-y-3 mt-5">
-                  <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Termômetro de Retorno</h4>
-                  
-                  <!-- Barra LCA -->
-                  <div class="relative w-full bg-slate-100 rounded-full h-7 flex items-center shadow-inner overflow-hidden">
-                    <div class="absolute left-0 top-0 h-full bg-slate-300 rounded-full" style="width: 60%"></div>
-                    <span class="relative z-10 text-[11px] font-bold text-slate-700 ml-3 drop-shadow-sm">Sua LCA Nova (<span data-out="lcaNovaTaxa"></span>% CDI)</span>
-                  </div>
-
-                  <!-- Barra CDB -->
-                  <div class="relative w-full bg-slate-100 rounded-full h-7 flex items-center shadow-inner overflow-hidden">
-                    <div class="absolute left-0 top-0 h-full bg-slate-400 rounded-full" style="width: 70%"></div>
-                    <span class="relative z-10 text-[11px] font-bold text-white ml-3 drop-shadow-md">CDB Padrão (100% CDI)</span>
-                  </div>
-
-                  <!-- Barra Debênture -->
-                  <div class="relative w-full bg-slate-100 rounded-full h-7 flex items-center shadow-inner overflow-hidden">
-                    <div class="absolute left-0 top-0 h-full bg-blue-600 rounded-full border border-blue-500" style="width: 100%"></div>
-                    <span class="relative z-10 text-[11px] font-bold text-white ml-3 drop-shadow-md">Debênture (Equivale a <span data-out="equivCdiPct"></span>% CDI Bruto)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div> <!-- Fim exportArea -->
         </div>
       </div>
@@ -483,17 +539,17 @@
     // ESTADO E LÓGICA DE NEGÓCIO (Vanilla JS)
     // ==========================================
     const state = {
-      capital: 500000,
+      capital: 300000,
       prazo: 5,
-      cdiPassado: 10.87,
-      ipcaPassado: 4.62,
+      cdiPassado: 14.45,
+      ipcaPassado: 4.5,
       lcaVencidaTipo: 'pos',
       lcaVencidaTaxa: 90,
-      cdiFuturo: 11.5,
-      ipcaFuturo: 5.5,
-      lcaNovaBanco: 'Itaú',
+      cdiFuturo: 13.5,
+      ipcaFuturo: 5,
+      lcaNovaBanco: 'Banco ABC',
       lcaNovaTipo: 'pos',
-      lcaNovaTaxa: 90,
+      lcaNovaTaxa: 85,
       debTaxa: 7.5,
       debPctDesejado: 10
     };
@@ -565,13 +621,39 @@
       const estTotal = propDebFinal + propLcaFinal;
       const estGanhoAdicional = estTotal - lcaNominal;
 
-      // --- Equivalência CDB/CDI (NOVO ARGUMENTO) ---
-      // Para encontrar o CDB equivalente, usamos IR longo (15%)
+      // --- Equivalência CDB/CDI ---
       const irRate = 0.15; 
-      const debNominalAATaxa = debTaxaAA; // ex: 0.1341 (13.41% em decimal)
-      const equivCdbAA = debNominalAATaxa / (1 - irRate); // taxa bruta necessária para sobrar o mesmo valor
+      const debNominalAATaxa = debTaxaAA;
+      const equivCdbAA = debNominalAATaxa / (1 - irRate);
       const cdiFuturoAA = state.cdiFuturo / 100;
       const equivCdiPct = (equivCdbAA / cdiFuturoAA) * 100;
+
+      // --- COMPARAÇÃO: TESOURO SELIC vs FUNDO LP (NOVO) ---
+      
+      // 1. Tesouro Selic (100% CDI) com IR (15%) e B3 (0,2% sobre o que excede 10 mil)
+      let tesouroMontante = state.capital;
+      for(let i=0; i<state.prazo; i++){
+        let rend = tesouroMontante * cdiFuturoAA;
+        let taxaB3 = tesouroMontante > 10000 ? (tesouroMontante - 10000) * 0.002 : 0;
+        tesouroMontante = tesouroMontante + rend - taxaB3;
+      }
+      let tesouroLucroBruto = tesouroMontante - state.capital;
+      let tesouroIR = tesouroLucroBruto * 0.15; // Regressiva: maior que 720 dias
+      let tesouroLiquido = tesouroMontante - tesouroIR;
+
+      // 2. Fundo Longo Prazo (Come-cotas) - Simulação semestral perfeita (isento de taxa adm p/ piorar o cenário só por imposto)
+      let fundoMontante = state.capital;
+      const taxaSemestre = Math.pow(1 + cdiFuturoAA, 0.5) - 1; // CDI convertido pra semestre
+      const semestresTotais = state.prazo * 2;
+      for(let i=0; i<semestresTotais; i++){
+        let rend = fundoMontante * taxaSemestre;
+        let comeCotas = rend * 0.15; // 15% descontado na cota a cada 6 meses
+        fundoMontante = fundoMontante + rend - comeCotas;
+      }
+      let fundoLiquido = fundoMontante;
+
+      const perdaTesouro = estTotal - tesouroLiquido;
+      const perdaFundo = estTotal - fundoLiquido;
 
       // --- Tabela Histórico ---
       const historicoData = [
@@ -615,9 +697,15 @@
       setOut('estGanhoAdicional', formatBRL(estGanhoAdicional));
       setOut('lucroRealEstrategia', formatBRL(estTotal - baseInflacionada));
 
-      // Binds da Equivalência (NOVO)
+      // Binds da Equivalência
       setOut('equivCdiPct', formatCleanPct(equivCdiPct));
       setOut('equivCdbAA', formatPct(equivCdbAA * 100) + ' a.a.');
+
+      // Binds Comparação Tesouro e Fundo (NOVO)
+      setOut('tesouroLiquido', formatBRL(tesouroLiquido));
+      setOut('perdaTesouro', formatBRL(perdaTesouro));
+      setOut('fundoLiquido', formatBRL(fundoLiquido));
+      setOut('perdaFundo', formatBRL(perdaFundo));
 
       setOut('cdiPassado', state.cdiPassado);
       setOut('ipcaPassado', state.ipcaPassado);
