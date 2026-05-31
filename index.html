@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -9,94 +9,84 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{
-  /* Paleta Material Design - BB Adaptada */
-  --bg:#eceff4; --surface:#ffffff; --surface2:#f6f8fc;
-  --primary:#1565c0; --primary-d:#0d47a1; --primary-l:#e3f0fd;
-  --accent:#ffc400; --accent-d:#b8860b;
-  --ink:#1a2433; --ink2:#475569; --ink3:#9aa6b8;
-  --green:#2e9c63; --green-l:#e3f4ec;
-  --red:#e04b39; --red-l:#fbe6e2;
-  --line:#e2e8f0; --line2:#cbd5e1;
-  /* Escala de Risco */
-  --r1:#2e9c63; --r2:#7cb342; --r3:#ffb300; --r4:#fb8c00; --r5:#e04b39;
-  /* Sombras */
-  --e1:0 1px 3px rgba(26,36,51,.12),0 1px 2px rgba(26,36,51,.08);
-  --e2:0 4px 6px rgba(26,36,51,.10),0 2px 4px rgba(26,36,51,.06);
-  --e3:0 10px 15px rgba(26,36,51,.10),0 4px 6px rgba(26,36,51,.05);
-  --e4:0 20px 25px rgba(26,36,51,.10),0 10px 10px rgba(26,36,51,.04);
-  /* Tipografia */
+  /* Material + cores BB (azul e amarelo) sobre fundo branco */
+  --bg:#ffffff; --surface:#ffffff; --surface2:#f4f7fd;
+  --primary:#0040a8; --primary-d:#002b6b; --primary-l:#e6eefb;
+  --accent:#fcd500; --accent-soft:#fff6c4; --accent-d:#8a6d00;
+  --ink:#10213d; --ink2:#46587a; --ink3:#93a1b8;
+  --green:#1f9d57; --green-d:#15733f; --green-l:#e3f6ec;
+  --red:#d94436; --red-l:#fbe7e4;
+  --line:#e6ecf5; --line2:#cdd8ea;
+  --r1:#1f9d57; --r2:#7cb342; --r3:#ffb300; --r4:#fb8c00; --r5:#d94436;
+  --e1:0 1px 3px rgba(16,33,61,.10),0 1px 2px rgba(16,33,61,.06);
+  --e2:0 4px 10px rgba(16,33,61,.08),0 2px 4px rgba(16,33,61,.05);
+  --e3:0 12px 24px rgba(16,33,61,.10),0 4px 8px rgba(16,33,61,.05);
+  --e4:0 22px 40px rgba(16,33,61,.14);
   --sans:'Roboto',sans-serif; --slab:'Roboto Slab',serif; --mono:'Roboto Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-/* Aumentada a fonte base de 16px para 18px para melhorar a legibilidade */
 html{font-size:18px;scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .mi{font-family:'Material Icons';font-style:normal;line-height:1;vertical-align:middle}
+b,strong{font-weight:700}
 
-/* BOTOES FLUTUANTES (FAB) & CONFIG */
-.fab-container { position:fixed; bottom:24px; right:24px; z-index:120; display:flex; flex-direction:column; gap:12px; }
-.fab{background:var(--primary);color:#fff;border:none;padding:0 24px;height:56px;border-radius:28px;cursor:pointer;font-size:15px;font-weight:500;font-family:var(--sans);box-shadow:var(--e3);display:flex;align-items:center;gap:10px;transition:transform 0.2s, background 0.2s}
-.fab:hover{box-shadow:var(--e4); transform:translateY(-2px)}
-.fab.btn-pdf { background: var(--accent); color: var(--ink); font-weight: 700; }
-.fab.btn-pdf:hover { background: var(--accent-d); }
-
+/* FAB + CONFIG */
+.fab-container{position:fixed;bottom:24px;right:24px;z-index:120;display:flex;flex-direction:column;gap:12px}
+.fab{background:var(--primary);color:#fff;border:none;padding:0 24px;height:56px;border-radius:28px;cursor:pointer;font-size:15px;font-weight:700;font-family:var(--sans);box-shadow:var(--e3);display:flex;align-items:center;gap:10px;transition:transform .2s,background .2s}
+.fab:hover{box-shadow:var(--e4);transform:translateY(-2px)}
+.fab.btn-pdf{background:var(--accent);color:var(--ink)}
+.fab.btn-pdf:hover{background:#e6c200}
 .cfg{position:fixed;top:0;right:0;width:380px;height:100vh;background:var(--surface);overflow-y:auto;padding:0 0 30px;z-index:130;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--e4)}
 .cfg.open{transform:translateX(0)}
 .cfg-top{position:sticky;top:0;background:var(--primary);color:#fff;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;z-index:2}
-.cfg-top h2{font-size:16px;font-weight:500}
+.cfg-top h2{font-size:16px;font-weight:700}
 .cfg-top button{background:none;border:none;color:#fff;cursor:pointer;font-size:24px}
 .cfg-in{padding:20px 24px}
-.cfg h3{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--primary);margin:24px 0 14px; border-bottom: 1px solid var(--line); padding-bottom:6px}
+.cfg h3{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--primary);margin:24px 0 14px;border-bottom:1px solid var(--line);padding-bottom:6px}
 .cfg h3:first-child{margin-top:4px}
 .fld{position:relative;margin-bottom:16px}
 .fld label{font-size:12px;color:var(--ink2);display:block;margin-bottom:6px;font-weight:500}
 .cfg input,.cfg select{width:100%;background:var(--surface2);border:none;border-bottom:2px solid var(--line2);color:var(--ink);padding:10px 12px;border-radius:6px 6px 0 0;font-size:14px;font-family:var(--sans);outline:none;transition:border-color .2s}
-.cfg input:focus,.cfg select:focus{border-bottom-color:var(--primary); background:#fff}
+.cfg input:focus,.cfg select:focus{border-bottom-color:var(--primary);background:#fff}
 .cfg .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mbtn{width:100%;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500;font-family:var(--sans);box-shadow:var(--e1);display:flex;align-items:center;justify-content:center;gap:6px}
+.mbtn{width:100%;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:700;font-family:var(--sans);box-shadow:var(--e1);display:flex;align-items:center;justify-content:center;gap:6px}
 .mbtn.ghost{background:var(--primary-l);color:var(--primary);box-shadow:none}
-.fgc-note{display:none;border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.5;margin-top:12px; border: 1px solid transparent}
+.fgc-note{display:none;border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.5;margin-top:12px;border:1px solid transparent}
 .fgc-note.show{display:block}
-.fgc-note.ok{background:var(--green-l);color:var(--green); border-color: var(--green)}
-.fgc-note.warn{background:var(--red-l);color:var(--red); border-color: var(--red)}
-
-/* FUND EDITOR */
+.fgc-note.ok{background:var(--green-l);color:var(--green-d);border-color:var(--green)}
+.fgc-note.warn{background:var(--red-l);color:var(--red);border-color:var(--red)}
 .fund-row{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
 .fund-row .fr-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.fund-row .fr-top input{font-weight:500; font-size: 14px;}
+.fund-row .fr-top input{font-weight:700;font-size:14px;flex:1}
 .fund-row .fr-del{flex-shrink:0;background:var(--red-l);color:var(--red);border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}
 .fund-row .fr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.fund-row .fr-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px; margin-top:8px}
-.fund-row input,.fund-row select{margin:0;font-size:13px;padding:8px 8px}
+.fund-row .fr-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.fund-row input,.fund-row select{margin:0;font-size:13px;padding:8px}
 .fr-mini{font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;display:block}
 
-/* NAVEGACAO E PROGRESSO */
+/* PROGRESS + DOTS */
 .progress{position:fixed;top:0;left:0;height:4px;background:var(--accent);width:0;z-index:130;transition:width .4s}
 .dots{position:fixed;left:30px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:110}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--line2);cursor:pointer;transition:all .25s;border:none;padding:0}
 .dot.active{background:var(--primary);transform:scale(1.5)}
 
-/* SLIDES GERAL */
+/* SLIDES */
 .slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 10vw;position:relative}
 .slide-tag{position:absolute;top:40px;left:10vw;font-size:12px;letter-spacing:.06em;color:var(--ink3);font-family:var(--mono)}
 .slide-tag b{color:var(--primary);font-weight:700}
-
-/* TIPOGRAFIA */
-.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:16px; display: inline-block; background: var(--primary-l); padding: 4px 12px; border-radius: 99px;}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:16px;display:inline-block;background:var(--primary-l);padding:5px 14px;border-radius:99px}
 .h1{font-family:var(--slab);font-size:clamp(38px,5vw,68px);font-weight:900;line-height:1.1;letter-spacing:-.015em}
-.h2{font-family:var(--slab);font-size:clamp(32px,4vw,52px);font-weight:700;line-height:1.15}
-.h3{font-family:var(--slab);font-size:clamp(22px,2.6vw,32px);font-weight:500;line-height:1.2}
+.h2{font-family:var(--slab);font-size:clamp(32px,4vw,52px);font-weight:900;line-height:1.15}
+.h3{font-family:var(--slab);font-size:clamp(22px,2.6vw,32px);font-weight:700;line-height:1.2}
 .h1 em,.h2 em{font-style:normal;color:var(--primary)}
-.lead{font-size:clamp(17px,1.5vw,20px);color:var(--ink2);max-width:700px;margin-top:16px;font-weight:400; line-height: 1.7}
-
-.chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border-radius:99px;padding:8px 18px;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:24px;box-shadow:var(--e1)}
+.lead{font-size:clamp(17px,1.5vw,20px);color:var(--ink2);max-width:700px;margin-top:16px;font-weight:400;line-height:1.7}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border-radius:99px;padding:8px 18px;font-size:14px;font-weight:700;color:var(--ink2);margin-bottom:24px;box-shadow:var(--e1)}
 .chip .mi{font-size:18px;color:var(--primary)}
+.card{background:var(--surface);border-radius:16px;box-shadow:var(--e2);overflow:hidden;border:1px solid var(--line)}
 
-.card{background:var(--surface);border-radius:16px;box-shadow:var(--e2); overflow: hidden; border: 1px solid var(--line)}
-
-/* S0 - CAPA */
-.s0{background:linear-gradient(135deg,#f4f8ff 0%,#e7eef9 100%)}
+/* CAPA */
+.s0{background:linear-gradient(135deg,#ffffff 0%,#eef4fe 100%)}
 .s0-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;width:100%}
 .s0-stats{display:flex;flex-direction:column;gap:16px}
 .s0-stat{background:var(--surface);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:20px;box-shadow:var(--e2)}
@@ -105,7 +95,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .s0-stat-v{font-family:var(--slab);font-size:28px;font-weight:900;line-height:1}
 .s0-stat-l{font-size:14px;color:var(--ink2);margin-top:4px;font-weight:400}
 
-/* S1 & S2 - HISTORICO E RAIO-X */
+/* HISTÓRICO + RAIO-X */
 .histgrid{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;width:100%;align-items:center;margin-top:16px}
 .hist{padding:24px}
 .hist-head{display:grid;grid-template-columns:60px 1fr 110px;gap:16px;align-items:center;padding:0 8px 14px;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)}
@@ -120,44 +110,34 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .hfill{height:100%;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap;width:0;transition:width 1s cubic-bezier(.4,0,.2,1)}
 .hf-cdi{background:var(--primary)} .hf-ipca{background:var(--red)}
 .hreal{text-align:right;font-family:var(--mono);font-size:15px;font-weight:700;padding:6px 12px;border-radius:8px}
-.hreal.pos{color:var(--green);background:var(--green-l)}
+.hreal.pos{color:var(--green-d);background:var(--green-l)}
 .hreal.neg{color:var(--red);background:var(--red-l)}
-
 .licao{background:var(--ink);color:#fff;border-radius:16px;padding:32px;box-shadow:var(--e3)}
 .licao .lk{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 .licao p{font-size:18px;line-height:1.6;color:rgba(255,255,255,.9);font-weight:300}
-.licao p b{color:#fff;font-weight:600}
+.licao p b{color:var(--accent);font-weight:700}
 .licao .mi{font-size:40px;color:var(--accent);margin-bottom:12px}
-
 .dtable{width:100%;max-width:600px;font-size:17px;padding:12px 28px}
 .dtable tr{border-bottom:1px solid var(--line)}
 .dtable tr:last-child{border-bottom:none}
-.dtable td{padding:18px 0; vertical-align: middle}
+.dtable td{padding:18px 0;vertical-align:middle}
 .dtable td:last-child{text-align:right;font-family:var(--mono);font-weight:700}
 .dtable .k{color:var(--ink2);font-weight:400}
-.tred{color:var(--red)} .tgreen{color:var(--green)} .tblue{color:var(--primary)}
-.dtable .big td{font-size:20px;font-weight:700; background: var(--surface2); padding: 18px 24px; margin: 0 -28px; border-radius: 12px;}
+.tred{color:var(--red)} .tgreen{color:var(--green-d)} .tblue{color:var(--primary)}
+.dtable .big td{font-size:20px;font-weight:900;background:var(--accent-soft);padding:18px 16px;border-radius:12px}
 
-/* S3 - RISCOS */
+/* RISCOS */
 .riskgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;width:100%;margin-top:40px}
-.riskcard{background:var(--surface);border-radius:16px;padding:32px;box-shadow:var(--e2); border: 1px solid var(--line)}
-.riskcard .ri-ico{width:56px;height:56px;border-radius:50%;background:var(--red-l);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.riskcard .ri-ico .mi{font-size:28px;color:var(--red)}
+.riskcard{background:var(--surface);border-radius:16px;padding:32px;box-shadow:var(--e2);border:1px solid var(--line)}
+.riskcard .ri-ico{width:56px;height:56px;border-radius:50%;background:var(--primary-l);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.riskcard .ri-ico .mi{font-size:28px;color:var(--primary)}
 .riskcard h4{font-size:18px;font-weight:700;margin-bottom:10px}
 .riskcard p{font-size:15px;color:var(--ink2);line-height:1.6;font-weight:400}
-.riskcard p b{color:var(--red);font-weight:600}
-.asym{background:linear-gradient(120deg,var(--primary-d),var(--primary));color:#fff;border-radius:16px;padding:32px 40px;margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;box-shadow:var(--e3)}
-.asym .as-q{font-family:var(--slab);font-size:24px;line-height:1.4;flex:1;min-width:280px;font-weight:400}
-.asym .as-q b{color:var(--accent);font-weight:700}
-.asym .as-fig{display:flex;gap:32px}
-.asym .as-num{text-align:center}
-.asym .as-num .n{font-family:var(--mono);font-size:40px;font-weight:700}
-.asym .as-num .l{font-size:12px;color:rgba(255,255,255,.7);margin-top:6px}
-.n-bad{color:#ffc9bb} .n-good{color:#a7f0cf}
+.riskcard p b{color:var(--primary);font-weight:700}
 
-/* S4 - SOLUCAO / CURADORIA */
+/* SOLUÇÃO */
 .layers{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;width:100%;margin-top:36px}
-.layer{background:var(--surface);border-radius:16px;padding:28px;box-shadow:var(--e2);position:relative;overflow:hidden; border: 1px solid var(--line)}
+.layer{background:var(--surface);border-radius:16px;padding:28px;box-shadow:var(--e2);position:relative;overflow:hidden;border:1px solid var(--line)}
 .layer::before{content:'';position:absolute;top:0;left:0;right:0;height:6px}
 .layer.l1::before{background:var(--primary)} .layer.l2::before{background:var(--green)}
 .layer.l3::before{background:var(--accent)} .layer.l4::before{background:var(--red)}
@@ -166,102 +146,127 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .layer .ly-tag{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
 .layer h4{font-size:17px;font-weight:700;margin-bottom:8px}
 .layer .ly-role{font-size:15px;color:var(--ink2);line-height:1.6;font-weight:400}
-.oneliner{margin-top:32px;font-size:18px;color:var(--ink);max-width:800px;font-weight:400; background: var(--surface); padding: 20px; border-radius: 12px; border-left: 6px solid var(--primary); box-shadow: var(--e1)}
-.oneliner b{color:var(--primary);font-weight:600}
+.oneliner{margin-top:32px;font-size:18px;color:var(--ink);max-width:800px;font-weight:400;background:var(--surface);padding:20px 24px;border-radius:12px;border-left:6px solid var(--accent);box-shadow:var(--e1)}
+.oneliner b{color:var(--primary);font-weight:700}
 
-/* S5 - ROSCA (DONUT) */
+/* ROSCA */
 .donut-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;width:100%;align-items:center;margin-top:20px}
-.donut-wrap{background:var(--surface);border-radius:20px;padding:40px;box-shadow:var(--e2);position:relative; border: 1px solid var(--line)}
+.donut-wrap{background:var(--surface);border-radius:20px;padding:40px;box-shadow:var(--e2);position:relative;border:1px solid var(--line)}
 .donut-center{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
 .donut-center .dc-v{font-family:var(--slab);font-size:36px;font-weight:900;color:var(--ink)}
 .donut-center .dc-l{font-size:13px;color:var(--ink2);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
 .risk-legend{display:flex;flex-direction:column;gap:16px}
-.rl-item{display:flex;align-items:center;gap:18px;background:var(--surface);border-radius:16px;padding:20px 24px;box-shadow:var(--e1); border: 1px solid var(--line)}
+.rl-item{display:flex;align-items:center;gap:18px;background:var(--surface);border-radius:16px;padding:20px 24px;box-shadow:var(--e1);border:1px solid var(--line)}
 .rl-dot{width:18px;height:18px;border-radius:6px;flex-shrink:0}
-.rl-name{font-size:16px;font-weight:600}
+.rl-name{font-size:16px;font-weight:700}
 .rl-sub{font-size:14px;color:var(--ink2);font-weight:400}
 .rl-pct{margin-left:auto;font-family:var(--mono);font-size:22px;font-weight:700}
 
-/* S6 - COMPOSICAO + PROJECAO */
+/* COMPOSIÇÃO */
 .s5-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:36px;width:100%;align-items:start;margin-top:28px}
-.comp{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:16px;box-shadow:var(--e1); border: 1px solid var(--line)}
+.comp{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:16px;box-shadow:var(--e1);border:1px solid var(--line)}
 .comp-head{display:grid;grid-template-columns:auto 1fr auto auto;gap:20px;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line)}
 .comp-ico{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .comp-ico .mi{font-size:26px;color:#fff}
-.comp-name{font-size:17px;font-weight:600}
+.comp-name{font-size:17px;font-weight:700}
 .comp-sub{font-size:14px;color:var(--ink2);margin-top:4px;font-weight:400}
-.risk-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:6px 14px;border-radius:99px;white-space:nowrap}
+.risk-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:6px 14px;border-radius:99px;white-space:nowrap}
 .comp-pct{font-family:var(--slab);font-size:32px;font-weight:900;line-height:1}
-.comp-pct small{font-size:16px;font-family:var(--sans);font-weight:500;color:var(--ink3)}
-.comp-body{display:grid;grid-template-columns:repeat(4,1fr)}
+.comp-pct small{font-size:16px;font-family:var(--sans);font-weight:700;color:var(--ink3)}
+.comp-body{display:grid;grid-template-columns:repeat(2,1fr)}
 .comp-stat{padding:16px 20px;border-right:1px solid var(--line);font-size:14px}
 .comp-stat:last-child{border-right:none}
 .comp-stat .cs-l{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
-.comp-stat .cs-v{font-weight:600}
+.comp-stat .cs-v{font-weight:700}
 .comp-stat .cs-v.mono{font-family:var(--mono)}
-
 .chart-wrap{padding:28px}
 .chart-wrap h4{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);margin-bottom:12px}
 .chart-cap{font-size:13px;color:var(--ink3);margin-top:16px;line-height:1.5;font-weight:400}
 
-/* S8 - MEMORIA DE CALCULO */
-.calc-table{width:100%;font-size:16px;border-collapse:collapse; background: var(--surface); border-radius: 16px; overflow: hidden; box-shadow: var(--e2); border: 1px solid var(--line)}
-.calc-table th{background:var(--primary);color:#fff;padding:18px 24px;text-align:left;font-weight:600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;}
-.calc-table td{padding:18px 24px;border-bottom:1px solid var(--line); vertical-align: middle;}
-.calc-table tr:last-child td{border-bottom:none; font-weight:700; background: var(--primary-l); font-size: 18px;}
-.calc-table .num{font-family:var(--mono);text-align:right; font-weight: 500;}
+/* TABELAS GERAIS */
+.gtable{width:100%;border-collapse:collapse;font-size:16px;background:var(--surface);border-radius:16px;overflow:hidden;box-shadow:var(--e2);border:1px solid var(--line)}
+.gtable th{background:var(--primary);color:#fff;padding:18px 22px;text-align:left;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.gtable td{padding:18px 22px;border-bottom:1px solid var(--line);vertical-align:middle}
+.gtable tr:last-child td{border-bottom:none}
+.gtable .num{font-family:var(--mono);text-align:right;font-weight:700}
+.calc-table tr:last-child td{font-weight:900;background:var(--accent-soft);font-size:18px}
 .tagp{display:inline-block;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700}
-.tagp.g{background:var(--green-l);color:var(--green)}
-.tagp.r{background:var(--red-l);color:var(--red)}
-.tagp.b{background:var(--primary-l);color:var(--primary)}
+.tagp.g{background:var(--green-l);color:var(--green-d)} .tagp.r{background:var(--red-l);color:var(--red)} .tagp.b{background:var(--primary-l);color:var(--primary)}
 
-/* S9 - FECHAMENTO */
-.s8{background:linear-gradient(135deg,#f4f8ff 0%,#e7eef9 100%)}
+/* COMPARAÇÃO FINAL */
+.cmp-table td.dim{font-weight:700;color:var(--ink);width:30%}
+.cmp-table td.lca{color:var(--ink2);width:35%}
+.cmp-table td.dv{width:35%}
+.cmp-table td.dv.win{background:var(--green-l);color:var(--green-d);font-weight:700}
+.cmp-table td.dv.win .mi{color:var(--green)}
+.cmp-head-lca{background:var(--ink3)!important}
+.cmp-head-div{background:var(--green)!important}
+
+/* FECHAMENTO */
+.s10{background:linear-gradient(135deg,#ffffff 0%,#eef4fe 100%)}
 .s8-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;width:100%;align-items:center}
 .s6-bars{padding:28px 32px;margin-bottom:24px}
 .barrow{margin-bottom:20px}
 .barrow:last-child{margin-bottom:0}
 .barmeta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.barname{font-size:15px;color:var(--ink2);font-weight:500}
+.barname{font-size:15px;color:var(--ink2);font-weight:700}
 .baramt{font-family:var(--mono);font-size:18px;font-weight:700}
 .bartrack{height:36px;background:var(--surface2);border-radius:10px;overflow:hidden}
 .barfill{height:100%;display:flex;align-items:center;padding-left:16px;font-size:13px;font-weight:700;color:#fff;white-space:nowrap;width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
-.bf-lca{background:var(--ink3)} .bf-div{background:linear-gradient(90deg,var(--green),#3bbd7c)}
+.bf-lca{background:var(--ink3)} .bf-div{background:linear-gradient(90deg,var(--green-d),var(--green))}
 .sum-step{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
 .sum-step:last-child{border-bottom:none}
-.sum-n{width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:18px}
+.sum-n{width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;font-size:18px}
 .sum-t{font-size:17px;font-weight:700;margin-bottom:4px}
 .sum-d{font-size:15px;color:var(--ink2);line-height:1.6;font-weight:400}
-.sum-v{font-family:var(--mono);font-size:15px;color:var(--green);margin-top:6px; font-weight: 700;}
 .disc{font-size:12px;color:var(--ink3);line-height:1.55;margin-top:24px;font-weight:400}
 
-/* IMPRESSAO (Gerar PDF) */
-@media print {
-  body { background: #fff; overflow: visible; display: block; font-size: 14px; }
-  .fab-container, .cfg, .dots, .progress { display: none !important; }
-  .slide { page-break-after: always; min-height: 100vh; height: 100vh; padding: 40px 60px; justify-content: center; background: #fff !important; border: none; }
-  @page { size: landscape; margin: 0; }
-  .card { box-shadow: none; border: 1px solid #ccc; }
-  .grid-2, .s0-grid, .histgrid, .s5-grid, .s8-grid, .donut-grid { gap: 32px; }
-  .h1 { font-size: 46px; }
-  .h2 { font-size: 36px; }
-  .lead { font-size: 16px; margin-top: 12px; }
-  .calc-table td, .calc-table th { padding: 12px; }
-  .riskgrid { gap: 16px; margin-top: 20px;}
-  .layers { gap: 12px; margin-top: 20px;}
-  .asym { padding: 24px; }
-  .layer { padding: 20px; }
+/* ===== IMPRESSÃO: FORMATO CELULAR (retrato 9:16) COM CORES VIVAS ===== */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{size:108mm 192mm;margin:0}
+  html{font-size:13px}
+  body{background:#fff}
+  .fab-container,.cfg,.dots,.progress{display:none!important}
+  .slide{page-break-after:always;break-after:page;min-height:192mm;height:auto;padding:13mm 8mm;justify-content:flex-start;border:none}
+  .h1{font-size:30px} .h2{font-size:24px;line-height:1.12} .h3{font-size:19px}
+  .lead{font-size:12.5px;margin-top:8px;line-height:1.5}
+  .eyebrow{font-size:11px;margin-bottom:10px}
+  .chip{font-size:11px;margin-bottom:12px}
+  .s0-grid,.histgrid,.s5-grid,.donut-grid,.s8-grid{grid-template-columns:1fr!important;gap:14px!important}
+  .riskgrid,.layers{grid-template-columns:1fr!important;gap:8px!important}
+  .comp-body{grid-template-columns:1fr 1fr!important}
+  .riskcard,.layer{padding:16px}
+  .donut-wrap{padding:18px}
+  canvas{max-height:130mm!important}
+  .gtable th,.gtable td{padding:9px 10px;font-size:11px}
+  .dtable td{padding:10px 0;font-size:13px}
+  .s0-stat{padding:13px 16px;gap:12px} .s0-stat .si{width:42px;height:42px}
+  /* fundos vivos por seção */
+  .pbg-blue{background:linear-gradient(160deg,var(--primary-d),var(--primary))!important;color:#fff!important}
+  .pbg-green{background:linear-gradient(160deg,var(--green-d),var(--green))!important;color:#fff!important}
+  .pbg-yellow{background:linear-gradient(160deg,#ffe24d,var(--accent))!important;color:var(--ink)!important}
+  .pbg-blue .h1,.pbg-blue .h2,.pbg-blue .h3,.pbg-blue .lead,.pbg-blue .h1 em,.pbg-blue .h2 em{color:#fff!important}
+  .pbg-green .h1,.pbg-green .h2,.pbg-green .h3,.pbg-green .lead{color:#fff!important}
+  .pbg-yellow .h2,.pbg-yellow .h3,.pbg-yellow .lead,.pbg-yellow .h2 em{color:var(--ink)!important}
+  .pbg-blue .eyebrow,.pbg-green .eyebrow,.pbg-blue .chip{background:rgba(255,255,255,.2)!important;color:#fff!important}
+  .pbg-yellow .eyebrow{background:rgba(0,0,0,.12)!important;color:var(--ink)!important}
+  .pbg-blue .slide-tag,.pbg-green .slide-tag{color:rgba(255,255,255,.7)!important}
+  .pbg-blue .slide-tag b,.pbg-green .slide-tag b{color:#fff!important}
+  .pbg-blue .card,.pbg-green .card,.pbg-yellow .card,.pbg-green .gtable,.pbg-blue .s0-stat{background:#fff!important;color:var(--ink)!important;box-shadow:0 6px 14px rgba(0,0,0,.18)!important}
+  .pbg-green .gtable th{background:var(--green-d)!important}
 }
 
 @media(max-width:980px){
-  .slide{padding:80px 24px}
-  .slide-tag{left:24px}
+  .slide{padding:80px 22px}
+  .slide-tag{left:22px}
   .dots{display:none}
   .s0-grid,.s5-grid,.s8-grid,.histgrid,.donut-grid{grid-template-columns:1fr;gap:32px}
   .riskgrid,.layers{grid-template-columns:1fr 1fr}
   .comp-body{grid-template-columns:1fr 1fr}
   .cfg{width:100%}
-  .fab-container { right: 16px; bottom: 16px; }
+  .fab-container{right:16px;bottom:16px}
+  .gtable{font-size:13px} .gtable th,.gtable td{padding:12px 10px}
 }
 </style>
 </head>
@@ -272,241 +277,226 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <div class="fab-container">
   <button class="fab" onclick="toggleCfg()"><span class="mi">tune</span> Parâmetros</button>
-  <button class="fab btn-pdf" onclick="gerarPDF()"><span class="mi">print</span> Gerar PDF</button>
+  <button class="fab btn-pdf" onclick="gerarPDF()"><span class="mi">smartphone</span> Gerar PDF</button>
 </div>
 
-<!-- PAINEL DE CONFIGURACOES -->
+<!-- PAINEL -->
 <div class="cfg" id="cfg">
-  <div class="cfg-top"><h2>Ajustar Proposta</h2><button onclick="toggleCfg()"><span class="mi">close</span></button></div>
+  <div class="cfg-top"><h2>Ajustar proposta</h2><button onclick="toggleCfg()"><span class="mi">close</span></button></div>
   <div class="cfg-in">
-    <h3>Dados do Cliente</h3>
+    <h3>Dados do cliente</h3>
     <div class="row">
       <div class="fld"><label>Capital (R$)</label><input type="number" id="capital" value="300000"/></div>
-      <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="1"/></div>
+      <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="3"/></div>
     </div>
-    <button class="mbtn ghost" onclick="checarFGC()"><span class="mi">verified_user</span> Otimizar Limite FGC</button>
+    <button class="mbtn ghost" onclick="checarFGC()"><span class="mi">verified_user</span> Otimizar limite FGC</button>
     <div class="fgc-note" id="fgcNote"></div>
 
-    <h3>Cenário Futuro Estimado</h3>
+    <h3>Cenário futuro estimado</h3>
     <div class="row">
       <div class="fld"><label>CDI (% a.a.)</label><input type="number" step="0.01" id="cdi" value="13.35"/></div>
       <div class="fld"><label>IPCA (% a.a.)</label><input type="number" step="0.01" id="ipca" value="5"/></div>
     </div>
 
-    <h3>Raio-X (A LCA que Venceu)</h3>
+    <h3>Raio-x (a LCA que venceu)</h3>
     <div class="row">
-      <div class="fld"><label>CDI Realizado (%)</label><input type="number" step="0.01" id="cdiPass" value="14.45"/></div>
-      <div class="fld"><label>IPCA Realizado (%)</label><input type="number" step="0.01" id="ipcaPass" value="4.62"/></div>
+      <div class="fld"><label>CDI realizado (%)</label><input type="number" step="0.01" id="cdiPass" value="14.45"/></div>
+      <div class="fld"><label>IPCA realizado (%)</label><input type="number" step="0.01" id="ipcaPass" value="4.62"/></div>
     </div>
     <div class="fld"><label>Banco da nova LCA</label><input type="text" id="banco" value="Banco ABC"/></div>
+    <div class="fld"><label>Taxa da LCA única (% CDI)</label><input type="number" step="0.1" id="lcaTaxa" value="90"/></div>
 
-    <h3>Composição da Carteira (100%)</h3>
+    <h3>Composição da carteira (100%)</h3>
     <div id="fundEditor"></div>
-    <button class="mbtn ghost" onclick="addFund()"><span class="mi">add</span> Adicionar Ativo</button>
+    <button class="mbtn ghost" onclick="addFund()"><span class="mi">add</span> Adicionar ativo</button>
   </div>
 </div>
 
-<!-- ════ SLIDE 0: CAPA ════ -->
-<section class="slide s0" id="s0">
+<!-- ════ CAPA ════ -->
+<section class="slide s0 pbg-blue" id="s0">
   <div class="s0-grid">
     <div>
       <div class="chip"><span class="mi">account_balance</span> Banco do Brasil · Assessoria Premium</div>
       <h1 class="h1">A sua LCA venceu.<br/>Para onde vai o seu <em>poder de compra?</em></h1>
-      <div class="lead">A tendência natural é renovar tudo no mesmo produto. Porém, apresentamos uma solução que blinda o seu património contra a inflação, mantendo a liquidez e a segurança.</div>
+      <div class="lead">A tendência é renovar tudo no mesmo produto. Aqui está uma alternativa que blinda o patrimônio contra a inflação, mantendo segurança e liquidez.</div>
     </div>
     <div>
       <div class="s0-stats">
-        <div class="s0-stat"><div class="si" style="background:var(--green)"><span class="mi">trending_up</span></div><div><div class="s0-stat-v tgreen" id="c0-ret">—</div><div class="s0-stat-l">Retorno Líquido Projetado (Carteira)</div></div></div>
-        <div class="s0-stat"><div class="si" style="background:var(--primary)"><span class="mi">verified</span></div><div><div class="s0-stat-v" style="color:var(--primary)" id="c0-equiv">—</div><div class="s0-stat-l">Equivale a um CDB tributado (difícil acesso)</div></div></div>
-        <div class="s0-stat"><div class="si" style="background:var(--red)"><span class="mi">shield</span></div><div><div class="s0-stat-v" style="font-size:24px;color:var(--red)">Curadoria BB</div><div class="s0-stat-l">Risco distribuído · Perfil Conservador</div></div></div>
+        <div class="s0-stat"><div class="si" style="background:var(--green)"><span class="mi">trending_up</span></div><div><div class="s0-stat-v tgreen" id="c0-ret">—</div><div class="s0-stat-l">Patrimônio líquido projetado (carteira)</div></div></div>
+        <div class="s0-stat"><div class="si" style="background:var(--primary)"><span class="mi">verified</span></div><div><div class="s0-stat-v" style="color:var(--primary)" id="c0-equiv">—</div><div class="s0-stat-l">Equivale a um CDB tributado de difícil acesso</div></div></div>
+        <div class="s0-stat"><div class="si" style="background:var(--accent)"><span class="mi" style="color:var(--ink)!important">shield</span></div><div><div class="s0-stat-v" style="font-size:24px;color:var(--accent-d)">Curadoria BB</div><div class="s0-stat-l">Risco distribuído · perfil Conservador</div></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ SLIDE 1: HISTÓRICO ════ -->
+<!-- ════ 01 · HISTÓRICO ════ -->
 <section class="slide" id="s1">
-  <div class="slide-tag">01 / <b>09</b> · A Realidade Histórica</div>
-  <div class="eyebrow">A Prova Matemática</div>
+  <div class="slide-tag">01 / <b>10</b> · A realidade histórica</div>
+  <div class="eyebrow">A prova matemática</div>
   <h2 class="h2">Só o CDI nem sempre<br/><em>bate a inflação.</em></h2>
-  <div class="lead">O mito da Renda Fixa pós-fixada ser "100% garantida" cai por terra em anos de choque inflacionário. Quem ficou apenas no CDI perdeu poder de compra recentemente.</div>
+  <div class="lead">A renda fixa pós-fixada não é "lucro garantido" em anos de choque inflacionário. Quem ficou só no CDI perdeu poder de compra recentemente.</div>
   <div class="histgrid">
     <div class="card hist">
       <div class="hist-head">
         <span>Ano</span>
         <span class="leg"><span><i style="background:var(--primary)"></i>CDI</span><span><i style="background:var(--red)"></i>IPCA</span></span>
-        <span style="text-align:right">Lucro Real</span>
+        <span style="text-align:right">Real</span>
       </div>
       <div id="histRows"></div>
     </div>
     <div class="licao">
-      <span class="mi">warning</span>
-      <div class="lk">A Lição</div>
-      <p>Em <b>2020 e 2021</b>, o CDI ficou <b>abaixo da inflação</b>. Sem proteção real, o seu património cresceu no extrato — mas encolheu no supermercado.</p>
+      <span class="mi">insights</span>
+      <div class="lk">A lição</div>
+      <p>Em <b>2020 e 2021</b>, o CDI ficou <b>abaixo da inflação</b>. Sem proteção real, o patrimônio cresceu no extrato — e encolheu no supermercado.</p>
     </div>
   </div>
 </section>
 
-<!-- ════ SLIDE 2: RAIO-X ════ -->
+<!-- ════ 02 · RAIO-X ════ -->
 <section class="slide" id="s2">
-  <div class="slide-tag">02 / <b>09</b> · O Seu Raio-X</div>
+  <div class="slide-tag">02 / <b>10</b> · O seu raio-x</div>
   <div class="s5-grid" style="grid-template-columns:1fr 1fr;align-items:center">
     <div>
       <div class="eyebrow">A LCA que acabou de vencer</div>
-      <h2 class="h2">O que de facto<br/>sobrou na<br/><em>sua conta?</em></h2>
-      <div class="lead">Aplicando o cenário histórico exato (CDI e IPCA) sobre a sua aplicação anterior, o ganho real efetivo foi muito menor que o número divulgado.</div>
-      <div class="lead" style="margin-top:20px; font-weight: 500">Deseja passar os próximos <span id="r-prazo"></span> anos dependendo apenas do CDI outra vez?</div>
+      <h2 class="h2">O que de fato<br/>sobrou na<br/><em>sua conta?</em></h2>
+      <div class="lead">Aplicando o cenário realizado (CDI e IPCA) sobre a aplicação anterior, o ganho real efetivo foi bem menor que o número nominal.</div>
+      <div class="lead" style="margin-top:18px;font-weight:700">Vale a pena passar os próximos <span id="r-prazo"></span> anos dependendo apenas do CDI?</div>
     </div>
     <div>
       <table class="dtable card">
-        <tr><td class="k">Capital investido (Simulado)</td><td class="tblue" id="t1-cap">—</td></tr>
-        <tr><td class="k">Taxa contratada (Passada)</td><td id="t1-taxa">Pós 90% CDI</td></tr>
-        <tr><td class="k">Rendimento bruto (Nominal)</td><td class="tblue" id="t1-rend">—</td></tr>
-        <tr><td class="k tred">Custo de Vida (Corrosão da inflação)</td><td class="tred" id="t1-infl">—</td></tr>
-        <tr class="big"><td class="k" style="color:var(--ink)">Lucro Real Efetivo (Poder de Compra)</td><td class="tgreen" id="t1-real">—</td></tr>
+        <tr><td class="k">Capital investido</td><td class="tblue" id="t1-cap">—</td></tr>
+        <tr><td class="k">Taxa contratada</td><td id="t1-taxa">—</td></tr>
+        <tr><td class="k">Rendimento bruto nominal</td><td class="tblue" id="t1-rend">—</td></tr>
+        <tr><td class="k tred">Corrosão da inflação</td><td class="tred" id="t1-infl">—</td></tr>
+        <tr class="big"><td class="k" style="color:var(--ink)">Ganho real efetivo</td><td class="tgreen" id="t1-real">—</td></tr>
       </table>
     </div>
   </div>
 </section>
 
-<!-- ════ SLIDE 3: O RISCO / FGC ════ -->
+<!-- ════ 03 · PRINCÍPIO DA DIVERSIFICAÇÃO ════ -->
 <section class="slide" id="s3">
-  <div class="slide-tag">03 / <b>09</b> · Gestão de Risco</div>
-  <div class="eyebrow">Desmistificando a Segurança Absoluta</div>
-  <h2 class="h2">Concentrar tudo num só banco<br/>é uma <em>falsa sensação de segurança.</em></h2>
+  <div class="slide-tag">03 / <b>10</b> · Gestão de risco</div>
+  <div class="eyebrow">O princípio da diversificação</div>
+  <h2 class="h2">Distribuir o capital<br/>reduz o <em>risco real.</em></h2>
+  <div class="lead">Três pontos que uma assessoria considera ao planejar um patrimônio relevante — e que a carteira diversificada endereça.</div>
   <div class="riskgrid">
-    <div class="riskcard"><div class="ri-ico"><span class="mi">account_balance</span></div><h4>Risco de Concentração</h4><p>100% do seu dinheiro depende da saúde de <b>uma única instituição</b>. Se o banco falhar, o seu património inteiro congela.</p></div>
-    <div class="riskcard" style="border: 2px solid var(--red)"><div class="ri-ico"><span class="mi">gpp_maybe</span></div><h4>O FGC tem limite estrito</h4><p>A proteção máxima é <b>R$ 250 mil por instituição</b>. Se possui mais do que isso numa única LCA, o valor excedente está totalmente a descoberto.</p></div>
-    <div class="riskcard"><div class="ri-ico"><span class="mi">trending_down</span></div><h4>Risco de Reinvestimento</h4><p>A renovar de ano a ano, fica sujeito à queda da taxa Selic. A próxima aplicação <b>tenderá a pagar menos</b> se não garantir taxas longas agora.</p></div>
-  </div>
-  <div class="asym">
-    <div class="as-q">Na LCA pós-fixada atual, assume <b>100% do risco</b> de crédito de um banco — mas recebe apenas <b>uma fração do CDI</b>. A balança está desequilibrada.</div>
-    <div class="as-fig">
-      <div class="as-num"><div class="n n-bad">100%</div><div class="l">risco assumido</div></div>
-      <div class="as-num"><div class="n n-good" id="as-retorno">90%</div><div class="l">do CDI recebido</div></div>
-    </div>
+    <div class="riskcard"><div class="ri-ico"><span class="mi">hub</span></div><h4>Concentração</h4><p>Alocar tudo em um único emissor amplia a exposição a um só evento. <b>Pulverizar</b> dilui esse risco.</p></div>
+    <div class="riskcard"><div class="ri-ico"><span class="mi">savings</span></div><h4>Limite do FGC</h4><p>A garantia cobre <b>R$ 250 mil por instituição</b>. Acima disso, vale combinar emissores e ativos públicos.</p></div>
+    <div class="riskcard"><div class="ri-ico"><span class="mi">schedule</span></div><h4>Reinvestimento</h4><p>Com a Selic podendo cair, <b>travar prêmios reais longos</b> hoje protege a rentabilidade futura.</p></div>
   </div>
 </section>
 
-<!-- ════ SLIDE 4: A SOLUÇÃO ════ -->
-<section class="slide" id="s4">
-  <div class="slide-tag">04 / <b>09</b> · A Solução BB</div>
-  <div class="eyebrow">A Curadoria do Banco do Brasil</div>
-  <h2 class="h2">A nossa <em>fortaleza:</em> várias muralhas,<br/>cada uma com a sua função.</h2>
+<!-- ════ 04 · A SOLUÇÃO ════ -->
+<section class="slide pbg-blue" id="s4">
+  <div class="slide-tag">04 / <b>10</b> · A solução BB</div>
+  <div class="eyebrow">A curadoria do Banco do Brasil</div>
+  <h2 class="h2">A <em>fortaleza:</em> várias muralhas,<br/>cada uma com a sua função.</h2>
   <div class="layers">
-    <div class="layer l1"><div class="ly-ico" style="background:var(--primary)"><span class="mi">foundation</span></div><div class="ly-tag" style="color:var(--primary)">Base FGC Segura</div><h4>LCA Limitada</h4><div class="ly-role">Segurança primária. Travada no limite do FGC e isenta de impostos.</div></div>
-    <div class="layer l2"><div class="ly-ico" style="background:var(--green)"><span class="mi">water_drop</span></div><div class="ly-tag" style="color:var(--green)">Caixa / Emergência</div><h4>BB RF LP High</h4><div class="ly-role"><b>Liquidez D+0.</b> O seu "fosso" de acesso imediato, risco governamental.</div></div>
-    <div class="layer l3"><div class="ly-ico" style="background:var(--accent-d)"><span class="mi">business_center</span></div><div class="ly-tag" style="color:var(--accent-d)">Crédito Premium</div><h4>BB Régia Equilíbrio</h4><div class="ly-role"><b>Liquidez D+6.</b> Carteira diversificada e gerida profissionalmente pela BB Asset.</div></div>
-    <div class="layer l4"><div class="ly-ico" style="background:var(--red)"><span class="mi">shield</span></div><div class="ly-tag" style="color:var(--red)">Anti-inflação</div><h4>Debênture IPCA+</h4><div class="ly-role">A muralha. Trava o ganho real. Rating brAAA (nota máxima) e isenta de IR.</div></div>
+    <div class="layer l1"><div class="ly-ico" style="background:var(--primary)"><span class="mi">foundation</span></div><div class="ly-tag" style="color:var(--primary)">Base FGC</div><h4>LCA limitada</h4><div class="ly-role">Segurança primária no limite do FGC, isenta de IR.</div></div>
+    <div class="layer l2"><div class="ly-ico" style="background:var(--green)"><span class="mi">water_drop</span></div><div class="ly-tag" style="color:var(--green)">Caixa</div><h4>BB RF LP High</h4><div class="ly-role"><b>Liquidez D+0.</b> Acesso imediato com risco mínimo.</div></div>
+    <div class="layer l3"><div class="ly-ico" style="background:var(--accent-d)"><span class="mi">business_center</span></div><div class="ly-tag" style="color:var(--accent-d)">Crédito premium</div><h4>BB Régia Equilíbrio</h4><div class="ly-role">Carteira diversificada e gerida pela BB Asset.</div></div>
+    <div class="layer l4"><div class="ly-ico" style="background:var(--red)"><span class="mi">shield</span></div><div class="ly-tag" style="color:var(--red)">Anti-inflação</div><h4>Debênture IPCA+</h4><div class="ly-role">Trava ganho real. Rating brAAA e isenta de IR.</div></div>
   </div>
-  <div class="oneliner">A curadoria <b>BB Investimentos</b> assegura que nenhuma classe concentra o seu risco isoladamente.</div>
+  <div class="oneliner">A curadoria <b>BB Investimentos</b> garante que nenhuma classe concentre o risco isoladamente.</div>
 </section>
 
-<!-- ════ SLIDE 5: MAPA DE RISCO (DONUT) ════ -->
+<!-- ════ 05 · ROSCA DE RISCO ════ -->
 <section class="slide" id="s5">
-  <div class="slide-tag">05 / <b>09</b> · O Mapa de Risco</div>
-  <div class="eyebrow">Distribuição por Nível de Risco</div>
-  <h2 class="h2">Como o risco do seu portfólio<br/>será <em>distribuído?</em></h2>
+  <div class="slide-tag">05 / <b>10</b> · O mapa de risco</div>
+  <div class="eyebrow">Distribuição por nível de risco</div>
+  <h2 class="h2">Como o risco será<br/><em>distribuído?</em></h2>
   <div class="donut-grid">
     <div class="donut-wrap">
-      <div style="position:relative;height:350px"><canvas id="donut"></canvas></div>
-      <div class="donut-center"><div class="dc-v" id="dc-cons">—</div><div class="dc-l">Risco Conservador</div></div>
+      <div style="position:relative;height:340px"><canvas id="donut"></canvas></div>
+      <div class="donut-center"><div class="dc-v" id="dc-cons">—</div><div class="dc-l">em baixo risco</div></div>
     </div>
     <div class="risk-legend" id="riskLegend"></div>
   </div>
 </section>
 
-<!-- ════ SLIDE 6: COMPOSIÇÃO E PROJEÇÃO ════ -->
+<!-- ════ 06 · COMPOSIÇÃO + PROJEÇÃO ════ -->
 <section class="slide" id="s6">
-  <div class="slide-tag">06 / <b>09</b> · A Composição e Evolução</div>
-  <div class="eyebrow">A Sua Nova Carteira</div>
+  <div class="slide-tag">06 / <b>10</b> · A composição e evolução</div>
+  <div class="eyebrow">A sua nova carteira</div>
   <h3 class="h3" style="margin-bottom:20px">Os ativos selecionados e a projeção de crescimento.</h3>
   <div class="s5-grid">
     <div><div id="comps"></div></div>
     <div>
       <div class="card chart-wrap">
-        <h4>Evolução Patrimonial · <span id="ch-prazo">1</span> ano</h4>
+        <h4>Evolução patrimonial · <span id="ch-prazo">3</span> ano(s)</h4>
         <div style="position:relative;height:300px"><canvas id="chart"></canvas></div>
-        <p class="chart-cap">Projeção ilustrativa com base no cenário macroeconómico estimado.</p>
+        <p class="chart-cap">Projeção líquida ilustrativa com base no cenário estimado.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ SLIDE 7: LIQUIDEZ E RESGATE ════ -->
+<!-- ════ 07 · LIQUIDEZ ════ -->
 <section class="slide" id="s7">
-  <div class="slide-tag">07 / <b>09</b> · Acesso aos Recursos</div>
-  <div class="eyebrow">Disponibilidade e Liquidez</div>
-  <h2 class="h2">Quando posso <em>resgatar</em><br/>o meu dinheiro?</h2>
-  <div class="lead">Entenda os prazos exatos para que os recursos de cada fundo ou ativo fiquem disponíveis na sua conta corrente após a solicitação de resgate.</div>
-  
-  <div class="card" style="margin-top:32px;">
-    <table class="dtable" style="max-width:100%; width:100%;">
-      <thead>
-        <tr>
-          <th style="text-align:left; color:var(--ink3); font-size:13px; text-transform:uppercase;">Ativo / Fundo</th>
-          <th style="text-align:center; color:var(--ink3); font-size:13px; text-transform:uppercase;">Peso na Carteira</th>
-          <th style="text-align:right; color:var(--ink3); font-size:13px; text-transform:uppercase;">Prazo de Disponibilidade</th>
-        </tr>
-      </thead>
-      <tbody id="liqBody">
-        <!-- Injetado via JS -->
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ════ SLIDE 8: MEMÓRIA DE CÁLCULO ════ -->
-<section class="slide" id="s8">
-  <div class="slide-tag">08 / <b>09</b> · Transparência</div>
-  <div class="eyebrow">Memória de Cálculo</div>
-  <h2 class="h2">Como os números são <em>construídos.</em></h2>
-  <div class="lead" style="margin-bottom:32px">Cálculos efetuados com estimativa de CDI em <b><span id="m-cdi"></span></b> e IPCA em <b><span id="m-ipca"></span></b>. Descontamos a tributação para comparar o ganho líquido que efetivamente cai na sua conta.</div>
-  
-  <table class="calc-table">
-    <thead>
-      <tr>
-        <th>Ativo / Fundo</th>
-        <th style="text-align:center">Alocação</th>
-        <th style="text-align:right">Taxa (Bruta)</th>
-        <th style="text-align:center">Tributação (IR)</th>
-        <th style="text-align:right">Rendimento Líquido (a.a.)</th>
-      </tr>
-    </thead>
-    <tbody id="calcBody">
-      <!-- Injetado via JS -->
-    </tbody>
+  <div class="slide-tag">07 / <b>10</b> · Acesso aos recursos</div>
+  <div class="eyebrow">Disponibilidade e liquidez</div>
+  <h2 class="h2">Quando posso <em>resgatar?</em></h2>
+  <div class="lead">Prazos de disponibilidade dos recursos de cada ativo após a solicitação de resgate.</div>
+  <table class="gtable" style="margin-top:32px">
+    <thead><tr><th>Ativo / Fundo</th><th style="text-align:center">Peso</th><th style="text-align:right">Disponibilidade</th></tr></thead>
+    <tbody id="liqBody"></tbody>
   </table>
 </section>
 
-<!-- ════ SLIDE 9: FECHAMENTO ════ -->
-<section class="slide s8" id="s9">
-  <div class="slide-tag">09 / <b>09</b> · A Decisão</div>
+<!-- ════ 08 · MEMÓRIA DE CÁLCULO ════ -->
+<section class="slide" id="s8">
+  <div class="slide-tag">08 / <b>10</b> · Transparência</div>
+  <div class="eyebrow">Memória de cálculo</div>
+  <h2 class="h2">Como os números são <em>construídos.</em></h2>
+  <div class="lead" style="margin-bottom:28px">Cálculos com CDI estimado em <b><span id="m-cdi"></span></b> e IPCA em <b><span id="m-ipca"></span></b>, descontando a tributação para comparar o ganho líquido.</div>
+  <table class="gtable calc-table">
+    <thead><tr><th>Ativo</th><th style="text-align:center">Alocação</th><th style="text-align:right">Taxa bruta</th><th style="text-align:center">IR</th><th style="text-align:right">Líquido a.a.</th></tr></thead>
+    <tbody id="calcBody"></tbody>
+  </table>
+</section>
+
+<!-- ════ 09 · COMPARAÇÃO EM TABELA ════ -->
+<section class="slide pbg-green" id="s9">
+  <div class="slide-tag">09 / <b>10</b> · Comparação direta</div>
+  <div class="eyebrow">Lado a lado</div>
+  <h2 class="h2">LCA única <em>vs.</em><br/>carteira diversificada.</h2>
+  <div class="lead" style="margin-bottom:28px">Os dados abaixo são calculados a partir dos parâmetros do cliente e da composição definida.</div>
+  <table class="gtable cmp-table">
+    <thead><tr><th>Dimensão</th><th class="cmp-head-lca">LCA única (100%)</th><th class="cmp-head-div">Carteira diversificada</th></tr></thead>
+    <tbody id="cmpBody"></tbody>
+  </table>
+</section>
+
+<!-- ════ 10 · FECHAMENTO ════ -->
+<section class="slide s10 pbg-yellow" id="s10">
+  <div class="slide-tag">10 / <b>10</b> · A decisão</div>
   <div class="s8-grid">
     <div>
-      <div class="eyebrow">A Comparação Final</div>
-      <h2 class="h2" style="margin-bottom:24px">Retorno superior.<br/><em>Com segurança planeada.</em></h2>
+      <div class="eyebrow">A comparação final</div>
+      <h2 class="h2" style="margin-bottom:24px">Retorno superior.<br/><em>Com segurança planejada.</em></h2>
       <div class="card s6-bars">
         <div class="barrow">
           <div class="barmeta"><span class="barname">Renovar 100% na LCA <span id="b-banco">—</span></span><span class="baramt" id="b-lca">—</span></div>
-          <div class="bartrack"><div class="barfill bf-lca" id="b-lca-bar">—</div></div>
+          <div class="bartrack"><div class="barfill bf-lca" id="b-lca-bar"></div></div>
         </div>
         <div class="barrow">
-          <div class="barmeta"><span class="barname" style="color:var(--green);font-weight:700">Carteira Diversificada BB-BI</span><span class="baramt" id="b-div" style="color:var(--green)">—</span></div>
-          <div class="bartrack"><div class="barfill bf-div" id="b-div-bar">—</div></div>
+          <div class="barmeta"><span class="barname" style="color:var(--green-d)">Carteira diversificada BB-BI</span><span class="baramt" id="b-div" style="color:var(--green-d)">—</span></div>
+          <div class="bartrack"><div class="barfill bf-div" id="b-div-bar"></div></div>
         </div>
       </div>
-      <div class="sum-step"><div class="sum-n">1</div><div><div class="sum-t">Mais Dinheiro no Bolso</div><div class="sum-d">Ganha <b style="color:var(--green)" id="f-ganho">—</b> adicionais, totalmente líquidos.</div></div></div>
-      <div class="sum-step"><div class="sum-n">2</div><div><div class="sum-t">Risco Distribuído</div><div class="sum-d">Não depende apenas de um banco, com o selo de Curadoria BB.</div></div></div>
+      <div class="sum-step"><div class="sum-n">1</div><div><div class="sum-t">Mais dinheiro no bolso</div><div class="sum-d">Ganha <b style="color:var(--green-d)" id="f-ganho">—</b> adicionais, líquidos, no período.</div></div></div>
+      <div class="sum-step"><div class="sum-n">2</div><div><div class="sum-t">Risco distribuído</div><div class="sum-d">Não depende de um único banco, com curadoria BB.</div></div></div>
     </div>
     <div>
-      <div class="card" style="padding:40px; border: 2px dashed var(--green)">
-        <h4 style="font-size: 18px; color: var(--green); margin-bottom: 20px; font-weight: 700"><span class="mi">info</span> O Argumento de Ouro</h4>
-        <p style="font-size: 16px; line-height: 1.6; color: var(--ink2)">Para empatar com a rentabilidade isenta da parte de Crédito Privado desta carteira, precisaria de encontrar um CDB comum (tributado) que pagasse:</p>
-        <div style="font-family: var(--slab); font-size: 56px; color: var(--primary); font-weight: 900; margin: 16px 0;" id="f-equiv-cdi">—</div>
-        <p style="font-size: 15px; color: var(--ink3)">Este produto praticamente não existe nas prateleiras normais. A assimetria da isenção trabalha a seu favor.</p>
+      <div class="card" style="padding:40px;border:2px dashed var(--green)">
+        <h4 style="font-size:18px;color:var(--green-d);margin-bottom:18px;font-weight:700"><span class="mi">workspace_premium</span> O argumento de ouro</h4>
+        <p style="font-size:16px;line-height:1.6;color:var(--ink2)">Para empatar com a parte isenta desta carteira, um CDB comum (tributado) precisaria pagar:</p>
+        <div style="font-family:var(--slab);font-size:54px;color:var(--primary);font-weight:900;margin:14px 0" id="f-equiv-cdi">—</div>
+        <p style="font-size:15px;color:var(--ink3)">Um produto desse porte raramente aparece nas prateleiras. A isenção trabalha a favor do cliente.</p>
       </div>
-      <p class="disc">Material de apoio à decisão; não constitui oferta vinculativa. Fundos não têm garantia FGC. Rentabilidade passada não é garantia de ganhos futuros. Sujeito a verificação de Perfil de Investidor (Suitability).</p>
+      <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
     </div>
   </div>
 </section>
@@ -517,7 +507,6 @@ const fmt=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',mini
 const fp=v=>(Math.round(v*10)/10).toFixed(1).replace('.',',')+'%';
 const gV=(id,fb=0)=>{const e=$(id);if(!e)return fb;const v=e.type==='number'?parseFloat(e.value):e.value;return(isNaN(v)||v==='')?fb:v};
 
-/* Histórico para o Slide 1 */
 const HIST=[
   {ano:'2020',cdi:2.76,ipca:4.52},
   {ano:'2021',cdi:4.42,ipca:10.06},
@@ -528,8 +517,7 @@ const HIST=[
 function renderHist(){
   const max=Math.max(...HIST.flatMap(h=>[h.cdi,h.ipca]));
   $('histRows').innerHTML=HIST.map(h=>{
-    const real=((1+h.cdi/100)/(1+h.ipca/100)-1)*100;
-    const pos=real>=0;
+    const real=((1+h.cdi/100)/(1+h.ipca/100)-1)*100,pos=real>=0;
     return `<div class="hrow">
       <span class="hyear">${h.ano}</span>
       <div class="hbars">
@@ -542,283 +530,181 @@ function renderHist(){
   requestAnimationFrame(()=>document.querySelectorAll('.hfill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
 
-/* Níveis de Risco rigorosamente ajustados */
-const RISKS={
-  1:{nome:'Muito baixo',cor:'#2e9c63'},
-  2:{nome:'Baixo',cor:'#7cb342'},
-  3:{nome:'Médio',cor:'#ffb300'},
-  4:{nome:'Alto',cor:'#fb8c00'},
-  5:{nome:'Muito alto',cor:'#e04b39'},
-};
+const RISKS={1:{nome:'Muito baixo',cor:'#1f9d57'},2:{nome:'Baixo',cor:'#7cb342'},3:{nome:'Médio',cor:'#ffb300'},4:{nome:'Alto',cor:'#fb8c00'},5:{nome:'Muito alto',cor:'#d94436'}};
 const ICONS={lca:'foundation',liq:'water_drop',tes:'account_balance',cred:'business_center',deb:'shield',mm:'tune',ext:'public'};
 
-/* ATIVOS PADRÃO (Pré-preenchidos conforme Imagem) */
 let FUNDS=[
-  {nome:'LCA Banco ABC',classe:'Renda Fixa Pós · Isenta',w:60,proj:85,tipo:'cdi',risco:1,ico:'lca', liq:'No vencimento'},
-  {nome:'BB RF LP High',classe:'Caixa · Liquidez D+0',w:15,proj:101,tipo:'cdi',risco:2,ico:'liq', liq:'D+0 (Mesmo dia)'},
-  {nome:'BB Régia Equilíbrio',classe:'Crédito Premium · Liq. D+6',w:10,proj:104.8,tipo:'cdi',risco:3,ico:'cred', liq:'D+6 dias úteis'},
-  {nome:'Debênture Incentivada (Curadoria)',classe:'IPCA+ Isenta · brAAA',w:15,proj:7.5,tipo:'ipca',risco:3,ico:'deb', liq:'No vencimento'}
+  {nome:'LCA Banco ABC',classe:'Renda Fixa Pós · Isenta',w:60,proj:85,tipo:'cdi',risco:1,ico:'lca',liq:'No vencimento'},
+  {nome:'BB RF LP High',classe:'Caixa · Liquidez D+0',w:15,proj:101,tipo:'cdi',risco:2,ico:'liq',liq:'D+0 (mesmo dia)'},
+  {nome:'BB Régia Equilíbrio',classe:'Crédito premium · D+6',w:10,proj:104.8,tipo:'cdi',risco:3,ico:'cred',liq:'D+6 dias úteis'},
+  {nome:'Debênture Incentivada',classe:'IPCA+ Isenta · brAAA',w:15,proj:7.5,tipo:'ipca',risco:3,ico:'deb',liq:'No vencimento'}
 ];
 
 function toggleCfg(){$('cfg').classList.toggle('open')}
-
-function gerarPDF() {
-  $('cfg').classList.remove('open');
-  setTimeout(() => { window.print(); }, 400);
-}
+function gerarPDF(){$('cfg').classList.remove('open');setTimeout(()=>window.print(),400)}
 
 function checarFGC(){
-  const cap=gV('capital',300000);
-  
-  if(cap > 250000){
-    const idealLca = 250000;
-    const lcaPct = (idealLca / cap) * 100;
-    const diff = 100 - lcaPct;
-    
-    // Auto-ajusta os fundos base
-    if(FUNDS.length >= 4) {
-      FUNDS[0].w = parseFloat(lcaPct.toFixed(1));
-      FUNDS[1].w = parseFloat((diff * 0.4).toFixed(1));
-      FUNDS[2].w = parseFloat((diff * 0.2).toFixed(1));
-      FUNDS[3].w = parseFloat((diff * 0.4).toFixed(1));
-    }
-    
-    renderEditor(); calc();
-    const note=$('fgcNote');
-    note.className='fgc-note show ok';
-    note.innerHTML='✓ Otimizado! LCA ajustada para o teto exato do FGC (R$ 250k). O excedente foi distribuído inteligentemente.';
-  } else {
-    const note=$('fgcNote');
-    note.className='fgc-note show ok';
-    note.innerHTML='✓ O capital atual está dentro do limite do FGC (R$ 250k). Alocação segura mantida.';
+  const cap=gV('capital',300000),note=$('fgcNote');
+  if(cap>250000&&FUNDS.length>=4){
+    const lcaPct=(250000/cap)*100,diff=100-lcaPct;
+    FUNDS[0].w=+lcaPct.toFixed(1);FUNDS[1].w=+(diff*0.4).toFixed(1);FUNDS[2].w=+(diff*0.2).toFixed(1);FUNDS[3].w=+(diff*0.4).toFixed(1);
+    renderEditor();calc();
+    note.className='fgc-note show ok';note.innerHTML='✓ Otimizado! LCA ajustada ao teto do FGC (R$ 250k) e o excedente redistribuído.';
+  }else{
+    note.className='fgc-note show ok';note.innerHTML='✓ Capital dentro do limite do FGC (R$ 250k). Alocação segura mantida.';
   }
 }
 
 function renderEditor(){
   $('fundEditor').innerHTML=FUNDS.map((f,i)=>`
     <div class="fund-row">
-      <div class="fr-top">
-        <input value="${f.nome}" oninput="upd(${i},'nome',this.value)" style="flex:1"/>
-        <button class="fr-del" onclick="delFund(${i})"><span class="mi">delete</span></button>
-      </div>
-      <input value="${f.classe}" oninput="upd(${i},'classe',this.value)" style="width:100%; margin-bottom:8px"/>
+      <div class="fr-top"><input value="${f.nome}" oninput="upd(${i},'nome',this.value)"/><button class="fr-del" onclick="delFund(${i})"><span class="mi">delete</span></button></div>
+      <input value="${f.classe}" oninput="upd(${i},'classe',this.value)" style="width:100%;margin-bottom:8px"/>
       <div class="fr-grid">
         <div><span class="fr-mini">Peso %</span><input type="number" value="${f.w}" oninput="upd(${i},'w',this.value)"/></div>
         <div><span class="fr-mini">Proj.</span><input type="number" step="0.1" value="${f.proj}" oninput="upd(${i},'proj',this.value)"/></div>
-        <div><span class="fr-mini">Tipo</span><select onchange="upd(${i},'tipo',this.value)">
-          <option value="cdi" ${f.tipo==='cdi'?'selected':''}>% CDI</option>
-          <option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option>
-        </select></div>
+        <div><span class="fr-mini">Tipo</span><select onchange="upd(${i},'tipo',this.value)"><option value="cdi" ${f.tipo==='cdi'?'selected':''}>% CDI</option><option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option></select></div>
       </div>
       <div class="fr-grid-2">
-        <div><span class="fr-mini">Risco / Categoria</span>
-          <select onchange="upd(${i},'risco',this.value)">
-            ${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k} · ${v.nome}</option>`).join('')}
-          </select>
-        </div>
-        <div><span class="fr-mini">Liquidez</span><input value="${f.liq || 'N/A'}" oninput="upd(${i},'liq',this.value)"/></div>
+        <div><span class="fr-mini">Nível de risco</span><select onchange="upd(${i},'risco',this.value)">${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k} · ${v.nome}</option>`).join('')}</select></div>
+        <div><span class="fr-mini">Liquidez</span><input value="${f.liq||'N/A'}" oninput="upd(${i},'liq',this.value)"/></div>
       </div>
     </div>`).join('');
   const soma=FUNDS.reduce((s,f)=>s+(+f.w||0),0);
-  if(Math.abs(soma-100)>0.5){
-    $('fundEditor').insertAdjacentHTML('beforeend',`<div style="font-size:12px;color:var(--red);text-align:center;margin:10px 0; font-weight:700">⚠ A soma dos pesos é ${soma.toFixed(1)}%. Ajuste para fechar em 100%.</div>`);
-  }
+  if(Math.abs(soma-100)>0.5)$('fundEditor').insertAdjacentHTML('beforeend',`<div style="font-size:12px;color:var(--red);text-align:center;margin:10px 0;font-weight:700">⚠ Soma dos pesos: ${soma.toFixed(1)}% — ajuste para 100%.</div>`);
 }
 function upd(i,k,v){FUNDS[i][k]=(k==='nome'||k==='classe'||k==='tipo'||k==='liq')?v:parseFloat(v)||(k==='risco'?1:0);if(k==='w'||k==='risco')renderEditor();calc()}
-function addFund(){FUNDS.push({nome:'Novo ativo',classe:'Classe Livre',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1'});renderEditor();calc()}
+function addFund(){FUNDS.push({nome:'Novo ativo',classe:'Classe livre',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1'});renderEditor();calc()}
 function delFund(i){FUNDS.splice(i,1);renderEditor();calc()}
 
-['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass'].forEach(id=>{const e=$(id);if(e)e.addEventListener('input',calc)});
+['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxa'].forEach(id=>{const e=$(id);if(e)e.addEventListener('input',calc)});
 
-const SLIDES=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const SLIDES=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
 SLIDES.forEach((id,i)=>{const d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.onclick=()=>$(id).scrollIntoView({behavior:'smooth'});$('dots').appendChild(d)});
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=SLIDES.indexOf(e.target.id);if(i<0)return;document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));$('prog').style.width=Math.round((i/(SLIDES.length-1))*100)+'%';if(e.target.id==='s1')renderHist()}})},{threshold:.5});
 SLIDES.forEach(id=>{const e=$(id);if(e)io.observe(e)});
 
 let chart=null,donut=null;
-
-function calcRate(f,cdi,ipca){
-  if(f.tipo==='cdi') return cdi*(f.proj/100);
-  if(f.tipo==='ipca') return (1+ipca)*(1+f.proj/100)-1;
-  return f.proj/100;
-}
-
-function hasIR(f) {
-  const lowerName = (f.nome + ' ' + f.classe).toLowerCase();
-  if (lowerName.includes('lca') || lowerName.includes('lci') || lowerName.includes('isenta') || lowerName.includes('debênture')) {
-    return false; 
-  }
-  return true; 
-}
+const calcRate=(f,cdi,ipca)=>f.tipo==='cdi'?cdi*(f.proj/100):f.tipo==='ipca'?(1+ipca)*(1+f.proj/100)-1:f.proj/100;
+function hasIR(f){const t=(f.nome+' '+f.classe).toLowerCase();return!(t.includes('lca')||t.includes('lci')||t.includes('isenta')||t.includes('debênture')||t.includes('debenture'))}
 
 function calc(){
-  const cap=gV('capital',300000), prazo=gV('prazo',1);
-  const cdi=gV('cdi',13.35)/100, ipca=gV('ipca',5)/100;
-  const banco=gV('banco','Banco ABC');
-  const cdiPass=gV('cdiPass',14.45)/100, ipcaPass=gV('ipcaPass',4.62)/100;
+  const cap=gV('capital',300000),prazo=gV('prazo',3);
+  const cdi=gV('cdi',13.35)/100,ipca=gV('ipca',5)/100;
+  const banco=gV('banco','Banco ABC'),lcaTaxa=gV('lcaTaxa',90)/100;
+  const cdiPass=gV('cdiPass',14.45)/100,ipcaPass=gV('ipcaPass',4.62)/100;
 
-  const lcaF = FUNDS.find(f=>f.ico==='lca') || FUNDS[0];
-  const lcaAABruto = calcRate(lcaF,cdi,ipca);
-  const lcaFinal = cap * Math.pow(1+lcaAABruto,prazo); 
-  
-  let divFinal = 0;
-  let weightedNetRate = 0;
+  /* LCA única (referência) — isenta, taxa configurável */
+  const lcaUnicaRate=cdi*lcaTaxa;
+  const lcaFinal=cap*Math.pow(1+lcaUnicaRate,prazo);
 
+  /* carteira (líquida) */
+  let divFinal=0,weightedNetRate=0,weightedGross=0;
   FUNDS.forEach(f=>{
-    const w = f.w/100;
-    const grossRate = calcRate(f,cdi,ipca);
-    const netRate = hasIR(f) ? grossRate * (1 - 0.15) : grossRate;
-    
-    divFinal += (cap * w) * Math.pow(1 + netRate, prazo);
-    weightedNetRate += w * netRate;
+    const w=f.w/100,g=calcRate(f,cdi,ipca),n=hasIR(f)?g*0.85:g;
+    divFinal+=(cap*w)*Math.pow(1+n,prazo);weightedNetRate+=w*n;weightedGross+=w*g;
   });
 
-  const rendBrutoPass = cap * (cdiPass * 0.9); 
-  const perdaInflPass = cap * ipcaPass;
-  const ganhoRealPass = rendBrutoPass - perdaInflPass;
+  const rendBrutoPass=cap*(cdiPass*lcaTaxa),perdaInflPass=cap*ipcaPass,ganhoRealPass=rendBrutoPass-perdaInflPass;
 
-  $('c0-ret').textContent = fmt(divFinal);
-  
-  const equivCDB = weightedNetRate / (1 - 0.15);
-  const equivCDIPct = (equivCDB / cdi) * 100;
-  $('c0-equiv').textContent = fp(equivCDIPct) + ' do CDI';
-  $('f-equiv-cdi').textContent = fp(equivCDIPct) + ' do CDI Bruto';
+  $('c0-ret').textContent=fmt(divFinal);
+  const equivCDB=weightedNetRate/0.85,equivCDIPct=(equivCDB/cdi)*100;
+  $('c0-equiv').textContent=fp(equivCDIPct)+' do CDI';
+  $('f-equiv-cdi').textContent=fp(equivCDIPct)+' do CDI';
 
   $('t1-cap').textContent=fmt(cap);
+  $('t1-taxa').textContent=`Pós ${gV('lcaTaxa',90)}% CDI`;
   $('t1-rend').textContent='+'+fmt(rendBrutoPass);
   $('t1-infl').textContent='−'+fmt(perdaInflPass);
   $('t1-real').textContent=(ganhoRealPass>=0?'+':'')+fmt(ganhoRealPass);
-  
-  $('r-prazo').textContent=prazo;
-  $('ch-prazo').textContent=prazo;
+  $('r-prazo').textContent=prazo;$('ch-prazo').textContent=prazo;
 
-  /* Composição */
+  /* composição */
   $('comps').innerHTML=FUNDS.map(f=>{
     const rk=RISKS[f.risco]||RISKS[3];
-    const projTxt=f.tipo==='cdi'?`${f.proj.toString().replace('.',',')}% CDI`:`IPCA+ ${f.proj.toString().replace('.',',')}%`;
-    return `<div class="comp">
-      <div class="comp-head">
-        <div class="comp-ico" style="background:${rk.cor}"><span class="mi">${ICONS[f.ico]||'paid'}</span></div>
-        <div><div class="comp-name">${f.nome}</div><div class="comp-sub">${f.classe}</div></div>
-        <span class="risk-badge" style="background:${rk.cor}1f;color:${rk.cor}"><span class="mi" style="font-size:16px">circle</span>${rk.nome}</span>
-        <div class="comp-pct">${Math.round(f.w)}<small>%</small></div>
-      </div>
+    const projTxt=f.tipo==='cdi'?`${(''+f.proj).replace('.',',')}% CDI`:`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<div class="comp"><div class="comp-head">
+      <div class="comp-ico" style="background:${rk.cor}"><span class="mi">${ICONS[f.ico]||'paid'}</span></div>
+      <div><div class="comp-name">${f.nome}</div><div class="comp-sub">${f.classe}</div></div>
+      <span class="risk-badge" style="background:${rk.cor}1f;color:${rk.cor}"><span class="mi" style="font-size:15px">circle</span>${rk.nome}</span>
+      <div class="comp-pct">${Math.round(f.w)}<small>%</small></div></div>
       <div class="comp-body">
-        <div class="comp-stat"><div class="cs-l">Valor Alocado</div><div class="cs-v mono">${fmt(cap*f.w/100)}</div></div>
-        <div class="comp-stat"><div class="cs-l">Rent. Alvo Bruta</div><div class="cs-v">${projTxt}</div></div>
-      </div>
-    </div>`;
+        <div class="comp-stat"><div class="cs-l">Valor alocado</div><div class="cs-v mono">${fmt(cap*f.w/100)}</div></div>
+        <div class="comp-stat"><div class="cs-l">Rent. alvo bruta</div><div class="cs-v">${projTxt}</div></div>
+      </div></div>`;
   }).join('');
 
-  /* ROSCA (Donut Chart) */
-  const byRisk={}; FUNDS.forEach(f=>{byRisk[f.risco]=(byRisk[f.risco]||0)+(+f.w||0)});
+  /* rosca */
+  const byRisk={};FUNDS.forEach(f=>{byRisk[f.risco]=(byRisk[f.risco]||0)+(+f.w||0)});
   const order=Object.keys(RISKS).filter(k=>byRisk[k]>0);
-  const dLabels=order.map(k=>RISKS[k].nome);
-  const dData=order.map(k=>byRisk[k]);
-  const dCols=order.map(k=>RISKS[k].cor);
-  const totalW=dData.reduce((a,b)=>a+b,0)||1;
+  const totalW=order.reduce((a,k)=>a+byRisk[k],0)||1;
   const consPct=(byRisk[1]||0)+(byRisk[2]||0);
   $('dc-cons').textContent=Math.round(consPct/totalW*100)+'%';
-  
   if(donut)donut.destroy();
-  donut=new Chart($('donut'),{
-    type:'doughnut',
-    data:{labels:dLabels,datasets:[{data:dData,backgroundColor:dCols,borderColor:'#fff',borderWidth:4,hoverOffset:12}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+Math.round(c.raw/totalW*100)+'% ('+fmt(cap*c.raw/100)+')'}}}}
-  });
-  
-  $('riskLegend').innerHTML=order.map(k=>{
-    const v=RISKS[k],pct=Math.round(byRisk[k]/totalW*100);
-    return `<div class="rl-item"><span class="rl-dot" style="background:${v.cor}"></span>
-      <div><div class="rl-name">${v.nome}</div><div class="rl-sub">${fmt(cap*byRisk[k]/100)}</div></div>
-      <span class="rl-pct" style="color:${v.cor}">${pct}%</span></div>`;
-  }).join('');
+  donut=new Chart($('donut'),{type:'doughnut',data:{labels:order.map(k=>RISKS[k].nome),datasets:[{data:order.map(k=>byRisk[k]),backgroundColor:order.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:4,hoverOffset:12}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+Math.round(c.raw/totalW*100)+'% ('+fmt(cap*c.raw/100)+')'}}}}});
+  $('riskLegend').innerHTML=order.map(k=>{const v=RISKS[k],pct=Math.round(byRisk[k]/totalW*100);
+    return `<div class="rl-item"><span class="rl-dot" style="background:${v.cor}"></span><div><div class="rl-name">${v.nome}</div><div class="rl-sub">${fmt(cap*byRisk[k]/100)}</div></div><span class="rl-pct" style="color:${v.cor}">${pct}%</span></div>`}).join('');
 
-  /* Gráfico Linha (Evolução) */
-  const labels=[],dLca=[],dDiv=[];
-  // Ajuste se o prazo for apenas 1 ano, gera ao menos meses para o gráfico ter formato de curva (0 a 12 meses)
-  const steps = prazo === 1 ? 12 : prazo;
-  for(let i=0; i<=steps; i++){
-    const y = prazo === 1 ? i/12 : i;
-    labels.push(i===0 ? 'Hoje' : (prazo === 1 ? `Mês ${i}` : `Ano ${y}`));
-    
-    dLca.push(Math.round(cap*Math.pow(1+lcaAABruto,y)));
-    
-    let yearSum=0;
-    FUNDS.forEach(f=>{
-      const netRate = hasIR(f) ? calcRate(f,cdi,ipca) * 0.85 : calcRate(f,cdi,ipca);
-      yearSum += (cap*f.w/100) * Math.pow(1+netRate,y);
-    });
-    dDiv.push(Math.round(yearSum));
+  /* linha */
+  const labels=[],dLca=[],dDiv=[],steps=prazo<=1?12:prazo;
+  for(let i=0;i<=steps;i++){
+    const y=prazo<=1?i/12:i;
+    labels.push(i===0?'Hoje':(prazo<=1?`M${i}`:`Ano ${i}`));
+    dLca.push(Math.round(cap*Math.pow(1+lcaUnicaRate,y)));
+    let s=0;FUNDS.forEach(f=>{const n=hasIR(f)?calcRate(f,cdi,ipca)*0.85:calcRate(f,cdi,ipca);s+=(cap*f.w/100)*Math.pow(1+n,y)});
+    dDiv.push(Math.round(s));
   }
-  
   if(chart)chart.destroy();
-  chart=new Chart($('chart'),{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'100% LCA',data:dLca,borderColor:'#9aa6b8',backgroundColor:'rgba(154,166,184,.10)',borderWidth:3,fill:true,tension:.3,pointRadius:0},
-      {label:'Nova Carteira BB',data:dDiv,borderColor:'#1565c0',backgroundColor:'rgba(21,101,192,.08)',borderWidth:4,fill:true,tension:.3,pointRadius:0}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:14,weight:'500'},color:'#475569',usePointStyle:true,boxWidth:10}},
-        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
-      scales:{y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:12},color:'#9aa6b8'},grid:{color:'#e2e8f0'}},
-        x:{ticks:{font:{family:'Roboto',size:12},color:'#9aa6b8'},grid:{display:false}}}}
-  });
+  chart=new Chart($('chart'),{type:'line',data:{labels,datasets:[
+    {label:'100% LCA',data:dLca,borderColor:'#9aa6b8',backgroundColor:'rgba(154,166,184,.10)',borderWidth:3,fill:true,tension:.3,pointRadius:0},
+    {label:'Carteira BB',data:dDiv,borderColor:'#0040a8',backgroundColor:'rgba(0,64,168,.08)',borderWidth:4,fill:true,tension:.3,pointRadius:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:13,weight:'700'},color:'#46587a',usePointStyle:true,boxWidth:10}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
+    scales:{y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:12},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},x:{ticks:{font:{family:'Roboto',size:11},color:'#9aa6b8'},grid:{display:false}}}}});
 
-  /* S7 - Liquidez (Tabela) */
-  $('liqBody').innerHTML = FUNDS.map(f => `
-    <tr>
-      <td style="text-align:left; font-weight:600;">${f.nome} <br><span style="font-size:12px; color:var(--ink2); font-weight:400;">${f.classe}</span></td>
-      <td style="text-align:center; font-weight:700; font-family:var(--mono);">${f.w}%</td>
-      <td style="text-align:right; font-weight:700; color:var(--primary); font-size:18px">${f.liq}</td>
-    </tr>
-  `).join('');
+  /* liquidez */
+  $('liqBody').innerHTML=FUNDS.map(f=>`<tr><td style="font-weight:700">${f.nome}<br><span style="font-size:12px;color:var(--ink2);font-weight:400">${f.classe}</span></td><td style="text-align:center;font-weight:700;font-family:var(--mono)">${f.w}%</td><td style="text-align:right;font-weight:700;color:var(--primary)">${f.liq}</td></tr>`).join('');
 
-  /* S8 - Memória de Cálculo (Tabela) */
-  $('m-cdi').textContent = fp(cdi*100);
-  $('m-ipca').textContent = fp(ipca*100);
-  
-  const calcBody = $('calcBody');
-  calcBody.innerHTML = FUNDS.map(f => {
-    const grossRate = calcRate(f,cdi,ipca);
-    const ir = hasIR(f);
-    const netRate = ir ? grossRate * 0.85 : grossRate;
-    const txtBruta = f.tipo === 'cdi' ? `${f.proj.toString().replace('.',',')}% CDI` : `IPCA+ ${f.proj.toString().replace('.',',')}%`;
-    const irTag = ir ? '<span class="tagp r">Tributado 15%</span>' : '<span class="tagp g">Isento</span>';
-    
-    return `<tr>
-      <td>${f.nome}</td>
-      <td style="text-align:center"><b>${f.w}%</b></td>
-      <td class="num">${txtBruta}</td>
-      <td style="text-align:center">${irTag}</td>
-      <td class="num" style="color:var(--primary)">${fp(netRate*100)}</td>
-    </tr>`;
-  }).join('');
-  
-  calcBody.insertAdjacentHTML('beforeend', `<tr>
-      <td><b>MÉDIA PONDERADA (CARTEIRA)</b></td>
-      <td style="text-align:center"><b>100%</b></td>
-      <td></td>
-      <td></td>
-      <td class="num" style="color:var(--green)"><b>${fp(weightedNetRate*100)}</b></td>
-    </tr>`);
+  /* memória de cálculo */
+  $('m-cdi').textContent=fp(cdi*100);$('m-ipca').textContent=fp(ipca*100);
+  $('calcBody').innerHTML=FUNDS.map(f=>{
+    const g=calcRate(f,cdi,ipca),ir=hasIR(f),n=ir?g*0.85:g;
+    const txt=f.tipo==='cdi'?`${(''+f.proj).replace('.',',')}% CDI`:`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<tr><td>${f.nome}</td><td style="text-align:center"><b>${f.w}%</b></td><td class="num">${txt}</td><td style="text-align:center">${ir?'<span class="tagp r">15%</span>':'<span class="tagp g">Isento</span>'}</td><td class="num" style="color:var(--primary)">${fp(n*100)}</td></tr>`;
+  }).join('')+`<tr><td><b>MÉDIA PONDERADA</b></td><td style="text-align:center"><b>100%</b></td><td></td><td></td><td class="num" style="color:var(--green-d)"><b>${fp(weightedNetRate*100)}</b></td></tr>`;
 
-  /* S9 - Fechamento */
+  /* ===== COMPARAÇÃO FINAL (dados dos parâmetros) ===== */
+  const ipcaW=FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0);
+  const isentoW=FUNDS.filter(f=>!hasIR(f)).reduce((s,f)=>s+f.w,0);
+  const consPctR=Math.round(consPct/totalW*100);
+  const lcaReal=((1+lcaUnicaRate)/(1+ipca)-1)*100;
+  const divReal=((1+weightedNetRate)/(1+ipca)-1)*100;
+  const rows=[
+    ['Patrimônio final projetado',fmt(lcaFinal),fmt(divFinal),divFinal>lcaFinal],
+    ['Rentabilidade líquida (a.a.)',fp(lcaUnicaRate*100),fp(weightedNetRate*100),weightedNetRate>lcaUnicaRate],
+    ['Ganho real acima da inflação',fp(lcaReal),fp(divReal),divReal>lcaReal],
+    ['Proteção à inflação',ipcaW>0?'Parcial':'Não há',ipcaW>0?`Sim · ${Math.round(ipcaW)}% em IPCA+`:'—',ipcaW>0],
+    ['Risco de concentração','Concentrado · 1 emissor',`Distribuído · ${consPctR}% baixo risco`,true],
+    ['Liquidez','No vencimento','Parte em D+0',true],
+    ['Tributação (IR)','Isento',`${Math.round(isentoW)}% isento`,false],
+    ['Gestão','Por conta própria','Curadoria BB-BI',true],
+  ];
+  $('cmpBody').innerHTML=rows.map(r=>`<tr>
+    <td class="dim">${r[0]}</td>
+    <td class="lca">${r[1]}</td>
+    <td class="dv ${r[3]?'win':''}">${r[3]?'<span class="mi" style="font-size:15px;vertical-align:-2px">check_circle</span> ':''}${r[2]}</td>
+  </tr>`).join('');
+
+  /* fechamento */
   $('b-banco').textContent=banco;
   const maxV=Math.max(lcaFinal,divFinal);
-  $('b-lca').textContent=fmt(lcaFinal);
-  $('b-div').textContent=fmt(divFinal);
+  $('b-lca').textContent=fmt(lcaFinal);$('b-div').textContent=fmt(divFinal);
   $('b-lca-bar').style.width=Math.round((lcaFinal/maxV)*92)+'%';
   $('b-div-bar').style.width=Math.round((divFinal/maxV)*92)+'%';
-  
-  $('f-ganho').textContent = '+ ' + fmt(divFinal - lcaFinal);
+  $('f-ganho').textContent='+ '+fmt(divFinal-lcaFinal);
 }
 
-renderEditor();
-calc();
-renderHist();
+renderEditor();calc();renderHist();
 </script>
 </body>
 </html>
