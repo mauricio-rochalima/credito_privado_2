@@ -41,7 +41,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .fab.btn-pdf { background: var(--accent); color: var(--ink); font-weight: 700; }
 .fab.btn-pdf:hover { background: var(--accent-d); }
 
-.cfg{position:fixed;top:0;right:0;width:360px;height:100vh;background:var(--surface);overflow-y:auto;padding:0 0 30px;z-index:130;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--e4)}
+.cfg{position:fixed;top:0;right:0;width:380px;height:100vh;background:var(--surface);overflow-y:auto;padding:0 0 30px;z-index:130;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--e4)}
 .cfg.open{transform:translateX(0)}
 .cfg-top{position:sticky;top:0;background:var(--primary);color:#fff;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;z-index:2}
 .cfg-top h2{font-size:16px;font-weight:500}
@@ -67,7 +67,8 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .fund-row .fr-top input{font-weight:500; font-size: 14px;}
 .fund-row .fr-del{flex-shrink:0;background:var(--red-l);color:var(--red);border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center}
 .fund-row .fr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.fund-row .fr-grid input,.fund-row .fr-grid select{margin:0;font-size:13px;padding:8px 8px}
+.fund-row .fr-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px; margin-top:8px}
+.fund-row input,.fund-row select{margin:0;font-size:13px;padding:8px 8px}
 .fr-mini{font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;display:block}
 
 /* NAVEGACAO E PROGRESSO */
@@ -131,7 +132,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .dtable{width:100%;max-width:600px;font-size:17px;padding:12px 28px}
 .dtable tr{border-bottom:1px solid var(--line)}
 .dtable tr:last-child{border-bottom:none}
-.dtable td{padding:18px 0}
+.dtable td{padding:18px 0; vertical-align: middle}
 .dtable td:last-child{text-align:right;font-family:var(--mono);font-weight:700}
 .dtable .k{color:var(--ink2);font-weight:400}
 .tred{color:var(--red)} .tgreen{color:var(--green)} .tblue{color:var(--primary)}
@@ -203,7 +204,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .chart-wrap h4{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2);margin-bottom:12px}
 .chart-cap{font-size:13px;color:var(--ink3);margin-top:16px;line-height:1.5;font-weight:400}
 
-/* S7 - MEMORIA DE CALCULO */
+/* S8 - MEMORIA DE CALCULO */
 .calc-table{width:100%;font-size:16px;border-collapse:collapse; background: var(--surface); border-radius: 16px; overflow: hidden; box-shadow: var(--e2); border: 1px solid var(--line)}
 .calc-table th{background:var(--primary);color:#fff;padding:18px 24px;text-align:left;font-weight:600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;}
 .calc-table td{padding:18px 24px;border-bottom:1px solid var(--line); vertical-align: middle;}
@@ -214,7 +215,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 .tagp.r{background:var(--red-l);color:var(--red)}
 .tagp.b{background:var(--primary-l);color:var(--primary)}
 
-/* S8 - FECHAMENTO */
+/* S9 - FECHAMENTO */
 .s8{background:linear-gradient(135deg,#f4f8ff 0%,#e7eef9 100%)}
 .s8-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;width:100%;align-items:center}
 .s6-bars{padding:28px 32px;margin-bottom:24px}
@@ -280,22 +281,22 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   <div class="cfg-in">
     <h3>Dados do Cliente</h3>
     <div class="row">
-      <div class="fld"><label>Capital (R$)</label><input type="number" id="capital" value="400000"/></div>
-      <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="5"/></div>
+      <div class="fld"><label>Capital (R$)</label><input type="number" id="capital" value="300000"/></div>
+      <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="1"/></div>
     </div>
     <button class="mbtn ghost" onclick="checarFGC()"><span class="mi">verified_user</span> Otimizar Limite FGC</button>
     <div class="fgc-note" id="fgcNote"></div>
 
     <h3>Cenário Futuro Estimado</h3>
     <div class="row">
-      <div class="fld"><label>CDI (% a.a.)</label><input type="number" step="0.1" id="cdi" value="10.5"/></div>
-      <div class="fld"><label>IPCA (% a.a.)</label><input type="number" step="0.1" id="ipca" value="4.5"/></div>
+      <div class="fld"><label>CDI (% a.a.)</label><input type="number" step="0.01" id="cdi" value="13.35"/></div>
+      <div class="fld"><label>IPCA (% a.a.)</label><input type="number" step="0.01" id="ipca" value="5"/></div>
     </div>
 
     <h3>Raio-X (A LCA que Venceu)</h3>
     <div class="row">
-      <div class="fld"><label>CDI Realizado (%)</label><input type="number" step="0.1" id="cdiPass" value="11.5"/></div>
-      <div class="fld"><label>IPCA Realizado (%)</label><input type="number" step="0.1" id="ipcaPass" value="4.62"/></div>
+      <div class="fld"><label>CDI Realizado (%)</label><input type="number" step="0.01" id="cdiPass" value="14.45"/></div>
+      <div class="fld"><label>IPCA Realizado (%)</label><input type="number" step="0.01" id="ipcaPass" value="4.62"/></div>
     </div>
     <div class="fld"><label>Banco da nova LCA</label><input type="text" id="banco" value="Banco ABC"/></div>
 
@@ -325,7 +326,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- ════ SLIDE 1: HISTÓRICO ════ -->
 <section class="slide" id="s1">
-  <div class="slide-tag">01 / <b>08</b> · A Realidade Histórica</div>
+  <div class="slide-tag">01 / <b>09</b> · A Realidade Histórica</div>
   <div class="eyebrow">A Prova Matemática</div>
   <h2 class="h2">Só o CDI nem sempre<br/><em>bate a inflação.</em></h2>
   <div class="lead">O mito da Renda Fixa pós-fixada ser "100% garantida" cai por terra em anos de choque inflacionário. Quem ficou apenas no CDI perdeu poder de compra recentemente.</div>
@@ -348,7 +349,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- ════ SLIDE 2: RAIO-X ════ -->
 <section class="slide" id="s2">
-  <div class="slide-tag">02 / <b>08</b> · O Seu Raio-X</div>
+  <div class="slide-tag">02 / <b>09</b> · O Seu Raio-X</div>
   <div class="s5-grid" style="grid-template-columns:1fr 1fr;align-items:center">
     <div>
       <div class="eyebrow">A LCA que acabou de vencer</div>
@@ -359,7 +360,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     <div>
       <table class="dtable card">
         <tr><td class="k">Capital investido (Simulado)</td><td class="tblue" id="t1-cap">—</td></tr>
-        <tr><td class="k">Taxa contratada</td><td id="t1-taxa">—</td></tr>
+        <tr><td class="k">Taxa contratada (Passada)</td><td id="t1-taxa">Pós 90% CDI</td></tr>
         <tr><td class="k">Rendimento bruto (Nominal)</td><td class="tblue" id="t1-rend">—</td></tr>
         <tr><td class="k tred">Custo de Vida (Corrosão da inflação)</td><td class="tred" id="t1-infl">—</td></tr>
         <tr class="big"><td class="k" style="color:var(--ink)">Lucro Real Efetivo (Poder de Compra)</td><td class="tgreen" id="t1-real">—</td></tr>
@@ -370,7 +371,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- ════ SLIDE 3: O RISCO / FGC ════ -->
 <section class="slide" id="s3">
-  <div class="slide-tag">03 / <b>08</b> · Gestão de Risco</div>
+  <div class="slide-tag">03 / <b>09</b> · Gestão de Risco</div>
   <div class="eyebrow">Desmistificando a Segurança Absoluta</div>
   <h2 class="h2">Concentrar tudo num só banco<br/>é uma <em>falsa sensação de segurança.</em></h2>
   <div class="riskgrid">
@@ -379,7 +380,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
     <div class="riskcard"><div class="ri-ico"><span class="mi">trending_down</span></div><h4>Risco de Reinvestimento</h4><p>A renovar de ano a ano, fica sujeito à queda da taxa Selic. A próxima aplicação <b>tenderá a pagar menos</b> se não garantir taxas longas agora.</p></div>
   </div>
   <div class="asym">
-    <div class="as-q">Na LCA pós-fixada atual, assume <b>100% do risco</b> de crédito de um banco — mas recebe apenas <b>~90% do CDI</b>. A balança está desequilibrada.</div>
+    <div class="as-q">Na LCA pós-fixada atual, assume <b>100% do risco</b> de crédito de um banco — mas recebe apenas <b>uma fração do CDI</b>. A balança está desequilibrada.</div>
     <div class="as-fig">
       <div class="as-num"><div class="n n-bad">100%</div><div class="l">risco assumido</div></div>
       <div class="as-num"><div class="n n-good" id="as-retorno">90%</div><div class="l">do CDI recebido</div></div>
@@ -389,7 +390,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- ════ SLIDE 4: A SOLUÇÃO ════ -->
 <section class="slide" id="s4">
-  <div class="slide-tag">04 / <b>08</b> · A Solução BB</div>
+  <div class="slide-tag">04 / <b>09</b> · A Solução BB</div>
   <div class="eyebrow">A Curadoria do Banco do Brasil</div>
   <h2 class="h2">A nossa <em>fortaleza:</em> várias muralhas,<br/>cada uma com a sua função.</h2>
   <div class="layers">
@@ -403,7 +404,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- ════ SLIDE 5: MAPA DE RISCO (DONUT) ════ -->
 <section class="slide" id="s5">
-  <div class="slide-tag">05 / <b>08</b> · O Mapa de Risco</div>
+  <div class="slide-tag">05 / <b>09</b> · O Mapa de Risco</div>
   <div class="eyebrow">Distribuição por Nível de Risco</div>
   <h2 class="h2">Como o risco do seu portfólio<br/>será <em>distribuído?</em></h2>
   <div class="donut-grid">
@@ -417,24 +418,47 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 
 <!-- ════ SLIDE 6: COMPOSIÇÃO E PROJEÇÃO ════ -->
 <section class="slide" id="s6">
-  <div class="slide-tag">06 / <b>08</b> · A Composição e Evolução</div>
+  <div class="slide-tag">06 / <b>09</b> · A Composição e Evolução</div>
   <div class="eyebrow">A Sua Nova Carteira</div>
   <h3 class="h3" style="margin-bottom:20px">Os ativos selecionados e a projeção de crescimento.</h3>
   <div class="s5-grid">
     <div><div id="comps"></div></div>
     <div>
       <div class="card chart-wrap">
-        <h4>Evolução Patrimonial · <span id="ch-prazo">5</span> anos</h4>
+        <h4>Evolução Patrimonial · <span id="ch-prazo">1</span> ano</h4>
         <div style="position:relative;height:300px"><canvas id="chart"></canvas></div>
-        <p class="chart-cap">Projeção ilustrativa com base no cenário macroeconómico.</p>
+        <p class="chart-cap">Projeção ilustrativa com base no cenário macroeconómico estimado.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ SLIDE 7: MEMÓRIA DE CÁLCULO ════ -->
+<!-- ════ SLIDE 7: LIQUIDEZ E RESGATE ════ -->
 <section class="slide" id="s7">
-  <div class="slide-tag">07 / <b>08</b> · Transparência</div>
+  <div class="slide-tag">07 / <b>09</b> · Acesso aos Recursos</div>
+  <div class="eyebrow">Disponibilidade e Liquidez</div>
+  <h2 class="h2">Quando posso <em>resgatar</em><br/>o meu dinheiro?</h2>
+  <div class="lead">Entenda os prazos exatos para que os recursos de cada fundo ou ativo fiquem disponíveis na sua conta corrente após a solicitação de resgate.</div>
+  
+  <div class="card" style="margin-top:32px;">
+    <table class="dtable" style="max-width:100%; width:100%;">
+      <thead>
+        <tr>
+          <th style="text-align:left; color:var(--ink3); font-size:13px; text-transform:uppercase;">Ativo / Fundo</th>
+          <th style="text-align:center; color:var(--ink3); font-size:13px; text-transform:uppercase;">Peso na Carteira</th>
+          <th style="text-align:right; color:var(--ink3); font-size:13px; text-transform:uppercase;">Prazo de Disponibilidade</th>
+        </tr>
+      </thead>
+      <tbody id="liqBody">
+        <!-- Injetado via JS -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════ SLIDE 8: MEMÓRIA DE CÁLCULO ════ -->
+<section class="slide" id="s8">
+  <div class="slide-tag">08 / <b>09</b> · Transparência</div>
   <div class="eyebrow">Memória de Cálculo</div>
   <h2 class="h2">Como os números são <em>construídos.</em></h2>
   <div class="lead" style="margin-bottom:32px">Cálculos efetuados com estimativa de CDI em <b><span id="m-cdi"></span></b> e IPCA em <b><span id="m-ipca"></span></b>. Descontamos a tributação para comparar o ganho líquido que efetivamente cai na sua conta.</div>
@@ -455,9 +479,9 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
   </table>
 </section>
 
-<!-- ════ SLIDE 8: FECHAMENTO ════ -->
-<section class="slide s8" id="s8">
-  <div class="slide-tag">08 / <b>08</b> · A Decisão</div>
+<!-- ════ SLIDE 9: FECHAMENTO ════ -->
+<section class="slide s8" id="s9">
+  <div class="slide-tag">09 / <b>09</b> · A Decisão</div>
   <div class="s8-grid">
     <div>
       <div class="eyebrow">A Comparação Final</div>
@@ -518,22 +542,22 @@ function renderHist(){
   requestAnimationFrame(()=>document.querySelectorAll('.hfill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
 
-/* Níveis de Risco e Ícones */
+/* Níveis de Risco rigorosamente ajustados */
 const RISKS={
-  1:{nome:'Baixíssimo',cor:'#2e9c63'},
-  2:{nome:'Muito baixo',cor:'#7cb342'},
-  3:{nome:'Baixo',cor:'#ffb300'},
-  4:{nome:'Médio-baixo',cor:'#fb8c00'},
-  5:{nome:'Médio',cor:'#e04b39'},
+  1:{nome:'Muito baixo',cor:'#2e9c63'},
+  2:{nome:'Baixo',cor:'#7cb342'},
+  3:{nome:'Médio',cor:'#ffb300'},
+  4:{nome:'Alto',cor:'#fb8c00'},
+  5:{nome:'Muito alto',cor:'#e04b39'},
 };
 const ICONS={lca:'foundation',liq:'water_drop',tes:'account_balance',cred:'business_center',deb:'shield',mm:'tune',ext:'public'};
 
-/* ATIVOS PADRÃO (Iniciais) */
+/* ATIVOS PADRÃO (Pré-preenchidos conforme Imagem) */
 let FUNDS=[
-  {nome:'LCA — Reserva Limite FGC',classe:'Renda Fixa Pós · Isenta',w:60,proj:88,tipo:'cdi',risco:1,ico:'lca'},
-  {nome:'BB RF LP High',classe:'Caixa · Liquidez D+0',w:15,proj:97,tipo:'cdi',risco:2,ico:'liq'},
-  {nome:'BB Régia Equilíbrio',classe:'Crédito Premium · Liq. D+6',w:10,proj:98,tipo:'cdi',risco:3,ico:'cred'},
-  {nome:'Debênture Incentivada (Curadoria)',classe:'IPCA+ Isenta · brAAA',w:15,proj:7.5,tipo:'ipca',risco:3,ico:'deb'}
+  {nome:'LCA Banco ABC',classe:'Renda Fixa Pós · Isenta',w:60,proj:85,tipo:'cdi',risco:1,ico:'lca', liq:'No vencimento'},
+  {nome:'BB RF LP High',classe:'Caixa · Liquidez D+0',w:15,proj:101,tipo:'cdi',risco:2,ico:'liq', liq:'D+0 (Mesmo dia)'},
+  {nome:'BB Régia Equilíbrio',classe:'Crédito Premium · Liq. D+6',w:10,proj:104.8,tipo:'cdi',risco:3,ico:'cred', liq:'D+6 dias úteis'},
+  {nome:'Debênture Incentivada (Curadoria)',classe:'IPCA+ Isenta · brAAA',w:15,proj:7.5,tipo:'ipca',risco:3,ico:'deb', liq:'No vencimento'}
 ];
 
 function toggleCfg(){$('cfg').classList.toggle('open')}
@@ -544,7 +568,7 @@ function gerarPDF() {
 }
 
 function checarFGC(){
-  const cap=gV('capital',400000);
+  const cap=gV('capital',300000);
   
   if(cap > 250000){
     const idealLca = 250000;
@@ -554,9 +578,9 @@ function checarFGC(){
     // Auto-ajusta os fundos base
     if(FUNDS.length >= 4) {
       FUNDS[0].w = parseFloat(lcaPct.toFixed(1));
-      FUNDS[1].w = parseFloat((diff * 0.4).toFixed(1)); // 40% do resto no LP
-      FUNDS[2].w = parseFloat((diff * 0.2).toFixed(1)); // 20% do resto no Regia
-      FUNDS[3].w = parseFloat((diff * 0.4).toFixed(1)); // 40% do resto na Deb
+      FUNDS[1].w = parseFloat((diff * 0.4).toFixed(1));
+      FUNDS[2].w = parseFloat((diff * 0.2).toFixed(1));
+      FUNDS[3].w = parseFloat((diff * 0.4).toFixed(1));
     }
     
     renderEditor(); calc();
@@ -586,10 +610,13 @@ function renderEditor(){
           <option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option>
         </select></div>
       </div>
-      <div style="margin-top:8px"><span class="fr-mini">Risco / Categoria</span>
-        <select onchange="upd(${i},'risco',this.value)">
-          ${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k} · ${v.nome}</option>`).join('')}
-        </select>
+      <div class="fr-grid-2">
+        <div><span class="fr-mini">Risco / Categoria</span>
+          <select onchange="upd(${i},'risco',this.value)">
+            ${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k} · ${v.nome}</option>`).join('')}
+          </select>
+        </div>
+        <div><span class="fr-mini">Liquidez</span><input value="${f.liq || 'N/A'}" oninput="upd(${i},'liq',this.value)"/></div>
       </div>
     </div>`).join('');
   const soma=FUNDS.reduce((s,f)=>s+(+f.w||0),0);
@@ -597,13 +624,13 @@ function renderEditor(){
     $('fundEditor').insertAdjacentHTML('beforeend',`<div style="font-size:12px;color:var(--red);text-align:center;margin:10px 0; font-weight:700">⚠ A soma dos pesos é ${soma.toFixed(1)}%. Ajuste para fechar em 100%.</div>`);
   }
 }
-function upd(i,k,v){FUNDS[i][k]=(k==='nome'||k==='classe'||k==='tipo')?v:parseFloat(v)||(k==='risco'?1:0);if(k==='w'||k==='risco')renderEditor();calc()}
-function addFund(){FUNDS.push({nome:'Novo ativo',classe:'Classe Livre',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred'});renderEditor();calc()}
+function upd(i,k,v){FUNDS[i][k]=(k==='nome'||k==='classe'||k==='tipo'||k==='liq')?v:parseFloat(v)||(k==='risco'?1:0);if(k==='w'||k==='risco')renderEditor();calc()}
+function addFund(){FUNDS.push({nome:'Novo ativo',classe:'Classe Livre',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1'});renderEditor();calc()}
 function delFund(i){FUNDS.splice(i,1);renderEditor();calc()}
 
 ['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass'].forEach(id=>{const e=$(id);if(e)e.addEventListener('input',calc)});
 
-const SLIDES=['s0','s1','s2','s3','s4','s5','s6','s7','s8'];
+const SLIDES=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
 SLIDES.forEach((id,i)=>{const d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.onclick=()=>$(id).scrollIntoView({behavior:'smooth'});$('dots').appendChild(d)});
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=SLIDES.indexOf(e.target.id);if(i<0)return;document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));$('prog').style.width=Math.round((i/(SLIDES.length-1))*100)+'%';if(e.target.id==='s1')renderHist()}})},{threshold:.5});
 SLIDES.forEach(id=>{const e=$(id);if(e)io.observe(e)});
@@ -617,24 +644,22 @@ function calcRate(f,cdi,ipca){
 }
 
 function hasIR(f) {
-  // Lógica simples baseada no nome para aplicar isenção. Na prática isso viria do back-end.
   const lowerName = (f.nome + ' ' + f.classe).toLowerCase();
   if (lowerName.includes('lca') || lowerName.includes('lci') || lowerName.includes('isenta') || lowerName.includes('debênture')) {
-    return false; // Isento
+    return false; 
   }
-  return true; // Tributado (15%)
+  return true; 
 }
 
 function calc(){
-  const cap=gV('capital',400000), prazo=gV('prazo',5);
-  const cdi=gV('cdi',10.5)/100, ipca=gV('ipca',4.5)/100;
+  const cap=gV('capital',300000), prazo=gV('prazo',1);
+  const cdi=gV('cdi',13.35)/100, ipca=gV('ipca',5)/100;
   const banco=gV('banco','Banco ABC');
-  const cdiPass=gV('cdiPass',11.5)/100, ipcaPass=gV('ipcaPass',4.62)/100;
+  const cdiPass=gV('cdiPass',14.45)/100, ipcaPass=gV('ipcaPass',4.62)/100;
 
-  // Busca a LCA ou pega o primeiro fundo
   const lcaF = FUNDS.find(f=>f.ico==='lca') || FUNDS[0];
   const lcaAABruto = calcRate(lcaF,cdi,ipca);
-  const lcaFinal = cap * Math.pow(1+lcaAABruto,prazo); // Assumindo LCA isenta
+  const lcaFinal = cap * Math.pow(1+lcaAABruto,prazo); 
   
   let divFinal = 0;
   let weightedNetRate = 0;
@@ -648,21 +673,18 @@ function calc(){
     weightedNetRate += w * netRate;
   });
 
-  const rendBrutoPass = cap * (cdiPass * 0.9); // proxy 90% CDI pass
+  const rendBrutoPass = cap * (cdiPass * 0.9); 
   const perdaInflPass = cap * ipcaPass;
   const ganhoRealPass = rendBrutoPass - perdaInflPass;
 
-  // Atualizando textos DOM S0 / S2 / S8
   $('c0-ret').textContent = fmt(divFinal);
   
-  // Calculo de equivalência (quanto o CDB precisa pagar para igualar a taxa líquida da carteira)
   const equivCDB = weightedNetRate / (1 - 0.15);
   const equivCDIPct = (equivCDB / cdi) * 100;
   $('c0-equiv').textContent = fp(equivCDIPct) + ' do CDI';
   $('f-equiv-cdi').textContent = fp(equivCDIPct) + ' do CDI Bruto';
 
   $('t1-cap').textContent=fmt(cap);
-  $('t1-taxa').textContent= `Pós 90% CDI`;
   $('t1-rend').textContent='+'+fmt(rendBrutoPass);
   $('t1-infl').textContent='−'+fmt(perdaInflPass);
   $('t1-real').textContent=(ganhoRealPass>=0?'+':'')+fmt(ganhoRealPass);
@@ -673,7 +695,7 @@ function calc(){
   /* Composição */
   $('comps').innerHTML=FUNDS.map(f=>{
     const rk=RISKS[f.risco]||RISKS[3];
-    const projTxt=f.tipo==='cdi'?`${f.proj}% CDI`:`IPCA+ ${f.proj}%`;
+    const projTxt=f.tipo==='cdi'?`${f.proj.toString().replace('.',',')}% CDI`:`IPCA+ ${f.proj.toString().replace('.',',')}%`;
     return `<div class="comp">
       <div class="comp-head">
         <div class="comp-ico" style="background:${rk.cor}"><span class="mi">${ICONS[f.ico]||'paid'}</span></div>
@@ -715,8 +737,12 @@ function calc(){
 
   /* Gráfico Linha (Evolução) */
   const labels=[],dLca=[],dDiv=[];
-  for(let y=0;y<=prazo;y++){
-    labels.push(y===0?'Hoje':`Ano ${y}`);
+  // Ajuste se o prazo for apenas 1 ano, gera ao menos meses para o gráfico ter formato de curva (0 a 12 meses)
+  const steps = prazo === 1 ? 12 : prazo;
+  for(let i=0; i<=steps; i++){
+    const y = prazo === 1 ? i/12 : i;
+    labels.push(i===0 ? 'Hoje' : (prazo === 1 ? `Mês ${i}` : `Ano ${y}`));
+    
     dLca.push(Math.round(cap*Math.pow(1+lcaAABruto,y)));
     
     let yearSum=0;
@@ -741,7 +767,16 @@ function calc(){
         x:{ticks:{font:{family:'Roboto',size:12},color:'#9aa6b8'},grid:{display:false}}}}
   });
 
-  /* S7 - Memória de Cálculo (Tabela) */
+  /* S7 - Liquidez (Tabela) */
+  $('liqBody').innerHTML = FUNDS.map(f => `
+    <tr>
+      <td style="text-align:left; font-weight:600;">${f.nome} <br><span style="font-size:12px; color:var(--ink2); font-weight:400;">${f.classe}</span></td>
+      <td style="text-align:center; font-weight:700; font-family:var(--mono);">${f.w}%</td>
+      <td style="text-align:right; font-weight:700; color:var(--primary); font-size:18px">${f.liq}</td>
+    </tr>
+  `).join('');
+
+  /* S8 - Memória de Cálculo (Tabela) */
   $('m-cdi').textContent = fp(cdi*100);
   $('m-ipca').textContent = fp(ipca*100);
   
@@ -750,7 +785,7 @@ function calc(){
     const grossRate = calcRate(f,cdi,ipca);
     const ir = hasIR(f);
     const netRate = ir ? grossRate * 0.85 : grossRate;
-    const txtBruta = f.tipo === 'cdi' ? `${f.proj}% CDI` : `IPCA+ ${f.proj}%`;
+    const txtBruta = f.tipo === 'cdi' ? `${f.proj.toString().replace('.',',')}% CDI` : `IPCA+ ${f.proj.toString().replace('.',',')}%`;
     const irTag = ir ? '<span class="tagp r">Tributado 15%</span>' : '<span class="tagp g">Isento</span>';
     
     return `<tr>
@@ -762,7 +797,6 @@ function calc(){
     </tr>`;
   }).join('');
   
-  // Linha Final
   calcBody.insertAdjacentHTML('beforeend', `<tr>
       <td><b>MÉDIA PONDERADA (CARTEIRA)</b></td>
       <td style="text-align:center"><b>100%</b></td>
@@ -771,7 +805,7 @@ function calc(){
       <td class="num" style="color:var(--green)"><b>${fp(weightedNetRate*100)}</b></td>
     </tr>`);
 
-  /* S8 - Fechamento */
+  /* S9 - Fechamento */
   $('b-banco').textContent=banco;
   const maxV=Math.max(lcaFinal,divFinal);
   $('b-lca').textContent=fmt(lcaFinal);
