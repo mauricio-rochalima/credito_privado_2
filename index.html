@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
 :root{
   --pr:#0040a8;--prd:#002b6b;--prl:#e6eefb;
@@ -23,10 +24,30 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .mi{font-family:'Material Icons';font-style:normal;line-height:1;vertical-align:middle;font-size:inherit}
 
 /* FAB */
-.fabs{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;gap:8px}
+.fabs{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
 .fab{height:44px;padding:0 18px;border:none;border-radius:22px;cursor:pointer;font:700 13px/1 var(--sans);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s}
 .fb1{background:var(--pr);color:#fff}.fb1:hover{background:var(--prd)}
 .fb2{background:var(--ac);color:var(--ink)}.fb2:hover{background:#e6c200}
+.fb3{background:var(--gn);color:#fff}.fb3:hover{background:var(--gnd)}
+
+/* EXPORT OVERLAY */
+.exp-overlay{position:fixed;inset:0;background:rgba(16,33,61,.7);z-index:400;display:none;align-items:center;justify-content:center}
+.exp-overlay.show{display:flex}
+.exp-modal{background:#fff;border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.exp-modal h3{font:700 17px/1.3 var(--slab);color:var(--pr);margin-bottom:6px}
+.exp-modal p{font-size:13px;color:var(--k2);margin-bottom:18px;line-height:1.5}
+.exp-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;margin-bottom:18px}
+.exp-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--ln);border-radius:10px;cursor:pointer;transition:.15s;background:var(--bg)}
+.exp-item:hover{border-color:var(--pr);background:var(--prl)}
+.exp-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--pr);flex-shrink:0}
+.exp-item-name{font-size:13px;font-weight:700;color:var(--ink)}
+.exp-item-sub{font-size:11px;color:var(--k2)}
+.exp-actions{display:flex;gap:8px}
+.exp-btn{flex:1;padding:10px;border:none;border-radius:8px;cursor:pointer;font:700 13px/1 var(--sans)}
+.exp-btn-cancel{background:var(--bg);color:var(--k2)}
+.exp-btn-go{background:var(--gn);color:#fff}
+.exp-progress{margin-top:14px;font-size:12px;color:var(--k2);text-align:center;display:none}
+.exp-progress.show{display:block}
 
 /* PANEL */
 .panel{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--sf);overflow-y:auto;z-index:300;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.12)}
@@ -164,52 +185,55 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .disc-box{background:var(--bg);border-radius:12px;border:1px solid var(--ln);padding:14px 18px;margin-top:12px}
 .disc{font-size:10px;color:var(--k3);line-height:1.6}
 
-/* PRINT */
+/* PRINT — cada card nunca quebra no meio */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  @page{size:108mm 192mm;margin:4mm}
-  html{font-size:9px!important}
+  @page{size:108mm 192mm;margin:5mm}
+  html{font-size:8.5px!important}
   body{background:#fff!important}
-  .fabs,.panel{display:none!important}
+  .fabs,.panel,.exp-overlay{display:none!important}
   .screen{padding:0!important;max-width:100%!important;margin:0!important}
   .stitle,.ssub{display:none!important}
-  .pb{page-break-before:always;break-before:page;display:block}
-  .hero{grid-template-columns:1fr!important;gap:6px!important;padding:8px!important;border-radius:5px!important;margin-bottom:5px!important}
-  .hh{font-size:13px!important}.hp{font-size:9px!important}.hey{font-size:8px!important}
-  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:4px!important}
-  .kpi{padding:6px 8px!important;gap:6px!important}
-  .ki{width:24px!important;height:24px!important}.ki .mi{font-size:13px!important}
-  .kv{font-size:12px!important}.kl{font-size:8.5px!important}
-  .card{border-radius:5px!important;margin-bottom:5px!important;box-shadow:none!important}
-  .sec{padding:6px 8px 5px!important}
-  .sh{font-size:11px!important}.sp{font-size:9px!important;margin-top:2px!important}
-  .ey{font-size:7.5px!important;padding:2px 6px!important}
+  /* Nunca quebrar dentro de um card */
+  .card{page-break-inside:avoid!important;break-inside:avoid!important;border-radius:4px!important;margin-bottom:4px!important;box-shadow:none!important}
+  .hero{page-break-inside:avoid!important;break-inside:avoid!important;grid-template-columns:1fr!important;gap:5px!important;padding:8px!important;border-radius:4px!important;margin-bottom:4px!important}
+  .disc-box{page-break-inside:avoid!important;break-inside:avoid!important;padding:6px 8px!important;margin-top:4px!important}
+  /* Quebra explícita antes de cada .pb */
+  .pb{page-break-before:always!important;break-before:page!important;display:block!important}
+  /* Tamanhos */
+  .hh{font-size:12px!important}.hp{font-size:8.5px!important}.hey{font-size:7.5px!important}
+  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:3px!important}
+  .kpi{padding:5px 7px!important;gap:5px!important}
+  .ki{width:22px!important;height:22px!important}.ki .mi{font-size:12px!important}
+  .kv{font-size:11px!important}.kl{font-size:8px!important}
+  .sec{padding:5px 7px 4px!important}
+  .sh{font-size:10.5px!important}.sp{font-size:8.5px!important;margin-top:2px!important}
+  .ey{font-size:7px!important;padding:2px 5px!important}
   .r3{grid-template-columns:repeat(3,1fr)!important}
-  .rc{padding:7px!important}.ri{width:22px!important;height:22px!important;margin-bottom:5px!important}
-  .ri .mi{font-size:11px!important}.rc h4{font-size:9.5px!important}.rc p{font-size:8.5px!important}
-  .ly{padding:7px!important;padding-top:10px!important}
-  .ly h4{font-size:9.5px!important}.ly p{font-size:8.5px!important}.ly-tag{font-size:7.5px!important}
-  .ly-meta{font-size:8.5px!important}.ly-link{font-size:8px!important}
-  .hc{padding:5px 2px!important}.hy{font-size:8.5px!important}
-  .hbs{height:52px!important}.hb{width:10px!important}
-  .hb-val{font-size:7px!important}.hr{font-size:8px!important}
-  .hleg{font-size:8px!important}
-  .rtab{font-size:9px!important}.rtab td{padding:5px 0!important}
-  .ci{padding:5px 8px!important;gap:6px!important}
-  .cii{width:22px!important;height:22px!important}.cii .mi{font-size:11px!important}
-  .cn{font-size:9.5px!important}.cs{font-size:8.5px!important}
-  .cb{font-size:8px!important;padding:2px 5px!important}
-  .cpct{font-size:14px!important}
-  .ds{grid-template-columns:.85fr 1.15fr!important}
-  .db{padding:8px!important}.dr{height:110px!important}
-  .dcv{font-size:16px!important}
-  .rl{padding:8px!important;gap:4px!important}
-  .rli{padding:4px 7px!important}.rln{font-size:9.5px!important}.rls{font-size:8.5px!important}.rlp{font-size:12px!important}
-  .mt th,.mt td{padding:4px 7px!important;font-size:8.5px!important}
-  .chw{height:130px!important;padding:8px!important}
-  .ct th,.ct td{padding:5px 7px!important;font-size:8.5px!important}
-  .disc-box{padding:8px 10px!important;margin-top:5px!important}
-  .disc{font-size:8px!important}
+  .rc{padding:6px!important}.ri{width:20px!important;height:20px!important;margin-bottom:4px!important}
+  .ri .mi{font-size:10px!important}.rc h4{font-size:9px!important}.rc p{font-size:8px!important}
+  .ly{padding:6px!important;padding-top:9px!important}
+  .ly h4{font-size:9px!important}.ly p{font-size:8px!important}.ly-tag{font-size:7px!important}
+  .ly-meta{font-size:7.5px!important}.ly-link{font-size:7.5px!important}
+  .hc{padding:4px 2px!important}.hy{font-size:8px!important}
+  .hbs{height:46px!important}.hb{width:9px!important}
+  .hb-val{font-size:6.5px!important}.hr{font-size:7.5px!important}
+  .hleg{font-size:7.5px!important}
+  .rtab{font-size:8.5px!important}.rtab td{padding:4px 0!important}
+  .ci{padding:5px 8px!important;gap:5px!important}
+  .cii{width:20px!important;height:20px!important}.cii .mi{font-size:10px!important}
+  .cn{font-size:9px!important}.cs{font-size:8px!important}
+  .cb{font-size:7.5px!important;padding:2px 4px!important}
+  .cpct{font-size:13px!important}
+  .ds{grid-template-columns:.82fr 1.18fr!important}
+  .db{padding:7px!important}.dr{height:100px!important}
+  .dcv{font-size:15px!important}
+  .rl{padding:7px!important;gap:3px!important}
+  .rli{padding:3px 6px!important}.rln{font-size:9px!important}.rls{font-size:7.5px!important}.rlp{font-size:11px!important}
+  .mt th,.mt td{padding:3px 6px!important;font-size:8px!important}
+  .chw{height:120px!important;padding:7px!important}
+  .ct th,.ct td{padding:4px 6px!important;font-size:8px!important}
+  .disc{font-size:7.5px!important}
 }
 
 @media(max-width:640px){
@@ -224,7 +248,22 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 
 <div class="fabs">
   <button class="fab fb1" onclick="togglePanel()"><span class="mi">tune</span> Parâmetros</button>
-  <button class="fab fb2" onclick="imp()"><span class="mi">smartphone</span> PDF 3 pág.</button>
+  <button class="fab fb3" onclick="abrirExport()"><span class="mi">image</span> Exportar cards</button>
+  <button class="fab fb2" onclick="imp()"><span class="mi">picture_as_pdf</span> PDF 3 pág.</button>
+</div>
+
+<!-- MODAL EXPORTAR -->
+<div class="exp-overlay" id="expOverlay">
+  <div class="exp-modal">
+    <h3>Exportar cards como imagem</h3>
+    <p>Selecione os cards que deseja exportar. Cada um será salvo como imagem vertical, ideal para WhatsApp.</p>
+    <div class="exp-list" id="expList"></div>
+    <div class="exp-actions">
+      <button class="exp-btn exp-btn-cancel" onclick="fecharExport()">Cancelar</button>
+      <button class="exp-btn exp-btn-go" onclick="exportarSelecionados()"><span class="mi" style="font-size:15px">download</span> Exportar</button>
+    </div>
+    <div class="exp-progress" id="expProgress"></div>
+  </div>
 </div>
 
 <div class="panel" id="panel">
@@ -261,7 +300,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="ssub">Banco do Brasil · GEINV · Perfil Conservador</div>
 
   <!-- ══ PÁG 1 ══ -->
-  <div class="hero">
+  <div class="hero" data-export="Capa — Apresentação">
     <div>
       <div class="hey">Banco do Brasil · Assessoria Premium</div>
       <div class="hh">A sua LCA venceu.<br/>Para onde vai o seu <em>poder de compra?</em></div>
@@ -274,7 +313,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" data-export="Gestão de Risco">
     <div class="sec"><div class="ey">Gestão de Risco</div><div class="sh">Três razões para não concentrar tudo numa LCA.</div></div>
     <div class="r3">
       <div class="rc"><div class="ri"><span class="mi">hub</span></div><h4>Concentração</h4><p>100% num emissor amplifica risco de crédito. <b>Pulverizar dilui.</b></p></div>
@@ -283,12 +322,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" data-export="A Curadoria BB — Fortaleza">
     <div class="sec"><div class="ey">A Curadoria BB</div><div class="sh">A fortaleza: cada camada com sua função.</div></div>
     <div class="l4" id="fortaleza"></div>
   </div>
 
-  <div class="card">
+  <div class="card" data-export="A Prova Histórica">
     <div class="sec"><div class="ey">A Prova Histórica</div><div class="sh">Só o CDI nem sempre bate a inflação.</div><div class="sp">Em 2020–2021, quem ficou 100% no CDI perdeu poder de compra.</div></div>
     <div class="hist" id="hist"></div>
   </div>
@@ -296,12 +335,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <!-- ══ PÁG 2 ══ -->
   <div class="pb"></div>
 
-  <div class="card">
+  <div class="card" data-export="O Seu Raio-X">
     <div class="sec"><div class="ey">O Seu Raio-X</div><div class="sh">O que de fato sobrou na conta (LCA anterior)?</div></div>
     <div style="padding:0 18px 16px"><table class="rtab" id="raix"></table></div>
   </div>
 
-  <div class="card">
+  <div class="card" data-export="A Composição + Mapa de Risco">
     <div class="sec"><div class="ey">A Composição</div><div class="sh">Os ativos selecionados.</div></div>
     <div id="compList"></div>
     <div class="ds">
@@ -315,7 +354,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" data-export="Transparência — Memória de Cálculo">
     <div class="sec"><div class="ey">Transparência</div><div class="sh">Memória de cálculo — CDI <span id="m-cdi">—</span> · IPCA <span id="m-ipca">—</span></div></div>
     <div style="overflow-x:auto">
       <table class="mt">
@@ -330,12 +369,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <!-- ══ PÁG 3 ══ -->
   <div class="pb"></div>
 
-  <div class="card">
+  <div class="card" data-export="Projeção Patrimonial">
     <div class="sec"><div class="ey">Projeção</div><div class="sh">Evolução patrimonial · <span id="ch-p">3</span> ano(s)</div></div>
     <div class="chw"><canvas id="chart"></canvas></div>
   </div>
 
-  <div class="card">
+  <div class="card" data-export="Comparação — LCA vs Carteira BB">
     <div class="sec"><div class="ey">Lado a Lado</div><div class="sh">Nova LCA <span id="cmp-b">—</span> vs. carteira diversificada.</div></div>
     <div style="overflow-x:auto">
       <table class="ct">
@@ -370,11 +409,84 @@ let FUNDS=[
   {nome:'LCA limitada',         sub:'Renda Fixa Pós · Isenta',  tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',   w:40, proj:85,    tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
   {nome:'BB RF LP High',        sub:'Caixa · Liquidez D+0',      tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',       w:25, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
   {nome:'BB Régia Equilíbrio',  sub:'Crédito premium · D+6',     tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',   w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
-  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',      tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:3, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',      tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
 ];
 
 function togglePanel(){$('panel').classList.toggle('open')}
 function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print(),350)}
+
+// ── EXPORTAR CARDS ────────────────────────────────────────────────────────
+const CARD_WIDTH = 1080;  // largura WP (9:16 → altura variável por card)
+
+function getExportables(){
+  return [...document.querySelectorAll('[data-export]')];
+}
+
+function abrirExport(){
+  const items = getExportables();
+  $('expList').innerHTML = items.map((el,i)=>`
+    <label class="exp-item">
+      <input type="checkbox" value="${i}" checked/>
+      <div>
+        <div class="exp-item-name">${el.dataset.export}</div>
+        <div class="exp-item-sub">${el.classList.contains('hero')?'Card de capa':'Card de conteúdo'}</div>
+      </div>
+    </label>`).join('');
+  $('expOverlay').classList.add('show');
+  $('expProgress').className='exp-progress';
+}
+
+function fecharExport(){
+  $('expOverlay').classList.remove('show');
+}
+
+async function exportarSelecionados(){
+  const checks = [...$('expList').querySelectorAll('input:checked')];
+  if(!checks.length){alert('Selecione ao menos um card.');return;}
+  const items = getExportables();
+  const prog  = $('expProgress');
+  prog.className='exp-progress show';
+
+  for(let idx=0; idx<checks.length; idx++){
+    const i   = +checks[idx].value;
+    const el  = items[i];
+    const nome= el.dataset.export;
+    prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
+
+    // Escala: CARD_WIDTH / largura real do elemento
+    const rect  = el.getBoundingClientRect();
+    const scale = CARD_WIDTH / rect.width;
+
+    const canvas = await html2canvas(el,{
+      scale,
+      useCORS:true,
+      backgroundColor:'#f4f7fd',
+      logging:false,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+    });
+
+    // Adiciona padding e bordas arredondadas via composição
+    const pad = Math.round(40*scale/2);
+    const out = document.createElement('canvas');
+    out.width  = canvas.width  + pad*2;
+    out.height = canvas.height + pad*2;
+    const ctx = out.getContext('2d');
+    ctx.fillStyle='#f4f7fd';
+    ctx.fillRect(0,0,out.width,out.height);
+    ctx.drawImage(canvas, pad, pad);
+
+    const a    = document.createElement('a');
+    const slug = nome.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slug}.png`;
+    a.href     = out.toDataURL('image/png');
+    a.click();
+    await new Promise(r=>setTimeout(r,600)); // pausa entre downloads
+  }
+
+  prog.textContent=`✓ ${checks.length} imagem(ns) exportada(s)!`;
+  setTimeout(fecharExport, 2000);
+}
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
 
 // ── CÁLCULO DE TAXA ────────────────────────────────────────────────────────
