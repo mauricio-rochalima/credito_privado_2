@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Proposta BB</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -83,18 +84,25 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
 .sec{padding:16px 18px 12px}
 
-/* HERO */
-.hero{background:linear-gradient(135deg,var(--pr),var(--prd));color:#fff;padding:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;border-radius:12px;margin-bottom:12px}
-.hey{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:8px}
-.hh{font:900 22px/1.2 var(--slab);margin-bottom:8px}
-.hh em{font-style:normal;color:var(--ac)}
-.hp{font-size:12px;color:rgba(255,255,255,.78);line-height:1.55}
-.kpis{display:flex;flex-direction:column;gap:8px}
-.kpi{background:rgba(255,255,255,.12);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px}
-.ki{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ki .mi{font-size:18px;color:#fff}
-.kv{font:900 18px/1 var(--slab)}
-.kl{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+/* HERO E KPIs (NOVO) */
+.hero{background:linear-gradient(135deg,var(--pr),var(--prd));color:#fff;padding:24px;border-radius:12px;margin-bottom:12px}
+.hey{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:10px}
+.hh-l1{font:500 17px/1.2 var(--sans);margin-bottom:6px;color:rgba(255,255,255,.9)}
+.hh-l2{font:900 25px/1.2 var(--slab);margin-bottom:14px}
+.hp{font-size:13px;color:rgba(255,255,255,.8);line-height:1.55}
+
+.kpis-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:10px}
+.kpi-card{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(16,33,61,.07)}
+.kpi-card .ki{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-card .ki .mi{font-size:19px}
+.kpi-card .kv{font:900 17px/1 var(--slab);color:var(--ink)}
+.kpi-card .kl{font-size:11px;color:var(--k2);margin-top:3px;line-height:1.2}
+
+/* SELO DE FONTE */
+.fonte-selo{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--k2);line-height:1.4}
+.fonte-selo .mi{font-size:15px;color:var(--k3);margin-top:1px}
+.fonte-selo a{color:var(--pr);font-weight:700;text-decoration:none}
+.fonte-selo a:hover{text-decoration:underline}
 
 /* RISK 3 */
 .r3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ln)}
@@ -168,7 +176,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .mt th{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;padding:8px 12px;text-align:left}
 .mt td{padding:8px 12px;border-bottom:1px solid var(--ln);vertical-align:middle}
 .mt tr:last-child td{border-bottom:none;font-weight:700;background:rgba(252,213,0,.15)}
-.mt .num{font:700 12px/1 var(--mono);text-align:right;white-space:nowrap} /* Impede quebra do % */
+.mt .num{font:700 12px/1 var(--mono);text-align:right;white-space:nowrap} 
 .bg{background:var(--gnl);color:var(--gnd);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
 .bgr{background:#f0f0f0;color:var(--k2);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
 
@@ -192,18 +200,25 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .fabs,.panel,.exp-overlay{display:none!important}
   .screen{padding:0!important;max-width:100%!important;margin:0!important}
   .stitle,.ssub{display:none!important}
-  /* Nunca quebrar dentro de um card */
   .card{page-break-inside:avoid!important;break-inside:avoid!important;border-radius:4px!important;margin-bottom:4px!important;box-shadow:none!important}
-  .hero{page-break-inside:avoid!important;break-inside:avoid!important;grid-template-columns:1fr!important;gap:5px!important;padding:8px!important;border-radius:4px!important;margin-bottom:4px!important}
+  .hero{page-break-inside:avoid!important;break-inside:avoid!important;padding:8px!important;border-radius:4px!important;margin-bottom:4px!important}
   .disc-box{page-break-inside:avoid!important;break-inside:avoid!important;padding:6px 8px!important;margin-top:4px!important}
-  /* Quebra explícita antes de cada .pb */
   .pb{page-break-before:always!important;break-before:page!important;display:block!important}
-  /* Tamanhos reduzidos e comprimidos para caber perfeitamente */
-  .hh{font-size:12px!important}.hp{font-size:8.5px!important}.hey{font-size:7.5px!important}
-  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:3px!important}
-  .kpi{padding:5px 7px!important;gap:5px!important}
-  .ki{width:22px!important;height:22px!important}.ki .mi{font-size:12px!important}
-  .kv{font-size:11px!important}.kl{font-size:8px!important}
+  
+  .hh-l1{font-size:11px!important;margin-bottom:3px!important}
+  .hh-l2{font-size:14px!important;margin-bottom:6px!important}
+  .hp{font-size:8.5px!important}
+  .hey{font-size:7.5px!important;margin-bottom:6px!important}
+  
+  .kpis-row{grid-template-columns:repeat(3,1fr)!important;gap:4px!important;margin-bottom:4px!important}
+  .kpi-card{padding:6px!important;gap:5px!important;border-radius:4px!important}
+  .kpi-card .ki{width:22px!important;height:22px!important}
+  .kpi-card .ki .mi{font-size:12px!important}
+  .kpi-card .kv{font-size:11px!important}
+  .kpi-card .kl{font-size:8px!important}
+  .fonte-selo{font-size:7.5px!important;padding:0!important;margin-bottom:6px!important}
+  .fonte-selo .mi{font-size:10px!important}
+
   .sec{padding:5px 7px 4px!important}
   .sh{font-size:10.5px!important}.sp{font-size:8.5px!important;margin-top:2px!important}
   .ey{font-size:7px!important;padding:2px 5px!important}
@@ -216,8 +231,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .hc{padding:4px 2px!important}.hy{font-size:8px!important}
   .hbs{height:46px!important}.hb{width:9px!important}
   .hb-val{font-size:6.5px!important}.hr{font-size:7.5px!important}
-  
-  /* Ajustes finos de compressão para o donut e lista não cortarem na pág 2 */
   .hleg{font-size:7.5px!important}
   .rtab{font-size:8.5px!important}.rtab td{padding:2.5px 0!important}
   .ci{padding:3.5px 6px!important;gap:4px!important}
@@ -236,7 +249,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 }
 
 @media(max-width:640px){
-  .hero{grid-template-columns:1fr}
+  .kpis-row{grid-template-columns:1fr}
   .r3{grid-template-columns:1fr 1fr}
   .ds{grid-template-columns:1fr}
   .db{border-right:none}
@@ -269,6 +282,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="ptop"><h2>Ajustar proposta</h2><button onclick="togglePanel()"><span class="mi">close</span></button></div>
   <div class="pin">
     <div class="pg">Dados do cliente</div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome do cliente</label><input type="text" id="nome" value="João"/></div>
     <div class="pr2">
       <div class="fld"><label>Capital (R$)</label><input type="number" id="capital" value="300000"/></div>
       <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="3"/></div>
@@ -301,14 +315,31 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <!-- ══ PÁG 1 ══ -->
   <div class="hero" data-export="Capa — Apresentação">
     <div>
-      <div class="hey">Banco do Brasil · Assessoria Premium</div>
-      <div class="hh">A sua LCA venceu.<br/>Para onde vai o seu <em>poder de compra?</em></div>
-      <div class="hp">A tendência é renovar tudo no mesmo produto. Aqui está uma alternativa que protege o patrimônio contra a inflação, mantendo segurança e liquidez.</div>
+      <div class="hey">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</div>
+      <div class="hh-l1" id="hero-l1">Olá, {nome}, tudo bom?</div>
+      <div class="hh-l2" id="hero-l2">A sua LCA de {valor} venceu. Vale a pena conhecer as opções disponíveis hoje.</div>
+      <div class="hp">Nosso papel vai além de renovar aplicações. Acompanhamos o mercado para ajudar você a tomar decisões alinhadas aos seus objetivos.</div>
     </div>
-    <div class="kpis">
-      <div class="kpi"><div class="ki" style="background:rgba(26,154,80,.8)"><span class="mi">trending_up</span></div><div><div class="kv" id="k-ret">—</div><div class="kl">Patrimônio projetado (carteira)</div></div></div>
-      <div class="kpi"><div class="ki" style="background:rgba(255,255,255,.25)"><span class="mi">verified</span></div><div><div class="kv" id="k-equiv">—</div><div class="kl">Equivale a CDB tributado</div></div></div>
-      <div class="kpi"><div class="ki" style="background:rgba(252,213,0,.35)"><span class="mi" style="color:var(--acd)">shield</span></div><div><div class="kv" style="color:var(--ac)">Curadoria BB</div><div class="kl">Risco distribuído · Conservador</div></div></div>
+  </div>
+
+  <div data-export="Resumo dos Indicadores" style="margin-bottom: 12px;">
+    <div class="kpis-row">
+      <div class="kpi-card">
+        <div class="ki" style="background:var(--gnl)"><span class="mi" style="color:var(--gnd)">trending_up</span></div>
+        <div><div class="kv" id="k-ret">—</div><div class="kl">Patrimônio projetado (carteira)</div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="ki" style="background:var(--prl)"><span class="mi" style="color:var(--pr)">verified</span></div>
+        <div><div class="kv" id="k-equiv">—</div><div class="kl">Equivale a CDB tributado</div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="ki" style="background:var(--ac)"><span class="mi" style="color:var(--acd)">shield</span></div>
+        <div><div class="kv" style="color:var(--acd)">Curadoria BB</div><div class="kl">Risco distribuído · Conservador</div></div>
+      </div>
+    </div>
+    <div class="fonte-selo" style="padding: 0 4px;">
+      <span class="mi">description</span>
+      <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
     </div>
   </div>
 
@@ -350,6 +381,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
         </div>
       </div>
       <div class="rl" id="rleg"></div>
+    </div>
+    <div class="fonte-selo" style="padding: 12px 18px; border-top: 1px solid var(--ln);">
+      <span class="mi">description</span>
+      <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
     </div>
   </div>
 
@@ -440,9 +475,8 @@ async function exportarSelecionados(){
   const prog  = $('expProgress');
   prog.className='exp-progress show';
 
-  // Largura alvo para WP vertical (equiv. a 390px de celular × 3x)
-  const TARGET_W = 1170; // px no canvas final
-  const MOBILE_W = 390;  // px de viewport simulado
+  const TARGET_W = 1170;
+  const MOBILE_W = 390;
 
   for(let idx=0; idx<checks.length; idx++){
     const i    = +checks[idx].value;
@@ -450,26 +484,21 @@ async function exportarSelecionados(){
     const nome = el.dataset.export;
     prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
 
-    // 1. Clona o elemento num iframe de 390px para forçar layout mobile/vertical
     const iframe = document.createElement('iframe');
     iframe.style.cssText=`position:fixed;left:-9999px;top:0;width:${MOBILE_W}px;height:2000px;border:none;visibility:hidden`;
     document.body.appendChild(iframe);
 
-    // Copia todo o <head> (estilos, fontes) para o iframe e limpa margin/padding do body
     const iDoc = iframe.contentDocument;
     iDoc.open();
     iDoc.write(`<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body style="margin:0;padding:0;background:#f4f7fd;font-family:Roboto,sans-serif"></body></html>`);
     iDoc.close();
 
-    // Cria um container para abraçar o card, sendo a exata região a ser exportada
     const container = document.createElement('div');
     container.style.cssText = 'padding:16px; background:#f4f7fd; display:flex; flex-direction:column; width:100%; box-sizing:border-box;';
 
-    // Clona o card e reseta margens externas para evitar espaços
     const clone = el.cloneNode(true);
     clone.style.cssText += 'width:100%;box-sizing:border-box;border-radius:12px;overflow:hidden;margin:0;';
 
-    // Os Canvas originais (Pizza/Linhas) perdem o desenho ao clonar. Copiamos o visual:
     const originalCanvases = el.querySelectorAll('canvas');
     const clonedCanvases = clone.querySelectorAll('canvas');
     originalCanvases.forEach((canvas, c) => {
@@ -481,13 +510,10 @@ async function exportarSelecionados(){
     container.appendChild(clone);
     iDoc.body.appendChild(container);
 
-    // Aguarda fontes e imagens carregarem e render estabilizar
     await new Promise(r=>setTimeout(r,700));
 
-    // Ajusta a altura do iframe para a altura precisa do container criado
     iframe.style.height = container.offsetHeight + 'px';
 
-    // 2. Captura com html2canvas — escala 3× para 1170px focando no container
     const scale = TARGET_W / MOBILE_W;
     const canvas = await html2canvas(container,{
       scale,
@@ -499,7 +525,6 @@ async function exportarSelecionados(){
 
     document.body.removeChild(iframe);
 
-    // 3. Salva PNG
     const a    = document.createElement('a');
     const slug = nome.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slug}.png`;
@@ -514,13 +539,9 @@ async function exportarSelecionados(){
 
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
 
-// ── CÁLCULO DE TAXA ────────────────────────────────────────────────────────
-// CDI: cdi (decimal) × proj/100  →  ex: 0.1335 × 0.85 = 11,35%
-// IPCA+: soma simples  →  ipca + proj/100  →  ex: 0.05 + 0.075 = 12,5%
-// (não capitalização composta, que é convenção de mercado para debêntures IPCA+)
 function rate(f, cdi, ipca){
   if(f.tipo==='cdi')  return cdi * (f.proj/100);
-  if(f.tipo==='ipca') return ipca + (f.proj/100);   // ← soma simples: IPCA + spread
+  if(f.tipo==='ipca') return ipca + (f.proj/100);
   return f.proj/100;
 }
 
@@ -581,12 +602,13 @@ function U(i,k,v){FUNDS[i][k]=v; calc()}
 function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',link:''}); renderEd(); calc()}
 function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
 
-['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
+['nome','capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
   .forEach(id=>{const e=$(id); if(e) e.addEventListener('input',calc)});
 
 let donutI=null;
 
 function calc(){
+  const nome        = $('nome') ? $('nome').value.trim() : '';
   const cap         = gV('capital',300000);
   const prazo       = gV('prazo',3);
   const cdi         = gV('cdi',13.35)/100;
@@ -597,7 +619,12 @@ function calc(){
   const cdiPass     = gV('cdiPass',14.45)/100;
   const ipcaPass    = gV('ipcaPass',4.62)/100;
 
-  // Nova LCA benchmark (CDI futuro × taxa nova, isenta)
+  // ── Atualização Textos Dinâmicos Hero
+  $('hero-l1').textContent = nome ? `Olá, ${nome}, tudo bom?` : 'Olá! Tudo bom?';
+  const valStr = (cap > 0 && !isNaN(cap)) ? ` de ${fmt(cap)}` : '';
+  $('hero-l2').textContent = `A sua LCA${valStr} venceu. Vale a pena conhecer as opções disponíveis hoje.`;
+
+  // Nova LCA benchmark
   const lcaRateNova = cdi * lcaTaxaNova;
   const lcaFinal    = cap * Math.pow(1+lcaRateNova, prazo);
 
@@ -605,18 +632,18 @@ function calc(){
   let divFinal=0, wNet=0;
   FUNDS.forEach(f=>{
     const w = f.w/100;
-    const g = rate(f, cdi, ipca);          // bruto
-    const n = hasIR(f) ? g*0.85 : g;      // líquido (IR 15% onde aplicável)
+    const g = rate(f, cdi, ipca);          
+    const n = hasIR(f) ? g*0.85 : g;      
     divFinal += (cap*w) * Math.pow(1+n, prazo);
     wNet     += w * n;
   });
 
-  // ── KPIs capa
+  // ── KPIs
   $('k-ret').textContent   = fmt(divFinal);
   const equivCDIpct        = (wNet/0.85/cdi)*100;
   $('k-equiv').textContent = pct(equivCDIpct)+' do CDI';
 
-  // ── Raio-x passado (CDI realizado × taxa ANTIGA)
+  // ── Raio-x passado
   const rendPass  = cap*(cdiPass*lcaTaxaPass);
   const corrInfl  = cap*ipcaPass;
   const ganhoReal = rendPass-corrInfl;
@@ -758,3 +785,5 @@ renderEd(); calc();
 </script>
 </body>
 </html>
+
+```
