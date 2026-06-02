@@ -355,6 +355,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
   </div>
 
+  <!-- ══ PÁG 3 ══ -->
+  <div class="pb"></div>
+
   <div class="card" data-export="Transparência — Memória de Cálculo">
     <div class="sec"><div class="ey">Transparência</div><div class="sh">Memória de cálculo — CDI <span id="m-cdi">—</span> · IPCA <span id="m-ipca">—</span></div></div>
     <div style="overflow-x:auto">
@@ -365,14 +368,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
         <tbody id="calc"></tbody>
       </table>
     </div>
-  </div>
-
-  <!-- ══ PÁG 3 ══ -->
-  <div class="pb"></div>
-
-  <div class="card" data-export="Projeção Patrimonial">
-    <div class="sec"><div class="ey">Projeção</div><div class="sh">Evolução patrimonial · <span id="ch-p">3</span> ano(s)</div></div>
-    <div class="chw"><canvas id="chart"></canvas></div>
   </div>
 
   <div class="card" data-export="Comparação — LCA vs Carteira BB">
@@ -591,7 +586,7 @@ function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
 ['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
   .forEach(id=>{const e=$(id); if(e) e.addEventListener('input',calc)});
 
-let chartI=null, donutI=null;
+let donutI=null;
 
 function calc(){
   const cap         = gV('capital',300000);
@@ -713,34 +708,6 @@ function calc(){
     <td></td><td></td>
     <td class="num" style="color:var(--gnd)"><b>${pct(wNet*100)}</b></td>
   </tr>`;
-
-  // ── Gráfico linha
-  $('ch-p').textContent = prazo;
-  const pts=prazo<=1?12:prazo, labels=[], dLca=[], dDiv=[];
-  for(let i=0;i<=pts;i++){
-    const y = prazo<=1 ? i/12 : i;
-    labels.push(i===0?'Hoje':(prazo<=1?`M${i}`:`Ano ${i}`));
-    dLca.push(Math.round(cap*Math.pow(1+lcaRateNova,y)));
-    let s=0;
-    FUNDS.forEach(f=>{
-      const n = hasIR(f) ? rate(f,cdi,ipca)*0.85 : rate(f,cdi,ipca);
-      s += (cap*f.w/100)*Math.pow(1+n,y);
-    });
-    dDiv.push(Math.round(s));
-  }
-  if(chartI) chartI.destroy();
-  chartI = new Chart($('chart'),{type:'line',
-    data:{labels, datasets:[
-      {label:'Nova LCA (100%)',data:dLca,borderColor:'#8a9ab8',backgroundColor:'rgba(138,154,184,.1)',borderWidth:2,fill:true,tension:.3,pointRadius:0},
-      {label:'Carteira BB',   data:dDiv,borderColor:'var(--pr)',backgroundColor:'rgba(0,64,168,.07)',  borderWidth:3,fill:true,tension:.3,pointRadius:0}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:11,weight:'700'},color:'#46587a',usePointStyle:true,boxWidth:8}},
-                tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
-      scales:{
-        y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:10},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},
-        x:{ticks:{font:{family:'Roboto',size:10},color:'#9aa6b8'},grid:{display:false}}
-      }}});
 
   // ── Comparação lado a lado
   $('cmp-b').textContent = banco;
