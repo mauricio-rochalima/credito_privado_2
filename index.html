@@ -83,8 +83,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .rc h4{font-size:12px;font-weight:700;margin-bottom:4px}
 .rc p{font-size:11px;color:var(--k2);line-height:1.5}
 
-/* FORTALEZA — dinâmica */
-.l4{display:grid;border-top:1px solid var(--ln)}/* grid-template-columns set by JS */
+/* FORTALEZA */
+.l4{display:grid;border-top:1px solid var(--ln)}
 .ly{padding:14px;border-right:1px solid var(--ln);position:relative;padding-top:18px}
 .ly:last-child{border-right:none}
 .ly-tag{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
@@ -110,7 +110,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .hleg span{display:flex;align-items:center;gap:3px}
 .hleg i{width:8px;height:8px;border-radius:2px;display:inline-block}
 
-/* RAIO-X — coluna única */
+/* RAIO-X */
 .rtab{width:100%;border-collapse:collapse;font-size:13px}
 .rtab td{padding:9px 0;border-bottom:1px solid var(--ln);vertical-align:middle}
 .rtab tr:last-child td{border-bottom:none;font-weight:700;padding-top:11px}
@@ -160,30 +160,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .ct tr:last-child td{border-bottom:none}
 .ct .win{background:var(--gnl);color:var(--gnd);font-weight:700}
 
-/* CLOSING */
-.cl{background:linear-gradient(135deg,#fff9d6,#fffbea);border:2px solid var(--ac);border-radius:12px;padding:20px}
-.bb{background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.06);margin-bottom:14px}
-.br{margin-bottom:10px}
-.br:last-child{margin-bottom:0}
-.bm{display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px}
-.blb{font-weight:700;color:var(--k2)}
-.blb.gr{color:var(--gnd)}
-.bv{font:700 14px/1 var(--mono)}
-.bt{height:22px;background:#f0f3f9;border-radius:6px;overflow:hidden}
-.bf{height:100%;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-.bf1{background:var(--k3)}.bf2{background:linear-gradient(90deg,var(--gnd),var(--gn))}
-.st{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.si{display:flex;gap:10px;align-items:flex-start}
-.sn{width:28px;height:28px;border-radius:50%;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--sans);flex-shrink:0}
-.stit{font-size:13px;font-weight:700;margin-bottom:2px}
-.sdes{font-size:12px;color:var(--k2);line-height:1.45}
-.gb{background:#fff;border-radius:10px;padding:16px;border:1px dashed var(--gn);margin-bottom:10px}
-.gb h4{font-size:13px;font-weight:700;color:var(--gnd);margin-bottom:6px}
-.gv{font:900 36px/1 var(--slab);color:var(--pr);margin:6px 0}
-.gb p{font-size:12px;color:var(--k3);line-height:1.5}
-.disc{font-size:10px;color:var(--k3);line-height:1.55;padding-top:10px;border-top:1px solid var(--ln)}
+/* DISC */
+.disc-box{background:var(--bg);border-radius:12px;border:1px solid var(--ln);padding:14px 18px;margin-top:12px}
+.disc{font-size:10px;color:var(--k3);line-height:1.6}
 
-/* PRINT — 3 páginas celular 108×192mm */
+/* PRINT */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   @page{size:108mm 192mm;margin:4mm}
@@ -193,61 +174,42 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .screen{padding:0!important;max-width:100%!important;margin:0!important}
   .stitle,.ssub{display:none!important}
   .pb{page-break-before:always;break-before:page;display:block}
-  /* hero */
   .hero{grid-template-columns:1fr!important;gap:6px!important;padding:8px!important;border-radius:5px!important;margin-bottom:5px!important}
   .hh{font-size:13px!important}.hp{font-size:9px!important}.hey{font-size:8px!important}
   .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:4px!important}
   .kpi{padding:6px 8px!important;gap:6px!important}
   .ki{width:24px!important;height:24px!important}.ki .mi{font-size:13px!important}
   .kv{font-size:12px!important}.kl{font-size:8.5px!important}
-  /* cards */
   .card{border-radius:5px!important;margin-bottom:5px!important;box-shadow:none!important}
   .sec{padding:6px 8px 5px!important}
   .sh{font-size:11px!important}.sp{font-size:9px!important;margin-top:2px!important}
   .ey{font-size:7.5px!important;padding:2px 6px!important}
-  /* r3 */
   .r3{grid-template-columns:repeat(3,1fr)!important}
   .rc{padding:7px!important}.ri{width:22px!important;height:22px!important;margin-bottom:5px!important}
   .ri .mi{font-size:11px!important}.rc h4{font-size:9.5px!important}.rc p{font-size:8.5px!important}
-  /* fortaleza */
-  .ly{padding:7px 7px 7px!important;padding-top:10px!important}
+  .ly{padding:7px!important;padding-top:10px!important}
   .ly h4{font-size:9.5px!important}.ly p{font-size:8.5px!important}.ly-tag{font-size:7.5px!important}
   .ly-meta{font-size:8.5px!important}.ly-link{font-size:8px!important}
-  /* hist */
   .hc{padding:5px 2px!important}.hy{font-size:8.5px!important}
   .hbs{height:52px!important}.hb{width:10px!important}
   .hb-val{font-size:7px!important}.hr{font-size:8px!important}
   .hleg{font-size:8px!important}
-  /* raix */
   .rtab{font-size:9px!important}.rtab td{padding:5px 0!important}
-  /* comp */
   .ci{padding:5px 8px!important;gap:6px!important}
   .cii{width:22px!important;height:22px!important}.cii .mi{font-size:11px!important}
   .cn{font-size:9.5px!important}.cs{font-size:8.5px!important}
   .cb{font-size:8px!important;padding:2px 5px!important}
   .cpct{font-size:14px!important}
-  /* donut */
   .ds{grid-template-columns:.85fr 1.15fr!important}
   .db{padding:8px!important}.dr{height:110px!important}
   .dcv{font-size:16px!important}
   .rl{padding:8px!important;gap:4px!important}
   .rli{padding:4px 7px!important}.rln{font-size:9.5px!important}.rls{font-size:8.5px!important}.rlp{font-size:12px!important}
-  /* mem */
   .mt th,.mt td{padding:4px 7px!important;font-size:8.5px!important}
-  /* chart */
   .chw{height:130px!important;padding:8px!important}
-  /* cmp */
   .ct th,.ct td{padding:5px 7px!important;font-size:8.5px!important}
-  /* closing */
-  .cl{padding:10px!important;border-radius:5px!important}
-  .bb{padding:9px!important;margin-bottom:10px!important}
-  .bt{height:16px!important}.bv{font-size:11px!important}.bm{font-size:9.5px!important}
-  .stit{font-size:10px!important}.sdes{font-size:8.5px!important}
-  .sn{width:20px!important;height:20px!important;font-size:10px!important}
-  .gb{padding:9px!important;margin-bottom:7px!important}.gv{font-size:20px!important}
-  .gb h4{font-size:9.5px!important}.gb p{font-size:8.5px!important}
+  .disc-box{padding:8px 10px!important;margin-top:5px!important}
   .disc{font-size:8px!important}
-  .st{margin-bottom:10px!important;gap:7px!important}
 }
 
 @media(max-width:640px){
@@ -284,14 +246,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
       <div class="fld"><label>IPCA realizado (%)</label><input type="number" step="0.01" id="ipcaPass" value="4.62"/></div>
     </div>
     <div class="fld" style="margin-bottom:8px"><label>Banco</label><input type="text" id="banco" value="Banco ABC"/></div>
-    <div class="fld" style="margin-bottom:8px">
-      <label>Taxa LCA antiga — % CDI (raio-x passado)</label>
-      <input type="number" step="0.1" id="lcaTaxaPass" value="90"/>
-    </div>
-    <div class="fld" style="margin-bottom:8px">
-      <label>Taxa NOVA LCA — % CDI (comparação futura)</label>
-      <input type="number" step="0.1" id="lcaTaxaNova" value="90"/>
-    </div>
+    <div class="fld" style="margin-bottom:8px"><label>Taxa LCA antiga — % CDI (raio-x)</label><input type="number" step="0.1" id="lcaTaxaPass" value="90"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Taxa NOVA LCA — % CDI (comparação)</label><input type="number" step="0.1" id="lcaTaxaNova" value="90"/></div>
     <button class="btn-g" onclick="fgc()"><span class="mi">verified_user</span> Otimizar FGC</button>
     <div class="fgc-m" id="fgcM"></div>
     <div class="pg">Composição (soma = 100%)</div>
@@ -342,9 +298,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 
   <div class="card">
     <div class="sec"><div class="ey">O Seu Raio-X</div><div class="sh">O que de fato sobrou na conta (LCA anterior)?</div></div>
-    <div style="padding:0 18px 16px">
-      <table class="rtab" id="raix"></table>
-    </div>
+    <div style="padding:0 18px 16px"><table class="rtab" id="raix"></table></div>
   </div>
 
   <div class="card">
@@ -352,7 +306,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <div id="compList"></div>
     <div class="ds">
       <div class="db">
-        <div class="dr"><canvas id="donut"></canvas><div class="dc"><div class="dcv" id="dcv">—</div><div class="dcl">baixo risco</div></div></div>
+        <div class="dr">
+          <canvas id="donut"></canvas>
+          <div class="dc"><div class="dcv" id="dcv">—</div><div class="dcl">baixo risco</div></div>
+        </div>
       </div>
       <div class="rl" id="rleg"></div>
     </div>
@@ -362,7 +319,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="sec"><div class="ey">Transparência</div><div class="sh">Memória de cálculo — CDI <span id="m-cdi">—</span> · IPCA <span id="m-ipca">—</span></div></div>
     <div style="overflow-x:auto">
       <table class="mt">
-        <thead><tr style="background:var(--pr)"><th>Ativo</th><th style="text-align:center">Peso</th><th style="text-align:right">Taxa bruta</th><th style="text-align:center">IR</th><th style="text-align:right">Líq. a.a.</th></tr></thead>
+        <thead><tr style="background:var(--pr)">
+          <th>Ativo</th><th style="text-align:center">Peso</th><th style="text-align:right">Taxa bruta</th><th style="text-align:center">IR</th><th style="text-align:right">Líq. a.a.</th>
+        </tr></thead>
         <tbody id="calc"></tbody>
       </table>
     </div>
@@ -390,21 +349,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
   </div>
 
-  <div class="cl">
-    <div class="bb">
-      <div class="br"><div class="bm"><span class="blb">Renovar LCA <span id="b-banco">—</span></span><span class="bv" id="b-lca">—</span></div><div class="bt"><div class="bf bf1" id="b-lca-bar"></div></div></div>
-      <div class="br"><div class="bm"><span class="blb gr">Carteira diversificada BB</span><span class="bv" style="color:var(--gnd)" id="b-div">—</span></div><div class="bt"><div class="bf bf2" id="b-div-bar"></div></div></div>
-    </div>
-    <div class="st">
-      <div class="si"><div class="sn">1</div><div><div class="stit">Mais retorno real</div><div class="sdes">Ganho adicional líquido: <b style="color:var(--gnd)" id="f-ganho">—</b> no período.</div></div></div>
-      <div class="si"><div class="sn">2</div><div><div class="stit">Risco distribuído</div><div class="sdes">Não depende de um único banco — curadoria BB.</div></div></div>
-    </div>
-    <div class="gb">
-      <h4><span class="mi" style="font-size:13px;vertical-align:-2px;color:var(--gn)">workspace_premium</span> O argumento de ouro</h4>
-      <p>Para empatar com a parte isenta desta carteira, um CDB tributado precisaria pagar:</p>
-      <div class="gv" id="f-gold">—</div>
-      <p>Um produto desse porte raramente aparece nas prateleiras. A isenção trabalha a favor do cliente.</p>
-    </div>
+  <div class="disc-box">
     <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
   </div>
 
@@ -422,32 +367,37 @@ const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'
 const LCORS=['var(--pr)','var(--gn)','var(--acd)','var(--rd)','var(--k3)','#7b2fff','#00838f'];
 
 let FUNDS=[
-  {nome:'LCA limitada',   sub:'Renda Fixa Pós · Isenta',    tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',            w:40, proj:85,    tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
-  {nome:'BB RF LP High',  sub:'Caixa · Liquidez D+0',        tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',                w:25, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
-  {nome:'BB Régia Equilíbrio',sub:'Crédito premium · D+6',  tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',            w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
-  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA', tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',          w:10, proj:7.5,   tipo:'ipca', risco:3, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+  {nome:'LCA limitada',         sub:'Renda Fixa Pós · Isenta',  tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',   w:40, proj:85,    tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
+  {nome:'BB RF LP High',        sub:'Caixa · Liquidez D+0',      tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',       w:25, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',  sub:'Crédito premium · D+6',     tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',   w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',      tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:3, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
 ];
 
 function togglePanel(){$('panel').classList.toggle('open')}
 function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print(),350)}
-
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
 
-function rate(f,cdi,ipca){
-  // cdi e ipca já chegam como decimais (ex: 0.1335, 0.05)
-  // proj em % (ex: 85 = 85% CDI; 7.5 = IPCA + 7,5% a.a.)
+// ── CÁLCULO DE TAXA ────────────────────────────────────────────────────────
+// CDI: cdi (decimal) × proj/100  →  ex: 0.1335 × 0.85 = 11,35%
+// IPCA+: soma simples  →  ipca + proj/100  →  ex: 0.05 + 0.075 = 12,5%
+// (não capitalização composta, que é convenção de mercado para debêntures IPCA+)
+function rate(f, cdi, ipca){
   if(f.tipo==='cdi')  return cdi * (f.proj/100);
-  if(f.tipo==='ipca') return (1+ipca)*(1+f.proj/100)-1;
+  if(f.tipo==='ipca') return ipca + (f.proj/100);   // ← soma simples: IPCA + spread
   return f.proj/100;
 }
 
 function fgc(){
-  const cap=gV('capital',300000),m=$('fgcM');
+  const cap=gV('capital',300000), m=$('fgcM');
   if(cap>250000){
-    const p=(250000/cap)*100,r=100-p;
-    FUNDS[0].w=+p.toFixed(1);FUNDS[1].w=+(r*.4).toFixed(1);FUNDS[2].w=+(r*.2).toFixed(1);FUNDS[3].w=+(r*.4).toFixed(1);
-    renderEd();calc();m.textContent=`✓ LCA ajustada a R$ 250k (${p.toFixed(1)}%). Excedente redistribuído.`;
-  }else{m.textContent='✓ Capital dentro do limite FGC.'}
+    const p=(250000/cap)*100, r=100-p;
+    FUNDS[0].w=+p.toFixed(1); FUNDS[1].w=+(r*.4).toFixed(1);
+    FUNDS[2].w=+(r*.2).toFixed(1); FUNDS[3].w=+(r*.4).toFixed(1);
+    renderEd(); calc();
+    m.textContent=`✓ LCA ajustada a R$ 250k (${p.toFixed(1)}%). Excedente redistribuído.`;
+  } else {
+    m.textContent='✓ Capital dentro do limite FGC.';
+  }
   m.className='fgc-m show';
 }
 
@@ -459,13 +409,17 @@ function renderEd(){
         <button class="fc-del" onclick="delF(${i})"><span class="mi">delete</span></button>
       </div>
       <div class="g2" style="margin-bottom:6px">
-        <div><span class="ml">Rótulo (tag)</span><input value="${f.tag||''}" oninput="U(${i},'tag',this.value)" placeholder="ex: Caixa D+0"/></div>
+        <div><span class="ml">Rótulo (tag)</span><input value="${f.tag||''}" oninput="U(${i},'tag',this.value)"/></div>
         <div><span class="ml">Classe / sub</span><input value="${f.sub}" oninput="U(${i},'sub',this.value)"/></div>
       </div>
-      <div style="margin-bottom:6px"><span class="ml">Descrição (quadro curadoria)</span>
-        <input value="${f.desc||''}" oninput="U(${i},'desc',this.value)" placeholder="ex: Liquidez imediata, risco mínimo."/></div>
-      <div style="margin-bottom:6px"><span class="ml">Link do produto (URL)</span>
-        <input value="${f.link||''}" oninput="U(${i},'link',this.value)" placeholder="https://..."/></div>
+      <div style="margin-bottom:6px">
+        <span class="ml">Descrição (quadro curadoria)</span>
+        <input value="${f.desc||''}" oninput="U(${i},'desc',this.value)"/>
+      </div>
+      <div style="margin-bottom:6px">
+        <span class="ml">Link do produto</span>
+        <input value="${f.link||''}" oninput="U(${i},'link',this.value)" placeholder="https://..."/>
+      </div>
       <div class="g3">
         <div><span class="ml">Peso %</span><input type="number" value="${f.w}" oninput="U(${i},'w',+this.value)"/></div>
         <div><span class="ml">Proj.</span><input type="number" step="0.1" value="${f.proj}" oninput="U(${i},'proj',+this.value)"/></div>
@@ -473,76 +427,82 @@ function renderEd(){
           <select onchange="U(${i},'tipo',this.value)">
             <option value="cdi"  ${f.tipo==='cdi' ?'selected':''}>% CDI</option>
             <option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option>
-          </select></div>
+          </select>
+        </div>
       </div>
       <div class="g2" style="margin-top:6px">
         <div><span class="ml">Risco</span>
           <select onchange="U(${i},'risco',+this.value)">
             ${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k}·${v.n}</option>`).join('')}
-          </select></div>
+          </select>
+        </div>
         <div><span class="ml">Liquidez</span><input value="${f.liq}" oninput="U(${i},'liq',this.value)"/></div>
       </div>
     </div>`).join('');
 }
-function U(i,k,v){FUNDS[i][k]=v;calc()}
-function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',link:''});renderEd();calc()}
-function delF(i){FUNDS.splice(i,1);renderEd();calc()}
+function U(i,k,v){FUNDS[i][k]=v; calc()}
+function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',link:''}); renderEd(); calc()}
+function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
 
 ['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
-  .forEach(id=>{const e=$(id);if(e)e.addEventListener('input',calc)});
+  .forEach(id=>{const e=$(id); if(e) e.addEventListener('input',calc)});
 
-let chartI=null,donutI=null;
+let chartI=null, donutI=null;
 
 function calc(){
   const cap         = gV('capital',300000);
   const prazo       = gV('prazo',3);
-  const cdi         = gV('cdi',13.35)/100;       // decimal
-  const ipca        = gV('ipca',5)/100;           // decimal
+  const cdi         = gV('cdi',13.35)/100;
+  const ipca        = gV('ipca',5)/100;
   const banco       = gV('banco','Banco ABC');
-  const lcaTaxaPass = gV('lcaTaxaPass',90)/100;   // decimal
-  const lcaTaxaNova = gV('lcaTaxaNova',90)/100;   // decimal  ← BENCHMARK FUTURO
+  const lcaTaxaPass = gV('lcaTaxaPass',90)/100;
+  const lcaTaxaNova = gV('lcaTaxaNova',90)/100;
   const cdiPass     = gV('cdiPass',14.45)/100;
   const ipcaPass    = gV('ipcaPass',4.62)/100;
 
-  // ── Nova LCA (benchmark): CDI futuro × taxa NOVA ─────────────────────────
+  // Nova LCA benchmark (CDI futuro × taxa nova, isenta)
   const lcaRateNova = cdi * lcaTaxaNova;
   const lcaFinal    = cap * Math.pow(1+lcaRateNova, prazo);
 
-  // ── Carteira diversificada (líquida ponderada) ───────────────────────────
+  // Carteira líquida ponderada
   let divFinal=0, wNet=0;
   FUNDS.forEach(f=>{
     const w = f.w/100;
-    const g = rate(f,cdi,ipca);
-    const n = hasIR(f) ? g*0.85 : g;   // IR 15% onde aplicável
+    const g = rate(f, cdi, ipca);          // bruto
+    const n = hasIR(f) ? g*0.85 : g;      // líquido (IR 15% onde aplicável)
     divFinal += (cap*w) * Math.pow(1+n, prazo);
-    wNet     += w*n;
+    wNet     += w * n;
   });
 
-  // KPIs capa
-  $('k-ret').textContent = fmt(divFinal);
-  const equivCDIpct = (wNet/0.85/cdi)*100;
+  // ── KPIs capa
+  $('k-ret').textContent   = fmt(divFinal);
+  const equivCDIpct        = (wNet/0.85/cdi)*100;
   $('k-equiv').textContent = pct(equivCDIpct)+' do CDI';
-  $('f-gold').textContent  = pct(equivCDIpct)+' do CDI';
 
-  // ── Raio-x passado (CDI realizado × taxa ANTIGA) ─────────────────────────
+  // ── Raio-x passado (CDI realizado × taxa ANTIGA)
   const rendPass  = cap*(cdiPass*lcaTaxaPass);
   const corrInfl  = cap*ipcaPass;
   const ganhoReal = rendPass-corrInfl;
   $('raix').innerHTML=`
-    <tr><td>Capital investido</td><td class="num" style="color:var(--pr)">${fmt(cap)}</td></tr>
-    <tr><td>Taxa contratada (LCA antiga)</td><td class="num">${pct(lcaTaxaPass*100,0)+' CDI'}</td></tr>
-    <tr><td>Rendimento bruto nominal</td><td class="num" style="color:var(--pr)">+${fmt(rendPass)}</td></tr>
-    <tr><td style="color:var(--rd)">Corrosão inflação (IPCA real.)</td><td class="num" style="color:var(--rd)">−${fmt(corrInfl)}</td></tr>
-    <tr><td><b>Ganho real efetivo</b></td><td class="num" style="color:var(--gnd)"><b>${ganhoReal>=0?'+':''}${fmt(ganhoReal)}</b></td></tr>`;
+    <tr><td>Capital investido</td>
+        <td class="num" style="color:var(--pr)">${fmt(cap)}</td></tr>
+    <tr><td>Taxa contratada (LCA antiga)</td>
+        <td class="num">${pct(lcaTaxaPass*100,0)+' CDI'}</td></tr>
+    <tr><td>Rendimento bruto nominal</td>
+        <td class="num" style="color:var(--pr)">+${fmt(rendPass)}</td></tr>
+    <tr><td style="color:var(--rd)">Corrosão inflação (IPCA realizado)</td>
+        <td class="num" style="color:var(--rd)">−${fmt(corrInfl)}</td></tr>
+    <tr><td><b>Ganho real efetivo</b></td>
+        <td class="num" style="color:var(--gnd)"><b>${ganhoReal>=0?'+':''}${fmt(ganhoReal)}</b></td></tr>`;
 
-  // ── Quadro "A fortaleza" — dinâmico ──────────────────────────────────────
-  const fort=$('fortaleza');
-  fort.style.gridTemplateColumns=`repeat(${FUNDS.length},1fr)`;
-  fort.innerHTML=FUNDS.map((f,i)=>{
-    const cor=LCORS[i]||'var(--k2)';
-    const pt=f.tipo==='cdi'
-      ?`${(''+f.proj).replace('.',',')}% CDI`
-      :`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+  // ── Fortaleza dinâmica
+  const fort = $('fortaleza');
+  fort.style.gridTemplateColumns = `repeat(${FUNDS.length},1fr)`;
+  fort.innerHTML = FUNDS.map((f,i)=>{
+    const cor = LCORS[i]||'var(--k2)';
+    const pt  = f.tipo==='cdi'
+      ? `${(''+f.proj).replace('.',',')}% CDI`
+      : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
     return `<div class="ly" style="border-top:3px solid ${cor}">
       <div class="ly-tag" style="color:${cor}">${f.tag||f.nome}</div>
       <h4>${f.nome}</h4>
@@ -552,12 +512,12 @@ function calc(){
     </div>`;
   }).join('');
 
-  // ── Composição ────────────────────────────────────────────────────────────
-  $('compList').innerHTML=FUNDS.map(f=>{
-    const rk=RISKS[f.risco]||RISKS[3];
-    const pt=f.tipo==='cdi'
-      ?`${(''+f.proj).replace('.',',')}% CDI`
-      :`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+  // ── Composição
+  $('compList').innerHTML = FUNDS.map(f=>{
+    const rk = RISKS[f.risco]||RISKS[3];
+    const pt = f.tipo==='cdi'
+      ? `${(''+f.proj).replace('.',',')}% CDI`
+      : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
     return `<div class="ci">
       <div class="cii" style="background:${rk.cor}"><span class="mi">${ICO[f.ico]||'paid'}</span></div>
       <div><div class="cn">${f.nome}</div><div class="cs">${f.sub} · ${pt} · ${f.liq}</div></div>
@@ -566,30 +526,37 @@ function calc(){
     </div>`;
   }).join('');
 
-  // ── Donut de risco ────────────────────────────────────────────────────────
+  // ── Donut
   const byR={};
   FUNDS.forEach(f=>{byR[f.risco]=(byR[f.risco]||0)+(+f.w||0)});
-  const ord=Object.keys(RISKS).filter(k=>byR[k]>0);
-  const tot=ord.reduce((a,k)=>a+byR[k],0)||1;
-  const cons=((byR[1]||0)+(byR[2]||0))/tot*100;
-  $('dcv').textContent=Math.round(cons)+'%';
-  if(donutI)donutI.destroy();
-  donutI=new Chart($('donut'),{type:'doughnut',
-    data:{labels:ord.map(k=>RISKS[k].n),datasets:[{data:ord.map(k=>byR[k]),backgroundColor:ord.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:3,hoverOffset:6}]},
+  const ord  = Object.keys(RISKS).filter(k=>byR[k]>0);
+  const tot  = ord.reduce((a,k)=>a+byR[k],0)||1;
+  const cons = ((byR[1]||0)+(byR[2]||0))/tot*100;
+  $('dcv').textContent = Math.round(cons)+'%';
+  if(donutI) donutI.destroy();
+  donutI = new Chart($('donut'),{type:'doughnut',
+    data:{labels:ord.map(k=>RISKS[k].n),
+          datasets:[{data:ord.map(k=>byR[k]),backgroundColor:ord.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:3,hoverOffset:6}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false}}}});
-  $('rleg').innerHTML=ord.map(k=>{
-    const v=RISKS[k],p=Math.round(byR[k]/tot*100);
-    return `<div class="rli"><span class="rld" style="background:${v.cor}"></span>
+  $('rleg').innerHTML = ord.map(k=>{
+    const v=RISKS[k], p=Math.round(byR[k]/tot*100);
+    return `<div class="rli">
+      <span class="rld" style="background:${v.cor}"></span>
       <div><div class="rln">${v.n}</div><div class="rls">${fmt(cap*byR[k]/100)}</div></div>
-      <span class="rlp" style="color:${v.cor}">${p}%</span></div>`;}).join('');
+      <span class="rlp" style="color:${v.cor}">${p}%</span>
+    </div>`;
+  }).join('');
 
-  // ── Memória de cálculo ────────────────────────────────────────────────────
-  $('m-cdi').textContent=pct(cdi*100);$('m-ipca').textContent=pct(ipca*100);
-  $('calc').innerHTML=FUNDS.map(f=>{
-    const g=rate(f,cdi,ipca),ir=hasIR(f),n=ir?g*0.85:g;
-    const pt=f.tipo==='cdi'
-      ?`${(''+f.proj).replace('.',',')}% CDI`
-      :`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+  // ── Memória de cálculo
+  $('m-cdi').textContent  = pct(cdi*100);
+  $('m-ipca').textContent = pct(ipca*100);
+  $('calc').innerHTML = FUNDS.map(f=>{
+    const g  = rate(f, cdi, ipca);
+    const ir = hasIR(f);
+    const n  = ir ? g*0.85 : g;
+    const pt = f.tipo==='cdi'
+      ? `${(''+f.proj).replace('.',',')}% CDI`
+      : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
     return `<tr>
       <td>${f.nome}</td>
       <td style="text-align:center">${f.w}%</td>
@@ -603,70 +570,60 @@ function calc(){
     <td class="num" style="color:var(--gnd)"><b>${pct(wNet*100)}</b></td>
   </tr>`;
 
-  // ── Gráfico linha ─────────────────────────────────────────────────────────
-  $('ch-p').textContent=prazo;
-  const pts=prazo<=1?12:prazo,labels=[],dLca=[],dDiv=[];
+  // ── Gráfico linha
+  $('ch-p').textContent = prazo;
+  const pts=prazo<=1?12:prazo, labels=[], dLca=[], dDiv=[];
   for(let i=0;i<=pts;i++){
-    const y=prazo<=1?i/12:i;
+    const y = prazo<=1 ? i/12 : i;
     labels.push(i===0?'Hoje':(prazo<=1?`M${i}`:`Ano ${i}`));
     dLca.push(Math.round(cap*Math.pow(1+lcaRateNova,y)));
     let s=0;
     FUNDS.forEach(f=>{
-      const n=hasIR(f)?rate(f,cdi,ipca)*0.85:rate(f,cdi,ipca);
-      s+=(cap*f.w/100)*Math.pow(1+n,y);
+      const n = hasIR(f) ? rate(f,cdi,ipca)*0.85 : rate(f,cdi,ipca);
+      s += (cap*f.w/100)*Math.pow(1+n,y);
     });
     dDiv.push(Math.round(s));
   }
-  if(chartI)chartI.destroy();
-  chartI=new Chart($('chart'),{type:'line',
-    data:{labels,datasets:[
+  if(chartI) chartI.destroy();
+  chartI = new Chart($('chart'),{type:'line',
+    data:{labels, datasets:[
       {label:'Nova LCA (100%)',data:dLca,borderColor:'#8a9ab8',backgroundColor:'rgba(138,154,184,.1)',borderWidth:2,fill:true,tension:.3,pointRadius:0},
       {label:'Carteira BB',   data:dDiv,borderColor:'var(--pr)',backgroundColor:'rgba(0,64,168,.07)',  borderWidth:3,fill:true,tension:.3,pointRadius:0}
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:11,weight:'700'},color:'#46587a',usePointStyle:true,boxWidth:8}},
-        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
-      scales:{y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:10},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},
-        x:{ticks:{font:{family:'Roboto',size:10},color:'#9aa6b8'},grid:{display:false}}}}});
+               tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
+      scales:{
+        y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:10},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},
+        x:{ticks:{font:{family:'Roboto',size:10},color:'#9aa6b8'},grid:{display:false}}
+      }}});
 
-  // ── Comparação lado a lado ────────────────────────────────────────────────
-  $('cmp-b').textContent=banco;$('b-banco').textContent=banco;
-  const ipcaW  =FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0);
-  const isentoW=FUNDS.filter(f=>!hasIR(f)).reduce((s,f)=>s+f.w,0);
-  const lcaRealAno=((1+lcaRateNova)/(1+ipca)-1)*100;
-  const divRealAno=((1+wNet)/(1+ipca)-1)*100;
-  const rows=[
-    ['Patrimônio final',    fmt(lcaFinal),              fmt(divFinal),                        divFinal>lcaFinal],
-    ['Rent. líquida a.a.',  pct(lcaRateNova*100),       pct(wNet*100),                        wNet>lcaRateNova],
-    ['Ganho real a.a.',     pct(lcaRealAno),             pct(divRealAno),                      divRealAno>lcaRealAno],
-    ['Proteção inflação',   'Não há',                   ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
-    ['Concentração',        '1 emissor',                `✓ ${Math.round(cons)}% baixo risco`, true],
-    ['Liquidez',            'No vencimento',            '✓ Parte em D+0',                     true],
-    ['Tributação IR',       'Isento',                   `${Math.round(isentoW)}% isento`,     false],
-    ['Gestão',              'Autônoma',                 '✓ Curadoria BB-BI',                  true],
-  ];
-  $('cmp').innerHTML=rows.map(r=>`<tr>
+  // ── Comparação lado a lado
+  $('cmp-b').textContent = banco;
+  const ipcaW   = FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0);
+  const isentoW = FUNDS.filter(f=>!hasIR(f)).reduce((s,f)=>s+f.w,0);
+  const lcaRealAno = ((1+lcaRateNova)/(1+ipca)-1)*100;
+  const divRealAno = ((1+wNet)/(1+ipca)-1)*100;
+  $('cmp').innerHTML=[
+    ['Patrimônio final',   fmt(lcaFinal),        fmt(divFinal),                        divFinal>lcaFinal],
+    ['Rent. líquida a.a.', pct(lcaRateNova*100), pct(wNet*100),                        wNet>lcaRateNova],
+    ['Ganho real a.a.',    pct(lcaRealAno),       pct(divRealAno),                      divRealAno>lcaRealAno],
+    ['Proteção inflação',  'Não há',             ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
+    ['Concentração',       '1 emissor',           `✓ ${Math.round(cons)}% baixo risco`, true],
+    ['Liquidez',           'No vencimento',       '✓ Parte em D+0',                     true],
+    ['Tributação IR',      'Isento',              `${Math.round(isentoW)}% isento`,     false],
+    ['Gestão',             'Autônoma',            '✓ Curadoria BB-BI',                  true],
+  ].map(r=>`<tr>
     <td><b>${r[0]}</b></td>
     <td style="color:var(--k2)">${r[1]}</td>
     <td class="${r[3]?'win':''}">${r[2]}</td>
   </tr>`).join('');
 
-  // ── Barras fechamento ─────────────────────────────────────────────────────
-  const maxV=Math.max(lcaFinal,divFinal);
-  $('b-lca').textContent=fmt(lcaFinal);
-  $('b-div').textContent=fmt(divFinal);
-  requestAnimationFrame(()=>{
-    $('b-lca-bar').style.width=Math.round(lcaFinal/maxV*92)+'%';
-    $('b-div-bar').style.width=Math.round(divFinal/maxV*92)+'%';
-  });
-  const ganho=divFinal-lcaFinal;
-  $('f-ganho').textContent=(ganho>=0?'+ ':'')+fmt(Math.abs(ganho));
-
-  // ── Histórico ─────────────────────────────────────────────────────────────
-  const maxHV=Math.max(...HIST.flatMap(h=>[h.c,h.i]));
-  $('hist').innerHTML=HIST.map(h=>{
-    const real=((1+h.c/100)/(1+h.i/100)-1)*100,pos=real>=0;
-    const hc=Math.round(h.c/maxHV*56),hi=Math.round(h.i/maxHV*56);
+  // ── Histórico
+  const maxHV = Math.max(...HIST.flatMap(h=>[h.c,h.i]));
+  $('hist').innerHTML = HIST.map(h=>{
+    const real=((1+h.c/100)/(1+h.i/100)-1)*100, pos=real>=0;
+    const hc=Math.round(h.c/maxHV*56), hi=Math.round(h.i/maxHV*56);
     return `<div class="hc">
       <div class="hy">${h.a}</div>
       <div class="hbs">
@@ -688,7 +645,7 @@ function calc(){
   </div>`;
 }
 
-renderEd();calc();
+renderEd(); calc();
 </script>
 </body>
 </html>
