@@ -22,13 +22,13 @@ html{font-size:15px}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 .mi{font-family:'Material Icons';font-style:normal;line-height:1;vertical-align:middle;font-size:inherit}
 
-/* ── FAB ── */
+/* FAB */
 .fabs{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;gap:8px}
 .fab{height:44px;padding:0 18px;border:none;border-radius:22px;cursor:pointer;font:700 13px/1 var(--sans);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s}
 .fb1{background:var(--pr);color:#fff}.fb1:hover{background:var(--prd)}
 .fb2{background:var(--ac);color:var(--ink)}.fb2:hover{background:#e6c200}
 
-/* ── PANEL ── */
+/* PANEL */
 .panel{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--sf);overflow-y:auto;z-index:300;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.12)}
 .panel.open{transform:none}
 .ptop{background:var(--pr);color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1}
@@ -51,7 +51,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .fgc-m{font-size:11px;padding:8px 10px;border-radius:7px;margin-top:6px;display:none}
 .fgc-m.show{display:block;background:var(--gnl);color:var(--gnd);border:1px solid var(--gn)}
 
-/* ── SCREEN ── */
+/* SCREEN */
 .screen{max-width:860px;margin:0 auto;padding:24px 16px 90px}
 .stitle{font:900 22px/1.2 var(--slab);color:var(--pr);margin-bottom:4px}
 .ssub{font-size:13px;color:var(--k2);margin-bottom:20px}
@@ -59,7 +59,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .ey{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pr);background:var(--prl);padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:8px}
 .sh{font:700 17px/1.25 var(--slab)}
 .sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
-.sec{padding:16px 18px 0}
+.sec{padding:16px 18px 12px}
 
 /* HERO */
 .hero{background:linear-gradient(135deg,var(--pr),var(--prd));color:#fff;padding:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;border-radius:12px;margin-bottom:12px}
@@ -83,43 +83,38 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .rc h4{font-size:12px;font-weight:700;margin-bottom:4px}
 .rc p{font-size:11px;color:var(--k2);line-height:1.5}
 
-/* LAYERS 4 */
-.l4{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ln)}
-.ly{padding:12px 14px;border-right:1px solid var(--ln);position:relative;padding-top:16px}
+/* FORTALEZA — dinâmica */
+.l4{display:grid;border-top:1px solid var(--ln)}/* grid-template-columns set by JS */
+.ly{padding:14px;border-right:1px solid var(--ln);position:relative;padding-top:18px}
 .ly:last-child{border-right:none}
-.ly::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.ly.a::before{background:var(--pr)}.ly.b::before{background:var(--gn)}.ly.c::before{background:var(--ac)}.ly.d::before{background:var(--rd)}
-.ly-link{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:10px;font-weight:700;color:var(--pr);text-decoration:none;opacity:.8}
-.ly-link:hover{opacity:1;text-decoration:underline}
-.ly-link .mi{font-size:11px}
+.ly-tag{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
 .ly h4{font-size:12px;font-weight:700;margin-bottom:3px}
 .ly p{font-size:11px;color:var(--k2);line-height:1.45}
+.ly-meta{font-size:10px;font-weight:700;color:var(--ink);margin-top:4px}
+.ly-link{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:10px;font-weight:700;text-decoration:none;opacity:.85}
+.ly-link:hover{opacity:1;text-decoration:underline}
+.ly-link .mi{font-size:11px}
 
 /* HIST */
 .hist{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--ln)}
-.hc{padding:10px 6px;text-align:center;border-right:1px solid var(--ln)}
+.hc{padding:10px 4px;text-align:center;border-right:1px solid var(--ln)}
 .hc:last-child{border-right:none}
 .hy{font:700 11px/1 var(--mono);color:var(--k3);margin-bottom:6px}
-.hbs{display:flex;gap:4px;justify-content:center;align-items:flex-end;height:72px;margin-bottom:5px}
+.hbs{display:flex;gap:4px;justify-content:center;align-items:flex-end;height:76px;margin-bottom:5px}
 .hb-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
 .hb-val{font-size:8px;font-weight:700;line-height:1;white-space:nowrap}
 .hb{width:14px;border-radius:3px 3px 0 0}
-.hr{font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px}
+.hr{font-size:10px;font-weight:700;padding:2px 5px;border-radius:99px}
 .hr.p{background:var(--gnl);color:var(--gnd)}.hr.n{background:var(--rdl);color:var(--rd)}
-.hleg{font-size:10px;color:var(--k3);display:flex;gap:8px;justify-content:center;padding:6px 0;border-top:1px solid var(--ln);grid-column:1/-1}
+.hleg{font-size:10px;color:var(--k3);display:flex;gap:10px;justify-content:center;padding:7px 0;border-top:1px solid var(--ln);grid-column:1/-1}
 .hleg span{display:flex;align-items:center;gap:3px}
 .hleg i{width:8px;height:8px;border-radius:2px;display:inline-block}
 
-/* RAIO-X */
-.rx{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ln)}
-.rx-l{padding:16px 18px;border-right:1px solid var(--ln)}
-.rx-r{padding:16px 18px}
-.rtab{width:100%;border-collapse:collapse;font-size:12px}
-.rtab td{padding:7px 0;border-bottom:1px solid var(--ln);vertical-align:middle}
-.rtab tr:last-child td{border-bottom:none;font-weight:700;padding-top:9px}
-.rtab .num{text-align:right;font:700 12px/1 var(--mono)}
-.kv2{font:900 20px/1 var(--slab);margin-bottom:2px}
-.kl2{font-size:10px;color:var(--k3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+/* RAIO-X — coluna única */
+.rtab{width:100%;border-collapse:collapse;font-size:13px}
+.rtab td{padding:9px 0;border-bottom:1px solid var(--ln);vertical-align:middle}
+.rtab tr:last-child td{border-bottom:none;font-weight:700;padding-top:11px}
+.rtab .num{text-align:right;font:700 13px/1 var(--mono)}
 
 /* COMP */
 .ci{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--ln)}
@@ -166,128 +161,105 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .ct .win{background:var(--gnl);color:var(--gnd);font-weight:700}
 
 /* CLOSING */
-.cl{background:linear-gradient(135deg,#fff9d6,#fffbea);border:2px solid var(--ac);border-radius:12px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-.bb{background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.06);margin-bottom:12px}
+.cl{background:linear-gradient(135deg,#fff9d6,#fffbea);border:2px solid var(--ac);border-radius:12px;padding:20px}
+.bb{background:#fff;border-radius:10px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.06);margin-bottom:14px}
 .br{margin-bottom:10px}
 .br:last-child{margin-bottom:0}
-.bm{display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px}
+.bm{display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px}
 .blb{font-weight:700;color:var(--k2)}
 .blb.gr{color:var(--gnd)}
-.bv{font:700 13px/1 var(--mono)}
+.bv{font:700 14px/1 var(--mono)}
 .bt{height:22px;background:#f0f3f9;border-radius:6px;overflow:hidden}
 .bf{height:100%;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#fff;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 .bf1{background:var(--k3)}.bf2{background:linear-gradient(90deg,var(--gnd),var(--gn))}
-.st{display:flex;flex-direction:column;gap:10px}
+.st{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
 .si{display:flex;gap:10px;align-items:flex-start}
 .sn{width:28px;height:28px;border-radius:50%;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px/1 var(--sans);flex-shrink:0}
 .stit{font-size:13px;font-weight:700;margin-bottom:2px}
 .sdes{font-size:12px;color:var(--k2);line-height:1.45}
-.gb{margin-top:10px;background:#fff;border-radius:10px;padding:14px;border:1px dashed var(--gn)}
-.gb h4{font-size:12px;font-weight:700;color:var(--gnd);margin-bottom:5px}
-.gv{font:900 32px/1 var(--slab);color:var(--pr);margin:4px 0}
-.gb p{font-size:11px;color:var(--k3);line-height:1.45}
-.disc{font-size:10px;color:var(--k3);line-height:1.55;margin-top:10px;padding-top:8px;border-top:1px solid var(--ln)}
+.gb{background:#fff;border-radius:10px;padding:16px;border:1px dashed var(--gn);margin-bottom:10px}
+.gb h4{font-size:13px;font-weight:700;color:var(--gnd);margin-bottom:6px}
+.gv{font:900 36px/1 var(--slab);color:var(--pr);margin:6px 0}
+.gb p{font-size:12px;color:var(--k3);line-height:1.5}
+.disc{font-size:10px;color:var(--k3);line-height:1.55;padding-top:10px;border-top:1px solid var(--ln)}
 
-/* ══ PRINT ══
-   Página celular retrato: 108mm × 192mm
-   Margem de 4mm cada lado → área útil ≈ 100mm × 184mm
-*/
+/* PRINT — 3 páginas celular 108×192mm */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   @page{size:108mm 192mm;margin:4mm}
-  html{font-size:9.5px!important}
+  html{font-size:9px!important}
   body{background:#fff!important}
   .fabs,.panel{display:none!important}
   .screen{padding:0!important;max-width:100%!important;margin:0!important}
   .stitle,.ssub{display:none!important}
-
-  /* quebra de página SOMENTE nos divisores explícitos */
   .pb{page-break-before:always;break-before:page;display:block}
-
-  /* HERO menor */
-  .hero{grid-template-columns:1fr!important;gap:8px!important;padding:10px!important;border-radius:6px!important;margin-bottom:6px!important}
-  .hh{font-size:14px!important}.hp{font-size:9.5px!important}.hey{font-size:9px!important}
-  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:5px!important}
-  .kpi{padding:7px 9px!important;gap:7px!important}
-  .ki{width:26px!important;height:26px!important}
-  .ki .mi{font-size:14px!important}
-  .kv{font-size:13px!important}.kl{font-size:9px!important}
-
+  /* hero */
+  .hero{grid-template-columns:1fr!important;gap:6px!important;padding:8px!important;border-radius:5px!important;margin-bottom:5px!important}
+  .hh{font-size:13px!important}.hp{font-size:9px!important}.hey{font-size:8px!important}
+  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:4px!important}
+  .kpi{padding:6px 8px!important;gap:6px!important}
+  .ki{width:24px!important;height:24px!important}.ki .mi{font-size:13px!important}
+  .kv{font-size:12px!important}.kl{font-size:8.5px!important}
   /* cards */
-  .card{border-radius:6px!important;margin-bottom:6px!important;box-shadow:none!important}
-  .sec{padding:8px 10px 0!important}
-  .sh{font-size:12px!important}.sp{font-size:9.5px!important;margin-top:3px!important}
-  .ey{font-size:8px!important;padding:2px 7px!important}
-
-  /* risk3 */
+  .card{border-radius:5px!important;margin-bottom:5px!important;box-shadow:none!important}
+  .sec{padding:6px 8px 5px!important}
+  .sh{font-size:11px!important}.sp{font-size:9px!important;margin-top:2px!important}
+  .ey{font-size:7.5px!important;padding:2px 6px!important}
+  /* r3 */
   .r3{grid-template-columns:repeat(3,1fr)!important}
-  .rc{padding:8px!important}.ri{width:24px!important;height:24px!important;margin-bottom:5px!important}
-  .ri .mi{font-size:12px!important}.rc h4{font-size:10px!important}.rc p{font-size:9px!important}
-
-  /* layers4 */
-  .l4{grid-template-columns:repeat(4,1fr)!important}
-  .ly{padding:8px 8px 8px!important;padding-top:11px!important}
-  .ly h4{font-size:10px!important}.ly p{font-size:9px!important}.ly-tag{font-size:8px!important}
-
+  .rc{padding:7px!important}.ri{width:22px!important;height:22px!important;margin-bottom:5px!important}
+  .ri .mi{font-size:11px!important}.rc h4{font-size:9.5px!important}.rc p{font-size:8.5px!important}
+  /* fortaleza */
+  .ly{padding:7px 7px 7px!important;padding-top:10px!important}
+  .ly h4{font-size:9.5px!important}.ly p{font-size:8.5px!important}.ly-tag{font-size:7.5px!important}
+  .ly-meta{font-size:8.5px!important}.ly-link{font-size:8px!important}
   /* hist */
-  .hist{grid-template-columns:repeat(5,1fr)!important}
-  .hc{padding:6px 4px!important}.hy{font-size:9px!important}
-  .hbs{height:36px!important}.hb{width:10px!important}.hr{font-size:8.5px!important}
-  .hleg{font-size:8.5px!important}
-
-  /* rx */
-  .rx{grid-template-columns:1fr 1fr!important}
-  .rx-l{padding:10px!important}.rx-r{padding:10px!important}
-  .rtab{font-size:9.5px!important}.rtab td{padding:5px 0!important}
-  .kv2{font-size:15px!important}.kl2{font-size:9px!important;margin-bottom:7px!important}
-
+  .hc{padding:5px 2px!important}.hy{font-size:8.5px!important}
+  .hbs{height:52px!important}.hb{width:10px!important}
+  .hb-val{font-size:7px!important}.hr{font-size:8px!important}
+  .hleg{font-size:8px!important}
+  /* raix */
+  .rtab{font-size:9px!important}.rtab td{padding:5px 0!important}
   /* comp */
-  .ci{padding:7px 10px!important;gap:7px!important}
-  .cii{width:24px!important;height:24px!important}
-  .cii .mi{font-size:12px!important}
-  .cn{font-size:10px!important}.cs{font-size:9px!important}
-  .cb{font-size:8.5px!important;padding:2px 6px!important}
-  .cpct{font-size:15px!important}
-
+  .ci{padding:5px 8px!important;gap:6px!important}
+  .cii{width:22px!important;height:22px!important}.cii .mi{font-size:11px!important}
+  .cn{font-size:9.5px!important}.cs{font-size:8.5px!important}
+  .cb{font-size:8px!important;padding:2px 5px!important}
+  .cpct{font-size:14px!important}
   /* donut */
   .ds{grid-template-columns:.85fr 1.15fr!important}
-  .db{padding:10px!important}.dr{height:120px!important}
-  .dcv{font-size:18px!important}
-  .rl{padding:10px!important;gap:5px!important}
-  .rli{padding:5px 8px!important}
-  .rln{font-size:10px!important}.rls{font-size:9px!important}.rlp{font-size:13px!important}
-
-  /* mem table */
-  .mt th,.mt td{padding:5px 8px!important;font-size:9.5px!important}
-
+  .db{padding:8px!important}.dr{height:110px!important}
+  .dcv{font-size:16px!important}
+  .rl{padding:8px!important;gap:4px!important}
+  .rli{padding:4px 7px!important}.rln{font-size:9.5px!important}.rls{font-size:8.5px!important}.rlp{font-size:12px!important}
+  /* mem */
+  .mt th,.mt td{padding:4px 7px!important;font-size:8.5px!important}
   /* chart */
-  .chw{height:140px!important;padding:10px!important}
-
+  .chw{height:130px!important;padding:8px!important}
   /* cmp */
-  .ct th,.ct td{padding:6px 8px!important;font-size:9.5px!important}
-
+  .ct th,.ct td{padding:5px 7px!important;font-size:8.5px!important}
   /* closing */
-  .cl{grid-template-columns:1fr!important;gap:10px!important;padding:12px!important;border-radius:6px!important}
-  .bb{padding:10px!important}.bt{height:18px!important}.bv{font-size:11px!important}
-  .bm{font-size:10px!important}
-  .stit{font-size:11px!important}.sdes{font-size:9.5px!important}
-  .sn{width:22px!important;height:22px!important;font-size:11px!important}
-  .gb{padding:10px!important;margin-top:8px!important}.gv{font-size:22px!important}
-  .gb h4{font-size:10px!important}.gb p{font-size:9px!important}
-  .disc{font-size:8.5px!important}
+  .cl{padding:10px!important;border-radius:5px!important}
+  .bb{padding:9px!important;margin-bottom:10px!important}
+  .bt{height:16px!important}.bv{font-size:11px!important}.bm{font-size:9.5px!important}
+  .stit{font-size:10px!important}.sdes{font-size:8.5px!important}
+  .sn{width:20px!important;height:20px!important;font-size:10px!important}
+  .gb{padding:9px!important;margin-bottom:7px!important}.gv{font-size:20px!important}
+  .gb h4{font-size:9.5px!important}.gb p{font-size:8.5px!important}
+  .disc{font-size:8px!important}
+  .st{margin-bottom:10px!important;gap:7px!important}
 }
 
 @media(max-width:640px){
   .hero{grid-template-columns:1fr}
   .r3{grid-template-columns:1fr 1fr}
-  .l4{grid-template-columns:1fr 1fr}
-  .ds,.rx,.cl{grid-template-columns:1fr}
-  .rx-l{border-right:none}
+  .ds{grid-template-columns:1fr}
   .db{border-right:none}
 }
 </style>
 </head>
 <body>
+
 <div class="fabs">
   <button class="fab fb1" onclick="togglePanel()"><span class="mi">tune</span> Parâmetros</button>
   <button class="fab fb2" onclick="imp()"><span class="mi">smartphone</span> PDF 3 pág.</button>
@@ -332,8 +304,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="stitle">Proposta de Carteira Diversificada</div>
   <div class="ssub">Banco do Brasil · GEINV · Perfil Conservador</div>
 
-  <!-- ════ PÁGINA 1 ════ -->
-
+  <!-- ══ PÁG 1 ══ -->
   <div class="hero">
     <div>
       <div class="hey">Banco do Brasil · Assessoria Premium</div>
@@ -357,13 +328,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   </div>
 
   <div class="card">
-    <div class="sec"><div class="ey">A Curadoria BB</div><div class="sh">A fortaleza: quatro camadas, cada uma com sua função.</div></div>
-    <div class="l4">
-      <div class="ly a"><div class="ly-tag" style="color:var(--pr)">Base FGC</div><h4>LCA limitada</h4><p>Segurança no teto FGC, isenta de IR.</p></div>
-      <div class="ly b"><div class="ly-tag" style="color:var(--gn)">Caixa D+0</div><h4>BB RF LP High</h4><p>Liquidez imediata, risco mínimo.</p><a href="https://fundos.bb.com.br/fundo?gfi=1320" target="_blank" class="ly-link"><span class="mi">open_in_new</span> Ver fundo</a></div>
-      <div class="ly c"><div class="ly-tag" style="color:var(--acd)">Crédito</div><h4>BB Régia Equilíbrio</h4><p>Gerido pela BB Asset, acima do CDI.</p><a href="https://fundos.bb.com.br/fundo?gfi=2363" target="_blank" class="ly-link"><span class="mi">open_in_new</span> Ver fundo</a></div>
-      <div class="ly d"><div class="ly-tag" style="color:var(--rd)">Inflação</div><h4>Debênture IPCA+</h4><p>Trava ganho real. brAAA, isenta IR PF.</p><a href="https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf" target="_blank" class="ly-link"><span class="mi">open_in_new</span> Ver seleção</a></div>
-    </div>
+    <div class="sec"><div class="ey">A Curadoria BB</div><div class="sh">A fortaleza: cada camada com sua função.</div></div>
+    <div class="l4" id="fortaleza"></div>
   </div>
 
   <div class="card">
@@ -371,20 +337,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="hist" id="hist"></div>
   </div>
 
-  <!-- ════ PÁGINA 2 ════ -->
+  <!-- ══ PÁG 2 ══ -->
   <div class="pb"></div>
 
   <div class="card">
     <div class="sec"><div class="ey">O Seu Raio-X</div><div class="sh">O que de fato sobrou na conta (LCA anterior)?</div></div>
-    <div class="rx">
-      <div class="rx-l">
-        <table class="rtab" id="raix"></table>
-      </div>
-      <div class="rx-r">
-        <div class="kl2">Patrimônio final (carteira nova)</div><div class="kv2" id="kv-f">—</div>
-        <div class="kl2">Rentabilidade líquida a.a.</div><div class="kv2" id="kv-l">—</div>
-        <div class="kl2">Ganho real acima IPCA a.a.</div><div class="kv2" id="kv-r">—</div>
-      </div>
+    <div style="padding:0 18px 16px">
+      <table class="rtab" id="raix"></table>
     </div>
   </div>
 
@@ -401,7 +360,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 
   <div class="card">
     <div class="sec"><div class="ey">Transparência</div><div class="sh">Memória de cálculo — CDI <span id="m-cdi">—</span> · IPCA <span id="m-ipca">—</span></div></div>
-    <div style="padding:0 0 2px;overflow-x:auto">
+    <div style="overflow-x:auto">
       <table class="mt">
         <thead><tr style="background:var(--pr)"><th>Ativo</th><th style="text-align:center">Peso</th><th style="text-align:right">Taxa bruta</th><th style="text-align:center">IR</th><th style="text-align:right">Líq. a.a.</th></tr></thead>
         <tbody id="calc"></tbody>
@@ -409,7 +368,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
   </div>
 
-  <!-- ════ PÁGINA 3 ════ -->
+  <!-- ══ PÁG 3 ══ -->
   <div class="pb"></div>
 
   <div class="card">
@@ -432,25 +391,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   </div>
 
   <div class="cl">
-    <div>
-      <div class="bb">
-        <div class="br"><div class="bm"><span class="blb">Renovar LCA <span id="b-banco">—</span></span><span class="bv" id="b-lca">—</span></div><div class="bt"><div class="bf bf1" id="b-lca-bar"></div></div></div>
-        <div class="br"><div class="bm"><span class="blb gr">Carteira diversificada BB</span><span class="bv" style="color:var(--gnd)" id="b-div">—</span></div><div class="bt"><div class="bf bf2" id="b-div-bar"></div></div></div>
-      </div>
-      <div class="st">
-        <div class="si"><div class="sn">1</div><div><div class="stit">Mais retorno real</div><div class="sdes">Ganho adicional líquido: <b style="color:var(--gnd)" id="f-ganho">—</b> no período.</div></div></div>
-        <div class="si"><div class="sn">2</div><div><div class="stit">Risco distribuído</div><div class="sdes">Não depende de um único banco — curadoria BB.</div></div></div>
-      </div>
+    <div class="bb">
+      <div class="br"><div class="bm"><span class="blb">Renovar LCA <span id="b-banco">—</span></span><span class="bv" id="b-lca">—</span></div><div class="bt"><div class="bf bf1" id="b-lca-bar"></div></div></div>
+      <div class="br"><div class="bm"><span class="blb gr">Carteira diversificada BB</span><span class="bv" style="color:var(--gnd)" id="b-div">—</span></div><div class="bt"><div class="bf bf2" id="b-div-bar"></div></div></div>
     </div>
-    <div>
-      <div class="gb">
-        <h4><span class="mi" style="font-size:13px;vertical-align:-2px;color:var(--gn)">workspace_premium</span> O argumento de ouro</h4>
-        <p>Para empatar com a parte isenta desta carteira, um CDB tributado precisaria pagar:</p>
-        <div class="gv" id="f-gold">—</div>
-        <p>Um produto desse porte raramente aparece nas prateleiras. A isenção trabalha a favor do cliente.</p>
-      </div>
-      <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
+    <div class="st">
+      <div class="si"><div class="sn">1</div><div><div class="stit">Mais retorno real</div><div class="sdes">Ganho adicional líquido: <b style="color:var(--gnd)" id="f-ganho">—</b> no período.</div></div></div>
+      <div class="si"><div class="sn">2</div><div><div class="stit">Risco distribuído</div><div class="sdes">Não depende de um único banco — curadoria BB.</div></div></div>
     </div>
+    <div class="gb">
+      <h4><span class="mi" style="font-size:13px;vertical-align:-2px;color:var(--gn)">workspace_premium</span> O argumento de ouro</h4>
+      <p>Para empatar com a parte isenta desta carteira, um CDB tributado precisaria pagar:</p>
+      <div class="gv" id="f-gold">—</div>
+      <p>Um produto desse porte raramente aparece nas prateleiras. A isenção trabalha a favor do cliente.</p>
+    </div>
+    <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
   </div>
 
 </div><!-- /screen -->
@@ -459,31 +414,32 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 const $=id=>document.getElementById(id);
 const fmt=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0,maximumFractionDigits:0}).format(v||0);
 const pct=(v,d=1)=>Math.abs(v).toFixed(d).replace('.',',')+' %';
-const pctS=(v,d=1)=>(v>=0?'+':'')+v.toFixed(d).replace('.',',')+' %';
 const gV=(id,fb=0)=>{const e=$(id);if(!e)return fb;const v=e.type==='number'?parseFloat(e.value):e.value;return(isNaN(v)||v==='')?fb:v};
 
 const HIST=[{a:'2020',c:2.76,i:4.52},{a:'2021',c:4.42,i:10.06},{a:'2022',c:12.39,i:5.79},{a:'2023',c:13.04,i:4.62},{a:'2024',c:10.88,i:4.83}];
 const RISKS={1:{n:'Muito baixo',cor:'#1f9d57'},2:{n:'Baixo',cor:'#7cb342'},3:{n:'Médio',cor:'#ffb300'},4:{n:'Alto',cor:'#fb8c00'},5:{n:'Muito alto',cor:'#d94436'}};
 const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'};
+const LCORS=['var(--pr)','var(--gn)','var(--acd)','var(--rd)','var(--k3)','#7b2fff','#00838f'];
 
 let FUNDS=[
-  {nome:'LCA Banco ABC',sub:'Renda Fixa Pós · Isenta',w:40,proj:85,tipo:'cdi',risco:1,ico:'lca',liq:'No vencimento',link:''},
-  {nome:'BB RF LP High',sub:'Caixa · Liquidez D+0',w:25,proj:101,tipo:'cdi',risco:1,ico:'liq',liq:'D+0',link:'https://fundos.bb.com.br/fundo?gfi=1320'},
-  {nome:'BB Régia Equilíbrio',sub:'Crédito premium · D+6',w:25,proj:104.8,tipo:'cdi',risco:2,ico:'cred',liq:'D+6',link:'https://fundos.bb.com.br/fundo?gfi=2363'},
-  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',w:10,proj:7.5,tipo:'ipca',risco:3,ico:'deb',liq:'No vencimento',link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+  {nome:'LCA limitada',   sub:'Renda Fixa Pós · Isenta',    tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',            w:40, proj:85,    tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
+  {nome:'BB RF LP High',  sub:'Caixa · Liquidez D+0',        tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',                w:25, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',sub:'Crédito premium · D+6',  tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',            w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA', tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',          w:10, proj:7.5,   tipo:'ipca', risco:3, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
 ];
 
 function togglePanel(){$('panel').classList.toggle('open')}
 function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print(),350)}
 
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
+
 function rate(f,cdi,ipca){
-  if(f.tipo==='cdi') return cdi*f.proj/100;
-  // IPCA+ correto: IPCA já é decimal (ex: 0.05), spread em % (ex: 7.5) → converter para decimal
+  // cdi e ipca já chegam como decimais (ex: 0.1335, 0.05)
+  // proj em % (ex: 85 = 85% CDI; 7.5 = IPCA + 7,5% a.a.)
+  if(f.tipo==='cdi')  return cdi * (f.proj/100);
   if(f.tipo==='ipca') return (1+ipca)*(1+f.proj/100)-1;
   return f.proj/100;
 }
-
 
 function fgc(){
   const cap=gV('capital',300000),m=$('fgcM');
@@ -498,61 +454,77 @@ function fgc(){
 function renderEd(){
   $('fed').innerHTML=FUNDS.map((f,i)=>`
     <div class="fc">
-      <div class="fc-top"><input value="${f.nome}" oninput="U(${i},'nome',this.value)"/><button class="fc-del" onclick="delF(${i})"><span class="mi">delete</span></button></div>
-      <input value="${f.sub}" oninput="U(${i},'sub',this.value)" style="width:100%;margin-bottom:6px"/>
+      <div class="fc-top">
+        <input value="${f.nome}" oninput="U(${i},'nome',this.value)" placeholder="Nome do ativo"/>
+        <button class="fc-del" onclick="delF(${i})"><span class="mi">delete</span></button>
+      </div>
+      <div class="g2" style="margin-bottom:6px">
+        <div><span class="ml">Rótulo (tag)</span><input value="${f.tag||''}" oninput="U(${i},'tag',this.value)" placeholder="ex: Caixa D+0"/></div>
+        <div><span class="ml">Classe / sub</span><input value="${f.sub}" oninput="U(${i},'sub',this.value)"/></div>
+      </div>
+      <div style="margin-bottom:6px"><span class="ml">Descrição (quadro curadoria)</span>
+        <input value="${f.desc||''}" oninput="U(${i},'desc',this.value)" placeholder="ex: Liquidez imediata, risco mínimo."/></div>
+      <div style="margin-bottom:6px"><span class="ml">Link do produto (URL)</span>
+        <input value="${f.link||''}" oninput="U(${i},'link',this.value)" placeholder="https://..."/></div>
       <div class="g3">
         <div><span class="ml">Peso %</span><input type="number" value="${f.w}" oninput="U(${i},'w',+this.value)"/></div>
         <div><span class="ml">Proj.</span><input type="number" step="0.1" value="${f.proj}" oninput="U(${i},'proj',+this.value)"/></div>
-        <div><span class="ml">Tipo</span><select onchange="U(${i},'tipo',this.value)"><option value="cdi" ${f.tipo==='cdi'?'selected':''}>% CDI</option><option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option></select></div>
+        <div><span class="ml">Tipo</span>
+          <select onchange="U(${i},'tipo',this.value)">
+            <option value="cdi"  ${f.tipo==='cdi' ?'selected':''}>% CDI</option>
+            <option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option>
+          </select></div>
       </div>
-      <div class="g2">
-        <div><span class="ml">Risco</span><select onchange="U(${i},'risco',+this.value)">${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k}·${v.n}</option>`).join('')}</select></div>
+      <div class="g2" style="margin-top:6px">
+        <div><span class="ml">Risco</span>
+          <select onchange="U(${i},'risco',+this.value)">
+            ${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k}·${v.n}</option>`).join('')}
+          </select></div>
         <div><span class="ml">Liquidez</span><input value="${f.liq}" oninput="U(${i},'liq',this.value)"/></div>
       </div>
     </div>`).join('');
 }
 function U(i,k,v){FUNDS[i][k]=v;calc()}
-function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1'});renderEd();calc()}
+function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',link:''});renderEd();calc()}
 function delF(i){FUNDS.splice(i,1);renderEd();calc()}
 
-['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova'].forEach(id=>{const e=$(id);if(e)e.addEventListener('input',calc)});
+['capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
+  .forEach(id=>{const e=$(id);if(e)e.addEventListener('input',calc)});
 
 let chartI=null,donutI=null;
 
 function calc(){
-  const cap=gV('capital',300000), prazo=gV('prazo',3);
-  const cdi=gV('cdi',13.35)/100, ipca=gV('ipca',5)/100;
-  const banco=gV('banco','Banco ABC');
+  const cap         = gV('capital',300000);
+  const prazo       = gV('prazo',3);
+  const cdi         = gV('cdi',13.35)/100;       // decimal
+  const ipca        = gV('ipca',5)/100;           // decimal
+  const banco       = gV('banco','Banco ABC');
+  const lcaTaxaPass = gV('lcaTaxaPass',90)/100;   // decimal
+  const lcaTaxaNova = gV('lcaTaxaNova',90)/100;   // decimal  ← BENCHMARK FUTURO
+  const cdiPass     = gV('cdiPass',14.45)/100;
+  const ipcaPass    = gV('ipcaPass',4.62)/100;
 
-  // ─── TAXAS (CHAVE DA CORREÇÃO) ───────────────────────────────────────────
-  // lcaTaxaPass → usada SOMENTE no raio-x histórico (LCA que venceu)
-  const lcaTaxaPass = gV('lcaTaxaPass',90)/100;
-  // lcaTaxaNova → usada na comparação futura (nova LCA que o cliente renovaria)
-  const lcaTaxaNova = gV('lcaTaxaNova',90)/100;
-  // ─────────────────────────────────────────────────────────────────────────
+  // ── Nova LCA (benchmark): CDI futuro × taxa NOVA ─────────────────────────
+  const lcaRateNova = cdi * lcaTaxaNova;
+  const lcaFinal    = cap * Math.pow(1+lcaRateNova, prazo);
 
-  const cdiPass=gV('cdiPass',14.45)/100, ipcaPass=gV('ipcaPass',4.62)/100;
-
-  // Nova LCA (benchmark futuro) — usa CDI futuro × taxa NOVA
-  const lcaRateNova = cdi * lcaTaxaNova;            // ex: 13,35% × 90% = 12,015% a.a.
-  const lcaFinal = cap * Math.pow(1+lcaRateNova, prazo);
-
-  // Carteira diversificada — líquida ponderada
-  let divFinal=0, wNet=0, wGross=0;
+  // ── Carteira diversificada (líquida ponderada) ───────────────────────────
+  let divFinal=0, wNet=0;
   FUNDS.forEach(f=>{
-    const w=f.w/100, g=rate(f,cdi,ipca), n=hasIR(f)?g*0.85:g;
-    divFinal += (cap*w)*Math.pow(1+n, prazo);
-    wNet  += w*n;
-    wGross+= w*g;
+    const w = f.w/100;
+    const g = rate(f,cdi,ipca);
+    const n = hasIR(f) ? g*0.85 : g;   // IR 15% onde aplicável
+    divFinal += (cap*w) * Math.pow(1+n, prazo);
+    wNet     += w*n;
   });
 
   // KPIs capa
   $('k-ret').textContent = fmt(divFinal);
-  const equivCDIpct = (wNet/0.85/cdi)*100;   // CDB tributado equivalente
-  $('k-equiv').textContent = pct(equivCDIpct,1)+' do CDI';
-  $('f-gold').textContent  = pct(equivCDIpct,1)+' do CDI';
+  const equivCDIpct = (wNet/0.85/cdi)*100;
+  $('k-equiv').textContent = pct(equivCDIpct)+' do CDI';
+  $('f-gold').textContent  = pct(equivCDIpct)+' do CDI';
 
-  // Raio-x passado (usa CDI realizado × taxa ANTIGA)
+  // ── Raio-x passado (CDI realizado × taxa ANTIGA) ─────────────────────────
   const rendPass  = cap*(cdiPass*lcaTaxaPass);
   const corrInfl  = cap*ipcaPass;
   const ganhoReal = rendPass-corrInfl;
@@ -563,16 +535,29 @@ function calc(){
     <tr><td style="color:var(--rd)">Corrosão inflação (IPCA real.)</td><td class="num" style="color:var(--rd)">−${fmt(corrInfl)}</td></tr>
     <tr><td><b>Ganho real efetivo</b></td><td class="num" style="color:var(--gnd)"><b>${ganhoReal>=0?'+':''}${fmt(ganhoReal)}</b></td></tr>`;
 
-  const divRealAno = ((1+wNet)/(1+ipca)-1)*100;
-  const lcaRealAno = ((1+lcaRateNova)/(1+ipca)-1)*100;
-  $('kv-f').textContent = fmt(divFinal);
-  $('kv-l').textContent = pct(wNet*100);
-  $('kv-r').textContent = pct(divRealAno)+' a.a.';
+  // ── Quadro "A fortaleza" — dinâmico ──────────────────────────────────────
+  const fort=$('fortaleza');
+  fort.style.gridTemplateColumns=`repeat(${FUNDS.length},1fr)`;
+  fort.innerHTML=FUNDS.map((f,i)=>{
+    const cor=LCORS[i]||'var(--k2)';
+    const pt=f.tipo==='cdi'
+      ?`${(''+f.proj).replace('.',',')}% CDI`
+      :`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<div class="ly" style="border-top:3px solid ${cor}">
+      <div class="ly-tag" style="color:${cor}">${f.tag||f.nome}</div>
+      <h4>${f.nome}</h4>
+      <p>${f.desc||f.sub}</p>
+      <div class="ly-meta">${f.w}% · ${pt} · ${f.liq}</div>
+      ${f.link?`<a href="${f.link}" target="_blank" class="ly-link" style="color:${cor}"><span class="mi">open_in_new</span> Ver produto</a>`:''}
+    </div>`;
+  }).join('');
 
-  // Composição
+  // ── Composição ────────────────────────────────────────────────────────────
   $('compList').innerHTML=FUNDS.map(f=>{
     const rk=RISKS[f.risco]||RISKS[3];
-    const pt=f.tipo==='cdi'?`${(''+f.proj).replace('.',',')}% CDI`:`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    const pt=f.tipo==='cdi'
+      ?`${(''+f.proj).replace('.',',')}% CDI`
+      :`IPCA+ ${(''+f.proj).replace('.',',')}%`;
     return `<div class="ci">
       <div class="cii" style="background:${rk.cor}"><span class="mi">${ICO[f.ico]||'paid'}</span></div>
       <div><div class="cn">${f.nome}</div><div class="cs">${f.sub} · ${pt} · ${f.liq}</div></div>
@@ -581,64 +566,95 @@ function calc(){
     </div>`;
   }).join('');
 
-  // Donut
-  const byR={};FUNDS.forEach(f=>{byR[f.risco]=(byR[f.risco]||0)+(+f.w||0)});
+  // ── Donut de risco ────────────────────────────────────────────────────────
+  const byR={};
+  FUNDS.forEach(f=>{byR[f.risco]=(byR[f.risco]||0)+(+f.w||0)});
   const ord=Object.keys(RISKS).filter(k=>byR[k]>0);
   const tot=ord.reduce((a,k)=>a+byR[k],0)||1;
   const cons=((byR[1]||0)+(byR[2]||0))/tot*100;
   $('dcv').textContent=Math.round(cons)+'%';
   if(donutI)donutI.destroy();
-  donutI=new Chart($('donut'),{type:'doughnut',data:{labels:ord.map(k=>RISKS[k].n),datasets:[{data:ord.map(k=>byR[k]),backgroundColor:ord.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:3,hoverOffset:6}]},
+  donutI=new Chart($('donut'),{type:'doughnut',
+    data:{labels:ord.map(k=>RISKS[k].n),datasets:[{data:ord.map(k=>byR[k]),backgroundColor:ord.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:3,hoverOffset:6}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false}}}});
-  $('rleg').innerHTML=ord.map(k=>{const v=RISKS[k],p=Math.round(byR[k]/tot*100);
-    return `<div class="rli"><span class="rld" style="background:${v.cor}"></span><div><div class="rln">${v.n}</div><div class="rls">${fmt(cap*byR[k]/100)}</div></div><span class="rlp" style="color:${v.cor}">${p}%</span></div>`;}).join('');
+  $('rleg').innerHTML=ord.map(k=>{
+    const v=RISKS[k],p=Math.round(byR[k]/tot*100);
+    return `<div class="rli"><span class="rld" style="background:${v.cor}"></span>
+      <div><div class="rln">${v.n}</div><div class="rls">${fmt(cap*byR[k]/100)}</div></div>
+      <span class="rlp" style="color:${v.cor}">${p}%</span></div>`;}).join('');
 
-  // Memória de cálculo
+  // ── Memória de cálculo ────────────────────────────────────────────────────
   $('m-cdi').textContent=pct(cdi*100);$('m-ipca').textContent=pct(ipca*100);
   $('calc').innerHTML=FUNDS.map(f=>{
     const g=rate(f,cdi,ipca),ir=hasIR(f),n=ir?g*0.85:g;
-    const pt=f.tipo==='cdi'?`${(''+f.proj).replace('.',',')}% CDI`:`IPCA+ ${(''+f.proj).replace('.',',')}%`;
-    return `<tr><td>${f.nome}</td><td style="text-align:center">${f.w}%</td><td style="text-align:right">${pt}</td>
+    const pt=f.tipo==='cdi'
+      ?`${(''+f.proj).replace('.',',')}% CDI`
+      :`IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<tr>
+      <td>${f.nome}</td>
+      <td style="text-align:center">${f.w}%</td>
+      <td style="text-align:right">${pt}</td>
       <td style="text-align:center">${ir?'<span class="bgr">15%</span>':'<span class="bg">Isento</span>'}</td>
-      <td class="num" style="color:var(--pr)">${pct(n*100)}</td></tr>`;
-  }).join('')+`<tr><td><b>Média ponderada</b></td><td style="text-align:center"><b>100%</b></td><td></td><td></td><td class="num" style="color:var(--gnd)"><b>${pct(wNet*100)}</b></td></tr>`;
+      <td class="num" style="color:var(--pr)">${pct(n*100)}</td>
+    </tr>`;
+  }).join('')+`<tr>
+    <td><b>Média ponderada</b></td><td style="text-align:center"><b>100%</b></td>
+    <td></td><td></td>
+    <td class="num" style="color:var(--gnd)"><b>${pct(wNet*100)}</b></td>
+  </tr>`;
 
-  // Gráfico
+  // ── Gráfico linha ─────────────────────────────────────────────────────────
   $('ch-p').textContent=prazo;
   const pts=prazo<=1?12:prazo,labels=[],dLca=[],dDiv=[];
   for(let i=0;i<=pts;i++){
     const y=prazo<=1?i/12:i;
     labels.push(i===0?'Hoje':(prazo<=1?`M${i}`:`Ano ${i}`));
     dLca.push(Math.round(cap*Math.pow(1+lcaRateNova,y)));
-    let s=0;FUNDS.forEach(f=>{const n=hasIR(f)?rate(f,cdi,ipca)*0.85:rate(f,cdi,ipca);s+=(cap*f.w/100)*Math.pow(1+n,y)});
+    let s=0;
+    FUNDS.forEach(f=>{
+      const n=hasIR(f)?rate(f,cdi,ipca)*0.85:rate(f,cdi,ipca);
+      s+=(cap*f.w/100)*Math.pow(1+n,y);
+    });
     dDiv.push(Math.round(s));
   }
   if(chartI)chartI.destroy();
-  chartI=new Chart($('chart'),{type:'line',data:{labels,datasets:[
-    {label:'Nova LCA (100%)',data:dLca,borderColor:'#8a9ab8',backgroundColor:'rgba(138,154,184,.1)',borderWidth:2,fill:true,tension:.3,pointRadius:0},
-    {label:'Carteira BB',data:dDiv,borderColor:'var(--pr)',backgroundColor:'rgba(0,64,168,.07)',borderWidth:3,fill:true,tension:.3,pointRadius:0}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:11,weight:'700'},color:'#46587a',usePointStyle:true,boxWidth:8}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
-    scales:{y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:10},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},x:{ticks:{font:{family:'Roboto',size:10},color:'#9aa6b8'},grid:{display:false}}}}});
+  chartI=new Chart($('chart'),{type:'line',
+    data:{labels,datasets:[
+      {label:'Nova LCA (100%)',data:dLca,borderColor:'#8a9ab8',backgroundColor:'rgba(138,154,184,.1)',borderWidth:2,fill:true,tension:.3,pointRadius:0},
+      {label:'Carteira BB',   data:dDiv,borderColor:'var(--pr)',backgroundColor:'rgba(0,64,168,.07)',  borderWidth:3,fill:true,tension:.3,pointRadius:0}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:11,weight:'700'},color:'#46587a',usePointStyle:true,boxWidth:8}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
+      scales:{y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:10},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},
+        x:{ticks:{font:{family:'Roboto',size:10},color:'#9aa6b8'},grid:{display:false}}}}});
 
-  // Comparação
+  // ── Comparação lado a lado ────────────────────────────────────────────────
   $('cmp-b').textContent=banco;$('b-banco').textContent=banco;
-  const ipcaW=FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0);
+  const ipcaW  =FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0);
   const isentoW=FUNDS.filter(f=>!hasIR(f)).reduce((s,f)=>s+f.w,0);
+  const lcaRealAno=((1+lcaRateNova)/(1+ipca)-1)*100;
+  const divRealAno=((1+wNet)/(1+ipca)-1)*100;
   const rows=[
-    ['Patrimônio final',fmt(lcaFinal),fmt(divFinal),divFinal>lcaFinal],
-    ['Rent. líquida a.a.',pct(lcaRateNova*100),pct(wNet*100),wNet>lcaRateNova],
-    ['Ganho real a.a.',pct(lcaRealAno),pct(divRealAno),divRealAno>lcaRealAno],
-    ['Proteção inflação','Não há',ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—',ipcaW>0],
-    ['Concentração','1 emissor',`✓ ${Math.round(cons)}% baixo risco`,true],
-    ['Liquidez','No vencimento','✓ Parte em D+0',true],
-    ['Tributação IR','Isento',`${Math.round(isentoW)}% isento`,false],
-    ['Gestão','Autônoma','✓ Curadoria BB-BI',true],
+    ['Patrimônio final',    fmt(lcaFinal),              fmt(divFinal),                        divFinal>lcaFinal],
+    ['Rent. líquida a.a.',  pct(lcaRateNova*100),       pct(wNet*100),                        wNet>lcaRateNova],
+    ['Ganho real a.a.',     pct(lcaRealAno),             pct(divRealAno),                      divRealAno>lcaRealAno],
+    ['Proteção inflação',   'Não há',                   ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
+    ['Concentração',        '1 emissor',                `✓ ${Math.round(cons)}% baixo risco`, true],
+    ['Liquidez',            'No vencimento',            '✓ Parte em D+0',                     true],
+    ['Tributação IR',       'Isento',                   `${Math.round(isentoW)}% isento`,     false],
+    ['Gestão',              'Autônoma',                 '✓ Curadoria BB-BI',                  true],
   ];
-  $('cmp').innerHTML=rows.map(r=>`<tr><td><b>${r[0]}</b></td><td style="color:var(--k2)">${r[1]}</td><td class="${r[3]?'win':''}">${r[2]}</td></tr>`).join('');
+  $('cmp').innerHTML=rows.map(r=>`<tr>
+    <td><b>${r[0]}</b></td>
+    <td style="color:var(--k2)">${r[1]}</td>
+    <td class="${r[3]?'win':''}">${r[2]}</td>
+  </tr>`).join('');
 
-  // Barras fechamento
+  // ── Barras fechamento ─────────────────────────────────────────────────────
   const maxV=Math.max(lcaFinal,divFinal);
-  $('b-lca').textContent=fmt(lcaFinal);$('b-div').textContent=fmt(divFinal);
+  $('b-lca').textContent=fmt(lcaFinal);
+  $('b-div').textContent=fmt(divFinal);
   requestAnimationFrame(()=>{
     $('b-lca-bar').style.width=Math.round(lcaFinal/maxV*92)+'%';
     $('b-div-bar').style.width=Math.round(divFinal/maxV*92)+'%';
@@ -646,11 +662,11 @@ function calc(){
   const ganho=divFinal-lcaFinal;
   $('f-ganho').textContent=(ganho>=0?'+ ':'')+fmt(Math.abs(ganho));
 
-  // Histórico
+  // ── Histórico ─────────────────────────────────────────────────────────────
   const maxHV=Math.max(...HIST.flatMap(h=>[h.c,h.i]));
   $('hist').innerHTML=HIST.map(h=>{
     const real=((1+h.c/100)/(1+h.i/100)-1)*100,pos=real>=0;
-    const hc=Math.round(h.c/maxHV*52),hi=Math.round(h.i/maxHV*52);
+    const hc=Math.round(h.c/maxHV*56),hi=Math.round(h.i/maxHV*56);
     return `<div class="hc">
       <div class="hy">${h.a}</div>
       <div class="hbs">
@@ -665,7 +681,11 @@ function calc(){
       </div>
       <div class="hr ${pos?'p':'n'}">${pos?'+':''}${real.toFixed(2).replace('.',',')}%</div>
     </div>`;
-  }).join('')+`<div class="hleg"><span><i style="background:var(--pr)"></i>CDI</span><span><i style="background:var(--rd)"></i>IPCA</span><span>Real = CDI − IPCA</span></div>`;
+  }).join('')+`<div class="hleg">
+    <span><i style="background:var(--pr)"></i>CDI</span>
+    <span><i style="background:var(--rd)"></i>IPCA</span>
+    <span>Real = CDI − IPCA</span>
+  </div>`;
 }
 
 renderEd();calc();
