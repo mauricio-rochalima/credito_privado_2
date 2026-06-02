@@ -407,17 +407,16 @@ const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'
 const LCORS=['var(--pr)','var(--gn)','var(--acd)','var(--rd)','var(--k3)','#7b2fff','#00838f'];
 
 let FUNDS=[
-  {nome:'LCA limitada',         sub:'Renda Fixa Pós · Isenta',  tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',   w:40, proj:85,    tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
-  {nome:'BB RF LP High',        sub:'Caixa · Liquidez D+0',      tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',       w:25, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
-  {nome:'BB Régia Equilíbrio',  sub:'Crédito premium · D+6',     tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',   w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
-  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',      tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+  {nome:'LCA limitada',         sub:'Renda Fixa Pós · Isenta',  tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',   w:40, proj:85,   tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
+  {nome:'BB RF LP High',        sub:'Caixa · Liquidez D+0',     tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',       w:25, proj:101,  tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',  sub:'Crédito premium · D+6',    tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',   w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',     tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
 ];
 
 function togglePanel(){$('panel').classList.toggle('open')}
 function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print(),350)}
 
 // ── EXPORTAR CARDS ────────────────────────────────────────────────────────
-const CARD_WIDTH = 1080;  // largura WP (9:16 → altura variável por card)
 
 function getExportables(){
   return [...document.querySelectorAll('[data-export]')];
@@ -463,23 +462,41 @@ async function exportarSelecionados(){
     iframe.style.cssText=`position:fixed;left:-9999px;top:0;width:${MOBILE_W}px;height:2000px;border:none;visibility:hidden`;
     document.body.appendChild(iframe);
 
-    // Copia todo o <head> (estilos, fontes) para o iframe
+    // Copia todo o <head> (estilos, fontes) para o iframe e limpa margin/padding do body
     const iDoc = iframe.contentDocument;
     iDoc.open();
-    iDoc.write(`<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body style="margin:0;padding:16px;background:#f4f7fd;font-family:Roboto,sans-serif"></body></html>`);
+    iDoc.write(`<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body style="margin:0;padding:0;background:#f4f7fd;font-family:Roboto,sans-serif"></body></html>`);
     iDoc.close();
 
-    // Clona o card e injeta no iframe
-    const clone = el.cloneNode(true);
-    clone.style.cssText='width:100%;box-sizing:border-box;border-radius:12px;overflow:hidden';
-    iDoc.body.appendChild(clone);
+    // Cria um container para abraçar o card, sendo a exata região a ser exportada
+    const container = document.createElement('div');
+    container.style.cssText = 'padding:16px; background:#f4f7fd; display:flex; flex-direction:column; width:100%; box-sizing:border-box;';
 
-    // Aguarda fontes e imagens carregarem
+    // Clona o card e reseta margens externas para evitar espaços
+    const clone = el.cloneNode(true);
+    clone.style.cssText += 'width:100%;box-sizing:border-box;border-radius:12px;overflow:hidden;margin:0;';
+
+    // Os Canvas originais (Pizza/Linhas) perdem o desenho ao clonar. Copiamos o visual:
+    const originalCanvases = el.querySelectorAll('canvas');
+    const clonedCanvases = clone.querySelectorAll('canvas');
+    originalCanvases.forEach((canvas, c) => {
+        clonedCanvases[c].width = canvas.width;
+        clonedCanvases[c].height = canvas.height;
+        clonedCanvases[c].getContext('2d').drawImage(canvas, 0, 0);
+    });
+
+    container.appendChild(clone);
+    iDoc.body.appendChild(container);
+
+    // Aguarda fontes e imagens carregarem e render estabilizar
     await new Promise(r=>setTimeout(r,700));
 
-    // 2. Captura com html2canvas — escala 3× para 1170px
+    // Ajusta a altura do iframe para a altura precisa do container criado
+    iframe.style.height = container.offsetHeight + 'px';
+
+    // 2. Captura com html2canvas — escala 3× para 1170px focando no container
     const scale = TARGET_W / MOBILE_W;
-    const canvas = await html2canvas(iDoc.body,{
+    const canvas = await html2canvas(container,{
       scale,
       useCORS:true,
       backgroundColor:'#f4f7fd',
@@ -501,6 +518,7 @@ async function exportarSelecionados(){
   prog.textContent=`✓ ${checks.length} imagem(ns) exportada(s)!`;
   setTimeout(fecharExport,2000);
 }
+
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
 
 // ── CÁLCULO DE TAXA ────────────────────────────────────────────────────────
@@ -718,7 +736,7 @@ function calc(){
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto',size:11,weight:'700'},color:'#46587a',usePointStyle:true,boxWidth:8}},
-               tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
+                tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},
       scales:{
         y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k',font:{family:'Roboto Mono',size:10},color:'#9aa6b8'},grid:{color:'#e6ecf5'}},
         x:{ticks:{font:{family:'Roboto',size:10},color:'#9aa6b8'},grid:{display:false}}
@@ -731,14 +749,14 @@ function calc(){
   const lcaRealAno = ((1+lcaRateNova)/(1+ipca)-1)*100;
   const divRealAno = ((1+wNet)/(1+ipca)-1)*100;
   $('cmp').innerHTML=[
-    ['Patrimônio final',   fmt(lcaFinal),        fmt(divFinal),                        divFinal>lcaFinal],
+    ['Patrimônio final',   fmt(lcaFinal),         fmt(divFinal),                       divFinal>lcaFinal],
     ['Rent. líquida a.a.', pct(lcaRateNova*100), pct(wNet*100),                        wNet>lcaRateNova],
-    ['Ganho real a.a.',    pct(lcaRealAno),       pct(divRealAno),                      divRealAno>lcaRealAno],
+    ['Ganho real a.a.',    pct(lcaRealAno),       pct(divRealAno),                       divRealAno>lcaRealAno],
     ['Proteção inflação',  'Não há',             ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
-    ['Concentração',       '1 emissor',           `✓ ${Math.round(cons)}% baixo risco`, true],
-    ['Liquidez',           'No vencimento',       '✓ Parte em D+0',                     true],
-    ['Tributação IR',      'Isento',              `${Math.round(isentoW)}% isento`,     false],
-    ['Gestão',             'Autônoma',            '✓ Curadoria BB-BI',                  true],
+    ['Concentração',       '1 emissor',            `✓ ${Math.round(cons)}% baixo risco`, true],
+    ['Liquidez',           'No vencimento',       '✓ Parte em D+0',                      true],
+    ['Tributação IR',      'Isento',              `${Math.round(isentoW)}% isento`,      false],
+    ['Gestão',             'Autônoma',            '✓ Curadoria BB-BI',                 true],
   ].map(r=>`<tr>
     <td><b>${r[0]}</b></td>
     <td style="color:var(--k2)">${r[1]}</td>
