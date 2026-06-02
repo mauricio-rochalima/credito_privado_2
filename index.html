@@ -89,7 +89,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .ly:last-child{border-right:none}
 .ly::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .ly.a::before{background:var(--pr)}.ly.b::before{background:var(--gn)}.ly.c::before{background:var(--ac)}.ly.d::before{background:var(--rd)}
-.ly-tag{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.ly-link{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:10px;font-weight:700;color:var(--pr);text-decoration:none;opacity:.8}
+.ly-link:hover{opacity:1;text-decoration:underline}
+.ly-link .mi{font-size:11px}
 .ly h4{font-size:12px;font-weight:700;margin-bottom:3px}
 .ly p{font-size:11px;color:var(--k2);line-height:1.45}
 
@@ -98,7 +100,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .hc{padding:10px 6px;text-align:center;border-right:1px solid var(--ln)}
 .hc:last-child{border-right:none}
 .hy{font:700 11px/1 var(--mono);color:var(--k3);margin-bottom:6px}
-.hbs{display:flex;gap:3px;justify-content:center;align-items:flex-end;height:48px;margin-bottom:5px}
+.hbs{display:flex;gap:4px;justify-content:center;align-items:flex-end;height:72px;margin-bottom:5px}
+.hb-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+.hb-val{font-size:8px;font-weight:700;line-height:1;white-space:nowrap}
 .hb{width:14px;border-radius:3px 3px 0 0}
 .hr{font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px}
 .hr.p{background:var(--gnl);color:var(--gnd)}.hr.n{background:var(--rdl);color:var(--rd)}
@@ -356,9 +360,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="sec"><div class="ey">A Curadoria BB</div><div class="sh">A fortaleza: quatro camadas, cada uma com sua função.</div></div>
     <div class="l4">
       <div class="ly a"><div class="ly-tag" style="color:var(--pr)">Base FGC</div><h4>LCA limitada</h4><p>Segurança no teto FGC, isenta de IR.</p></div>
-      <div class="ly b"><div class="ly-tag" style="color:var(--gn)">Caixa D+0</div><h4>BB RF LP High</h4><p>Liquidez imediata, risco mínimo.</p></div>
-      <div class="ly c"><div class="ly-tag" style="color:var(--acd)">Crédito</div><h4>BB Régia Equilíbrio</h4><p>Gerido pela BB Asset, acima do CDI.</p></div>
-      <div class="ly d"><div class="ly-tag" style="color:var(--rd)">Inflação</div><h4>Debênture IPCA+</h4><p>Trava ganho real. brAAA, isenta IR PF.</p></div>
+      <div class="ly b"><div class="ly-tag" style="color:var(--gn)">Caixa D+0</div><h4>BB RF LP High</h4><p>Liquidez imediata, risco mínimo.</p><a href="https://fundos.bb.com.br/fundo?gfi=1320" target="_blank" class="ly-link"><span class="mi">open_in_new</span> Ver fundo</a></div>
+      <div class="ly c"><div class="ly-tag" style="color:var(--acd)">Crédito</div><h4>BB Régia Equilíbrio</h4><p>Gerido pela BB Asset, acima do CDI.</p><a href="https://fundos.bb.com.br/fundo?gfi=2363" target="_blank" class="ly-link"><span class="mi">open_in_new</span> Ver fundo</a></div>
+      <div class="ly d"><div class="ly-tag" style="color:var(--rd)">Inflação</div><h4>Debênture IPCA+</h4><p>Trava ganho real. brAAA, isenta IR PF.</p><a href="https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf" target="_blank" class="ly-link"><span class="mi">open_in_new</span> Ver seleção</a></div>
     </div>
   </div>
 
@@ -463,10 +467,10 @@ const RISKS={1:{n:'Muito baixo',cor:'#1f9d57'},2:{n:'Baixo',cor:'#7cb342'},3:{n:
 const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'};
 
 let FUNDS=[
-  {nome:'LCA Banco ABC',sub:'Renda Fixa Pós · Isenta',w:60,proj:85,tipo:'cdi',risco:1,ico:'lca',liq:'No vencimento'},
-  {nome:'BB RF LP High',sub:'Caixa · Liquidez D+0',w:15,proj:101,tipo:'cdi',risco:2,ico:'liq',liq:'D+0'},
-  {nome:'BB Régia Equilíbrio',sub:'Crédito premium · D+6',w:10,proj:104.8,tipo:'cdi',risco:3,ico:'cred',liq:'D+6'},
-  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',w:15,proj:7.5,tipo:'ipca',risco:3,ico:'deb',liq:'No vencimento'}
+  {nome:'LCA Banco ABC',sub:'Renda Fixa Pós · Isenta',w:40,proj:85,tipo:'cdi',risco:1,ico:'lca',liq:'No vencimento',link:''},
+  {nome:'BB RF LP High',sub:'Caixa · Liquidez D+0',w:25,proj:101,tipo:'cdi',risco:1,ico:'liq',liq:'D+0',link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',sub:'Crédito premium · D+6',w:25,proj:104.8,tipo:'cdi',risco:2,ico:'cred',liq:'D+6',link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',w:10,proj:7.5,tipo:'ipca',risco:3,ico:'deb',liq:'No vencimento',link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
 ];
 
 function togglePanel(){$('panel').classList.toggle('open')}
@@ -474,10 +478,12 @@ function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print()
 
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
 function rate(f,cdi,ipca){
-  if(f.tipo==='cdi')return cdi*f.proj/100;
-  if(f.tipo==='ipca')return(1+ipca)*(1+f.proj/100)-1;
+  if(f.tipo==='cdi') return cdi*f.proj/100;
+  // IPCA+ correto: IPCA já é decimal (ex: 0.05), spread em % (ex: 7.5) → converter para decimal
+  if(f.tipo==='ipca') return (1+ipca)*(1+f.proj/100)-1;
   return f.proj/100;
 }
+
 
 function fgc(){
   const cap=gV('capital',300000),m=$('fgcM');
@@ -644,12 +650,18 @@ function calc(){
   const maxHV=Math.max(...HIST.flatMap(h=>[h.c,h.i]));
   $('hist').innerHTML=HIST.map(h=>{
     const real=((1+h.c/100)/(1+h.i/100)-1)*100,pos=real>=0;
-    const hc=Math.round(h.c/maxHV*44),hi=Math.round(h.i/maxHV*44);
+    const hc=Math.round(h.c/maxHV*52),hi=Math.round(h.i/maxHV*52);
     return `<div class="hc">
       <div class="hy">${h.a}</div>
       <div class="hbs">
-        <div class="hb" style="height:${hc}px;background:var(--pr)"></div>
-        <div class="hb" style="height:${hi}px;background:var(--rd)"></div>
+        <div class="hb-wrap">
+          <span class="hb-val" style="color:var(--pr)">${h.c.toFixed(2).replace('.',',')}%</span>
+          <div class="hb" style="height:${hc}px;background:var(--pr)"></div>
+        </div>
+        <div class="hb-wrap">
+          <span class="hb-val" style="color:var(--rd)">${h.i.toFixed(2).replace('.',',')}%</span>
+          <div class="hb" style="height:${hi}px;background:var(--rd)"></div>
+        </div>
       </div>
       <div class="hr ${pos?'p':'n'}">${pos?'+':''}${real.toFixed(2).replace('.',',')}%</div>
     </div>`;
