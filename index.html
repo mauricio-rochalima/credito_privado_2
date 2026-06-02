@@ -447,45 +447,58 @@ async function exportarSelecionados(){
   const prog  = $('expProgress');
   prog.className='exp-progress show';
 
+  // Largura alvo para WP vertical (equiv. a 390px de celular × 3x)
+  const TARGET_W = 1170; // px no canvas final
+  const MOBILE_W = 390;  // px de viewport simulado
+
   for(let idx=0; idx<checks.length; idx++){
-    const i   = +checks[idx].value;
-    const el  = items[i];
-    const nome= el.dataset.export;
+    const i    = +checks[idx].value;
+    const el   = items[i];
+    const nome = el.dataset.export;
     prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
 
-    // Escala: CARD_WIDTH / largura real do elemento
-    const rect  = el.getBoundingClientRect();
-    const scale = CARD_WIDTH / rect.width;
+    // 1. Clona o elemento num iframe de 390px para forçar layout mobile/vertical
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText=`position:fixed;left:-9999px;top:0;width:${MOBILE_W}px;height:2000px;border:none;visibility:hidden`;
+    document.body.appendChild(iframe);
 
-    const canvas = await html2canvas(el,{
+    // Copia todo o <head> (estilos, fontes) para o iframe
+    const iDoc = iframe.contentDocument;
+    iDoc.open();
+    iDoc.write(`<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body style="margin:0;padding:16px;background:#f4f7fd;font-family:Roboto,sans-serif"></body></html>`);
+    iDoc.close();
+
+    // Clona o card e injeta no iframe
+    const clone = el.cloneNode(true);
+    clone.style.cssText='width:100%;box-sizing:border-box;border-radius:12px;overflow:hidden';
+    iDoc.body.appendChild(clone);
+
+    // Aguarda fontes e imagens carregarem
+    await new Promise(r=>setTimeout(r,700));
+
+    // 2. Captura com html2canvas — escala 3× para 1170px
+    const scale = TARGET_W / MOBILE_W;
+    const canvas = await html2canvas(iDoc.body,{
       scale,
       useCORS:true,
       backgroundColor:'#f4f7fd',
       logging:false,
-      windowWidth: document.documentElement.scrollWidth,
-      windowHeight: document.documentElement.scrollHeight,
+      windowWidth: MOBILE_W,
     });
 
-    // Adiciona padding e bordas arredondadas via composição
-    const pad = Math.round(40*scale/2);
-    const out = document.createElement('canvas');
-    out.width  = canvas.width  + pad*2;
-    out.height = canvas.height + pad*2;
-    const ctx = out.getContext('2d');
-    ctx.fillStyle='#f4f7fd';
-    ctx.fillRect(0,0,out.width,out.height);
-    ctx.drawImage(canvas, pad, pad);
+    document.body.removeChild(iframe);
 
+    // 3. Salva PNG
     const a    = document.createElement('a');
     const slug = nome.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slug}.png`;
-    a.href     = out.toDataURL('image/png');
+    a.href     = canvas.toDataURL('image/png');
     a.click();
-    await new Promise(r=>setTimeout(r,600)); // pausa entre downloads
+    await new Promise(r=>setTimeout(r,700));
   }
 
   prog.textContent=`✓ ${checks.length} imagem(ns) exportada(s)!`;
-  setTimeout(fecharExport, 2000);
+  setTimeout(fecharExport,2000);
 }
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
 
