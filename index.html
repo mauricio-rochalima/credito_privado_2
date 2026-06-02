@@ -168,12 +168,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .mt th{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;padding:8px 12px;text-align:left}
 .mt td{padding:8px 12px;border-bottom:1px solid var(--ln);vertical-align:middle}
 .mt tr:last-child td{border-bottom:none;font-weight:700;background:rgba(252,213,0,.15)}
-.mt .num{font:700 12px/1 var(--mono);text-align:right;white-space:nowrap}
+.mt .num{font:700 12px/1 var(--mono);text-align:right;white-space:nowrap} /* Impede quebra do % */
 .bg{background:var(--gnl);color:var(--gnd);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
 .bgr{background:#f0f0f0;color:var(--k2);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
-
-/* CHART */
-.chw{padding:14px 16px 16px;position:relative;height:200px}
 
 /* CMP */
 .ct{width:100%;border-collapse:collapse;font-size:12px}
@@ -201,7 +198,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .disc-box{page-break-inside:avoid!important;break-inside:avoid!important;padding:6px 8px!important;margin-top:4px!important}
   /* Quebra explícita antes de cada .pb */
   .pb{page-break-before:always!important;break-before:page!important;display:block!important}
-  /* Tamanhos */
+  /* Tamanhos reduzidos e comprimidos para caber perfeitamente */
   .hh{font-size:12px!important}.hp{font-size:8.5px!important}.hey{font-size:7.5px!important}
   .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:3px!important}
   .kpi{padding:5px 7px!important;gap:5px!important}
@@ -219,20 +216,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .hc{padding:4px 2px!important}.hy{font-size:8px!important}
   .hbs{height:46px!important}.hb{width:9px!important}
   .hb-val{font-size:6.5px!important}.hr{font-size:7.5px!important}
+  
+  /* Ajustes finos de compressão para o donut e lista não cortarem na pág 2 */
   .hleg{font-size:7.5px!important}
-  .rtab{font-size:8.5px!important}.rtab td{padding:4px 0!important}
-  .ci{padding:5px 8px!important;gap:5px!important}
-  .cii{width:20px!important;height:20px!important}.cii .mi{font-size:10px!important}
-  .cn{font-size:9px!important}.cs{font-size:8px!important}
-  .cb{font-size:7.5px!important;padding:2px 4px!important}
-  .cpct{font-size:13px!important}
-  .ds{grid-template-columns:.82fr 1.18fr!important}
-  .db{padding:7px!important}.dr{height:100px!important}
-  .dcv{font-size:15px!important}
-  .rl{padding:7px!important;gap:3px!important}
-  .rli{padding:3px 6px!important}.rln{font-size:9px!important}.rls{font-size:7.5px!important}.rlp{font-size:11px!important}
+  .rtab{font-size:8.5px!important}.rtab td{padding:2.5px 0!important}
+  .ci{padding:3.5px 6px!important;gap:4px!important}
+  .cii{width:18px!important;height:18px!important}.cii .mi{font-size:9.5px!important}
+  .cn{font-size:8.5px!important}.cs{font-size:7.5px!important}
+  .cb{font-size:7px!important;padding:1.5px 3px!important}
+  .cpct{font-size:12px!important}
+  .ds{grid-template-columns:.75fr 1.25fr!important;align-items:center!important}
+  .db{padding:4px!important}.dr{height:70px!important}
+  .dcv{font-size:13px!important}
+  .rl{padding:4px!important;gap:1.5px!important}
+  .rli{padding:2.5px 4px!important}.rld{width:8px!important;height:8px!important}.rln{font-size:8px!important}.rls{font-size:7px!important}.rlp{font-size:10px!important}
   .mt th,.mt td{padding:3px 6px!important;font-size:8px!important}
-  .chw{height:120px!important;padding:7px!important}
   .ct th,.ct td{padding:4px 6px!important;font-size:8px!important}
   .disc{font-size:7.5px!important}
 }
