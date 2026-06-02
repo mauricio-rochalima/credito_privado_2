@@ -84,19 +84,20 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
 .sec{padding:16px 18px 12px}
 
-/* HERO E KPIs (NOVO) */
-.hero{background:linear-gradient(135deg,var(--pr),var(--prd));color:#fff;padding:24px;border-radius:12px;margin-bottom:12px}
+/* HERO (RETORNO DO MATERIAL DESIGN TRANSLÚCIDO) */
+.hero{background:linear-gradient(135deg,var(--pr),var(--prd));color:#fff;padding:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;border-radius:12px;margin-bottom:10px}
 .hey{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:10px}
 .hh-l1{font:500 17px/1.2 var(--sans);margin-bottom:6px;color:rgba(255,255,255,.9)}
 .hh-l2{font:900 25px/1.2 var(--slab);margin-bottom:14px}
 .hp{font-size:13px;color:rgba(255,255,255,.8);line-height:1.55}
 
-.kpis-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:10px}
-.kpi-card{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(16,33,61,.07)}
-.kpi-card .ki{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.kpi-card .ki .mi{font-size:19px}
-.kpi-card .kv{font:900 17px/1 var(--slab);color:var(--ink)}
-.kpi-card .kl{font-size:11px;color:var(--k2);margin-top:3px;line-height:1.2}
+/* KPIs GLASSMORPHISM */
+.kpis{display:flex;flex-direction:column;gap:8px}
+.kpi{background:rgba(255,255,255,.12);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1)}
+.ki{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ki .mi{font-size:18px;color:#fff}
+.kv{font:900 18px/1 var(--slab)}
+.kl{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
 
 /* SELO DE FONTE */
 .fonte-selo{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--k2);line-height:1.4}
@@ -201,7 +202,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .screen{padding:0!important;max-width:100%!important;margin:0!important}
   .stitle,.ssub{display:none!important}
   .card{page-break-inside:avoid!important;break-inside:avoid!important;border-radius:4px!important;margin-bottom:4px!important;box-shadow:none!important}
-  .hero{page-break-inside:avoid!important;break-inside:avoid!important;padding:8px!important;border-radius:4px!important;margin-bottom:4px!important}
+  .hero{page-break-inside:avoid!important;break-inside:avoid!important;grid-template-columns:1fr!important;gap:5px!important;padding:8px!important;border-radius:4px!important;margin-bottom:4px!important}
   .disc-box{page-break-inside:avoid!important;break-inside:avoid!important;padding:6px 8px!important;margin-top:4px!important}
   .pb{page-break-before:always!important;break-before:page!important;display:block!important}
   
@@ -210,12 +211,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .hp{font-size:8.5px!important}
   .hey{font-size:7.5px!important;margin-bottom:6px!important}
   
-  .kpis-row{grid-template-columns:repeat(3,1fr)!important;gap:4px!important;margin-bottom:4px!important}
-  .kpi-card{padding:6px!important;gap:5px!important;border-radius:4px!important}
-  .kpi-card .ki{width:22px!important;height:22px!important}
-  .kpi-card .ki .mi{font-size:12px!important}
-  .kpi-card .kv{font-size:11px!important}
-  .kpi-card .kl{font-size:8px!important}
+  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:3px!important}
+  .kpi{padding:5px 7px!important;gap:5px!important;border-radius:4px!important}
+  .ki{width:22px!important;height:22px!important}
+  .ki .mi{font-size:12px!important}
+  .kv{font-size:11px!important}
+  .kl{font-size:8px!important}
+  
   .fonte-selo{font-size:7.5px!important;padding:0!important;margin-bottom:6px!important}
   .fonte-selo .mi{font-size:10px!important}
 
@@ -249,7 +251,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 }
 
 @media(max-width:640px){
-  .kpis-row{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr}
   .r3{grid-template-columns:1fr 1fr}
   .ds{grid-template-columns:1fr}
   .db{border-right:none}
@@ -313,34 +315,40 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="ssub">Banco do Brasil · GEINV · Perfil Conservador</div>
 
   <!-- ══ PÁG 1 ══ -->
-  <div class="hero" data-export="Capa — Apresentação">
-    <div>
-      <div class="hey">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</div>
-      <div class="hh-l1" id="hero-l1">Olá, {nome}, tudo bom?</div>
-      <div class="hh-l2" id="hero-l2">A sua LCA de {valor} venceu. Vale a pena conhecer as opções disponíveis hoje.</div>
-      <div class="hp">Nosso papel vai além de renovar aplicações. Acompanhamos o mercado para ajudar você a tomar decisões alinhadas aos seus objetivos.</div>
+  <!-- Container invisível para agrupar na exportação o Hero e a Fonte -->
+  <div data-export="Capa — Apresentação" style="margin-bottom:12px;">
+    
+    <div class="hero">
+      <div>
+        <div class="hey">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</div>
+        <div class="hh-l1" id="hero-l1">Olá, {nome}, tudo bom?</div>
+        <div class="hh-l2" id="hero-l2">A sua LCA de {valor} venceu. Vale a pena conhecer as opções disponíveis hoje.</div>
+        <div class="hp">Nosso papel vai além de renovar aplicações. Acompanhamos o mercado para ajudar você a tomar decisões alinhadas aos seus objetivos.</div>
+      </div>
+      
+      <!-- KPIs voltam a utilizar o visual de glassmorphism (translucidez) dentro do Hero -->
+      <div class="kpis">
+        <div class="kpi">
+          <div class="ki" style="background:rgba(26,154,80,.8)"><span class="mi">trending_up</span></div>
+          <div><div class="kv" id="k-ret">—</div><div class="kl">Patrimônio projetado (carteira)</div></div>
+        </div>
+        <div class="kpi">
+          <div class="ki" style="background:rgba(255,255,255,.25)"><span class="mi">verified</span></div>
+          <div><div class="kv" id="k-equiv">—</div><div class="kl">Equivale a CDB tributado</div></div>
+        </div>
+        <div class="kpi">
+          <div class="ki" style="background:rgba(252,213,0,.35)"><span class="mi" style="color:var(--ac)">shield</span></div>
+          <div><div class="kv" style="color:var(--ac)">Curadoria BB</div><div class="kl">Risco distribuído · Conservador</div></div>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div data-export="Resumo dos Indicadores" style="margin-bottom: 12px;">
-    <div class="kpis-row">
-      <div class="kpi-card">
-        <div class="ki" style="background:var(--gnl)"><span class="mi" style="color:var(--gnd)">trending_up</span></div>
-        <div><div class="kv" id="k-ret">—</div><div class="kl">Patrimônio projetado (carteira)</div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="ki" style="background:var(--prl)"><span class="mi" style="color:var(--pr)">verified</span></div>
-        <div><div class="kv" id="k-equiv">—</div><div class="kl">Equivale a CDB tributado</div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="ki" style="background:var(--ac)"><span class="mi" style="color:var(--acd)">shield</span></div>
-        <div><div class="kv" style="color:var(--acd)">Curadoria BB</div><div class="kl">Risco distribuído · Conservador</div></div>
-      </div>
-    </div>
+    
+    <!-- Selo de fonte encapsulado para ir no final da primeira imagem exportada -->
     <div class="fonte-selo" style="padding: 0 4px;">
       <span class="mi">description</span>
       <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
     </div>
+
   </div>
 
   <div class="card" data-export="Gestão de Risco">
@@ -457,7 +465,7 @@ function abrirExport(){
       <input type="checkbox" value="${i}" checked/>
       <div>
         <div class="exp-item-name">${el.dataset.export}</div>
-        <div class="exp-item-sub">${el.classList.contains('hero')?'Card de capa':'Card de conteúdo'}</div>
+        <div class="exp-item-sub">${i===0?'Card de capa (Hero)':'Card de conteúdo'}</div>
       </div>
     </label>`).join('');
   $('expOverlay').classList.add('show');
@@ -785,5 +793,6 @@ renderEd(); calc();
 </script>
 </body>
 </html>
+
 
 ```
