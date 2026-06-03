@@ -22,7 +22,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:15px}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-.mi{font-family:'Material Icons';font-style:normal;line-height:1;vertical-align:middle;font-size:inherit}
+.mi{font-family:'Material Icons';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;vertical-align:middle;font-size:inherit;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased}
 
 .fabs{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
 .fab{height:44px;padding:0 18px;border:none;border-radius:22px;cursor:pointer;font:700 13px/1 var(--sans);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s}
@@ -391,23 +391,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
         </div>
         
         <div class="kpis">
-          <!-- Valor Principal de Destaque -->
-          <div class="kpi-big" id="k-ret">R$ 0</div>
-          
-          <div class="kpi-divider"></div>
-          
-          <div class="kpi-footer">
-            <div class="kpi-footer-left">
-              <div class="kpi-footer-row">
-                <span class="mi" style="color:#3ad17e; font-size:18px;">verified</span>
-                <span id="k-equiv">102,5 % do CDI</span>
-              </div>
-              <div class="kpi-footer-sub">Equivale a CDB tributado</div>
-            </div>
-            
-            <div class="kpi-footer-divider"></div>
-            
-            <div class="kpi-footer-right">
+          <div class="kpi-footer" style="display:flex; justify-content:flex-start;">
+            <div class="kpi-footer-right" style="align-items:flex-start; text-align:left;">
               <div class="kpi-footer-row curadoria-title">
                 <span class="mi" style="font-size:18px; color: #fcd500;">shield</span>
                 <span>Curadoria BB</span>
@@ -511,10 +496,10 @@ const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'
 const LCORS=['var(--pr)','var(--gn)','var(--acd)','var(--rd)','var(--k3)','#7b2fff','#00838f'];
 
 let FUNDS=[
-  {nome:'LCA limitada',       sub:'Renda Fixa Pós · Isenta',  tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',   w:40, proj:85,   tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', link:''},
-  {nome:'BB RF LP High',        sub:'Caixa · Liquidez D+0',    tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',        w:25, proj:101,  tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           link:'https://fundos.bb.com.br/fundo?gfi=1320'},
-  {nome:'BB Régia Equilíbrio',  sub:'Crédito premium · D+6',    tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',   w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           link:'https://fundos.bb.com.br/fundo?gfi=2363'},
-  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',    tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+  {nome:'LCA limitada',       sub:'Renda Fixa Pós · Isenta',  tag:'Base FGC', desc:'Segurança no teto FGC, isenta de IR.',   w:40, proj:85,   tipo:'cdi',  risco:1, ico:'lca',  liq:'No vencimento', isento:true,  link:''},
+  {nome:'BB RF LP High',        sub:'Caixa · Liquidez D+0',    tag:'Caixa D+0',desc:'Liquidez imediata, risco mínimo.',        w:25, proj:101,  tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           isento:false, link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',  sub:'Crédito premium · D+6',    tag:'Crédito',  desc:'Gerido pela BB Asset, acima do CDI.',   w:25, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           isento:false, link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada',sub:'IPCA+ Isenta · brAAA',    tag:'Inflação', desc:'Trava ganho real. brAAA, isenta IR PF.',w:10, proj:7.5,   tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', isento:true,  link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
 ];
 
 function togglePanel(){$('panel').classList.toggle('open')}
@@ -616,7 +601,11 @@ async function exportarSelecionados(){
   setTimeout(fecharExport,2200);
 }
 
-function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
+function hasIR(f){
+  if(typeof f.isento === 'boolean') return !f.isento;
+  // Fallback (dados antigos sem o campo): tenta detectar isenção pelo nome
+  return !/(lca|lci|cri|cra|lig|isent|incentivad|deb[êe]nture)/i.test((f.nome||'')+' '+(f.sub||''));
+}
 
 function rate(f, cdi, ipca){
   if(f.tipo==='cdi')  return cdi * (f.proj/100);
@@ -675,10 +664,14 @@ function renderEd(){
         </div>
         <div><span class="ml">Liquidez</span><input value="${f.liq}" oninput="U(${i},'liq',this.value)"/></div>
       </div>
+      <label style="display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12px;cursor:pointer;user-select:none">
+        <input type="checkbox" ${hasIR(f)?'':'checked'} onchange="U(${i},'isento',this.checked)" style="width:16px;height:16px;cursor:pointer"/>
+        <span><b>Isento de IR</b> · LCA, LCI, CRI, CRA, LIG, debênture incentivada</span>
+      </label>
     </div>`).join('');
 }
 function U(i,k,v){FUNDS[i][k]=v; calc()}
-function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',link:''}); renderEd(); calc()}
+function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',isento:false,link:''}); renderEd(); calc()}
 function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
 
 ['nome','capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
@@ -715,10 +708,7 @@ function calc(){
     wNet     += w * n;
   });
 
-  // Atualizando os elementos do Hero Card
-  $('k-ret').textContent   = fmt(divFinal);
-  const equivCDIpct        = (wNet/0.85/cdi)*100;
-  $('k-equiv').textContent = pct(equivCDIpct)+' do CDI';
+  // (Valor e rentabilidade do Hero Card removidos a pedido)
 
   const rendPass  = cap*(cdiPass*lcaTaxaPass);
   const corrInfl  = cap*ipcaPass;
