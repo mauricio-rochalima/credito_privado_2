@@ -467,13 +467,10 @@ async function exportarSelecionados(){
   prog.className='exp-progress show';
 
   // Garante que as fontes (inclusive Material Icons) estejam carregadas
-  // antes de renderizar — senão os ícones saem como texto.
+  // antes de renderizar — senão os ícones saem como texto/em branco.
   try{ await document.fonts.ready; }catch(e){}
 
-  // Embute as fontes uma única vez (Roboto, Slab, Mono e Material Icons).
-  // html-to-image renderiza via foreignObject, então precisa das fontes inline.
-  let fontCSS = undefined;
-  try{ fontCSS = await htmlToImage.getFontEmbedCSS(document.body); }catch(e){}
+  const OPTS = { pixelRatio:2.5, backgroundColor:'#f4f7fd' };
 
   for(let idx=0; idx<checks.length; idx++){
     const i    = +checks[idx].value;
@@ -481,11 +478,14 @@ async function exportarSelecionados(){
     const nome = el.dataset.export;
     prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
 
-    // Moldura fixa estreita, fora da tela, mas no documento PRINCIPAL
-    // (assim a fonte já está carregada e o layout calcula de verdade).
-    const shot = document.createElement('div');
+    // IMPORTANTE: o nó capturado NÃO pode ser position:fixed — nesse caso o
+    // html-to-image pinta a caixa mas não desenha o conteúdo (sai em branco).
+    // Por isso o invólucro fica fixed fora da tela e capturamos o filho estático.
+    const holder = document.createElement('div');
+    holder.style.cssText='position:fixed;left:-10000px;top:0;width:480px;z-index:-1;pointer-events:none;opacity:1';
+
+    const shot = document.createElement('div');   // position:static (via classe)
     shot.className='exp-shot';
-    shot.style.cssText='position:fixed;left:-10000px;top:0;z-index:-1';
 
     const clone = el.cloneNode(true);
     clone.style.margin='0';
@@ -502,29 +502,28 @@ async function exportarSelecionados(){
     });
 
     shot.appendChild(clone);
-    document.body.appendChild(shot);
+    holder.appendChild(shot);
+    document.body.appendChild(holder);
 
-    // Dá dois frames para o layout assentar
+    // Dá uns frames para o layout/fontes assentarem
     await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    await new Promise(r=>setTimeout(r,120));
 
     let dataUrl;
     try{
-      dataUrl = await htmlToImage.toPng(shot, {
-        pixelRatio: 2.5,
-        backgroundColor: '#f4f7fd',
-        cacheBust: true,
-        fontEmbedCSS: fontCSS,
-        style: { margin: '0' }
-      });
+      // 1ª passada "aquece" o cache de recursos do html-to-image (costuma
+      // sair em branco na primeira chamada); a 2ª é a que realmente vale.
+      await htmlToImage.toPng(shot, { pixelRatio:1, backgroundColor:'#f4f7fd' });
+      dataUrl = await htmlToImage.toPng(shot, OPTS);
     }catch(err){
       console.error('Falha ao exportar', nome, err);
       prog.textContent = `Erro ao gerar "${nome}". Tente novamente.`;
-      if(shot.parentNode) document.body.removeChild(shot);
+      if(holder.parentNode) document.body.removeChild(holder);
       await new Promise(r=>setTimeout(r,1200));
       continue;
     }
 
-    if(shot.parentNode) document.body.removeChild(shot);
+    if(holder.parentNode) document.body.removeChild(holder);
 
     const a = document.createElement('a');
     a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slugify(nome)}.png`;
