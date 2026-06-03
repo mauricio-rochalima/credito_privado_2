@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,8 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
 <style>
 :root{
   --pr:#0040a8;--prd:#002b6b;--prl:#e6eefb;
@@ -192,62 +190,41 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .disc-box{background:var(--bg);border-radius:12px;border:1px solid var(--ln);padding:14px 18px;margin-top:12px}
 .disc{font-size:10px;color:var(--k3);line-height:1.6}
 
-/* PRINT — cada card nunca quebra no meio */
+/* ─── EXPORT SHOT — moldura estreita (formato WhatsApp) ───
+   Força o layout vertical de celular no clone, independente da largura
+   da janela. Renderizado por html-to-image (motor real do navegador),
+   então Grid/Flex/fontes funcionam de verdade. */
+.exp-shot{width:480px;background:var(--bg);padding:16px;box-sizing:border-box}
+.exp-shot>*{margin:0!important}
+.exp-shot .hero{grid-template-columns:1fr!important;gap:16px!important}
+.exp-shot .kpis{flex-direction:column!important}
+.exp-shot .r3{grid-template-columns:1fr 1fr!important}
+.exp-shot .l4{grid-template-columns:1fr 1fr!important}
+.exp-shot .ly{border-right:none!important}
+.exp-shot .ds{grid-template-columns:1fr!important}
+.exp-shot .db{border-right:none!important;border-bottom:1px solid var(--ln)}
+.exp-shot .hist{grid-template-columns:repeat(5,1fr)!important}
+.exp-shot .fonte-selo{margin-top:10px!important}
+
+/* ─── PRINT — PDF em A4, sem estouro das figuras ───
+   Página grande (A4) elimina o recorte que ocorria no formato 108×192mm.
+   O <canvas> do donut é travado para nunca ultrapassar o container. */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  @page{size:108mm 192mm;margin:5mm}
-  html{font-size:8.5px!important}
+  @page{size:A4 portrait;margin:12mm}
+  html{font-size:11.5px!important}
   body{background:#fff!important}
   .fabs,.panel,.exp-overlay{display:none!important}
   .screen{padding:0!important;max-width:100%!important;margin:0!important}
-  .stitle,.ssub{display:none!important}
-  .card{page-break-inside:avoid!important;break-inside:avoid!important;border-radius:4px!important;margin-bottom:4px!important;box-shadow:none!important}
-  .hero{page-break-inside:avoid!important;break-inside:avoid!important;grid-template-columns:1fr!important;gap:5px!important;padding:8px!important;border-radius:4px!important;margin-bottom:4px!important}
-  .disc-box{page-break-inside:avoid!important;break-inside:avoid!important;padding:6px 8px!important;margin-top:4px!important}
-  .pb{page-break-before:always!important;break-before:page!important;display:block!important}
-  
-  .hh-l1{font-size:11px!important;margin-bottom:3px!important}
-  .hh-l2{font-size:14px!important;margin-bottom:6px!important}
-  .hp{font-size:8.5px!important}
-  .hey{font-size:7.5px!important;margin-bottom:6px!important}
-  
-  .kpis{flex-direction:row!important;flex-wrap:wrap!important;gap:3px!important}
-  .kpi{padding:5px 7px!important;gap:5px!important;border-radius:4px!important}
-  .ki{width:22px!important;height:22px!important}
-  .ki .mi{font-size:12px!important}
-  .kv{font-size:11px!important}
-  .kl{font-size:8px!important}
-  
-  .fonte-selo{font-size:7.5px!important;padding:0!important;margin-bottom:6px!important}
-  .fonte-selo .mi{font-size:10px!important}
-
-  .sec{padding:5px 7px 4px!important}
-  .sh{font-size:10.5px!important}.sp{font-size:8.5px!important;margin-top:2px!important}
-  .ey{font-size:7px!important;padding:2px 5px!important}
-  .r3{grid-template-columns:repeat(3,1fr)!important}
-  .rc{padding:6px!important}.ri{width:20px!important;height:20px!important;margin-bottom:4px!important}
-  .ri .mi{font-size:10px!important}.rc h4{font-size:9px!important}.rc p{font-size:8px!important}
-  .ly{padding:6px!important;padding-top:9px!important}
-  .ly h4{font-size:9px!important}.ly p{font-size:8px!important}.ly-tag{font-size:7px!important}
-  .ly-meta{font-size:7.5px!important}.ly-link{font-size:7.5px!important}
-  .hc{padding:4px 2px!important}.hy{font-size:8px!important}
-  .hbs{height:46px!important}.hb{width:9px!important}
-  .hb-val{font-size:6.5px!important}.hr{font-size:7.5px!important}
-  .hleg{font-size:7.5px!important}
-  .rtab{font-size:8.5px!important}.rtab td{padding:2.5px 0!important}
-  .ci{padding:3.5px 6px!important;gap:4px!important}
-  .cii{width:18px!important;height:18px!important}.cii .mi{font-size:9.5px!important}
-  .cn{font-size:8.5px!important}.cs{font-size:7.5px!important}
-  .cb{font-size:7px!important;padding:1.5px 3px!important}
-  .cpct{font-size:12px!important}
-  .ds{grid-template-columns:.75fr 1.25fr!important;align-items:center!important}
-  .db{padding:4px!important}.dr{height:70px!important}
-  .dcv{font-size:13px!important}
-  .rl{padding:4px!important;gap:1.5px!important}
-  .rli{padding:2.5px 4px!important}.rld{width:8px!important;height:8px!important}.rln{font-size:8px!important}.rls{font-size:7px!important}.rlp{font-size:10px!important}
-  .mt th,.mt td{padding:3px 6px!important;font-size:8px!important}
-  .ct th,.ct td{padding:4px 6px!important;font-size:8px!important}
-  .disc{font-size:7.5px!important}
+  .stitle{font-size:19px!important;margin-bottom:2px!important}
+  .ssub{font-size:12px!important;margin-bottom:14px!important}
+  .card,.disc-box,.hero{page-break-inside:avoid!important;break-inside:avoid!important;box-shadow:none!important;margin-bottom:10px!important}
+  .card{border-radius:10px!important}
+  .pb{page-break-before:always!important;break-before:page!important;display:block!important;height:0!important}
+  /* nada de imagem/gráfico estourando a página */
+  img,canvas{max-width:100%!important}
+  .ds .dr{height:auto!important;min-height:0!important}
+  .ds .dr canvas{width:auto!important;height:auto!important;max-width:100%!important;max-height:150px!important;display:block;margin:0 auto}
 }
 
 @media(max-width:640px){
@@ -263,7 +240,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 <div class="fabs">
   <button class="fab fb1" onclick="togglePanel()"><span class="mi">tune</span> Parâmetros</button>
   <button class="fab fb3" onclick="abrirExport()"><span class="mi">image</span> Exportar cards</button>
-  <button class="fab fb2" onclick="imp()"><span class="mi">picture_as_pdf</span> PDF 3 pág.</button>
+  <button class="fab fb2" onclick="imp()"><span class="mi">picture_as_pdf</span> PDF A4</button>
 </div>
 
 <!-- MODAL EXPORTAR -->
@@ -476,6 +453,12 @@ function fecharExport(){
   $('expOverlay').classList.remove('show');
 }
 
+function slugify(s){
+  return s.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
 async function exportarSelecionados(){
   const checks = [...$('expList').querySelectorAll('input:checked')];
   if(!checks.length){alert('Selecione ao menos um card.');return;}
@@ -483,8 +466,14 @@ async function exportarSelecionados(){
   const prog  = $('expProgress');
   prog.className='exp-progress show';
 
-  const TARGET_W = 1170;
-  const MOBILE_W = 390;
+  // Garante que as fontes (inclusive Material Icons) estejam carregadas
+  // antes de renderizar — senão os ícones saem como texto.
+  try{ await document.fonts.ready; }catch(e){}
+
+  // Embute as fontes uma única vez (Roboto, Slab, Mono e Material Icons).
+  // html-to-image renderiza via foreignObject, então precisa das fontes inline.
+  let fontCSS = undefined;
+  try{ fontCSS = await htmlToImage.getFontEmbedCSS(document.body); }catch(e){}
 
   for(let idx=0; idx<checks.length; idx++){
     const i    = +checks[idx].value;
@@ -492,57 +481,60 @@ async function exportarSelecionados(){
     const nome = el.dataset.export;
     prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
 
-    const iframe = document.createElement('iframe');
-    iframe.style.cssText=`position:fixed;left:-9999px;top:0;width:${MOBILE_W}px;height:2000px;border:none;visibility:hidden`;
-    document.body.appendChild(iframe);
-
-    const iDoc = iframe.contentDocument;
-    iDoc.open();
-    iDoc.write(`<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body style="margin:0;padding:0;background:#f4f7fd;font-family:Roboto,sans-serif"></body></html>`);
-    iDoc.close();
-
-    const container = document.createElement('div');
-    container.style.cssText = 'padding:16px; background:#f4f7fd; display:flex; flex-direction:column; width:100%; box-sizing:border-box;';
+    // Moldura fixa estreita, fora da tela, mas no documento PRINCIPAL
+    // (assim a fonte já está carregada e o layout calcula de verdade).
+    const shot = document.createElement('div');
+    shot.className='exp-shot';
+    shot.style.cssText='position:fixed;left:-10000px;top:0;z-index:-1';
 
     const clone = el.cloneNode(true);
-    clone.style.cssText += 'width:100%;box-sizing:border-box;border-radius:12px;overflow:hidden;margin:0;';
+    clone.style.margin='0';
 
-    const originalCanvases = el.querySelectorAll('canvas');
-    const clonedCanvases = clone.querySelectorAll('canvas');
-    originalCanvases.forEach((canvas, c) => {
-        clonedCanvases[c].width = canvas.width;
-        clonedCanvases[c].height = canvas.height;
-        clonedCanvases[c].getContext('2d').drawImage(canvas, 0, 0);
+    // Copia o bitmap dos canvas (donut) para o clone — o clone nasce vazio.
+    const oc = el.querySelectorAll('canvas');
+    const cc = clone.querySelectorAll('canvas');
+    oc.forEach((canvas, c) => {
+      if(cc[c] && canvas.width && canvas.height){
+        cc[c].width  = canvas.width;
+        cc[c].height = canvas.height;
+        cc[c].getContext('2d').drawImage(canvas, 0, 0);
+      }
     });
 
-    container.appendChild(clone);
-    iDoc.body.appendChild(container);
+    shot.appendChild(clone);
+    document.body.appendChild(shot);
 
-    await new Promise(r=>setTimeout(r,700));
+    // Dá dois frames para o layout assentar
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
 
-    iframe.style.height = container.offsetHeight + 'px';
+    let dataUrl;
+    try{
+      dataUrl = await htmlToImage.toPng(shot, {
+        pixelRatio: 2.5,
+        backgroundColor: '#f4f7fd',
+        cacheBust: true,
+        fontEmbedCSS: fontCSS,
+        style: { margin: '0' }
+      });
+    }catch(err){
+      console.error('Falha ao exportar', nome, err);
+      prog.textContent = `Erro ao gerar "${nome}". Tente novamente.`;
+      if(shot.parentNode) document.body.removeChild(shot);
+      await new Promise(r=>setTimeout(r,1200));
+      continue;
+    }
 
-    const scale = TARGET_W / MOBILE_W;
-    const canvas = await html2canvas(container,{
-      scale,
-      useCORS:true,
-      backgroundColor:'#f4f7fd',
-      logging:false,
-      windowWidth: MOBILE_W,
-    });
+    if(shot.parentNode) document.body.removeChild(shot);
 
-    document.body.removeChild(iframe);
-
-    const a    = document.createElement('a');
-    const slug = nome.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-    a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slug}.png`;
-    a.href     = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slugify(nome)}.png`;
+    a.href     = dataUrl;
     a.click();
-    await new Promise(r=>setTimeout(r,700));
+    await new Promise(r=>setTimeout(r,500));
   }
 
   prog.textContent=`✓ ${checks.length} imagem(ns) exportada(s)!`;
-  setTimeout(fecharExport,2000);
+  setTimeout(fecharExport,2200);
 }
 
 function hasIR(f){return !/(lca|lci|isenta|debênture|debenture)/i.test(f.nome+' '+f.sub)}
@@ -793,6 +785,3 @@ renderEd(); calc();
 </script>
 </body>
 </html>
-
-
-```
