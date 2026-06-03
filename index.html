@@ -79,26 +79,26 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
 .sec{padding:16px 18px 12px}
 
+/* ─── HERO / CAPA — Material Design 3 (Limpo) ─────────── */
 .hero{
   position:relative;
   overflow:hidden;
   color:#fff;
-  border-radius:16px;
+  border-radius:18px;
   margin-bottom:12px;
-  padding:32px 28px;
-  /* Gradiente corporativo profundo com padrão de listras diagonais de alta fidelidade ao image_10db26.jpg */
-  background: 
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 12px),
-    linear-gradient(135deg, #023894 0%, #001a4d 100%);
+  padding:32px 32px 30px;
+  /* Fundo de gradiente azul corporativo limpo, SEM as linhas diagonais */
+  background: linear-gradient(135deg, #023894 0%, #001a4d 100%);
   box-shadow:0 12px 36px rgba(0,34,86,0.18);
 }
 .hero-content{position:relative;z-index:1}
 
+/* Topo do Card */
 .hey-wrapper{
   display:flex;
   align-items:center;
   gap:10px;
-  margin-bottom:14px;
+  margin-bottom:20px;
   flex-wrap:wrap;
 }
 .hey-trending-group {
@@ -112,7 +112,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   font-size:12px;
   letter-spacing:0.18em;
   text-transform:uppercase;
-  color:#3ad17e; /* Verde limão/elétrico de destaque da imagem */
+  color:#3ad17e; /* Verde limão destaque */
 }
 .hey-trending-text.white-text {
   color:#ffffff;
@@ -126,11 +126,29 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   color:rgba(255,255,255,0.65);
 }
 
+/* Área de Apresentação (Saudação e Texto - a ênfase solicitada) */
+.hero-intro {
+  margin-bottom: 24px;
+}
+.hero-intro h1 {
+  font: 900 28px/1.2 var(--slab);
+  margin-bottom: 8px;
+  color: var(--ac); /* Amarelo BB */
+  letter-spacing: -0.01em;
+}
+.hero-intro p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  max-width: 90%;
+}
+
+/* KPIs de Valor */
 .kpis{margin-top:2px}
 .kpi-big{
   font-family:var(--sans);
   font-weight:900;
-  font-size:52px; /* Destaque numérico massivo */
+  font-size:48px;
   line-height:1;
   letter-spacing:-0.015em;
   margin-bottom:22px;
@@ -352,12 +370,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="stitle">Proposta de Carteira Diversificada</div>
   <div class="ssub">Banco do Brasil · GEINV · Perfil Conservador</div>
 
-  <!-- ══ PÁG 1 — CAPA REVOLUCIONADA COM MATERIAL DESIGN 3 (REF. image_10db26.jpg) ══ -->
+  <!-- ══ PÁG 1 — CAPA REVOLUCIONADA COM MATERIAL DESIGN 3 E TEXTO EM ÊNFASE ══ -->
   <div data-export="Capa — Apresentação" style="margin-bottom:12px;">
     
     <div class="hero">
       <div class="hero-content">
-        <!-- Estrutura de Header Idêntica à imagem image_10db26.jpg -->
+        <!-- Header Trend -->
         <div class="hey-wrapper">
           <div class="hey-trending-group">
             <span class="hey-trending-text">TRENDING</span>
@@ -366,9 +384,15 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
           <span class="hey-title">PATRIMÔNIO PROJETADO · CARTEIRA</span>
         </div>
         
+        <!-- Apresentação Pessoal (Área Enfatizada) -->
+        <div class="hero-intro">
+          <h1 id="hero-l1">Olá, tudo bom?</h1>
+          <p id="hero-l2">A sua LCA venceu. Vale a pena conhecer as opções disponíveis hoje alinhadas ao seu perfil.</p>
+        </div>
+        
         <div class="kpis">
           <!-- Valor Principal de Destaque -->
-          <div class="kpi-big" id="k-ret">R$ 417.298</div>
+          <div class="kpi-big" id="k-ret">R$ 0</div>
           
           <div class="kpi-divider"></div>
           
@@ -663,6 +687,7 @@ function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
 let donutI=null;
 
 function calc(){
+  const nome        = $('nome') ? $('nome').value.trim() : '';
   const cap         = gV('capital',300000);
   const prazo       = gV('prazo',3);
   const cdi         = gV('cdi',13.35)/100;
@@ -672,6 +697,11 @@ function calc(){
   const lcaTaxaNova = gV('lcaTaxaNova',90)/100;
   const cdiPass     = gV('cdiPass',14.45)/100;
   const ipcaPass    = gV('ipcaPass',4.62)/100;
+
+  // Atualização dos textos de introdução dinâmicos
+  $('hero-l1').textContent = nome ? `Olá, ${nome}, tudo bom?` : 'Olá! Tudo bom?';
+  const valStr = (cap > 0 && !isNaN(cap)) ? ` de ${fmt(cap)}` : '';
+  $('hero-l2').textContent = `A sua LCA${valStr} venceu. Avaliamos o mercado para trazer as melhores opções disponíveis hoje para o seu perfil.`;
 
   const lcaRateNova = cdi * lcaTaxaNova;
   const lcaFinal    = cap * Math.pow(1+lcaRateNova, prazo);
