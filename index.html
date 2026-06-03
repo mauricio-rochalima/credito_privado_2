@@ -82,20 +82,50 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
 .sec{padding:16px 18px 12px}
 
-/* HERO (RETORNO DO MATERIAL DESIGN TRANSLÚCIDO) */
-.hero{background:linear-gradient(135deg,var(--pr),var(--prd));color:#fff;padding:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;border-radius:12px;margin-bottom:10px}
-.hey{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:10px}
-.hh-l1{font:500 17px/1.2 var(--sans);margin-bottom:6px;color:rgba(255,255,255,.9)}
-.hh-l2{font:900 25px/1.2 var(--slab);margin-bottom:14px}
-.hp{font-size:13px;color:rgba(255,255,255,.8);line-height:1.55}
+/* ─── HERO / CAPA — dossiê private (atmosfera em camadas) ─────────── */
+.hero{
+  position:relative;overflow:hidden;color:#fff;border-radius:18px;margin-bottom:10px;
+  padding:32px 32px 30px;
+  background:
+    radial-gradient(118% 86% at 90% -14%, rgba(252,213,0,.20), transparent 52%),
+    radial-gradient(95% 130% at -12% 112%, rgba(20,110,235,.45), transparent 55%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 1px, transparent 1px 26px),
+    linear-gradient(158deg,#0a4fbf 0%,#002b6b 56%,#001a45 100%);
+  box-shadow:0 24px 55px -20px rgba(0,18,55,.75), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.hero-edge{position:absolute;left:0;right:0;top:0;height:3px;z-index:2;
+  background:linear-gradient(90deg,transparent,var(--ac) 26%,var(--ac) 74%,transparent)}
+.hero-content{position:relative;z-index:1;max-width:640px}
 
-/* KPIs GLASSMORPHISM */
-.kpis{display:flex;flex-direction:column;gap:8px}
-.kpi{background:rgba(255,255,255,.12);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1)}
-.ki{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ki .mi{font-size:18px;color:#fff}
-.kv{font:900 18px/1 var(--slab)}
-.kl{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.hey{display:flex;align-items:center;gap:9px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:16px}
+.hey-tick{width:18px;height:2px;background:var(--ac);border-radius:2px;flex-shrink:0;box-shadow:0 0 10px rgba(252,213,0,.6)}
+.hh-l1{font:500 15px/1.3 var(--sans);margin-bottom:8px;color:var(--ac);letter-spacing:.01em}
+.hh-l2{font:900 28px/1.16 var(--slab);letter-spacing:-.01em;text-wrap:balance}
+.hero-rule{width:52px;height:4px;background:var(--ac);border-radius:99px;margin:18px 0 14px;box-shadow:0 0 16px rgba(252,213,0,.55)}
+.hp{font-size:13px;color:rgba(255,255,255,.78);line-height:1.6;max-width:48ch}
+
+/* KPIs — tipografia limpa, sem painéis */
+.kpis{margin-top:26px}
+.kpi-label{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:9px}
+.kpi-label .mi{font-size:16px}
+.kpi-big{font:900 40px/1 var(--slab);letter-spacing:-.015em;text-shadow:0 2px 22px rgba(0,0,0,.28)}
+.kpi-div{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.24),rgba(255,255,255,.03));margin:20px 0 18px}
+.kpi-sub{display:flex;align-items:stretch;gap:24px}
+.kpi-item{flex:1;min-width:0}
+.kpi-val{display:flex;align-items:center;gap:7px;font:900 19px/1.1 var(--slab)}
+.kpi-val .mi{font-size:17px}
+.kpi-cap{font-size:11px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.45}
+.kpi-vline{width:1px;flex-shrink:0;background:linear-gradient(180deg,transparent,rgba(255,255,255,.2),transparent)}
+
+/* reveal escalonado — só na tela (desligado na exportação/PDF) */
+@keyframes heroUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.hero-content>*{animation:heroUp .6s cubic-bezier(.2,.7,.2,1) both}
+.hero-content>*:nth-child(1){animation-delay:.04s}
+.hero-content>*:nth-child(2){animation-delay:.10s}
+.hero-content>*:nth-child(3){animation-delay:.16s}
+.hero-content>*:nth-child(4){animation-delay:.22s}
+.hero-content>*:nth-child(5){animation-delay:.28s}
+.hero-content>*:nth-child(6){animation-delay:.34s}
 
 /* SELO DE FONTE */
 .fonte-selo{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--k2);line-height:1.4}
@@ -196,8 +226,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
    então Grid/Flex/fontes funcionam de verdade. */
 .exp-shot{width:480px;background:var(--bg);padding:16px;box-sizing:border-box}
 .exp-shot>*{margin:0!important}
-.exp-shot .hero{grid-template-columns:1fr!important;gap:16px!important}
-.exp-shot .kpis{flex-direction:column!important}
+.exp-shot *,.exp-shot *::before,.exp-shot *::after{animation:none!important;transition:none!important}
+.exp-shot .hero{padding:28px 24px!important}
+.exp-shot .hero-content{max-width:none!important}
 .exp-shot .r3{grid-template-columns:1fr 1fr!important}
 .exp-shot .l4{grid-template-columns:1fr 1fr!important}
 .exp-shot .ly{border-right:none!important}
@@ -225,10 +256,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   img,canvas{max-width:100%!important}
   .ds .dr{height:auto!important;min-height:0!important}
   .ds .dr canvas{width:auto!important;height:auto!important;max-width:100%!important;max-height:150px!important;display:block;margin:0 auto}
+  /* hero estável no PDF (sem animação a meio caminho) */
+  *,*::before,*::after{animation:none!important}
+  .hero-content{max-width:none!important}
 }
 
 @media(max-width:640px){
-  .hero{grid-template-columns:1fr}
   .r3{grid-template-columns:1fr 1fr}
   .ds{grid-template-columns:1fr}
   .db{border-right:none}
@@ -296,26 +329,31 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div data-export="Capa — Apresentação" style="margin-bottom:12px;">
     
     <div class="hero">
-      <div>
-        <div class="hey">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</div>
+      <div class="hero-edge"></div>
+      <div class="hero-content">
+        <div class="hey"><span class="hey-tick"></span>BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</div>
         <div class="hh-l1" id="hero-l1">Olá, {nome}, tudo bom?</div>
         <div class="hh-l2" id="hero-l2">A sua LCA de {valor} venceu. Vale a pena conhecer as opções disponíveis hoje.</div>
+        <div class="hero-rule"></div>
         <div class="hp">Nosso papel vai além de renovar aplicações. Acompanhamos o mercado para ajudar você a tomar decisões alinhadas aos seus objetivos.</div>
-      </div>
-      
-      <!-- KPIs voltam a utilizar o visual de glassmorphism (translucidez) dentro do Hero -->
-      <div class="kpis">
-        <div class="kpi">
-          <div class="ki" style="background:rgba(26,154,80,.8)"><span class="mi">trending_up</span></div>
-          <div><div class="kv" id="k-ret">—</div><div class="kl">Patrimônio projetado (carteira)</div></div>
-        </div>
-        <div class="kpi">
-          <div class="ki" style="background:rgba(255,255,255,.25)"><span class="mi">verified</span></div>
-          <div><div class="kv" id="k-equiv">—</div><div class="kl">Equivale a CDB tributado</div></div>
-        </div>
-        <div class="kpi">
-          <div class="ki" style="background:rgba(252,213,0,.35)"><span class="mi" style="color:var(--ac)">shield</span></div>
-          <div><div class="kv" style="color:var(--ac)">Curadoria BB</div><div class="kl">Risco distribuído · Conservador</div></div>
+
+        <div class="kpis">
+          <div class="kpi-main">
+            <div class="kpi-label"><span class="mi" style="color:#3ad17e">trending_up</span> Patrimônio projetado · carteira</div>
+            <div class="kpi-big" id="k-ret">—</div>
+          </div>
+          <div class="kpi-div"></div>
+          <div class="kpi-sub">
+            <div class="kpi-item">
+              <div class="kpi-val"><span class="mi" style="color:rgba(255,255,255,.85)">verified</span><span id="k-equiv">—</span></div>
+              <div class="kpi-cap">Equivale a CDB tributado</div>
+            </div>
+            <div class="kpi-vline"></div>
+            <div class="kpi-item">
+              <div class="kpi-val" style="color:var(--ac)"><span class="mi">shield</span> Curadoria BB</div>
+              <div class="kpi-cap">Risco distribuído · Conservador</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
