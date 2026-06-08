@@ -1029,7 +1029,7 @@ function wpCardHTML(D){
   const grHTML   = wpGrp(grFunds,  D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação', 'gr');
   return `
     <p class="wp-greet">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</p>
-    <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
+    <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível na sua conta.</p>
     <div class="wp-warn">A renovação da sua <b>${D.lcaNome}</b> hoje, a taxa seria de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b>${D.venc}</b>.</div>
     <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
     <div class="wp-strat">🛡️ A Estratégia de Blindagem</div>
