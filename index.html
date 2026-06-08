@@ -434,6 +434,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="fld" style="margin-bottom:8px"><label>Banco</label><input type="text" id="banco" value="Banco ABC"/></div>
     <div class="fld" style="margin-bottom:8px"><label>Taxa LCA antiga — % CDI (raio-x)</label><input type="number" step="0.1" id="lcaTaxaPass" value="90"/></div>
     <div class="fld" style="margin-bottom:8px"><label>Taxa NOVA LCA — % CDI (comparação)</label><input type="number" step="0.1" id="lcaTaxaNova" value="90"/></div>
+    <div class="pg">Mensagem · Opção 1 (renovar LCA)</div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome da LCA</label><input type="text" id="lcaNome" value="LCA" placeholder="Ex.: LCA Agro Banco ABC"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Vencimento da LCA</label><input type="month" id="lcaVenc"/></div>
     <button class="btn-g" onclick="fgc()"><span class="mi">verified_user</span> Otimizar FGC</button>
     <div class="fgc-m" id="fgcM"></div>
     <div class="pg">Composição (soma = 100%)</div>
@@ -941,29 +944,37 @@ function calc(){
 const WP_MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 let WP_D=null;
 const wpNum=v=>Number.isInteger(v)?v.toFixed(0):(''+v).replace('.',',');
+const gT=(id,fb='')=>{const e=$(id);const v=e?(''+e.value).trim():'';return v||fb;};
 
 function buildD(){
-  const nome    = ($('nome') && $('nome').value.trim()) ? $('nome').value.trim() : 'cliente';
+  const nome    = gT('nome','cliente');
   const cap     = gV('capital',300000);
   const prazo   = gV('prazo',3);
-  const cdi     = gV('cdi',13.35);
-  const banco   = (gV('banco','seu banco')||'seu banco');
+  const banco   = gT('banco','seu banco');
   const lcaNova = gV('lcaTaxaNova',90);
+  const lcaNome = gT('lcaNome','LCA');
+  const lcaVenc = $('lcaVenc') ? $('lcaVenc').value : '';   // formato "YYYY-MM"
 
-  const taxaAaNum = cdi*lcaNova/100;
-  const hoje = new Date();
-  const venc = new Date(hoje.getFullYear(), hoje.getMonth()+Math.round(prazo*12), 1);
+  let vencStr;
+  if(lcaVenc){
+    const p = lcaVenc.split('-');
+    vencStr = WP_MESES[(+p[1]||1)-1] + '/' + p[0];
+  } else {
+    const hoje = new Date();
+    const v = new Date(hoje.getFullYear(), hoje.getMonth()+Math.round(prazo*12), 1);
+    vencStr = WP_MESES[v.getMonth()] + '/' + v.getFullYear();
+  }
 
   return {
     nome,
-    valor:  fmt(cap),
+    valor:   fmt(cap),
     banco,
-    taxa:   wpNum(lcaNova)+'% do CDI',
-    taxaAa: '≈ '+taxaAaNum.toFixed(1).replace('.',',')+'% a.a.',
-    venc:   WP_MESES[venc.getMonth()]+'/'+venc.getFullYear(),
-    prazo:  wpNum(prazo)+(prazo===1?' ano':' anos'),
+    lcaNome,
+    taxa:    wpNum(lcaNova)+'% do CDI',
+    venc:    vencStr,
+    prazo:   wpNum(prazo)+(prazo===1?' ano':' anos'),
     carteiraLink:'https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf',
-    funds: FUNDS.map(f=>({ w: Math.round(f.w)+'%', n: f.nome, d: f.sub||'', link: f.link||'' }))
+    funds: FUNDS.map(f=>({ w: Math.round(f.w)+'%', n: f.nome, d: (f.desc||f.sub||''), link: f.link||'' }))
   };
 }
 
@@ -980,7 +991,7 @@ function wpCardHTML(D){
     <p class="wp-intro">A sua <b>LCA de ${D.valor}</b> venceu. Temos algumas opções para te apresentar, para que possa tomar a melhor decisão:</p>
     <div class="wp-opt">
       <div class="wp-opt-h"><span class="wp-num">1</span><span class="wp-opt-t">Renovar a LCA</span></div>
-      <p class="wp-opt-b">Podemos renová-la. Hoje, temos a LCA do <b>${D.banco}</b>: <b>${D.taxa}</b> (${D.taxaAa}), isenta de IR.</p>
+      <p class="wp-opt-b">Podemos renová-la. Temos a <b>${D.lcaNome}</b> do <b>${D.banco}</b>: <b>${D.taxa}</b>, isenta de IR.</p>
       <span class="wp-lock">Nesta opção, o valor fica indisponível até ${D.venc} (${D.prazo}).</span>
     </div>
     <div class="wp-div">ou</div>
@@ -1012,7 +1023,7 @@ function emailHTML(D){
   +'<div style="font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#9aa2ad;margin-bottom:16px;">SEUS INVESTIMENTOS &middot; BB GEINV</div>'
   +'<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:22px;line-height:1.32;color:#19222e;font-weight:bold;margin-bottom:12px;">Olá, '+D.nome+'. Está na hora de falarmos sobre os seus investimentos.</div>'
   +'<div style="font-size:14px;line-height:1.55;color:#5a6573;margin-bottom:6px;">A sua <b style="color:#19222e;">LCA de '+D.valor+'</b> venceu. Temos algumas opções para te apresentar, para que possa tomar a melhor decisão:</div>'
-  +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="34" valign="top" style="padding-top:20px;"><div style="width:24px;height:24px;line-height:24px;text-align:center;border-radius:12px;background:#eef0f2;color:#5a6573;font-weight:bold;font-size:12px;">1</div></td><td valign="top" style="padding-top:18px;"><div style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#19222e;margin-bottom:7px;">Renovar a LCA</div><div style="font-size:13px;line-height:1.55;color:#5a6573;">Podemos renová-la. Hoje, temos a LCA do <b style="color:#19222e;">'+D.banco+'</b>: <b style="color:#19222e;">'+D.taxa+'</b> ('+D.taxaAa+'), isenta de IR.</div><div style="display:inline-block;margin-top:10px;background:#fbf3df;color:#9a6b00;font-size:12px;font-weight:bold;padding:7px 12px;border-radius:7px;">Nesta opção, o valor fica indisponível até '+D.venc+' ('+D.prazo+').</div></td></tr></table>'
+  +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="34" valign="top" style="padding-top:20px;"><div style="width:24px;height:24px;line-height:24px;text-align:center;border-radius:12px;background:#eef0f2;color:#5a6573;font-weight:bold;font-size:12px;">1</div></td><td valign="top" style="padding-top:18px;"><div style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#19222e;margin-bottom:7px;">Renovar a LCA</div><div style="font-size:13px;line-height:1.55;color:#5a6573;">Podemos renová-la. Temos a <b style="color:#19222e;">'+D.lcaNome+'</b> do <b style="color:#19222e;">'+D.banco+'</b>: <b style="color:#19222e;">'+D.taxa+'</b>, isenta de IR.</div><div style="display:inline-block;margin-top:10px;background:#fbf3df;color:#9a6b00;font-size:12px;font-weight:bold;padding:7px 12px;border-radius:7px;">Nesta opção, o valor fica indisponível até '+D.venc+' ('+D.prazo+').</div></td></tr></table>'
   +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;"><tr><td style="border-bottom:1px solid #ebe8e0;font-size:0;line-height:0;">&nbsp;</td><td width="44" align="center" style="font-size:11px;font-weight:bold;color:#9aa2ad;text-transform:uppercase;letter-spacing:1px;">ou</td><td style="border-bottom:1px solid #ebe8e0;font-size:0;line-height:0;">&nbsp;</td></tr></table>'
   +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="34" valign="top" style="padding-top:16px;"><div style="width:24px;height:24px;line-height:24px;text-align:center;border-radius:12px;background:#0a3a86;color:#ffffff;font-weight:bold;font-size:12px;">2</div></td><td valign="top" style="padding-top:14px;"><div style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#0a3a86;margin-bottom:7px;">Seguir a carteira recomendada pelo BB</div><div style="font-size:13px;line-height:1.55;color:#5a6573;">Distribuímos o valor entre as aplicações abaixo, conforme a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB &#8599;</a>:</div></td></tr></table>'
   +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;border:1px solid #ebe8e0;border-radius:10px;border-collapse:separate;overflow:hidden;">'+fundRows+'</table>'
@@ -1025,7 +1036,7 @@ function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta char
 function textoSimples(D){
   let s='Olá, '+D.nome+'. Está na hora de falarmos sobre os seus investimentos.\n\n';
   s+='A sua LCA de '+D.valor+' venceu. Temos algumas opções para te apresentar, para que possa tomar a melhor decisão:\n\n';
-  s+='1) RENOVAR A LCA\nHoje, temos a LCA do '+D.banco+': '+D.taxa+' ('+D.taxaAa+'), isenta de IR.\nAtenção: o valor fica indisponível até '+D.venc+' ('+D.prazo+').\n\nou\n\n';
+  s+='1) RENOVAR A LCA\nTemos a '+D.lcaNome+' do '+D.banco+': '+D.taxa+', isenta de IR.\nAtenção: o valor fica indisponível até '+D.venc+' ('+D.prazo+').\n\nou\n\n';
   s+='2) SEGUIR A CARTEIRA RECOMENDADA PELO BB\nCarteira Sugerida BB: '+D.carteiraLink+'\nDistribuição:\n';
   D.funds.forEach(f=>{ s+='- '+f.w+' '+f.n+' ('+f.d+')'+(f.link?' '+f.link:'')+'\n'; });
   s+='\nQual faz mais sentido pra você? Me chama que monto a simulação com o seu valor e prazo.\n\n--\nBanco do Brasil · GEINV. Sujeito a suitability.';
