@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Proposta BB</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+
+<style>
+:root{
+  --pr:#0040a8;--prd:#002b6b;--prl:#e6eefb;
+  --ac:#fcd500;--acd:#8a6d00;
+  --gn:#1a9a50;--gnd:#127038;--gnl:#e2f5ec;
+  --rd:#d94436;--rdl:#fbe7e4;
+  --ink:#10213d;--k2:#46587a;--k3:#93a1b8;
+  --ln:#e6ecf5;--bg:#f4f7fd;--sf:#fff;
+  --sans:'Roboto',sans-serif;--slab:'Roboto Slab',serif;--mono:'Roboto Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.mi{font-family:'Material Icons';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;vertical-align:middle;font-size:inherit;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased}
+
+.fabs{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.fab{height:44px;padding:0 18px;border:none;border-radius:22px;cursor:pointer;font:700 13px/1 var(--sans);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s}
+.fb1{background:var(--pr);color:#fff}.fb1:hover{background:var(--prd)}
+.fb2{background:var(--ac);color:var(--ink)}.fb2:hover{background:#e6c200}
+.fb3{background:var(--gn);color:#fff}.fb3:hover{background:var(--gnd)}
+
+.exp-overlay{position:fixed;inset:0;background:rgba(16,33,61,.7);z-index:400;display:none;align-items:center;justify-content:center}
+.exp-overlay.show{display:flex}
+.exp-modal{background:#fff;border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.exp-modal h3{font:700 17px/1.3 var(--slab);color:var(--pr);margin-bottom:6px}
+.exp-modal p{font-size:13px;color:var(--k2);margin-bottom:18px;line-height:1.5}
+.exp-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;margin-bottom:18px}
+.exp-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--ln);border-radius:10px;cursor:pointer;transition:.15s;background:var(--bg)}
+.exp-item:hover{border-color:var(--pr);background:var(--prl)}
+.exp-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--pr);flex-shrink:0}
+.exp-item-name{font-size:13px;font-weight:700;color:var(--ink)}
+.exp-item-sub{font-size:11px;color:var(--k2)}
+.exp-actions{display:flex;gap:8px}
+.exp-btn{flex:1;padding:10px;border:none;border-radius:8px;cursor:pointer;font:700 13px/1 var(--sans)}
+.exp-btn-cancel{background:var(--bg);color:var(--k2)}
+.exp-btn-go{background:var(--gn);color:#fff}
+.exp-progress{margin-top:14px;font-size:12px;color:var(--k2);text-align:center;display:none}
+.exp-progress.show{display:block}
+
+.panel{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--sf);overflow-y:auto;z-index:300;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.12)}
+.panel.open{transform:none}
+.ptop{background:var(--pr);color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1}
+.ptop h2{font-size:14px;font-weight:700}
+.ptop button{background:none;border:none;color:#fff;cursor:pointer;font-size:20px}
+.pin{padding:14px 18px}
+.pg{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--pr);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--ln)}
+.pr2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.fld label{font-size:11px;color:var(--k2);display:block;margin-bottom:4px;font-weight:500}
+.fld input,.fld select{width:100%;border:none;border-bottom:2px solid var(--ln);background:var(--bg);padding:7px 9px;border-radius:5px 5px 0 0;font-size:12px;font-family:var(--sans);color:var(--ink);outline:none;transition:.2s}
+.fld input:focus,.fld select:focus{border-bottom-color:var(--pr);background:#fff}
+.fc{background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:10px;margin-bottom:8px}
+.fc-top{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.fc-top input{flex:1;font-weight:700;font-size:12px}
+.fc-del{flex-shrink:0;background:var(--rdl);color:var(--rd);border:none;border-radius:5px;width:26px;height:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ml{font-size:9px;color:var(--k3);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.btn-g{width:100%;background:var(--prl);color:var(--pr);border:none;border-radius:7px;padding:8px;cursor:pointer;font:700 12px/1 var(--sans);display:flex;align-items:center;justify-content:center;gap:5px;margin-top:3px}
+.fgc-m{font-size:11px;padding:8px 10px;border-radius:7px;margin-top:6px;display:none}
+.fgc-m.show{display:block;background:var(--gnl);color:var(--gnd);border:1px solid var(--gn)}
+
+.screen{max-width:860px;margin:0 auto;padding:24px 16px 90px}
+.stitle{font:900 22px/1.2 var(--slab);color:var(--pr);margin-bottom:4px}
+.ssub{font-size:13px;color:var(--k2);margin-bottom:20px}
+.card{background:var(--sf);border-radius:12px;box-shadow:0 2px 8px rgba(16,33,61,.07);border:1px solid var(--ln);overflow:hidden;margin-bottom:12px}
+.ey{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pr);background:var(--prl);padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:8px}
+.sh{font:700 17px/1.25 var(--slab)}
+.sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
+.sec{padding:16px 18px 12px}
+
+/* ─── HERO / CAPA — Material Design 3 (Limpo) ─────────── */
+.hero{
+  position:relative;
+  overflow:hidden;
+  color:#fff;
+  border-radius:18px;
+  margin-bottom:12px;
+  padding:32px 32px 30px;
+  /* Fundo de gradiente azul corporativo limpo, SEM as linhas diagonais */
+  background: linear-gradient(135deg, #023894 0%, #001a4d 100%);
+  box-shadow:0 12px 36px rgba(0,34,86,0.18);
+}
+.hero-content{position:relative;z-index:1}
+
+/* Topo do Card */
+.hey-wrapper{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+.hey-trending-group {
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.hey-trending-text {
+  font-family:var(--sans);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:#3ad17e; /* Verde limão destaque */
+}
+.hey-trending-text.white-text {
+  color:#ffffff;
+}
+.hey-title{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+}
+
+/* Área de Apresentação (Saudação e Texto - a ênfase solicitada) */
+.hero-intro {
+  margin-bottom: 24px;
+}
+.hero-intro h1 {
+  font: 900 28px/1.2 var(--slab);
+  margin-bottom: 8px;
+  color: var(--ac); /* Amarelo BB */
+  letter-spacing: -0.01em;
+}
+.hero-intro p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  max-width: 90%;
+}
+
+/* KPIs de Valor */
+.kpis{margin-top:2px}
+.kpi-big{
+  font-family:var(--sans);
+  font-weight:900;
+  font-size:48px;
+  line-height:1;
+  letter-spacing:-0.015em;
+  margin-bottom:22px;
+  color:#ffffff;
+}
+
+.kpi-divider{
+  height:1px;
+  background:rgba(255,255,255,0.15);
+  margin-bottom:20px;
+}
+
+.kpi-footer{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:16px;
+}
+@media (max-width: 520px) {
+  .kpi-footer {
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  .kpi-footer-divider {
+    display:none !important;
+  }
+  .kpi-footer-right {
+    text-align:left !important;
+    align-items:flex-start !important;
+  }
+}
+.kpi-footer-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.kpi-footer-right{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:flex-end;
+  text-align:right;
+}
+.kpi-footer-divider {
+  width:1px;
+  height:38px;
+  background:rgba(255,255,255,0.15);
+}
+.kpi-footer-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:18px;
+  font-weight:700;
+  color:#ffffff;
+}
+.kpi-footer-row.curadoria-title{
+  color:#fcd500; /* Ouro BB */
+}
+.kpi-footer-sub{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+}
+
+.fonte-selo{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--k2);line-height:1.4}
+.fonte-selo .mi{font-size:15px;color:var(--k3);margin-top:1px}
+.fonte-selo a{color:var(--pr);font-weight:700;text-decoration:none}
+.fonte-selo a:hover{text-decoration:underline}
+
+.r3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ln)}
+.rc{padding:14px;border-right:1px solid var(--ln)}
+.rc:last-child{border-right:none}
+.ri{width:32px;height:32px;border-radius:50%;background:var(--prl);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.ri .mi{font-size:16px;color:var(--pr)}
+.rc h4{font-size:12px;font-weight:700;margin-bottom:4px}
+.rc p{font-size:11px;color:var(--k2);line-height:1.5}
+
+.l4{display:grid;border-top:1px solid var(--ln)}
+.ly{padding:14px;border-right:1px solid var(--ln);position:relative;padding-top:18px}
+.ly:last-child{border-right:none}
+.ly-tag{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.ly h4{font-size:12px;font-weight:700;margin-bottom:3px}
+.ly p{font-size:11px;color:var(--k2);line-height:1.45}
+.ly-meta{font-size:10px;font-weight:700;color:var(--ink);margin-top:4px}
+.ly-link{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:10px;font-weight:700;text-decoration:none;opacity:.85}
+.ly-link:hover{opacity:1;text-decoration:underline}
+.ly-link .mi{font-size:11px}
+
+.rtab{width:100%;border-collapse:collapse;font-size:13px}
+.rtab td{padding:9px 0;border-bottom:1px solid var(--ln);vertical-align:middle}
+.rtab tr:last-child td{border-bottom:none;font-weight:700;padding-top:11px}
+.rtab .num{text-align:right;font:700 13px/1 var(--mono)}
+
+.ci{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--ln)}
+.ci:last-child{border-bottom:none}
+.cii{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cii .mi{font-size:16px;color:#fff}
+.cn{font-size:12px;font-weight:700}
+.cs{font-size:11px;color:var(--k2);margin-top:1px}
+.cb{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.cpct{font:900 20px/1 var(--slab);text-align:right}
+.cpct small{font-size:11px;font-family:var(--sans);color:var(--k3)}
+
+.ds{display:grid;grid-template-columns:.85fr 1.15fr;border-top:1px solid var(--ln)}
+.db{padding:16px;border-right:1px solid var(--ln)}
+.dr{position:relative;height:160px}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.dcv{font:900 24px/1 var(--slab)}
+.dcl{font-size:10px;color:var(--k3);text-transform:uppercase;letter-spacing:.04em}
+.rl{padding:16px;display:flex;flex-direction:column;justify-content:center;gap:7px}
+.rli{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;border:1px solid var(--ln)}
+.rld{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.rln{font-size:12px;font-weight:700}
+.rls{font-size:11px;color:var(--k2)}
+.rlp{margin-left:auto;font:700 16px/1 var(--mono)}
+
+.mt{width:100%;border-collapse:collapse;font-size:12px}
+.mt th{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;padding:8px 12px;text-align:left}
+.mt td{padding:8px 12px;border-bottom:1px solid var(--ln);vertical-align:middle}
+.mt tr:last-child td{border-bottom:none;font-weight:700;background:rgba(252,213,0,.15)}
+.mt .num{font:700 12px/1 var(--mono);text-align:right;white-space:nowrap} 
+.bg{background:var(--gnl);color:var(--gnd);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
+.bgr{background:#f0f0f0;color:var(--k2);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
+
+.ct{width:100%;border-collapse:collapse;font-size:12px}
+.ct th{padding:9px 12px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;text-align:left}
+.ct td{padding:9px 12px;border-bottom:1px solid var(--ln);vertical-align:middle}
+.ct tr:last-child td{border-bottom:none}
+.ct .win{background:var(--gnl);color:var(--gnd);font-weight:700}
+
+.disc-box{background:var(--bg);border-radius:12px;border:1px solid var(--ln);padding:14px 18px;margin-top:12px}
+.disc{font-size:10px;color:var(--k3);line-height:1.6}
+
+.exp-shot{width:480px;background:var(--bg);padding:16px;box-sizing:border-box}
+.exp-shot>*{margin:0!important}
+.exp-shot *,.exp-shot *::before,.exp-shot *::after{animation:none!important;transition:none!important}
+.exp-shot .hero{padding:28px 24px!important}
+.exp-shot .hero-content{max-width:none!important}
+.exp-shot .r3{grid-template-columns:1fr 1fr!important}
+.exp-shot .l4{grid-template-columns:1fr 1fr!important}
+.exp-shot .ly{border-right:none!important}
+.exp-shot .ds{grid-template-columns:1fr!important}
+.exp-shot .db{border-right:none!important;border-bottom:1px solid var(--ln)}
+.exp-shot .fonte-selo{margin-top:10px!important}
+
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{size:A4 portrait;margin:12mm}
+  html{font-size:11.5px!important}
+  body{background:#fff!important}
+  .fabs,.panel,.exp-overlay{display:none!important}
+  .screen{padding:0!important;max-width:100%!important;margin:0!important}
+  .card,.disc-box,.hero{page-break-inside:avoid!important;break-inside:avoid!important;box-shadow:none!important;margin-bottom:10px!important}
+  .card{border-radius:10px!important}
+  .pb{page-break-before:always!important;break-before:page!important;display:block!important;height:0!important}
+  img,canvas{max-width:100%!important}
+  .ds .dr canvas{max-height:150px!important}
+}
+
+@media(max-width:640px){
+  .r3{grid-template-columns:1fr 1fr}
+  .ds{grid-template-columns:1fr}
+  .db{border-right:none}
+}
+
+/* ═══ SUBPRODUTO: Mensagem WhatsApp + E-mail (Reaplicação) — totalmente isolado ═══ */
+.fb4{background:#0a3a86;color:#fff}.fb4:hover{background:#072a63}
+
+.wp-scope{
+  --wp-ink:#19222e;--wp-k2:#5a6573;--wp-k3:#9aa2ad;
+  --wp-line:#ebe8e0;--wp-sf:#fff;
+  --wp-accent:#0a3a86;--wp-tint:#eef3fb;--wp-amber:#9a6b00;--wp-amberbg:#fbf3df;
+  --wp-serif:'Spectral',Georgia,serif;--wp-sans:'Hanken Grotesk',system-ui,sans-serif;
+}
+.wp-overlay{position:fixed;inset:0;background:rgba(16,33,61,.72);z-index:420;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:26px 16px 96px}
+.wp-overlay.show{display:flex}
+.wp-shell{width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px}
+.wp-bar{display:flex;align-items:center;justify-content:space-between;color:#fff}
+.wp-bar h3{font:700 15px/1 var(--wp-sans);color:#fff}
+.wp-x{background:rgba(255,255,255,.16);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:20px;line-height:1}
+.wp-x:hover{background:rgba(255,255,255,.28)}
+.wp-card{width:100%;background:var(--wp-sf);border:1px solid var(--wp-line);border-radius:14px;padding:28px 26px 22px;box-shadow:0 10px 32px rgba(25,34,46,.22);font-family:var(--wp-sans);color:var(--wp-ink)}
+.wp-over{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--wp-k3);margin-bottom:14px}
+.wp-greet{font:600 21px/1.32 var(--wp-serif);letter-spacing:-.01em;margin-bottom:12px;color:var(--wp-ink)}
+.wp-intro{font-size:13.5px;line-height:1.55;color:var(--wp-k2);margin-bottom:22px}
+.wp-intro b{color:var(--wp-ink);font-weight:600}
+.wp-opt{padding:16px 0}
+.wp-opt-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wp-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--wp-sans);background:#eef0f2;color:var(--wp-k2)}
+.wp-num.hi{background:var(--wp-accent);color:#fff}
+.wp-opt-t{font:600 16px/1.2 var(--wp-serif)}
+.wp-opt-t.hi{color:var(--wp-accent)}
+.wp-opt-b{font-size:13px;line-height:1.55;color:var(--wp-k2)}
+.wp-opt-b b{color:var(--wp-ink);font-weight:600}
+.wp-lock{display:inline-block;margin-top:10px;background:var(--wp-amberbg);color:var(--wp-amber);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:7px;line-height:1.3}
+.wp-div{display:flex;align-items:center;gap:10px;margin:6px 0;color:var(--wp-k3);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.wp-div::before,.wp-div::after{content:"";flex:1;height:1px;background:var(--wp-line)}
+.wp-clink{display:inline-flex;align-items:center;gap:3px;color:var(--wp-accent);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(10,58,134,.3)}
+.wp-funds{margin-top:14px;border:1px solid var(--wp-line);border-radius:10px;overflow:hidden}
+.wp-fund{display:flex;align-items:flex-start;gap:12px;padding:12px 13px;border-bottom:1px solid var(--wp-line);background:#fff}
+.wp-fund:last-child{border-bottom:none}
+.wp-fw{flex-shrink:0;min-width:86px;text-align:center;background:var(--wp-tint);color:var(--wp-accent);padding:8px 6px;border-radius:8px;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.wp-fw b{font:700 13px/1.15 var(--wp-sans)}
+.wp-fw i{font-style:normal;font:600 10px/1 var(--wp-sans);color:var(--wp-k3)}
+.wp-sign{margin-top:18px}
+.wp-sign-hi{font-size:13px;color:var(--wp-k2);margin-bottom:10px}
+.wp-sign-row{display:flex;align-items:center;gap:12px}
+.wp-sign-badge{width:54px;height:54px;flex-shrink:0;border-radius:6px;display:block}
+.wp-sign-name{font:600 15px/1.25 var(--wp-serif);color:var(--wp-ink)}
+.wp-sign-role{font-size:10.5px;color:var(--wp-k3);margin-top:2px}
+.wp-warn{background:#f6f7f9;border-left:3px solid #c9ced6;padding:11px 13px;border-radius:6px;margin-top:14px;font-size:12.5px;line-height:1.5;color:var(--wp-k2)}
+.wp-warn b{color:var(--wp-ink);font-weight:600}
+.wp-strat{font:700 18px/1.25 var(--wp-serif);color:var(--wp-accent);margin:18px 0 6px}
+.wp-grp{display:flex;align-items:center;gap:8px;margin:18px 0 8px;flex-wrap:wrap}
+.wp-grp-pill{font-size:11.5px;font-weight:700;color:#fff;padding:4px 9px;border-radius:6px;white-space:nowrap}
+.wp-grp-pill.seg{background:var(--wp-accent)}
+.wp-grp-pill.gr{background:var(--wp-amber)}
+.wp-grp-lbl{font-size:13px;font-weight:700;color:var(--wp-ink)}
+.wp-isento{display:inline-block;margin-top:6px;margin-left:5px;background:#e9f6ee;color:#1f9d57;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;line-height:1.3}
+.wp-benefit{font-size:13px;line-height:1.55;color:var(--wp-k2);margin-top:16px}
+.wp-benefit b{color:var(--wp-ink);font-weight:600}
+.wp-cta{font:600 15px/1.35 var(--wp-serif);color:var(--wp-ink);margin-top:14px}
+.wp-fmid{flex:1;min-width:0}
+.wp-fn{font-size:13px;font-weight:700;color:var(--wp-ink);line-height:1.25}
+.wp-fd{font-size:11px;color:var(--wp-k3);line-height:1.35;margin-top:2px}
+.wp-risk{display:inline-block;margin-top:6px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;line-height:1.3}
+.wp-fv{flex-shrink:0;align-self:center;font-size:11.5px;font-weight:600;color:var(--wp-accent);text-decoration:none;white-space:nowrap}
+.wp-fv.none{color:var(--wp-k3);font-weight:500}
+.wp-close{font-size:13px;line-height:1.55;color:var(--wp-k2);margin-top:20px;padding-top:18px;border-top:1px solid var(--wp-line)}
+.wp-close b{color:var(--wp-ink);font-weight:600}
+.wp-foot{font-size:9.5px;line-height:1.5;color:var(--wp-k3);margin-top:14px}
+.wp-actions{display:flex;gap:9px}
+.wp-abtn{flex:1;border:none;border-radius:10px;padding:13px 10px;font:700 13px/1.1 var(--wp-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.wp-abtn svg{width:16px;height:16px}
+.wp-abtn-wa{background:#1a9a50;color:#fff}
+.wp-abtn-wa:hover{background:#127038}
+.wp-abtn-em{background:var(--wp-accent);color:#fff}
+.wp-abtn-em:hover{background:#072a63}
+
+.wp-modal{position:fixed;inset:0;background:rgba(25,34,46,.6);z-index:440;display:none;align-items:center;justify-content:center;padding:16px}
+.wp-modal.show{display:flex}
+.wp-mbox{background:#fff;border-radius:14px;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.32);font-family:var(--wp-sans)}
+.wp-mhead{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--wp-line)}
+.wp-mhead h3{font:600 16px/1.2 var(--wp-serif);color:var(--wp-ink)}
+.wp-mx{background:none;border:none;font-size:24px;color:var(--wp-k3);cursor:pointer;line-height:1}
+.wp-mscroll{overflow:auto;background:#fff;flex:1}
+.wp-mactions{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--wp-line);background:#fff}
+.wp-mbtn{flex:1;border:none;border-radius:9px;padding:13px 10px;font:700 13px/1.1 var(--wp-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.wp-mbtn svg{width:16px;height:16px}
+.wp-mbtn-pri{background:var(--wp-accent);color:#fff}
+.wp-mbtn-pri:hover{background:#072a63}
+.wp-mbtn-sec{background:#fff;color:var(--wp-accent);border:1px solid var(--wp-line)}
+.wp-mbtn-sec:hover{background:var(--wp-tint)}
+
+.wp-toast{position:fixed;bottom:80px;right:20px;background:#19222e;color:#fff;padding:13px 16px;border-radius:11px;font:500 12.5px/1.45 var(--wp-sans);max-width:320px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:460;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.wp-toast.show{opacity:1;transform:none}
+.wp-toast b{font-weight:700}
+
+@media print{.wp-overlay,.wp-modal,.wp-toast{display:none!important}}
+</style>
+</head>
+<body>
+
+<div class="fabs">
+  <button class="fab fb1" onclick="togglePanel()"><span class="mi">tune</span> Parâmetros</button>
+  <button class="fab fb4" onclick="abrirWp()"><span class="mi">forum</span> Mensagem / E-mail</button>
+  <button class="fab fb3" onclick="abrirExport()"><span class="mi">image</span> Exportar cards</button>
+  <button class="fab fb2" onclick="imp()"><span class="mi">picture_as_pdf</span> PDF A4</button>
+</div>
+
+<div class="exp-overlay" id="expOverlay">
+  <div class="exp-modal">
+    <h3>Exportar cards como imagem</h3>
+    <p>Selecione os cards que deseja exportar. Cada um será salvo como imagem vertical, ideal para WhatsApp.</p>
+    <div class="exp-list" id="expList"></div>
+    <div class="exp-actions">
+      <button class="exp-btn exp-btn-cancel" onclick="fecharExport()">Cancelar</button>
+      <button class="exp-btn exp-btn-go" onclick="exportarSelecionados()"><span class="mi" style="font-size:15px">download</span> Exportar</button>
+    </div>
+    <div class="exp-progress" id="expProgress"></div>
+  </div>
+</div>
+
+<div class="panel" id="panel">
+  <div class="ptop"><h2>Ajustar proposta</h2><button onclick="togglePanel()"><span class="mi">close</span></button></div>
+  <div class="pin">
+    <div class="pg">Dados do cliente</div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome do cliente</label><input type="text" id="nome" value="João"/></div>
+    <div class="pr2">
+      <div class="fld"><label>Capital (R$)</label><input type="number" id="capital" value="300000"/></div>
+      <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="3"/></div>
+    </div>
+    <div class="pg">Cenário futuro estimado</div>
+    <div class="pr2">
+      <div class="fld"><label>CDI futuro (% a.a.)</label><input type="number" step="0.01" id="cdi" value="13.35"/></div>
+      <div class="fld"><label>IPCA futuro (% a.a.)</label><input type="number" step="0.01" id="ipca" value="5"/></div>
+    </div>
+    <div class="pg">LCA antiga — raio-x do passado</div>
+    <div class="pr2">
+      <div class="fld"><label>CDI realizado (%)</label><input type="number" step="0.01" id="cdiPass" value="14.45"/></div>
+      <div class="fld"><label>IPCA realizado (%)</label><input type="number" step="0.01" id="ipcaPass" value="4.62"/></div>
+    </div>
+    <div class="fld" style="margin-bottom:8px"><label>Banco</label><input type="text" id="banco" value="Banco ABC"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Taxa LCA antiga — % CDI (raio-x)</label><input type="number" step="0.1" id="lcaTaxaPass" value="90"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Taxa NOVA LCA — % CDI (comparação)</label><input type="number" step="0.1" id="lcaTaxaNova" value="90"/></div>
+    <div class="pg">Mensagem (reaplicação)</div>
+    <div class="fld" style="margin-bottom:8px"><label>Assessor (seu nome)</label><input type="text" id="assessor" value="Mauricio Fernandes" placeholder="Nome que assina a mensagem"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome da LCA</label><input type="text" id="lcaNome" value="LCA" placeholder="Ex.: LCA Agro Banco ABC"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Vencimento da LCA</label><input type="month" id="lcaVenc"/></div>
+    <button class="btn-g" onclick="fgc()"><span class="mi">verified_user</span> Otimizar FGC</button>
+    <div class="fgc-m" id="fgcM"></div>
+    <div class="pg">Composição (soma = 100%)</div>
+    <div id="fed"></div>
+    <button class="btn-g" onclick="addF()"><span class="mi">add</span> Adicionar ativo</button>
+  </div>
+</div>
+
+<div class="screen">
+  <div class="stitle">Proposta de Carteira Diversificada</div>
+  <div class="ssub">Banco do Brasil · GEINV · Perfil Conservador</div>
+
+  <!-- ══ PÁG 1 — CAPA REVOLUCIONADA COM MATERIAL DESIGN 3 E TEXTO EM ÊNFASE ══ -->
+  <div data-export="Capa — Apresentação" style="margin-bottom:12px;">
+    
+    <div class="hero">
+      <div class="hero-content">
+        <!-- Header Trend -->
+        <div class="hey-wrapper">
+          <div class="hey-trending-group">
+            <span class="hey-trending-text">TRENDING</span>
+            <span class="hey-trending-text white-text">UP</span>
+          </div>
+          <span class="hey-title">PATRIMÔNIO PROJETADO · CARTEIRA</span>
+        </div>
+        
+        <!-- Apresentação Pessoal (Área Enfatizada) -->
+        <div class="hero-intro">
+          <h1 id="hero-l1">Olá, tudo bom?</h1>
+          <p id="hero-l2">A sua LCA venceu. Vale a pena conhecer as opções disponíveis hoje alinhadas ao seu perfil.</p>
+        </div>
+        
+        <div class="kpis">
+          <div class="kpi-footer" style="display:flex; justify-content:flex-start;">
+            <div class="kpi-footer-right" style="align-items:flex-start; text-align:left;">
+              <div class="kpi-footer-row curadoria-title">
+                <span class="mi" style="font-size:18px; color: #fcd500;">shield</span>
+                <span>Curadoria BB</span>
+              </div>
+              <div class="kpi-footer-sub">Risco distribuído · Conservador</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="fonte-selo" style="padding: 0 4px;">
+      <span class="mi">description</span>
+      <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
+    </div>
+
+  </div>
+
+  <div class="card" data-export="Gestão de Risco">
+    <div class="sec"><div class="ey">Gestão de Risco</div><div class="sh">Três razões para não concentrar tudo numa LCA.</div></div>
+    <div class="r3">
+      <div class="rc"><div class="ri"><span class="mi">hub</span></div><h4>Concentração</h4><p>100% num emissor amplifica risco de crédito. <b>Pulverizar dilui.</b></p></div>
+      <div class="rc"><div class="ri"><span class="mi">savings</span></div><h4>Limite FGC</h4><p>Garantia de <b>R$ 250k por instituição.</b> Fundos completam a proteção.</p></div>
+      <div class="rc"><div class="ri"><span class="mi">schedule</span></div><h4>Reinvestimento</h4><p>Com Selic caindo, <b>travar prêmios reais longos</b> protege a rentabilidade.</p></div>
+    </div>
+  </div>
+
+  <div class="card" data-export="A Curadoria BB — Fortaleza">
+    <div class="sec"><div class="ey">A Curadoria BB</div><div class="sh">A fortaleza: cada camada com sua função.</div></div>
+    <div class="l4" id="fortaleza"></div>
+  </div>
+
+  <div class="pb"></div>
+
+  <div class="card" data-export="O Seu Raio-X">
+    <div class="sec"><div class="ey">O Seu Raio-X</div><div class="sh">O que de fato sobrou na conta (LCA anterior)?</div></div>
+    <div style="padding:0 18px 16px"><table class="rtab" id="raix"></table></div>
+  </div>
+
+  <div class="card" data-export="A Composição + Mapa de Risco">
+    <div class="sec"><div class="ey">A Composição</div><div class="sh">Os ativos selecionados.</div></div>
+    <div id="compList"></div>
+    <div class="ds">
+      <div class="db">
+        <div class="dr">
+          <canvas id="donut"></canvas>
+          <div class="dc"><div class="dcv" id="dcv">—</div><div class="dcl">baixo risco</div></div>
+        </div>
+      </div>
+      <div class="rl" id="rleg"></div>
+    </div>
+    <div class="fonte-selo" style="padding: 12px 18px; border-top: 1px solid var(--ln);">
+      <span class="mi">description</span>
+      <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
+    </div>
+  </div>
+
+  <div class="pb"></div>
+
+  <div class="card" data-export="Transparência — Memória de Cálculo">
+    <div class="sec"><div class="ey">Transparência</div><div class="sh">Memória de cálculo — CDI <span id="m-cdi">—</span> · IPCA <span id="m-ipca">—</span></div></div>
+    <div style="overflow-x:auto">
+      <table class="mt">
+        <thead><tr style="background:var(--pr)">
+          <th>Ativo</th><th style="text-align:center">Peso</th><th style="text-align:right">Taxa bruta</th><th style="text-align:center">IR</th><th style="text-align:right">Líq. a.a.</th>
+        </tr></thead>
+        <tbody id="calc"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" data-export="Comparação — LCA vs Carteira BB">
+    <div class="sec"><div class="ey">Lado a Lado</div><div class="sh">Nova LCA <span id="cmp-b">—</span> vs. carteira diversificada.</div></div>
+    <div style="overflow-x:auto">
+      <table class="ct">
+        <thead><tr>
+          <th style="background:var(--pr);color:#fff">Dimensão</th>
+          <th style="background:#6b7a99;color:#fff">LCA Única (nova)</th>
+          <th style="background:var(--gn);color:#fff">Carteira BB</th>
+        </tr></thead>
+        <tbody id="cmp"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="disc-box">
+    <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
+  </div>
+
+</div>
+
+<!-- ══ SUBPRODUTO: Mensagem WhatsApp + E-mail (dados captados dos Parâmetros) ══ -->
+<div class="wp-overlay wp-scope" id="wpOverlay">
+  <div class="wp-shell">
+    <div class="wp-bar">
+      <h3>Mensagem de reaplicação</h3>
+      <button class="wp-x" onclick="fecharWp()">&times;</button>
+    </div>
+    <div class="wp-card" id="wpCard"></div>
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Copiar p/ WhatsApp
+      </button>
+      <button class="wp-abtn wp-abtn-em" onclick="abrirEmail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Gerar e-mail
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wp-modal wp-scope" id="wpEmailModal">
+  <div class="wp-mbox">
+    <div class="wp-mhead">
+      <h3>Pré-visualização do e-mail</h3>
+      <button class="wp-mx" onclick="fecharEmail()">&times;</button>
+    </div>
+    <div class="wp-mscroll"><div id="wpEmailRender"></div></div>
+    <div class="wp-mactions">
+      <button class="wp-mbtn wp-mbtn-pri" onclick="copiarFormatado()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        Copiar formatado
+      </button>
+      <button class="wp-mbtn wp-mbtn-sec" onclick="baixarEml()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0a3a86" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+        Baixar .eml
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wp-toast wp-scope" id="wpToast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0,maximumFractionDigits:0}).format(v||0);
+const pct=(v,d=1)=>Math.abs(v).toFixed(d).replace('.',',')+' %';
+const gV=(id,fb=0)=>{const e=$(id);if(!e)return fb;const v=e.type==='number'?parseFloat(e.value):e.value;return(isNaN(v)||v==='')?fb:v};
+
+const RISKS={1:{n:'Muito baixo',cor:'#1f9d57'},2:{n:'Baixo',cor:'#7cb342'},3:{n:'Médio',cor:'#ffb300'},4:{n:'Alto',cor:'#fb8c00'},5:{n:'Muito alto',cor:'#d94436'}};
+const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'};
+const LCORS=['var(--pr)','var(--gn)','var(--acd)','var(--rd)','var(--k3)','#7b2fff','#00838f'];
+
+let FUNDS=[
+  {nome:'BB RF LP High',               sub:'Caixa · Liquidez D+0',  tag:'Caixa D+0',                                              desc:'Liquidez imediata - Reserva de Emergência', w:50, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           isento:false, link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',         sub:'Crédito privado · ASG', tag:'Diversificação com impacto positivo e controle de risco',desc:'Crédito Privado com estratégia ASG',        w:40, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           isento:false, link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada EQMAA2',sub:'IPCA+ Isenta · brAAA',  tag:'Rentabilidade com pagamento da inflação',                desc:'Trava ganho real. brAAA, isenta IR PF.',   w:10, proj:7.77,  tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', isento:true,  link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+];
+
+function togglePanel(){$('panel').classList.toggle('open')}
+function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print(),350)}
+
+function getExportables(){
+  return [...document.querySelectorAll('[data-export]')];
+}
+
+function abrirExport(){
+  const items = getExportables();
+  $('expList').innerHTML = items.map((el,i)=>`
+    <label class="exp-item">
+      <input type="checkbox" value="${i}" checked/>
+      <div>
+        <div class="exp-item-name">${el.dataset.export}</div>
+        <div class="exp-item-sub">${i===0?'Card de capa (Hero)':'Card de conteúdo'}</div>
+      </div>
+    </label>`).join('');
+  $('expOverlay').classList.add('show');
+  $('expProgress').className='exp-progress';
+}
+
+function fecharExport(){
+  $('expOverlay').classList.remove('show');
+}
+
+function slugify(s){
+  return s.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+async function exportarSelecionados(){
+  const checks = [...$('expList').querySelectorAll('input:checked')];
+  if(!checks.length){return;}
+  const items = getExportables();
+  const prog  = $('expProgress');
+  prog.className='exp-progress show';
+
+  try{ await document.fonts.ready; }catch(e){}
+
+  const OPTS = { pixelRatio:2.5, backgroundColor:'#f4f7fd' };
+
+  for(let idx=0; idx<checks.length; idx++){
+    const i    = +checks[idx].value;
+    const el   = items[i];
+    const nome = el.dataset.export;
+    prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
+
+    const holder = document.createElement('div');
+    holder.style.cssText='position:fixed;left:-10000px;top:0;width:480px;z-index:-1;pointer-events:none;opacity:1';
+
+    const shot = document.createElement('div');   
+    shot.className='exp-shot';
+
+    const clone = el.cloneNode(true);
+    clone.style.margin='0';
+
+    const oc = el.querySelectorAll('canvas');
+    const cc = clone.querySelectorAll('canvas');
+    oc.forEach((canvas, c) => {
+      if(cc[c] && canvas.width && canvas.height){
+        cc[c].width  = canvas.width;
+        cc[c].height = canvas.height;
+        cc[c].getContext('2d').drawImage(canvas, 0, 0);
+      }
+    });
+
+    shot.appendChild(clone);
+    holder.appendChild(shot);
+    document.body.appendChild(holder);
+
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    await new Promise(r=>setTimeout(r,120));
+
+    let dataUrl;
+    try{
+      await htmlToImage.toPng(shot, { pixelRatio:1, backgroundColor:'#f4f7fd' });
+      dataUrl = await htmlToImage.toPng(shot, OPTS);
+    }catch(err){
+      console.error('Falha ao exportar', nome, err);
+      prog.textContent = `Erro ao gerar "${nome}". Tente novamente.`;
+      if(holder.parentNode) document.body.removeChild(holder);
+      await new Promise(r=>setTimeout(r,1200));
+      continue;
+    }
+
+    if(holder.parentNode) document.body.removeChild(holder);
+
+    const a = document.createElement('a');
+    a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slugify(nome)}.png`;
+    a.href     = dataUrl;
+    a.click();
+    await new Promise(r=>setTimeout(r,500));
+  }
+
+  prog.textContent=`✓ ${checks.length} imagem(ns) exportada(s)!`;
+  setTimeout(fecharExport,2200);
+}
+
+function hasIR(f){
+  if(typeof f.isento === 'boolean') return !f.isento;
+  // Fallback (dados antigos sem o campo): tenta detectar isenção pelo nome
+  return !/(lca|lci|cri|cra|lig|isent|incentivad|deb[êe]nture)/i.test((f.nome||'')+' '+(f.sub||''));
+}
+
+function rate(f, cdi, ipca){
+  if(f.tipo==='cdi')  return cdi * (f.proj/100);
+  if(f.tipo==='ipca') return ipca + (f.proj/100);
+  return f.proj/100;
+}
+
+function fgc(){
+  const cap=gV('capital',300000), m=$('fgcM');
+  if(cap>250000){
+    const p=(250000/cap)*100, r=100-p;
+    FUNDS[0].w=+p.toFixed(1); FUNDS[1].w=+(r*.4).toFixed(1);
+    FUNDS[2].w=+(r*.2).toFixed(1); FUNDS[3].w=+(r*.4).toFixed(1);
+    renderEd(); calc();
+    m.textContent=`✓ LCA ajustada a R$ 250k (${p.toFixed(1)}%). Excedente redistribuído.`;
+  } else {
+    m.textContent='✓ Capital dentro do limite FGC.';
+  }
+  m.className='fgc-m show';
+}
+
+function renderEd(){
+  $('fed').innerHTML=FUNDS.map((f,i)=>`
+    <div class="fc">
+      <div class="fc-top">
+        <input value="${f.nome}" oninput="U(${i},'nome',this.value)" placeholder="Nome do ativo"/>
+        <button class="fc-del" onclick="delF(${i})"><span class="mi">delete</span></button>
+      </div>
+      <div class="g2" style="margin-bottom:6px">
+        <div><span class="ml">Rótulo (tag)</span><input value="${f.tag||''}" oninput="U(${i},'tag',this.value)"/></div>
+        <div><span class="ml">Classe / sub</span><input value="${f.sub}" oninput="U(${i},'sub',this.value)"/></div>
+      </div>
+      <div style="margin-bottom:6px">
+        <span class="ml">Descrição (quadro curadoria)</span>
+        <input value="${f.desc||''}" oninput="U(${i},'desc',this.value)"/>
+      </div>
+      <div style="margin-bottom:6px">
+        <span class="ml">Link do produto</span>
+        <input value="${f.link||''}" oninput="U(${i},'link',this.value)" placeholder="https://..."/>
+      </div>
+      <div class="g3">
+        <div><span class="ml">Peso %</span><input type="number" value="${f.w}" oninput="U(${i},'w',+this.value)"/></div>
+        <div><span class="ml">Proj.</span><input type="number" step="0.1" value="${f.proj}" oninput="U(${i},'proj',+this.value)"/></div>
+        <div><span class="ml">Tipo</span>
+          <select onchange="U(${i},'tipo',this.value)">
+            <option value="cdi"  ${f.tipo==='cdi' ?'selected':''}>% CDI</option>
+            <option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option>
+          </select>
+        </div>
+      </div>
+      <div class="g2" style="margin-top:6px">
+        <div><span class="ml">Risco</span>
+          <select onchange="U(${i},'risco',+this.value)">
+            ${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k}·${v.n}</option>`).join('')}
+          </select>
+        </div>
+        <div><span class="ml">Liquidez</span><input value="${f.liq}" oninput="U(${i},'liq',this.value)"/></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12px;cursor:pointer;user-select:none">
+        <input type="checkbox" ${hasIR(f)?'':'checked'} onchange="U(${i},'isento',this.checked)" style="width:16px;height:16px;cursor:pointer"/>
+        <span><b>Isento de IR</b> · LCA, LCI, CRI, CRA, LIG, debênture incentivada</span>
+      </label>
+    </div>`).join('');
+}
+function U(i,k,v){FUNDS[i][k]=v; calc()}
+function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',isento:false,link:''}); renderEd(); calc()}
+function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
+
+['nome','capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova']
+  .forEach(id=>{const e=$(id); if(e) e.addEventListener('input',calc)});
+
+let donutI=null;
+
+function calc(){
+  const nome        = $('nome') ? $('nome').value.trim() : '';
+  const cap         = gV('capital',300000);
+  const prazo       = gV('prazo',3);
+  const cdi         = gV('cdi',13.35)/100;
+  const ipca        = gV('ipca',5)/100;
+  const banco       = gV('banco','Banco ABC');
+  const lcaTaxaPass = gV('lcaTaxaPass',90)/100;
+  const lcaTaxaNova = gV('lcaTaxaNova',90)/100;
+  const cdiPass     = gV('cdiPass',14.45)/100;
+  const ipcaPass    = gV('ipcaPass',4.62)/100;
+
+  // Atualização dos textos de introdução dinâmicos
+  $('hero-l1').textContent = nome ? `Olá, ${nome}, tudo bom?` : 'Olá! Tudo bom?';
+  const valStr = (cap > 0 && !isNaN(cap)) ? ` de ${fmt(cap)}` : '';
+  $('hero-l2').textContent = `A sua LCA${valStr} venceu. Avaliamos o mercado para trazer as melhores opções disponíveis hoje para o seu perfil.`;
+
+  const lcaRateNova = cdi * lcaTaxaNova;
+  const lcaFinal    = cap * Math.pow(1+lcaRateNova, prazo);
+
+  let divFinal=0, wNet=0;
+  FUNDS.forEach(f=>{
+    const w = f.w/100;
+    const g = rate(f, cdi, ipca);          
+    const n = hasIR(f) ? g*0.85 : g;      
+    divFinal += (cap*w) * Math.pow(1+n, prazo);
+    wNet     += w * n;
+  });
+
+  // (Valor e rentabilidade do Hero Card removidos a pedido)
+
+  const rendPass  = cap*(cdiPass*lcaTaxaPass);
+  const corrInfl  = cap*ipcaPass;
+  const ganhoReal = rendPass-corrInfl;
+  $('raix').innerHTML=`
+    <tr><td>Capital investido</td>
+        <td class="num" style="color:var(--pr)">${fmt(cap)}</td></tr>
+    <tr><td>Taxa contratada (LCA antiga)</td>
+        <td class="num">${pct(lcaTaxaPass*100,0)+' CDI'}</td></tr>
+    <tr><td>Rendimento bruto nominal</td>
+        <td class="num" style="color:var(--pr)">+${fmt(rendPass)}</td></tr>
+    <tr><td style="color:var(--rd)">Corrosão inflação (IPCA realizado)</td>
+        <td class="num" style="color:var(--rd)">−${fmt(corrInfl)}</td></tr>
+    <tr><td><b>Ganho real efetivo</b></td>
+        <td class="num" style="color:var(--gnd)"><b>${ganhoReal>=0?'+':''}${fmt(ganhoReal)}</b></td></tr>`;
+
+  const fort = $('fortaleza');
+  fort.style.gridTemplateColumns = `repeat(${FUNDS.length},1fr)`;
+  fort.innerHTML = FUNDS.map((f,i)=>{
+    const cor = LCORS[i]||'var(--k2)';
+    const pt  = f.tipo==='cdi'
+      ? `${(''+f.proj).replace('.',',')}% CDI`
+      : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<div class="ly" style="border-top:3px solid ${cor}">
+      <div class="ly-tag" style="color:${cor}">${f.tag||f.nome}</div>
+      <h4>${f.nome}</h4>
+      <p>${f.desc||f.sub}</p>
+      <div class="ly-meta">${f.w}% · ${pt} · ${f.liq}</div>
+      ${f.link?`<a href="${f.link}" target="_blank" class="ly-link" style="color:${cor}"><span class="mi">open_in_new</span> Ver produto</a>`:''}
+    </div>`;
+  }).join('');
+
+  $('compList').innerHTML = FUNDS.map(f=>{
+    const rk = RISKS[f.risco]||RISKS[3];
+    const pt = f.tipo==='cdi'
+      ? `${(''+f.proj).replace('.',',')}% CDI`
+      : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<div class="ci">
+      <div class="cii" style="background:${rk.cor}"><span class="mi">${ICO[f.ico]||'paid'}</span></div>
+      <div><div class="cn">${f.nome}</div><div class="cs">${f.sub} · ${pt} · ${f.liq}</div></div>
+      <span class="cb" style="background:${rk.cor}20;color:${rk.cor}">${rk.n}</span>
+      <div class="cpct">${Math.round(f.w)}<small>%</small></div>
+    </div>`;
+  }).join('');
+
+  const byR={};
+  FUNDS.forEach(f=>{byR[f.risco]=(byR[f.risco]||0)+(+f.w||0)});
+  const ord  = Object.keys(RISKS).filter(k=>byR[k]>0);
+  const tot  = ord.reduce((a,k)=>a+byR[k],0)||1;
+  const cons = ((byR[1]||0)+(byR[2]||0))/tot*100;
+  $('dcv').textContent = Math.round(cons)+'%';
+  if(donutI) donutI.destroy();
+  donutI = new Chart($('donut'),{type:'doughnut',
+    data:{labels:ord.map(k=>RISKS[k].n),
+          datasets:[{data:ord.map(k=>byR[k]),backgroundColor:ord.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:3,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false}}}});
+  $('rleg').innerHTML = ord.map(k=>{
+    const v=RISKS[k], p=Math.round(byR[k]/tot*100);
+    return `<div class="rli">
+      <span class="rld" style="background:${v.cor}"></span>
+      <div><div class="rln">${v.n}</div><div class="rls">${fmt(cap*byR[k]/100)}</div></div>
+      <span class="rlp" style="color:${v.cor}">${p}%</span>
+    </div>`;
+  }).join('');
+
+  $('m-cdi').textContent  = pct(cdi*100);
+  $('m-ipca').textContent = pct(ipca*100);
+  $('calc').innerHTML = FUNDS.map(f=>{
+    const g  = rate(f, cdi, ipca);
+    const ir = hasIR(f);
+    const n  = ir ? g*0.85 : g;
+    const pt = f.tipo==='cdi'
+      ? `${(''+f.proj).replace('.',',')}% CDI`
+      : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<tr>
+      <td>${f.nome}</td>
+      <td style="text-align:center">${f.w}%</td>
+      <td style="text-align:right">${pt}</td>
+      <td style="text-align:center">${ir?'<span class="bgr">15%</span>':'<span class="bg">Isento</span>'}</td>
+      <td class="num" style="color:var(--pr)">${pct(n*100)}</td>
+    </tr>`;
+  }).join('')+`<tr>
+    <td><b>Média ponderada</b></td><td style="text-align:center"><b>100%</b></td>
+    <td></td><td></td>
+    <td class="num" style="color:var(--gnd)"><b>${pct(wNet*100)}</b></td>
+  </tr>`;
+
+  $('cmp-b').textContent = banco;
+  const ipcaW   = FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0);
+  const isentoW = FUNDS.filter(f=>!hasIR(f)).reduce((s,f)=>s+f.w,0);
+  const lcaRealAno = ((1+lcaRateNova)/(1+ipca)-1)*100;
+  const divRealAno = ((1+wNet)/(1+ipca)-1)*100;
+  $('cmp').innerHTML=[
+    ['Patrimônio final',   fmt(lcaFinal),   fmt(divFinal),                       divFinal>lcaFinal],
+    ['Rent. líquida a.a.', pct(lcaRateNova*100), pct(wNet*100),                        wNet>lcaRateNova],
+    ['Ganho real a.a.',    pct(lcaRealAno),       pct(divRealAno),                       divRealAno>lcaRealAno],
+    ['Proteção inflação',  'Não há',              ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
+    ['Concentração',       '1 emissor',            `✓ ${Math.round(cons)}% baixo risco`, true],
+    ['Liquidez',           'No vencimento',       '✓ Parte em D+0',                      true],
+    ['Tributação IR',      'Isento',              `${Math.round(isentoW)}% isento`,      false],
+    ['Gestão',             'Autônoma',            '✓ Curadoria BB-BI',                 true],
+  ].map(r=>`<tr>
+    <td><b>${r[0]}</b></td>
+    <td style="color:var(--k2)">${r[1]}</td>
+    <td class="${r[3]?'win':''}">${r[2]}</td>
+  </tr>`).join('');
+}
+
+/* ═══════════ SUBPRODUTO: Mensagem WhatsApp + E-mail ═══════════
+   Capta os dados diretamente dos Parâmetros (painel) e do array FUNDS. */
+const WP_MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+let WP_D=null;
+const wpNum=v=>Number.isInteger(v)?v.toFixed(0):(''+v).replace('.',',');
+const wpFmtC=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
+const ANBIMA_B64='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';
+const gT=(id,fb='')=>{const e=$(id);const v=e?(''+e.value).trim():'';return v||fb;};
+
+function buildD(){
+  const nome    = gT('nome','cliente');
+  const cap     = gV('capital',300000);
+  const prazo   = gV('prazo',3);
+  const lcaNova = gV('lcaTaxaNova',90);
+  const lcaNome = gT('lcaNome','LCA');
+  const lcaVenc = $('lcaVenc') ? $('lcaVenc').value : '';   // formato "YYYY-MM"
+  const assessor= gT('assessor','Mauricio Fernandes');
+
+  let vencStr;
+  if(lcaVenc){
+    const p = lcaVenc.split('-');
+    vencStr = WP_MESES[(+p[1]||1)-1] + '/' + p[0];
+  } else {
+    const hoje = new Date();
+    const v = new Date(hoje.getFullYear(), hoje.getMonth()+Math.round(prazo*12), 1);
+    vencStr = WP_MESES[v.getMonth()] + '/' + v.getFullYear();
+  }
+
+  return {
+    nome,
+    valor:   fmt(cap),
+    lcaNome,
+    taxa:    wpNum(lcaNova)+'% do CDI',
+    venc:    vencStr,
+    assessor,
+    assessorFirst: assessor.split(' ')[0],
+    carteiraLink:'https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf',
+    funds: FUNDS.map(f=>{
+      const rk = RISKS[f.risco]||RISKS[3];
+      return { w: Math.round(f.w)+'%', vlr: wpFmtC(cap*(+f.w||0)/100), n: f.nome, d:(f.desc||f.sub||''), link:f.link||'', risco: rk.n, cor: rk.cor, tipo: f.tipo, isento: !!f.isento };
+    }),
+    grupos: (()=>{
+      let sw=0,sv=0,gw=0,gv=0;
+      FUNDS.forEach(f=>{ const v=cap*(+f.w||0)/100; if(f.tipo==='ipca'){gw+=(+f.w||0);gv+=v;} else {sw+=(+f.w||0);sv+=v;} });
+      return { seg:{pct:Math.round(sw)+'%', vlr:wpFmtC(sv), has:sw>0},
+               gr: {pct:Math.round(gw)+'%', vlr:wpFmtC(gv), has:gw>0} };
+    })()
+  };
+}
+
+function wpGrp(funds, pct, vlr, label, cls){
+  if(!funds.length) return '';
+  const rows = funds.map(f=>{
+    const acao = f.link
+      ? `<a class="wp-fv" href="${f.link}" target="_blank">Ver ↗</a>`
+      : `<span class="wp-fv none">—</span>`;
+    const isento = f.isento ? `<span class="wp-isento">Isento de IR</span>` : '';
+    return `<div class="wp-fund"><span class="wp-fw"><b>${f.vlr}</b><i>${f.w}</i></span><div class="wp-fmid"><div class="wp-fn">${f.n}</div><div class="wp-fd">${f.d}</div><span class="wp-risk" style="background:${f.cor}1a;color:${f.cor}">Risco: ${f.risco}</span>${isento}</div>${acao}</div>`;
+  }).join('');
+  return `<div class="wp-grp"><span class="wp-grp-pill ${cls}">${pct} · ${vlr}</span><span class="wp-grp-lbl">${label}</span></div><div class="wp-funds">${rows}</div>`;
+}
+
+function wpCardHTML(D){
+  const segFunds = D.funds.filter(f=>f.tipo!=='ipca');
+  const grFunds  = D.funds.filter(f=>f.tipo==='ipca');
+  const segHTML  = wpGrp(segFunds, D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido', 'seg');
+  const grHTML   = wpGrp(grFunds,  D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação', 'gr');
+  return `
+    <p class="wp-greet">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</p>
+    <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
+    <div class="wp-warn">Se apenas renovássemos a sua <b>${D.lcaNome}</b> hoje, a taxa seria de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial e imobilizado até <b>${D.venc}</b>.</div>
+    <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais inteligente para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
+    <div class="wp-strat">🛡️ A Estratégia de Blindagem</div>
+    <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</p>
+    ${segHTML}
+    ${grHTML}
+    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</p>
+    <p class="wp-cta">${D.nome}, faz sentido migrarmos para essa estratégia hoje?</p>
+    <p class="wp-close">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</p>
+    <div class="wp-sign">
+      <div class="wp-sign-hi">Um abraço,</div>
+      <div class="wp-sign-row">
+        <img class="wp-sign-badge" src="data:image/png;base64,${ANBIMA_B64}" alt="ANBIMA Profissional CEA"/>
+        <div><div class="wp-sign-name">${D.assessor}</div><div class="wp-sign-role">ANBIMA Profissional CEA · Assessoria de Investimentos BB</div></div>
+      </div>
+    </div>
+    <p class="wp-foot">Banco do Brasil · GEINV. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Sujeito a análise de perfil (suitability).</p>
+  `;
+}
+
+function emailHTML(D){
+  const segFunds = D.funds.filter(f=>f.tipo!=='ipca');
+  const grFunds  = D.funds.filter(f=>f.tipo==='ipca');
+
+  const fundRow = (f,last) => {
+    const bb = last ? '' : 'border-bottom:1px solid #f0eee8;';
+    const acao = f.link ? ' &nbsp; <a href="'+f.link+'" target="_blank" style="color:#0a3a86;font-weight:bold;font-size:11px;text-decoration:none;white-space:nowrap;">Ver &#8599;</a>' : '';
+    const isento = f.isento ? ' <span style="display:inline-block;background:#e9f6ee;color:#1f9d57;font-size:10px;font-weight:bold;padding:2px 8px;border-radius:6px;">Isento de IR</span>' : '';
+    return '<tr style="background:#ffffff;">'
+      +'<td width="118" valign="top" style="padding:12px;'+bb+'"><div style="background:#eef3fb;color:#0a3a86;border-radius:8px;padding:9px 6px;text-align:center;"><div style="font-weight:bold;font-size:14px;line-height:1.1;">'+f.vlr+'</div><div style="font-size:10px;font-weight:bold;color:#7a8aa0;margin-top:3px;">'+f.w+'</div></div></td>'
+      +'<td valign="top" style="padding:12px 12px 12px 0;'+bb+'"><div style="font-size:13px;font-weight:bold;color:#19222e;line-height:1.25;">'+f.n+'</div><div style="font-size:12px;color:#5a6573;line-height:1.45;margin-top:3px;">'+f.d+'</div><div style="margin-top:7px;"><span style="display:inline-block;border:1px solid '+f.cor+';color:'+f.cor+';font-size:10px;font-weight:bold;padding:2px 8px;border-radius:6px;">Risco: '+f.risco+'</span>'+isento+acao+'</div></td>'
+      +'</tr>';
+  };
+
+  const group = (funds, accent, pct, vlr, title) => {
+    if(!funds.length) return '';
+    const rows = funds.map((f,i)=>fundRow(f, i===funds.length-1)).join('');
+    return '<div style="margin-top:20px;margin-bottom:6px;">'
+      +'<span style="display:inline-block;background:'+accent+';color:#ffffff;font-size:12px;font-weight:bold;padding:4px 10px;border-radius:6px;">'+pct+' &middot; '+vlr+'</span> '
+      +'<span style="font-size:13px;font-weight:bold;color:#19222e;">'+title+'</span></div>'
+      +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #ebe8e0;border-radius:10px;border-collapse:separate;overflow:hidden;">'+rows+'</table>';
+  };
+
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">'
+  +'<tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;"><tr><td style="padding:30px 32px 28px;">'
+  +'<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:21px;line-height:1.32;color:#19222e;font-weight:bold;margin-bottom:14px;">Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.</div>'
+  +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Sua <b style="color:#19222e;">LCA de '+D.valor+'</b> acabou de vencer — o valor já está totalmente disponível e seguro na sua conta.</div>'
+  +'<div style="background:#f7f8fa;border-left:3px solid #c9ced6;padding:12px 15px;border-radius:6px;margin:16px 0;font-size:13px;color:#5a6573;line-height:1.55;">Se apenas renovássemos a sua <b style="color:#19222e;">'+D.lcaNome+'</b> hoje, a taxa seria de apenas <b style="color:#19222e;">'+D.taxa+'</b> — rendimento abaixo do potencial e dinheiro imobilizado até <b style="color:#19222e;">'+D.venc+'</b>.</div>'
+  +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Pensando em proteger o seu poder de compra, montamos uma estratégia mais inteligente para o cenário atual, seguindo a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB</a>:</div>'
+  +'<div style="font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#0a3a86;margin:18px 0 4px;">&#128737;&#65039; A Estratégia de Blindagem</div>'
+  +'<div style="font-size:13px;color:#5a6573;line-height:1.55;">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</div>'
+  + group(segFunds, '#0a3a86', D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido')
+  + group(grFunds,  '#9a6b00', D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação')
+  +'<div style="font-size:13px;line-height:1.6;color:#5a6573;margin-top:18px;">Assim, <b style="color:#19222e;">'+D.grupos.seg.pct+'</b> do seu patrimônio fica disponível em poucos dias para qualquer imprevisto, e o restante blinda seu dinheiro contra a inflação.</div>'
+  +'<div style="font-size:14px;line-height:1.6;color:#19222e;font-weight:bold;margin-top:16px;">'+D.nome+', faz sentido migrarmos para essa estratégia hoje?</div>'
+  +'<div style="font-size:13px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
+  +'<div style="font-size:13px;color:#5a6573;margin-top:20px;">Um abraço,</div>'
+  +'<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr><td valign="middle" style="padding-right:12px;"><img src="data:image/png;base64,'+ANBIMA_B64+'" width="54" height="54" alt="ANBIMA Profissional CEA" style="display:block;border-radius:6px;"/></td><td valign="middle"><div style="font-family:Georgia,serif;font-size:15px;font-weight:bold;color:#19222e;">'+D.assessor+'</div><div style="font-size:11px;color:#9aa2ad;margin-top:2px;">ANBIMA Profissional CEA &middot; Assessoria de Investimentos BB</div></td></tr></table>'
+  +'<div style="font-size:10px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Banco do Brasil &middot; GEINV. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Sujeito a análise de perfil (suitability).</div>'
+  +'</td></tr></table></td></tr></table>';
+}
+function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
+
+function textoSimples(D){
+  const seg=D.funds.filter(f=>f.tipo!=='ipca'), gr=D.funds.filter(f=>f.tipo==='ipca');
+  const linha=f=>'   - '+f.vlr+' ('+f.w+') '+f.n+' — '+f.d+' [Risco: '+f.risco+(f.isento?' · Isento de IR':'')+']'+(f.link?' '+f.link:'')+'\n';
+  let s='Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.\n\n';
+  s+='Sua LCA de '+D.valor+' acabou de vencer — o valor já está disponível e seguro na sua conta.\n\n';
+  s+='Se apenas renovássemos a sua '+D.lcaNome+' hoje, a taxa seria de apenas '+D.taxa+' — rendendo abaixo do potencial e imobilizado até '+D.venc+'.\n\n';
+  s+='Montamos uma estratégia mais inteligente para o cenário atual, seguindo a Carteira Sugerida BB:\n'+D.carteiraLink+'\n\n';
+  s+='*A ESTRATÉGIA DE BLINDAGEM*\nDividimos o valor para unir segurança, liquidez e ganho real acima da inflação:\n\n';
+  if(seg.length){ s+='> Segurança e resgate rápido — '+D.grupos.seg.pct+' ('+D.grupos.seg.vlr+')\n'; seg.forEach(f=>s+=linha(f)); s+='\n'; }
+  if(gr.length){ s+='> Ganho real acima da inflação — '+D.grupos.gr.pct+' ('+D.grupos.gr.vlr+')\n'; gr.forEach(f=>s+=linha(f)); s+='\n'; }
+  s+='Assim, '+D.grupos.seg.pct+' do seu patrimônio fica disponível em poucos dias e o restante blinda contra a inflação.\n\n';
+  s+=D.nome+', faz sentido migrarmos para essa estratégia hoje? Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição.\n\n';
+  s+='Um abraço,\n'+D.assessor+'\nANBIMA Profissional CEA · Assessoria de Investimentos BB\n\n--\nBanco do Brasil · GEINV. Sujeito a suitability.';
+  return s;
+}
+
+function abrirWp(){
+  WP_D = buildD();
+  $('wpCard').innerHTML = wpCardHTML(WP_D);
+  $('panel').classList.remove('open');
+  $('wpOverlay').classList.add('show');
+}
+function fecharWp(){ $('wpOverlay').classList.remove('show'); }
+
+function abrirEmail(){
+  WP_D = buildD();
+  $('wpEmailRender').innerHTML = emailHTML(WP_D);
+  $('wpEmailModal').classList.add('show');
+}
+function fecharEmail(){ $('wpEmailModal').classList.remove('show'); }
+
+function wpToast(msg){
+  const t=$('wpToast'); t.innerHTML=msg; t.classList.add('show');
+  clearTimeout(window.__wptt); window.__wptt=setTimeout(()=>t.classList.remove('show'),5200);
+}
+
+async function copiarWhatsApp(){
+  const txt = textoSimples(buildD());
+  let ok=false;
+  try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){ ok=false; }
+  if(!ok){
+    const ta=document.createElement('textarea'); ta.value=txt;
+    ta.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(ta); ta.select();
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; } document.body.removeChild(ta);
+  }
+  wpToast(ok
+    ? '<b>Texto copiado.</b> Cole no WhatsApp do cliente (Ctrl/Cmd+V).'
+    : 'Não consegui copiar automaticamente. Selecione o texto do card e copie manualmente (Ctrl/Cmd+C).');
+}
+
+async function copiarFormatado(){
+  const D = WP_D || buildD();
+  const node=$('wpEmailRender');
+  let ok=false;
+  if(navigator.clipboard && window.ClipboardItem && window.isSecureContext){
+    try{
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([emailHTML(D)],{type:'text/html'}),
+        'text/plain': new Blob([textoSimples(D)],{type:'text/plain'})
+      })]);
+      ok=true;
+    }catch(e){ ok=false; }
+  }
+  if(!ok){
+    const range=document.createRange(); range.selectNodeContents(node);
+    const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+  }
+  wpToast(ok
+    ? '<b>E-mail formatado copiado.</b> Cole com Ctrl/Cmd+V no corpo do Gmail ou Outlook.'
+    : 'Cópia automática bloqueada. Selecione o e-mail acima (Ctrl/Cmd+A) e copie (Ctrl/Cmd+C) — ou use <b>Baixar .eml</b>.');
+}
+
+function baixarEml(){
+  const D = WP_D || buildD();
+  const eml='X-Unsent: 1\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0\r\n\r\n'+emailDoc(D);
+  const blob=new Blob([eml],{type:'message/rfc822'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='email-reaplicacao.eml';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  wpToast('Arquivo <b>.eml</b> baixado, sem destinatário e sem assunto. Abra no Outlook/Apple Mail: vira um e-mail novo formatado.');
+}
+
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ fecharEmail(); fecharWp(); } });
+$('wpEmailModal').addEventListener('click',e=>{ if(e.target.id==='wpEmailModal') fecharEmail(); });
+$('wpOverlay').addEventListener('click',e=>{ if(e.target.id==='wpOverlay') fecharWp(); });
+
+renderEd(); calc();
+</script>
+</body>
+</html>
