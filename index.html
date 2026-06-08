@@ -6,6 +6,7 @@
 <title>Proposta BB</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
 
@@ -313,12 +314,87 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   .ds{grid-template-columns:1fr}
   .db{border-right:none}
 }
+
+/* ═══ SUBPRODUTO: Mensagem WhatsApp + E-mail (Reaplicação) — totalmente isolado ═══ */
+.fb4{background:#0a3a86;color:#fff}.fb4:hover{background:#072a63}
+
+.wp-scope{
+  --wp-ink:#19222e;--wp-k2:#5a6573;--wp-k3:#9aa2ad;
+  --wp-line:#ebe8e0;--wp-sf:#fff;
+  --wp-accent:#0a3a86;--wp-tint:#eef3fb;--wp-amber:#9a6b00;--wp-amberbg:#fbf3df;
+  --wp-serif:'Spectral',Georgia,serif;--wp-sans:'Hanken Grotesk',system-ui,sans-serif;
+}
+.wp-overlay{position:fixed;inset:0;background:rgba(16,33,61,.72);z-index:420;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:26px 16px 96px}
+.wp-overlay.show{display:flex}
+.wp-shell{width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px}
+.wp-bar{display:flex;align-items:center;justify-content:space-between;color:#fff}
+.wp-bar h3{font:700 15px/1 var(--wp-sans);color:#fff}
+.wp-x{background:rgba(255,255,255,.16);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:20px;line-height:1}
+.wp-x:hover{background:rgba(255,255,255,.28)}
+.wp-card{width:100%;background:var(--wp-sf);border:1px solid var(--wp-line);border-radius:14px;padding:28px 26px 22px;box-shadow:0 10px 32px rgba(25,34,46,.22);font-family:var(--wp-sans);color:var(--wp-ink)}
+.wp-over{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--wp-k3);margin-bottom:14px}
+.wp-greet{font:600 21px/1.32 var(--wp-serif);letter-spacing:-.01em;margin-bottom:12px;color:var(--wp-ink)}
+.wp-intro{font-size:13.5px;line-height:1.55;color:var(--wp-k2);margin-bottom:22px}
+.wp-intro b{color:var(--wp-ink);font-weight:600}
+.wp-opt{padding:16px 0}
+.wp-opt-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wp-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--wp-sans);background:#eef0f2;color:var(--wp-k2)}
+.wp-num.hi{background:var(--wp-accent);color:#fff}
+.wp-opt-t{font:600 16px/1.2 var(--wp-serif)}
+.wp-opt-t.hi{color:var(--wp-accent)}
+.wp-opt-b{font-size:13px;line-height:1.55;color:var(--wp-k2)}
+.wp-opt-b b{color:var(--wp-ink);font-weight:600}
+.wp-lock{display:inline-block;margin-top:10px;background:var(--wp-amberbg);color:var(--wp-amber);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:7px;line-height:1.3}
+.wp-div{display:flex;align-items:center;gap:10px;margin:6px 0;color:var(--wp-k3);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.wp-div::before,.wp-div::after{content:"";flex:1;height:1px;background:var(--wp-line)}
+.wp-clink{display:inline-flex;align-items:center;gap:3px;color:var(--wp-accent);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(10,58,134,.3)}
+.wp-funds{margin-top:14px;border:1px solid var(--wp-line);border-radius:10px;overflow:hidden}
+.wp-fund{display:flex;align-items:flex-start;gap:12px;padding:12px 13px;border-bottom:1px solid var(--wp-line);background:#fff}
+.wp-fund:last-child{border-bottom:none}
+.wp-fw{flex-shrink:0;min-width:42px;text-align:center;background:var(--wp-tint);color:var(--wp-accent);font:700 13px/1 var(--wp-sans);padding:6px 4px;border-radius:6px}
+.wp-fmid{flex:1;min-width:0}
+.wp-fn{font-size:13px;font-weight:700;color:var(--wp-ink);line-height:1.25}
+.wp-fd{font-size:11px;color:var(--wp-k3);line-height:1.35;margin-top:2px}
+.wp-fv{flex-shrink:0;align-self:center;font-size:11.5px;font-weight:600;color:var(--wp-accent);text-decoration:none;white-space:nowrap}
+.wp-fv.none{color:var(--wp-k3);font-weight:500}
+.wp-close{font-size:13px;line-height:1.55;color:var(--wp-k2);margin-top:20px;padding-top:18px;border-top:1px solid var(--wp-line)}
+.wp-close b{color:var(--wp-ink);font-weight:600}
+.wp-foot{font-size:9.5px;line-height:1.5;color:var(--wp-k3);margin-top:14px}
+.wp-actions{display:flex;gap:9px}
+.wp-abtn{flex:1;border:none;border-radius:10px;padding:13px 10px;font:700 13px/1.1 var(--wp-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.wp-abtn svg{width:16px;height:16px}
+.wp-abtn-wa{background:#1a9a50;color:#fff}
+.wp-abtn-wa:hover{background:#127038}
+.wp-abtn-em{background:var(--wp-accent);color:#fff}
+.wp-abtn-em:hover{background:#072a63}
+
+.wp-modal{position:fixed;inset:0;background:rgba(25,34,46,.6);z-index:440;display:none;align-items:center;justify-content:center;padding:16px}
+.wp-modal.show{display:flex}
+.wp-mbox{background:#fff;border-radius:14px;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.32);font-family:var(--wp-sans)}
+.wp-mhead{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--wp-line)}
+.wp-mhead h3{font:600 16px/1.2 var(--wp-serif);color:var(--wp-ink)}
+.wp-mx{background:none;border:none;font-size:24px;color:var(--wp-k3);cursor:pointer;line-height:1}
+.wp-mscroll{overflow:auto;background:#fff;flex:1}
+.wp-mactions{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--wp-line);background:#fff}
+.wp-mbtn{flex:1;border:none;border-radius:9px;padding:13px 10px;font:700 13px/1.1 var(--wp-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.wp-mbtn svg{width:16px;height:16px}
+.wp-mbtn-pri{background:var(--wp-accent);color:#fff}
+.wp-mbtn-pri:hover{background:#072a63}
+.wp-mbtn-sec{background:#fff;color:var(--wp-accent);border:1px solid var(--wp-line)}
+.wp-mbtn-sec:hover{background:var(--wp-tint)}
+
+.wp-toast{position:fixed;bottom:80px;right:20px;background:#19222e;color:#fff;padding:13px 16px;border-radius:11px;font:500 12.5px/1.45 var(--wp-sans);max-width:320px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:460;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.wp-toast.show{opacity:1;transform:none}
+.wp-toast b{font-weight:700}
+
+@media print{.wp-overlay,.wp-modal,.wp-toast{display:none!important}}
 </style>
 </head>
 <body>
 
 <div class="fabs">
   <button class="fab fb1" onclick="togglePanel()"><span class="mi">tune</span> Parâmetros</button>
+  <button class="fab fb4" onclick="abrirWp()"><span class="mi">forum</span> Mensagem / E-mail</button>
   <button class="fab fb3" onclick="abrirExport()"><span class="mi">image</span> Exportar cards</button>
   <button class="fab fb2" onclick="imp()"><span class="mi">picture_as_pdf</span> PDF A4</button>
 </div>
@@ -484,6 +560,49 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   </div>
 
 </div>
+
+<!-- ══ SUBPRODUTO: Mensagem WhatsApp + E-mail (dados captados dos Parâmetros) ══ -->
+<div class="wp-overlay wp-scope" id="wpOverlay">
+  <div class="wp-shell">
+    <div class="wp-bar">
+      <h3>Mensagem de reaplicação</h3>
+      <button class="wp-x" onclick="fecharWp()">&times;</button>
+    </div>
+    <div class="wp-card" id="wpCard"></div>
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Copiar p/ WhatsApp
+      </button>
+      <button class="wp-abtn wp-abtn-em" onclick="abrirEmail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Gerar e-mail
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wp-modal wp-scope" id="wpEmailModal">
+  <div class="wp-mbox">
+    <div class="wp-mhead">
+      <h3>Pré-visualização do e-mail</h3>
+      <button class="wp-mx" onclick="fecharEmail()">&times;</button>
+    </div>
+    <div class="wp-mscroll"><div id="wpEmailRender"></div></div>
+    <div class="wp-mactions">
+      <button class="wp-mbtn wp-mbtn-pri" onclick="copiarFormatado()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        Copiar formatado
+      </button>
+      <button class="wp-mbtn wp-mbtn-sec" onclick="baixarEml()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0a3a86" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+        Baixar .eml
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wp-toast wp-scope" id="wpToast"></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -816,6 +935,175 @@ function calc(){
     <td class="${r[3]?'win':''}">${r[2]}</td>
   </tr>`).join('');
 }
+
+/* ═══════════ SUBPRODUTO: Mensagem WhatsApp + E-mail ═══════════
+   Capta os dados diretamente dos Parâmetros (painel) e do array FUNDS. */
+const WP_MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+let WP_D=null;
+const wpNum=v=>Number.isInteger(v)?v.toFixed(0):(''+v).replace('.',',');
+
+function buildD(){
+  const nome    = ($('nome') && $('nome').value.trim()) ? $('nome').value.trim() : 'cliente';
+  const cap     = gV('capital',300000);
+  const prazo   = gV('prazo',3);
+  const cdi     = gV('cdi',13.35);
+  const banco   = (gV('banco','seu banco')||'seu banco');
+  const lcaNova = gV('lcaTaxaNova',90);
+
+  const taxaAaNum = cdi*lcaNova/100;
+  const hoje = new Date();
+  const venc = new Date(hoje.getFullYear(), hoje.getMonth()+Math.round(prazo*12), 1);
+
+  return {
+    nome,
+    valor:  fmt(cap),
+    banco,
+    taxa:   wpNum(lcaNova)+'% do CDI',
+    taxaAa: '≈ '+taxaAaNum.toFixed(1).replace('.',',')+'% a.a.',
+    venc:   WP_MESES[venc.getMonth()]+'/'+venc.getFullYear(),
+    prazo:  wpNum(prazo)+(prazo===1?' ano':' anos'),
+    carteiraLink:'https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf',
+    funds: FUNDS.map(f=>({ w: Math.round(f.w)+'%', n: f.nome, d: f.sub||'', link: f.link||'' }))
+  };
+}
+
+function wpCardHTML(D){
+  const fundRows = D.funds.map(f=>{
+    const acao = f.link
+      ? `<a class="wp-fv" href="${f.link}" target="_blank">Ver ↗</a>`
+      : `<span class="wp-fv none">—</span>`;
+    return `<div class="wp-fund"><span class="wp-fw">${f.w}</span><div class="wp-fmid"><div class="wp-fn">${f.n}</div><div class="wp-fd">${f.d}</div></div>${acao}</div>`;
+  }).join('');
+  return `
+    <div class="wp-over">Seus investimentos · BB GEINV</div>
+    <p class="wp-greet">Olá, ${D.nome}. Está na hora de falarmos sobre os seus investimentos.</p>
+    <p class="wp-intro">A sua <b>LCA de ${D.valor}</b> venceu. Temos algumas opções para te apresentar, para que possa tomar a melhor decisão:</p>
+    <div class="wp-opt">
+      <div class="wp-opt-h"><span class="wp-num">1</span><span class="wp-opt-t">Renovar a LCA</span></div>
+      <p class="wp-opt-b">Podemos renová-la. Hoje, temos a LCA do <b>${D.banco}</b>: <b>${D.taxa}</b> (${D.taxaAa}), isenta de IR.</p>
+      <span class="wp-lock">Nesta opção, o valor fica indisponível até ${D.venc} (${D.prazo}).</span>
+    </div>
+    <div class="wp-div">ou</div>
+    <div class="wp-opt">
+      <div class="wp-opt-h"><span class="wp-num hi">2</span><span class="wp-opt-t hi">Seguir a carteira recomendada pelo BB</span></div>
+      <p class="wp-opt-b">Distribuímos o valor entre as aplicações abaixo, conforme a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
+      <div class="wp-funds">${fundRows}</div>
+    </div>
+    <p class="wp-close">Qual faz mais sentido pra você? Me chama que <b>monto a simulação com o seu valor e prazo</b>.</p>
+    <p class="wp-foot">Banco do Brasil · GEINV. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Sujeito a análise de perfil (suitability).</p>
+  `;
+}
+
+function emailHTML(D){
+  const fundRows = D.funds.map((f,i)=>{
+    const acao = f.link
+      ? '<a href="'+f.link+'" target="_blank" style="color:#0a3a86;font-weight:bold;font-size:12px;text-decoration:none;">Ver &#8599;</a>'
+      : '<span style="color:#9aa2ad;font-size:12px;">&mdash;</span>';
+    const borda = i < D.funds.length-1 ? 'border-bottom:1px solid #ebe8e0;' : '';
+    return '<tr style="background:#ffffff;">'
+      +'<td width="58" valign="top" style="padding:13px 8px 13px 13px;'+borda+'"><span style="display:inline-block;background:#eef3fb;color:#0a3a86;font-weight:bold;font-size:13px;padding:6px 9px;border-radius:6px;">'+f.w+'</span></td>'
+      +'<td valign="top" style="padding:13px 8px;'+borda+'"><div style="font-size:13px;font-weight:bold;color:#19222e;line-height:1.25;">'+f.n+'</div><div style="font-size:11px;color:#9aa2ad;line-height:1.35;margin-top:2px;">'+f.d+'</div></td>'
+      +'<td align="right" valign="middle" style="padding:13px 13px 13px 8px;'+borda+'white-space:nowrap;">'+acao+'</td>'
+      +'</tr>';
+  }).join('');
+
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">'
+  +'<tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;"><tr><td style="padding:30px 32px 26px;">'
+  +'<div style="font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#9aa2ad;margin-bottom:16px;">SEUS INVESTIMENTOS &middot; BB GEINV</div>'
+  +'<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:22px;line-height:1.32;color:#19222e;font-weight:bold;margin-bottom:12px;">Olá, '+D.nome+'. Está na hora de falarmos sobre os seus investimentos.</div>'
+  +'<div style="font-size:14px;line-height:1.55;color:#5a6573;margin-bottom:6px;">A sua <b style="color:#19222e;">LCA de '+D.valor+'</b> venceu. Temos algumas opções para te apresentar, para que possa tomar a melhor decisão:</div>'
+  +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="34" valign="top" style="padding-top:20px;"><div style="width:24px;height:24px;line-height:24px;text-align:center;border-radius:12px;background:#eef0f2;color:#5a6573;font-weight:bold;font-size:12px;">1</div></td><td valign="top" style="padding-top:18px;"><div style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#19222e;margin-bottom:7px;">Renovar a LCA</div><div style="font-size:13px;line-height:1.55;color:#5a6573;">Podemos renová-la. Hoje, temos a LCA do <b style="color:#19222e;">'+D.banco+'</b>: <b style="color:#19222e;">'+D.taxa+'</b> ('+D.taxaAa+'), isenta de IR.</div><div style="display:inline-block;margin-top:10px;background:#fbf3df;color:#9a6b00;font-size:12px;font-weight:bold;padding:7px 12px;border-radius:7px;">Nesta opção, o valor fica indisponível até '+D.venc+' ('+D.prazo+').</div></td></tr></table>'
+  +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;"><tr><td style="border-bottom:1px solid #ebe8e0;font-size:0;line-height:0;">&nbsp;</td><td width="44" align="center" style="font-size:11px;font-weight:bold;color:#9aa2ad;text-transform:uppercase;letter-spacing:1px;">ou</td><td style="border-bottom:1px solid #ebe8e0;font-size:0;line-height:0;">&nbsp;</td></tr></table>'
+  +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="34" valign="top" style="padding-top:16px;"><div style="width:24px;height:24px;line-height:24px;text-align:center;border-radius:12px;background:#0a3a86;color:#ffffff;font-weight:bold;font-size:12px;">2</div></td><td valign="top" style="padding-top:14px;"><div style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#0a3a86;margin-bottom:7px;">Seguir a carteira recomendada pelo BB</div><div style="font-size:13px;line-height:1.55;color:#5a6573;">Distribuímos o valor entre as aplicações abaixo, conforme a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB &#8599;</a>:</div></td></tr></table>'
+  +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;border:1px solid #ebe8e0;border-radius:10px;border-collapse:separate;overflow:hidden;">'+fundRows+'</table>'
+  +'<div style="font-size:13px;line-height:1.55;color:#5a6573;margin-top:20px;padding-top:18px;border-top:1px solid #ebe8e0;">Qual faz mais sentido pra você? Me chama que <b style="color:#19222e;">monto a simulação com o seu valor e prazo</b>.</div>'
+  +'<div style="font-size:10px;line-height:1.5;color:#9aa2ad;margin-top:16px;">Banco do Brasil &middot; GEINV. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Sujeito a análise de perfil (suitability).</div>'
+  +'</td></tr></table></td></tr></table>';
+}
+function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
+
+function textoSimples(D){
+  let s='Olá, '+D.nome+'. Está na hora de falarmos sobre os seus investimentos.\n\n';
+  s+='A sua LCA de '+D.valor+' venceu. Temos algumas opções para te apresentar, para que possa tomar a melhor decisão:\n\n';
+  s+='1) RENOVAR A LCA\nHoje, temos a LCA do '+D.banco+': '+D.taxa+' ('+D.taxaAa+'), isenta de IR.\nAtenção: o valor fica indisponível até '+D.venc+' ('+D.prazo+').\n\nou\n\n';
+  s+='2) SEGUIR A CARTEIRA RECOMENDADA PELO BB\nCarteira Sugerida BB: '+D.carteiraLink+'\nDistribuição:\n';
+  D.funds.forEach(f=>{ s+='- '+f.w+' '+f.n+' ('+f.d+')'+(f.link?' '+f.link:'')+'\n'; });
+  s+='\nQual faz mais sentido pra você? Me chama que monto a simulação com o seu valor e prazo.\n\n--\nBanco do Brasil · GEINV. Sujeito a suitability.';
+  return s;
+}
+
+function abrirWp(){
+  WP_D = buildD();
+  $('wpCard').innerHTML = wpCardHTML(WP_D);
+  $('panel').classList.remove('open');
+  $('wpOverlay').classList.add('show');
+}
+function fecharWp(){ $('wpOverlay').classList.remove('show'); }
+
+function abrirEmail(){
+  WP_D = buildD();
+  $('wpEmailRender').innerHTML = emailHTML(WP_D);
+  $('wpEmailModal').classList.add('show');
+}
+function fecharEmail(){ $('wpEmailModal').classList.remove('show'); }
+
+function wpToast(msg){
+  const t=$('wpToast'); t.innerHTML=msg; t.classList.add('show');
+  clearTimeout(window.__wptt); window.__wptt=setTimeout(()=>t.classList.remove('show'),5200);
+}
+
+async function copiarWhatsApp(){
+  const txt = textoSimples(buildD());
+  let ok=false;
+  try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){ ok=false; }
+  if(!ok){
+    const ta=document.createElement('textarea'); ta.value=txt;
+    ta.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(ta); ta.select();
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; } document.body.removeChild(ta);
+  }
+  wpToast(ok
+    ? '<b>Texto copiado.</b> Cole no WhatsApp do cliente (Ctrl/Cmd+V).'
+    : 'Não consegui copiar automaticamente. Selecione o texto do card e copie manualmente (Ctrl/Cmd+C).');
+}
+
+async function copiarFormatado(){
+  const D = WP_D || buildD();
+  const node=$('wpEmailRender');
+  let ok=false;
+  if(navigator.clipboard && window.ClipboardItem && window.isSecureContext){
+    try{
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([emailHTML(D)],{type:'text/html'}),
+        'text/plain': new Blob([textoSimples(D)],{type:'text/plain'})
+      })]);
+      ok=true;
+    }catch(e){ ok=false; }
+  }
+  if(!ok){
+    const range=document.createRange(); range.selectNodeContents(node);
+    const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+  }
+  wpToast(ok
+    ? '<b>E-mail formatado copiado.</b> Cole com Ctrl/Cmd+V no corpo do Gmail ou Outlook.'
+    : 'Cópia automática bloqueada. Selecione o e-mail acima (Ctrl/Cmd+A) e copie (Ctrl/Cmd+C) — ou use <b>Baixar .eml</b>.');
+}
+
+function baixarEml(){
+  const D = WP_D || buildD();
+  const eml='X-Unsent: 1\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0\r\n\r\n'+emailDoc(D);
+  const blob=new Blob([eml],{type:'message/rfc822'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='email-reaplicacao.eml';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  wpToast('Arquivo <b>.eml</b> baixado, sem destinatário e sem assunto. Abra no Outlook/Apple Mail: vira um e-mail novo formatado.');
+}
+
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ fecharEmail(); fecharWp(); } });
+$('wpEmailModal').addEventListener('click',e=>{ if(e.target.id==='wpEmailModal') fecharEmail(); });
+$('wpOverlay').addEventListener('click',e=>{ if(e.target.id==='wpOverlay') fecharWp(); });
 
 renderEd(); calc();
 </script>
