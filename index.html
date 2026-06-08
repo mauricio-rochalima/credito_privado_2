@@ -1030,15 +1030,15 @@ function wpCardHTML(D){
   return `
     <p class="wp-greet">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</p>
     <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
-    <div class="wp-warn">Se apenas renovássemos a sua <b>${D.lcaNome}</b> hoje, a taxa seria de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial e imobilizado até <b>${D.venc}</b>.</div>
-    <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais inteligente para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
+    <div class="wp-warn">A renovação da sua <b>${D.lcaNome}</b> hoje, a taxa seria de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b>${D.venc}</b>.</div>
+    <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
     <div class="wp-strat">🛡️ A Estratégia de Blindagem</div>
     <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</p>
     ${segHTML}
     ${grHTML}
-    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</p>
+    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante permite ganhos superiores a inflação.</p>
     <p class="wp-cta">${D.nome}, faz sentido migrarmos para essa estratégia hoje?</p>
-    <p class="wp-close">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</p>
+    <p class="wp-close">Me responda por aqui ou pelo seu canal de preferência, eu cuido de toda a transição para você.</p>
     <div class="wp-sign">
       <div class="wp-sign-hi">Um abraço,</div>
       <div class="wp-sign-row">
