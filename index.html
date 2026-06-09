@@ -388,6 +388,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .wp-abtn-wa:hover{background:#127038}
 .wp-abtn-em{background:var(--wp-accent);color:#fff}
 .wp-abtn-em:hover{background:#072a63}
+.wp-abtn-png{background:#19222e;color:#fff}
+.wp-abtn-png:hover{background:#0c1118}
+.wp-abtn[disabled]{opacity:.6;cursor:default}
 
 .wp-modal{position:fixed;inset:0;background:rgba(25,34,46,.6);z-index:440;display:none;align-items:center;justify-content:center;padding:16px}
 .wp-modal.show{display:flex}
@@ -409,6 +412,36 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .wp-toast b{font-weight:700}
 
 @media print{.wp-overlay,.wp-modal,.wp-toast{display:none!important}}
+
+/* ── Layout dedicado do PNG (largo, objetivo, p/ WhatsApp) ── */
+#wpPngHolder{position:fixed;left:-10000px;top:0;width:820px;pointer-events:none;opacity:1}
+#wpPngStage{width:820px;background:#fff;font-family:var(--wp-sans);color:var(--wp-ink)}
+.png-bar{height:10px;background:linear-gradient(90deg,#0a3a86 0%,#0a3a86 55%,#9a6b00 100%)}
+.png-wrap{padding:46px 50px 40px}
+.png-over{font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--wp-k3);margin-bottom:14px}
+.png-title{font:700 42px/1.12 var(--wp-serif);color:var(--wp-accent);letter-spacing:-.01em;margin-bottom:16px}
+.png-sub{font-size:21px;line-height:1.5;color:var(--wp-k2)}
+.png-sub b{color:var(--wp-ink);font-weight:600}
+.png-grp{display:flex;align-items:center;gap:13px;margin:30px 0 14px;flex-wrap:wrap}
+.png-grp-pill{font-size:18px;font-weight:700;color:#fff;padding:7px 16px;border-radius:9px;white-space:nowrap}
+.png-grp-pill.seg{background:var(--wp-accent)}
+.png-grp-pill.gr{background:var(--wp-amber)}
+.png-grp-lbl{font-size:22px;font-weight:700;color:var(--wp-ink)}
+.png-funds{border:1px solid var(--wp-line);border-radius:16px;overflow:hidden}
+.png-fund{display:flex;align-items:center;gap:20px;padding:22px 22px;border-bottom:1px solid var(--wp-line);background:#fff}
+.png-fund:last-child{border-bottom:none}
+.png-fw{flex-shrink:0;min-width:168px;text-align:center;background:var(--wp-tint);color:var(--wp-accent);padding:16px 12px;border-radius:12px}
+.png-fw b{display:block;font:700 24px/1.05 var(--wp-sans)}
+.png-fw i{font-style:normal;font:600 15px/1 var(--wp-sans);color:var(--wp-k3);display:block;margin-top:5px}
+.png-fmid{flex:1;min-width:0}
+.png-fn{font-size:23px;font-weight:700;color:var(--wp-ink);line-height:1.22}
+.png-fd{font-size:17px;color:var(--wp-k2);line-height:1.4;margin-top:5px}
+.png-tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:9px}
+.png-tag{font-size:14px;font-weight:700;padding:5px 13px;border-radius:8px;line-height:1.2}
+.png-isento{background:#e9f6ee;color:#1f9d57}
+.png-cta{margin-top:30px;background:var(--wp-tint);border-radius:16px;padding:26px 28px;font-size:22px;line-height:1.45;color:var(--wp-ink);font-weight:600;text-align:center}
+.png-cta b{color:var(--wp-accent)}
+.png-foot{font-size:13px;line-height:1.55;color:var(--wp-k3);margin-top:24px;text-align:center}
 </style>
 </head>
 <body>
@@ -604,6 +637,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
         Gerar e-mail
       </button>
     </div>
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Baixar imagem (PNG) p/ WhatsApp
+      </button>
+    </div>
   </div>
 </div>
 
@@ -628,6 +667,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 </div>
 
 <div class="wp-toast wp-scope" id="wpToast"></div>
+
+<!-- palco oculto p/ render do PNG (layout largo e objetivo) -->
+<div id="wpPngHolder" aria-hidden="true"><div id="wpPngStage" class="wp-scope"></div></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -1032,7 +1074,7 @@ function wpCardHTML(D){
     <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
     <div class="wp-warn">A taxa de hoje de uma nova <b>${D.lcaNome}</b> é de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b>${D.venc}</b>.</div>
     <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
-    <div class="wp-strat">🛡️ A Estratégia de Blindagem</div>
+    <div class="wp-strat">A Estratégia da Assessoria</div>
     <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</p>
     ${segHTML}
     ${grHTML}
@@ -1056,39 +1098,39 @@ function emailHTML(D){
 
   const fundRow = (f,last) => {
     const bb = last ? '' : 'border-bottom:1px solid #f0eee8;';
-    const acao = f.link ? ' &nbsp; <a href="'+f.link+'" target="_blank" style="color:#0a3a86;font-weight:bold;font-size:11px;text-decoration:none;white-space:nowrap;">Ver &#8599;</a>' : '';
-    const isento = f.isento ? ' <span style="display:inline-block;background:#e9f6ee;color:#1f9d57;font-size:10px;font-weight:bold;padding:2px 8px;border-radius:6px;">Isento de IR</span>' : '';
+    const acao = f.link ? ' &nbsp; <a href="'+f.link+'" target="_blank" style="color:#0a3a86;font-weight:bold;font-size:12px;text-decoration:none;white-space:nowrap;">Ver &#8599;</a>' : '';
+    const isento = f.isento ? ' <span style="display:inline-block;background:#e9f6ee;color:#1f9d57;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:6px;">Isento de IR</span>' : '';
     return '<tr style="background:#ffffff;">'
-      +'<td width="118" valign="top" style="padding:12px;'+bb+'"><div style="background:#eef3fb;color:#0a3a86;border-radius:8px;padding:9px 6px;text-align:center;"><div style="font-weight:bold;font-size:14px;line-height:1.1;">'+f.vlr+'</div><div style="font-size:10px;font-weight:bold;color:#7a8aa0;margin-top:3px;">'+f.w+'</div></div></td>'
-      +'<td valign="top" style="padding:12px 12px 12px 0;'+bb+'"><div style="font-size:13px;font-weight:bold;color:#19222e;line-height:1.25;">'+f.n+'</div><div style="font-size:12px;color:#5a6573;line-height:1.45;margin-top:3px;">'+f.d+'</div><div style="margin-top:7px;"><span style="display:inline-block;border:1px solid '+f.cor+';color:'+f.cor+';font-size:10px;font-weight:bold;padding:2px 8px;border-radius:6px;">Risco: '+f.risco+'</span>'+isento+acao+'</div></td>'
+      +'<td width="120" valign="top" style="padding:13px;'+bb+'"><div style="background:#eef3fb;color:#0a3a86;border-radius:8px;padding:10px 6px;text-align:center;"><div style="font-weight:bold;font-size:15px;line-height:1.1;">'+f.vlr+'</div><div style="font-size:11px;font-weight:bold;color:#7a8aa0;margin-top:3px;">'+f.w+'</div></div></td>'
+      +'<td valign="top" style="padding:13px 13px 13px 0;'+bb+'"><div style="font-size:15px;font-weight:bold;color:#19222e;line-height:1.3;">'+f.n+'</div><div style="font-size:13.5px;color:#5a6573;line-height:1.5;margin-top:4px;">'+f.d+'</div><div style="margin-top:8px;"><span style="display:inline-block;border:1px solid '+f.cor+';color:'+f.cor+';font-size:11px;font-weight:bold;padding:3px 9px;border-radius:6px;">Risco: '+f.risco+'</span>'+isento+acao+'</div></td>'
       +'</tr>';
   };
 
   const group = (funds, accent, pct, vlr, title) => {
     if(!funds.length) return '';
     const rows = funds.map((f,i)=>fundRow(f, i===funds.length-1)).join('');
-    return '<div style="margin-top:20px;margin-bottom:6px;">'
-      +'<span style="display:inline-block;background:'+accent+';color:#ffffff;font-size:12px;font-weight:bold;padding:4px 10px;border-radius:6px;">'+pct+' &middot; '+vlr+'</span> '
-      +'<span style="font-size:13px;font-weight:bold;color:#19222e;">'+title+'</span></div>'
+    return '<div style="margin-top:22px;margin-bottom:6px;">'
+      +'<span style="display:inline-block;background:'+accent+';color:#ffffff;font-size:13px;font-weight:bold;padding:5px 11px;border-radius:6px;">'+pct+' &middot; '+vlr+'</span> '
+      +'<span style="font-size:15px;font-weight:bold;color:#19222e;">'+title+'</span></div>'
       +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #ebe8e0;border-radius:10px;border-collapse:separate;overflow:hidden;">'+rows+'</table>';
   };
 
   return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">'
   +'<tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;"><tr><td style="padding:30px 32px 28px;">'
-  +'<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:21px;line-height:1.32;color:#19222e;font-weight:bold;margin-bottom:14px;">Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.</div>'
-  +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Sua <b style="color:#19222e;">LCA de '+D.valor+'</b> acabou de vencer — o valor já está totalmente disponível e seguro na sua conta.</div>'
-  +'<div style="background:#f7f8fa;border-left:3px solid #c9ced6;padding:12px 15px;border-radius:6px;margin:16px 0;font-size:13px;color:#5a6573;line-height:1.55;">A taxa de hoje de uma nova <b style="color:#19222e;">'+D.lcaNome+'</b> é de apenas <b style="color:#19222e;">'+D.taxa+'</b> — rendendo abaixo do potencial com bloqueio do valor até <b style="color:#19222e;">'+D.venc+'</b>.</div>'
-  +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Pensando em proteger o seu poder de compra, montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB</a>:</div>'
-  +'<div style="font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#0a3a86;margin:18px 0 4px;">&#128737;&#65039; A Estratégia de Blindagem</div>'
-  +'<div style="font-size:13px;color:#5a6573;line-height:1.55;">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</div>'
+  +'<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:23px;line-height:1.34;color:#19222e;font-weight:bold;margin-bottom:15px;">Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.</div>'
+  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;">Sua <b style="color:#19222e;">LCA de '+D.valor+'</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</div>'
+  +'<div style="background:#f7f8fa;border-left:3px solid #c9ced6;padding:13px 16px;border-radius:6px;margin:16px 0;font-size:14.5px;color:#5a6573;line-height:1.55;">A taxa de hoje de uma nova <b style="color:#19222e;">'+D.lcaNome+'</b> é de apenas <b style="color:#19222e;">'+D.taxa+'</b> — rendendo abaixo do potencial com bloqueio do valor até <b style="color:#19222e;">'+D.venc+'</b>.</div>'
+  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB &#8599;</a>:</div>'
+  +'<div style="font-family:Georgia,serif;font-size:19px;font-weight:bold;color:#0a3a86;margin:18px 0 4px;">A Estratégia da Assessoria</div>'
+  +'<div style="font-size:15px;color:#5a6573;line-height:1.55;">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</div>'
   + group(segFunds, '#0a3a86', D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido')
   + group(grFunds,  '#9a6b00', D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação')
-  +'<div style="font-size:13px;line-height:1.6;color:#5a6573;margin-top:18px;">Assim, <b style="color:#19222e;">'+D.grupos.seg.pct+'</b> do seu patrimônio fica disponível em poucos dias para qualquer imprevisto, e o restante blinda seu dinheiro contra a inflação.</div>'
-  +'<div style="font-size:14px;line-height:1.6;color:#19222e;font-weight:bold;margin-top:16px;">'+D.nome+', faz sentido migrarmos para essa estratégia hoje?</div>'
-  +'<div style="font-size:13px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
-  +'<div style="font-size:13px;color:#5a6573;margin-top:20px;">Um abraço,</div>'
-  +'<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr><td valign="middle" style="padding-right:12px;"><img src="data:image/png;base64,'+ANBIMA_B64+'" width="54" height="54" alt="ANBIMA Profissional CEA" style="display:block;border-radius:6px;"/></td><td valign="middle"><div style="font-family:Georgia,serif;font-size:15px;font-weight:bold;color:#19222e;">'+D.assessor+'</div><div style="font-size:11px;color:#9aa2ad;margin-top:2px;">ANBIMA Profissional CEA &middot; Assessoria de Investimentos BB</div></td></tr></table>'
-  +'<div style="font-size:10px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.</div>'
+  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:18px;">Assim, <b style="color:#19222e;">'+D.grupos.seg.pct+'</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</div>'
+  +'<div style="font-size:16px;line-height:1.55;color:#19222e;font-weight:bold;margin-top:16px;">'+D.nome+', faz sentido migrarmos para essa estratégia hoje?</div>'
+  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
+  +'<div style="font-size:15px;color:#5a6573;margin-top:20px;">Um abraço,</div>'
+  +'<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr><td valign="middle" style="padding-right:12px;"><img src="data:image/png;base64,'+ANBIMA_B64+'" width="56" height="56" alt="ANBIMA Profissional CEA" style="display:block;border-radius:6px;"/></td><td valign="middle"><div style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#19222e;">'+D.assessor+'</div><div style="font-size:12px;color:#9aa2ad;margin-top:2px;">ANBIMA Profissional CEA &middot; Assessoria de Investimentos BB</div></td></tr></table>'
+  +'<div style="font-size:11px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.</div>'
   +'</td></tr></table></td></tr></table>';
 }
 function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
@@ -1100,7 +1142,7 @@ function textoSimples(D){
   s+='Sua LCA de '+D.valor+' acabou de vencer — o valor já está disponível e seguro na sua conta.\n\n';
   s+='A taxa de hoje de uma nova '+D.lcaNome+' é de apenas '+D.taxa+' — rendendo abaixo do potencial com bloqueio do valor até '+D.venc+'.\n\n';
   s+='Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a Carteira Sugerida BB:\n'+D.carteiraLink+'\n\n';
-  s+='*A ESTRATÉGIA DE BLINDAGEM*\nDividimos o valor para unir segurança, liquidez e ganho real acima da inflação:\n\n';
+  s+='*A ESTRATÉGIA DA ASSESSORIA*\nDividimos o valor para unir segurança, liquidez e ganho real acima da inflação:\n\n';
   if(seg.length){ s+='> Segurança e resgate rápido — '+D.grupos.seg.pct+' ('+D.grupos.seg.vlr+')\n'; seg.forEach(f=>s+=linha(f)); s+='\n'; }
   if(gr.length){ s+='> Ganho real acima da inflação — '+D.grupos.gr.pct+' ('+D.grupos.gr.vlr+')\n'; gr.forEach(f=>s+=linha(f)); s+='\n'; }
   s+='Assim, '+D.grupos.seg.pct+' do seu patrimônio fica disponível em poucos dias e o restante blinda contra a inflação.\n\n';
@@ -1116,6 +1158,53 @@ function abrirWp(){
   $('wpOverlay').classList.add('show');
 }
 function fecharWp(){ $('wpOverlay').classList.remove('show'); }
+
+function pngGrp(funds, pct, vlr, label, cls){
+  if(!funds.length) return '';
+  const rows = funds.map(f=>{
+    const isento = f.isento ? '<span class="png-tag png-isento">Isento de IR</span>' : '';
+    return `<div class="png-fund"><span class="png-fw"><b>${f.vlr}</b><i>${f.w}</i></span><div class="png-fmid"><div class="png-fn">${f.n}</div><div class="png-fd">${f.d}</div><div class="png-tags"><span class="png-tag" style="background:${f.cor}1a;color:${f.cor}">Risco: ${f.risco}</span>${isento}</div></div></div>`;
+  }).join('');
+  return `<div class="png-grp"><span class="png-grp-pill ${cls}">${pct} · ${vlr}</span><span class="png-grp-lbl">${label}</span></div><div class="png-funds">${rows}</div>`;
+}
+
+function cardPngHTML(D){
+  const seg = D.funds.filter(f=>f.tipo!=='ipca');
+  const gr  = D.funds.filter(f=>f.tipo==='ipca');
+  return `<div class="png-bar"></div><div class="png-wrap">
+    <div class="png-over">Banco do Brasil · Assessoria de Investimentos</div>
+    <div class="png-title">A Estratégia da Assessoria</div>
+    <div class="png-sub">Sua <b>LCA de ${D.valor}</b> venceu. Em vez de renovar a apenas <b>${D.taxa}</b> com bloqueio até <b>${D.venc}</b>, montamos uma alocação mais dinâmica:</div>
+    ${pngGrp(seg, D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido', 'seg')}
+    ${pngGrp(gr,  D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação', 'gr')}
+    <div class="png-cta"><b>${D.grupos.seg.pct}</b> disponível em poucos dias + proteção contra a inflação.<br>Vamos conversar sobre a sua nova carteira?</div>
+    <div class="png-foot">Recomendações baseadas nas Carteiras Sugeridas BB. Sujeito a confirmação de taxas/prazos e análise de perfil. Fundos e debêntures não têm garantia do FGC.</div>
+  </div>`;
+}
+
+async function baixarCardPng(btn){
+  if(typeof htmlToImage==='undefined'){ wpToast('Biblioteca de imagem indisponível. Verifique a conexão e recarregue a página.'); return; }
+  const stage = $('wpPngStage');
+  if(!stage){ return; }
+  const original = btn ? btn.innerHTML : '';
+  if(btn){ btn.disabled=true; btn.textContent='Gerando imagem…'; }
+  stage.innerHTML = cardPngHTML(WP_D || buildD());
+  try{
+    if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
+    const opts = { pixelRatio:2.5, backgroundColor:'#ffffff', cacheBust:true, width:820, height:stage.offsetHeight };
+    await htmlToImage.toPng(stage, { pixelRatio:1, backgroundColor:'#ffffff', width:820, height:stage.offsetHeight }); // aquece fontes/imagem
+    const dataUrl = await htmlToImage.toPng(stage, opts);
+    const slug = ($('nome') && $('nome').value.trim()) ? slugify($('nome').value.trim()) : 'cliente';
+    const a=document.createElement('a'); a.href=dataUrl; a.download='estrategia-'+slug+'.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    wpToast('<b>Imagem PNG baixada.</b> Formato vertical e largo — é só anexar no WhatsApp do cliente.');
+  }catch(e){
+    wpToast('Não consegui gerar a imagem agora. Tente novamente em instantes.');
+  }finally{
+    stage.innerHTML='';
+    if(btn){ btn.disabled=false; btn.innerHTML=original; }
+  }
+}
 
 function abrirEmail(){
   WP_D = buildD();
