@@ -581,7 +581,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   </div>
 
   <div class="disc-box">
-    <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos e Crédito Privado não têm garantia do FGC e estão sujeitos a marcação a mercado. Debêntures incentivadas, CRIs e CRAs são isentas de IR para PF e possuem risco de crédito, liquidez e mercado. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
+    <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
   </div>
 
 </div>
@@ -973,7 +973,7 @@ function buildD(){
   const nome    = gT('nome','cliente');
   const cap     = gV('capital',300000);
   const prazo   = gV('prazo',3);
-  const lcaNova = gV('lcaTaxaNova',90);
+  const lcaNova = gV('lcaTaxaNova',65);
   const lcaNome = gT('lcaNome','LCA');
   const lcaVenc = $('lcaVenc') ? $('lcaVenc').value : '';   // formato "YYYY-MM"
   const assessor= gT('assessor','Mauricio Fernandes');
@@ -1029,16 +1029,16 @@ function wpCardHTML(D){
   const grHTML   = wpGrp(grFunds,  D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação', 'gr');
   return `
     <p class="wp-greet">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</p>
-    <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível na sua conta.</p>
+    <p class="wp-intro">Sua <b>LCA de ${D.valor}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
     <div class="wp-warn">A taxa de hoje de uma nova <b>${D.lcaNome}</b> é de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b>${D.venc}</b>.</div>
     <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
     <div class="wp-strat">🛡️ A Estratégia de Blindagem</div>
     <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</p>
     ${segHTML}
     ${grHTML}
-    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante permite ganhos superiores a inflação.</p>
+    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</p>
     <p class="wp-cta">${D.nome}, faz sentido migrarmos para essa estratégia hoje?</p>
-    <p class="wp-close">Me responda por aqui ou pelo seu canal de preferência, eu cuido de toda a transição para você.</p>
+    <p class="wp-close">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</p>
     <div class="wp-sign">
       <div class="wp-sign-hi">Um abraço,</div>
       <div class="wp-sign-row">
@@ -1046,7 +1046,7 @@ function wpCardHTML(D){
         <div><div class="wp-sign-name">${D.assessor}</div><div class="wp-sign-role">ANBIMA Profissional CEA · Assessoria de Investimentos BB</div></div>
       </div>
     </div>
-    <p class="wp-foot">Banco do Brasil · GEINV. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos e Crédito Privado não têm garantia do FGC e estão sujeitos a marcação a mercado. Debêntures incentivadas, CRIs e CRAs são isentas de IR para PF e possuem risco de crédito, liquidez e mercado. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
+    <p class="wp-foot">Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.</p>
   `;
 }
 
@@ -1077,8 +1077,8 @@ function emailHTML(D){
   +'<tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;"><tr><td style="padding:30px 32px 28px;">'
   +'<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:21px;line-height:1.32;color:#19222e;font-weight:bold;margin-bottom:14px;">Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.</div>'
   +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Sua <b style="color:#19222e;">LCA de '+D.valor+'</b> acabou de vencer — o valor já está totalmente disponível e seguro na sua conta.</div>'
-  +'<div style="background:#f7f8fa;border-left:3px solid #c9ced6;padding:12px 15px;border-radius:6px;margin:16px 0;font-size:13px;color:#5a6573;line-height:1.55;">Se apenas renovássemos a sua <b style="color:#19222e;">'+D.lcaNome+'</b> hoje, a taxa seria de apenas <b style="color:#19222e;">'+D.taxa+'</b> — rendimento abaixo do potencial e dinheiro imobilizado até <b style="color:#19222e;">'+D.venc+'</b>.</div>'
-  +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Pensando em proteger o seu poder de compra, montamos uma estratégia mais inteligente para o cenário atual, seguindo a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB</a>:</div>'
+  +'<div style="background:#f7f8fa;border-left:3px solid #c9ced6;padding:12px 15px;border-radius:6px;margin:16px 0;font-size:13px;color:#5a6573;line-height:1.55;">A taxa de hoje de uma nova <b style="color:#19222e;">'+D.lcaNome+'</b> é de apenas <b style="color:#19222e;">'+D.taxa+'</b> — rendendo abaixo do potencial com bloqueio do valor até <b style="color:#19222e;">'+D.venc+'</b>.</div>'
+  +'<div style="font-size:14px;line-height:1.6;color:#5a6573;">Pensando em proteger o seu poder de compra, montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a href="'+D.carteiraLink+'" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB</a>:</div>'
   +'<div style="font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#0a3a86;margin:18px 0 4px;">&#128737;&#65039; A Estratégia de Blindagem</div>'
   +'<div style="font-size:13px;color:#5a6573;line-height:1.55;">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</div>'
   + group(segFunds, '#0a3a86', D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido')
@@ -1088,7 +1088,7 @@ function emailHTML(D){
   +'<div style="font-size:13px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
   +'<div style="font-size:13px;color:#5a6573;margin-top:20px;">Um abraço,</div>'
   +'<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr><td valign="middle" style="padding-right:12px;"><img src="data:image/png;base64,'+ANBIMA_B64+'" width="54" height="54" alt="ANBIMA Profissional CEA" style="display:block;border-radius:6px;"/></td><td valign="middle"><div style="font-family:Georgia,serif;font-size:15px;font-weight:bold;color:#19222e;">'+D.assessor+'</div><div style="font-size:11px;color:#9aa2ad;margin-top:2px;">ANBIMA Profissional CEA &middot; Assessoria de Investimentos BB</div></td></tr></table>'
-  +'<div style="font-size:10px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Banco do Brasil &middot; GEINV. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos e Crédito Privado não têm garantia do FGC e estão sujeitos a marcação a mercado. Debêntures incentivadas, CRIs e CRAs são isentas de IR para PF e possuem risco de crédito, liquidez e mercado. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</div>'
+  +'<div style="font-size:10px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.</div>'
   +'</td></tr></table></td></tr></table>';
 }
 function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
@@ -1098,14 +1098,14 @@ function textoSimples(D){
   const linha=f=>'   - '+f.vlr+' ('+f.w+') '+f.n+' — '+f.d+' [Risco: '+f.risco+(f.isento?' · Isento de IR':'')+']'+(f.link?' '+f.link:'')+'\n';
   let s='Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.\n\n';
   s+='Sua LCA de '+D.valor+' acabou de vencer — o valor já está disponível e seguro na sua conta.\n\n';
-  s+='Se apenas renovássemos a sua '+D.lcaNome+' hoje, a taxa seria de apenas '+D.taxa+' — rendendo abaixo do potencial e imobilizado até '+D.venc+'.\n\n';
-  s+='Montamos uma estratégia mais inteligente para o cenário atual, seguindo a Carteira Sugerida BB:\n'+D.carteiraLink+'\n\n';
+  s+='A taxa de hoje de uma nova '+D.lcaNome+' é de apenas '+D.taxa+' — rendendo abaixo do potencial com bloqueio do valor até '+D.venc+'.\n\n';
+  s+='Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a Carteira Sugerida BB:\n'+D.carteiraLink+'\n\n';
   s+='*A ESTRATÉGIA DE BLINDAGEM*\nDividimos o valor para unir segurança, liquidez e ganho real acima da inflação:\n\n';
   if(seg.length){ s+='> Segurança e resgate rápido — '+D.grupos.seg.pct+' ('+D.grupos.seg.vlr+')\n'; seg.forEach(f=>s+=linha(f)); s+='\n'; }
   if(gr.length){ s+='> Ganho real acima da inflação — '+D.grupos.gr.pct+' ('+D.grupos.gr.vlr+')\n'; gr.forEach(f=>s+=linha(f)); s+='\n'; }
   s+='Assim, '+D.grupos.seg.pct+' do seu patrimônio fica disponível em poucos dias e o restante blinda contra a inflação.\n\n';
   s+=D.nome+', faz sentido migrarmos para essa estratégia hoje? Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição.\n\n';
-  s+='Um abraço,\n'+D.assessor+'\nANBIMA Profissional CEA · Assessoria de Investimentos BB\n\n--\nBanco do Brasil · GEINV. Sujeito a suitability.';
+  s+='Um abraço,\n'+D.assessor+'\nANBIMA Profissional CEA · Assessoria de Investimentos BB\n\n--\nRecomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.';
   return s;
 }
 
