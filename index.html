@@ -1036,19 +1036,36 @@ function buildD(){
     }),
     lowPct: Math.round(FUNDS.reduce((a,f)=>a+((+f.risco||3)<=2?(+f.w||0):0),0)),
     comp: (()=>{
-      const cdi = gV('cdi',13.35)/100, IR=0.15;
-      const cdis = FUNDS.filter(f=>f.tipo==='cdi' && +f.proj>0);
-      if(!cdis.length || !(lcaNova>0)) return null;
-      const high = cdis.find(f=>/high/i.test(f.nome)) || cdis.reduce((a,b)=>(+b.proj||0)>(+a.proj||0)?b:a);
-      const hp = +high.proj;                       // % do CDI (bruto)
-      const gross = lcaNova/(1-IR);                // LCA isenta equivalente bruta
+      const cdi = gV('cdi',13.35), ipca = gV('ipca',5), IR=0.15;
+      if(!(lcaNova>0) || !(cdi>0)) return null;
+      const tw = FUNDS.reduce((a,f)=>a+(+f.w||0),0)||100;
+      // taxa LÍQUIDA a.a. de cada ativo (IR 15% quando não isento)
+      const cartNet = FUNDS.reduce((a,f)=>{
+        const bruta = f.tipo==='ipca' ? (ipca + (+f.proj||0)) : ((+f.proj||0)/100*cdi);
+        const net = f.isento ? bruta : bruta*(1-IR);
+        return a + net*(+f.w||0)/tw;
+      },0);
+      const lcaNet = lcaNova/100*cdi;            // LCA isenta: líquido = bruto
+      const p1 = v=>v.toFixed(1).replace('.',',');
       return {
-        highNome: high.nome,
-        hp: wpNum(Math.round(hp*10)/10),
-        gross: gross.toFixed(1).replace('.',','),
-        diffPp: (hp-gross).toFixed(1).replace('.',','),
-        diffReais: fmt(cap*cdi*((hp/100)*(1-IR)-(lcaNova/100)))
+        diffReais: fmt(cap*(cartNet-lcaNet)/100),
+        cartNet: p1(cartNet),
+        lcaNet:  p1(lcaNet)
       };
+    })(),
+    cmp12: (()=>{
+      const cdi = gV('cdi',13.35), ipca = gV('ipca',5), IR=0.15;
+      if(!(lcaNova>0) || !(cdi>0)) return null;
+      const tw = FUNDS.reduce((a,f)=>a+(+f.w||0),0)||100;
+      // taxa bruta a.a. de cada ativo: pós = %CDI × CDI · ipca = IPCA + cupom
+      const cartAa = FUNDS.reduce((a,f)=>{
+        const r = f.tipo==='ipca' ? (ipca + (+f.proj||0)) : ((+f.proj||0)/100*cdi);
+        return a + r*(+f.w||0)/tw;
+      },0);
+      const lcaAa = (lcaNova/(1-IR))/100*cdi;   // gross-up da LCA isenta
+      const p1 = v=>v.toFixed(1).replace('.',',');
+      return { lcaAa:p1(lcaAa), cartAa:p1(cartAa),
+               lcaPctCdi:p1(lcaNova/(1-IR)), cartPctCdi:p1(cartAa/cdi*100) };
     })(),
     grupos: (()=>{
       let sw=0,sv=0,gw=0,gv=0;
@@ -1145,14 +1162,18 @@ function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta char
 function textoParte1(D){
   let s='*'+D.nome+', venceu hoje uma LCA de '+D.valor+'*\n\n';
   s+='Quem fala é '+D.assessorFirst+', da Assessoria de Investimentos do Banco do Brasil 💛💙\n\n';
-  s+='O valor já está livre na sua conta — e novas LCAs hoje pagam só *'+D.taxa+'*, com *bloqueio total do valor até '+D.venc+'*.';
+  s+='Renovar a LCA hoje te daria apenas *'+D.taxa+'* e o valor ficaria *indisponível até '+D.venc+'*.\n\n';
+  s+='Nossa equipe de analistas tem trabalhado na carteira recomendada: 👇';
   return s;
 }
 
 function textoParte2(D){
-  let s='*📋 Conheça os investimentos:*\n\n';
-  D.funds.filter(f=>f.link).forEach(f=>{ s+='▪ *'+f.n+'*\n'+f.link+'\n\n'; });
-  s+='▪ *Carteira Sugerida BB*\n'+D.carteiraLink+'\n\n';
+  let s='*📋 Carteira recomendada — detalhes:*\n'+D.carteiraLink+'\n\n';
+  if(D.cmp12){
+    s+='📊 *Segue um comparativo — rentabilidade 12 meses:*\n\n';
+    s+='▪ Nova LCA ('+D.taxa+'), em equivalente bruto: *≈ '+D.cmp12.lcaAa+'% a.a.*\n';
+    s+='▪ Carteira Sugerida: *≈ '+D.cmp12.cartAa+'% a.a.* ✅\n\n';
+  }
   s+='- - - - - - - - - - - - - - -\n\n';
   s+='*Não deixe o seu dinheiro parado!* 💛\n\n';
   s+='Ficou com alguma dúvida? Estamos aqui para te ajudar.\n\n';
@@ -1231,9 +1252,9 @@ function cardPngHTML(D){
   const c = D.comp;
   const compHTML = c ? `
   <div class="png-comp">
-    <div class="png-comp-k">Rendimento extra no ${c.highNome} vs nova LCA</div>
+    <div class="png-comp-k">Rendimento extra da Carteira Sugerida vs nova LCA</div>
     <div class="png-comp-v">+${c.diffReais}<span>/ano</span></div>
-    <div class="png-comp-s">${c.hp}% do CDI contra ${D.taxa} da LCA (= ${c.gross}% no gross-up)</div>
+    <div class="png-comp-s">≈ ${c.cartNet}% a.a. líquidos na carteira · ${c.lcaNet}% a.a. na LCA (${D.taxa})</div>
     <div class="png-sim">Simulação baseada no histórico dos últimos 12 meses · sujeito a análise de perfil</div>
   </div>` : '';
   return `<div class="png-bar"></div><div class="png-wrap">
