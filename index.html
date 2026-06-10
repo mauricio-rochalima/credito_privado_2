@@ -6,7 +6,7 @@
 <title>Proposta BB</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
 
@@ -413,35 +413,22 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 
 @media print{.wp-overlay,.wp-modal,.wp-toast{display:none!important}}
 
-/* ── Layout dedicado do PNG (largo, objetivo, p/ WhatsApp) ── */
-#wpPngHolder{position:fixed;left:-10000px;top:0;width:820px;pointer-events:none;opacity:1}
-#wpPngStage{width:820px;background:#fff;font-family:var(--wp-sans);color:var(--wp-ink)}
-.png-bar{height:10px;background:linear-gradient(90deg,#0a3a86 0%,#0a3a86 55%,#9a6b00 100%)}
-.png-wrap{padding:46px 50px 40px}
-.png-over{font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--wp-k3);margin-bottom:14px}
-.png-title{font:700 42px/1.12 var(--wp-serif);color:var(--wp-accent);letter-spacing:-.01em;margin-bottom:16px}
-.png-sub{font-size:21px;line-height:1.5;color:var(--wp-k2)}
-.png-sub b{color:var(--wp-ink);font-weight:600}
-.png-grp{display:flex;align-items:center;gap:13px;margin:30px 0 14px;flex-wrap:wrap}
-.png-grp-pill{font-size:18px;font-weight:700;color:#fff;padding:7px 16px;border-radius:9px;white-space:nowrap}
-.png-grp-pill.seg{background:var(--wp-accent)}
-.png-grp-pill.gr{background:var(--wp-amber)}
-.png-grp-lbl{font-size:22px;font-weight:700;color:var(--wp-ink)}
-.png-funds{border:1px solid var(--wp-line);border-radius:16px;overflow:hidden}
-.png-fund{display:flex;align-items:center;gap:20px;padding:22px 22px;border-bottom:1px solid var(--wp-line);background:#fff}
-.png-fund:last-child{border-bottom:none}
-.png-fw{flex-shrink:0;min-width:168px;text-align:center;background:var(--wp-tint);color:var(--wp-accent);padding:16px 12px;border-radius:12px}
-.png-fw b{display:block;font:700 24px/1.05 var(--wp-sans)}
-.png-fw i{font-style:normal;font:600 15px/1 var(--wp-sans);color:var(--wp-k3);display:block;margin-top:5px}
-.png-fmid{flex:1;min-width:0}
-.png-fn{font-size:23px;font-weight:700;color:var(--wp-ink);line-height:1.22}
-.png-fd{font-size:17px;color:var(--wp-k2);line-height:1.4;margin-top:5px}
-.png-tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:9px}
-.png-tag{font-size:14px;font-weight:700;padding:5px 13px;border-radius:8px;line-height:1.2}
-.png-isento{background:#e9f6ee;color:#1f9d57}
-.png-cta{margin-top:30px;background:var(--wp-tint);border-radius:16px;padding:26px 28px;font-size:22px;line-height:1.45;color:var(--wp-ink);font-weight:600;text-align:center}
-.png-cta b{color:var(--wp-accent)}
-.png-foot{font-size:13px;line-height:1.55;color:var(--wp-k3);margin-top:24px;text-align:center}
+/* ── Layout dedicado do PNG (estilo BB: branco, navy, amarelo) ── */
+#wpPngHolder{position:fixed;left:-10000px;top:0;width:860px;pointer-events:none;opacity:1}
+#wpPngStage{width:860px;background:#fff;font-family:var(--wp-sans);color:var(--wp-ink)}
+.png-bar{height:16px;background:#0a3a86}
+.png-wrap{padding:42px 46px 8px}
+.png-over{font-size:19px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#8a93a0;margin-bottom:16px}
+.png-title{font:800 54px/1.14 var(--wp-sans);color:#0a3a86;letter-spacing:-.02em}
+.png-title b{background:#ffe73b;padding:2px 14px;border-radius:12px;color:#0a3a86;white-space:nowrap}
+.png-donut-wrap{margin:0}
+.png-comp{background:#ffe73b;padding:40px 46px 42px;text-align:center}
+.png-comp-k{font-size:30px;font-weight:800;color:#0a3a86;line-height:1.25}
+.png-comp-v{font:800 80px/1.05 var(--wp-sans);color:#0a3a86;margin:10px 0 12px;letter-spacing:-.02em}
+.png-comp-v span{font-size:36px;font-weight:800}
+.png-comp-s{font-size:24px;font-weight:800;color:#0a3a86;line-height:1.45}
+.png-sim{font-size:21px;font-weight:800;color:#3b4d72;margin-top:16px;line-height:1.4}
+.png-endbar{height:16px;background:#0a3a86}
 </style>
 </head>
 <body>
@@ -628,19 +615,23 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     </div>
     <div class="wp-card" id="wpCard"></div>
     <div class="wp-actions">
-      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp()">
+      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp(1)">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Copiar p/ WhatsApp
+        Texto 1 · antes
       </button>
-      <button class="wp-abtn wp-abtn-em" onclick="abrirEmail()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-        Gerar e-mail
+      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp(2)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Texto 2 · depois
       </button>
     </div>
     <div class="wp-actions">
       <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Baixar imagem (PNG) p/ WhatsApp
+        Card PNG
+      </button>
+      <button class="wp-abtn wp-abtn-em" onclick="abrirEmail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Gerar e-mail
       </button>
     </div>
   </div>
@@ -1041,8 +1032,24 @@ function buildD(){
     carteiraLink:'https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf',
     funds: FUNDS.map(f=>{
       const rk = RISKS[f.risco]||RISKS[3];
-      return { w: Math.round(f.w)+'%', vlr: wpFmtC(cap*(+f.w||0)/100), n: f.nome, d:(f.desc||f.sub||''), link:f.link||'', risco: rk.n, cor: rk.cor, tipo: f.tipo, isento: !!f.isento };
+      return { w: Math.round(f.w)+'%', wNum:+f.w||0, riscoNum:+f.risco||3, vlr: wpFmtC(cap*(+f.w||0)/100), n: f.nome, d:(f.desc||f.sub||''), tag:(f.tag||f.desc||f.sub||''), link:f.link||'', risco: rk.n, cor: rk.cor, tipo: f.tipo, isento: !!f.isento };
     }),
+    lowPct: Math.round(FUNDS.reduce((a,f)=>a+((+f.risco||3)<=2?(+f.w||0):0),0)),
+    comp: (()=>{
+      const cdi = gV('cdi',13.35)/100, IR=0.15;
+      const cdis = FUNDS.filter(f=>f.tipo==='cdi' && +f.proj>0);
+      if(!cdis.length || !(lcaNova>0)) return null;
+      const high = cdis.find(f=>/high/i.test(f.nome)) || cdis.reduce((a,b)=>(+b.proj||0)>(+a.proj||0)?b:a);
+      const hp = +high.proj;                       // % do CDI (bruto)
+      const gross = lcaNova/(1-IR);                // LCA isenta equivalente bruta
+      return {
+        highNome: high.nome,
+        hp: wpNum(Math.round(hp*10)/10),
+        gross: gross.toFixed(1).replace('.',','),
+        diffPp: (hp-gross).toFixed(1).replace('.',','),
+        diffReais: fmt(cap*cdi*((hp/100)*(1-IR)-(lcaNova/100)))
+      };
+    })(),
     grupos: (()=>{
       let sw=0,sv=0,gw=0,gv=0;
       FUNDS.forEach(f=>{ const v=cap*(+f.w||0)/100; if(f.tipo==='ipca'){gw+=(+f.w||0);gv+=v;} else {sw+=(+f.w||0);sv+=v;} });
@@ -1135,21 +1142,28 @@ function emailHTML(D){
 }
 function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
 
-function textoSimples(D){
-  const seg=D.funds.filter(f=>f.tipo!=='ipca'), gr=D.funds.filter(f=>f.tipo==='ipca');
-  const linha=f=>'   - '+f.vlr+' ('+f.w+') '+f.n+' — '+f.d+' [Risco: '+f.risco+(f.isento?' · Isento de IR':'')+']'+(f.link?' '+f.link:'')+'\n';
-  let s='Olá, '+D.nome+'! Tudo bem? Aqui é o '+D.assessorFirst+' da Assessoria de Investimentos do BB.\n\n';
-  s+='Sua LCA de '+D.valor+' acabou de vencer — o valor já está disponível e seguro na sua conta.\n\n';
-  s+='A taxa de hoje de uma nova '+D.lcaNome+' é de apenas '+D.taxa+' — rendendo abaixo do potencial com bloqueio do valor até '+D.venc+'.\n\n';
-  s+='Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a Carteira Sugerida BB:\n'+D.carteiraLink+'\n\n';
-  s+='*A ESTRATÉGIA DA ASSESSORIA*\nDividimos o valor para unir segurança, liquidez e ganho real acima da inflação:\n\n';
-  if(seg.length){ s+='> Segurança e resgate rápido — '+D.grupos.seg.pct+' ('+D.grupos.seg.vlr+')\n'; seg.forEach(f=>s+=linha(f)); s+='\n'; }
-  if(gr.length){ s+='> Ganho real acima da inflação — '+D.grupos.gr.pct+' ('+D.grupos.gr.vlr+')\n'; gr.forEach(f=>s+=linha(f)); s+='\n'; }
-  s+='Assim, '+D.grupos.seg.pct+' do seu patrimônio fica disponível em poucos dias e o restante blinda contra a inflação.\n\n';
-  s+=D.nome+', faz sentido migrarmos para essa estratégia hoje? Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição.\n\n';
-  s+='Um abraço,\n'+D.assessor+'\nANBIMA Profissional CEA · Assessoria de Investimentos BB\n\n--\nRecomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.';
+function textoParte1(D){
+  let s='🚨 *ATENÇÃO* 🚨\n';
+  s+=D.nome+', a sua *LCA venceu!*\n\n';
+  s+='Aqui é o '+D.assessorFirst+', da *Assessoria de Investimentos do Banco do Brasil*.\n\n';
+  s+='Os *'+D.valor+'* já estão livres na sua conta — e novas LCAs hoje pagam só *'+D.taxa+'*, com trava até '+D.venc+'.';
   return s;
 }
+
+function textoParte2(D){
+  let s='👆 Essa é a *Estratégia da Assessoria* que preparamos para você.\n\n';
+  s+='✅ O diferencial: *'+D.grupos.seg.pct+' do valor com resgate em poucos dias* — diferente da LCA, que trava tudo até o vencimento.\n\n';
+  const comLink = D.funds.filter(f=>f.link);
+  if(comLink.length){
+    s+='Conheça os investimentos:\n';
+    comLink.forEach(f=>{ s+='• '+f.n+': '+f.link+'\n'; });
+    s+='\n';
+  }
+  s+='💬 *Responda esta mensagem e reaplique o valor hoje mesmo.*';
+  return s;
+}
+
+function textoSimples(D){ return textoParte1(D)+'\n\n'+textoParte2(D); }
 
 function abrirWp(){
   WP_D = buildD();
@@ -1159,27 +1173,79 @@ function abrirWp(){
 }
 function fecharWp(){ $('wpOverlay').classList.remove('show'); }
 
-function pngGrp(funds, pct, vlr, label, cls){
-  if(!funds.length) return '';
-  const rows = funds.map(f=>{
-    const isento = f.isento ? '<span class="png-tag png-isento">Isento de IR</span>' : '';
-    return `<div class="png-fund"><span class="png-fw"><b>${f.vlr}</b><i>${f.w}</i></span><div class="png-fmid"><div class="png-fn">${f.n}</div><div class="png-fd">${f.d}</div><div class="png-tags"><span class="png-tag" style="background:${f.cor}1a;color:${f.cor}">Risco: ${f.risco}</span>${isento}</div></div></div>`;
-  }).join('');
-  return `<div class="png-grp"><span class="png-grp-pill ${cls}">${pct} · ${vlr}</span><span class="png-grp-lbl">${label}</span></div><div class="png-funds">${rows}</div>`;
+function pngDonut(D){
+  const Wd=860, H=790, cx=430, cy=386, R=120, SW=60, C=2*Math.PI*R;
+  const fs = D.funds.slice().sort((a,b)=>a.riscoNum-b.riscoNum); // menor risco primeiro
+  const total = fs.reduce((a,f)=>a+f.wNum,0)||100;
+  // gira o donut para que a fatia de MAIOR risco fique embaixo
+  let accL=0; fs.forEach((f,i)=>{ if(i<fs.length-1) accL+=f.wNum; });
+  const lastMidFrac=(accL+fs[fs.length-1].wNum/2)/total;
+  const offDeg=180-lastMidFrac*360, offRad=offDeg*Math.PI/180;
+  let acc=0, segs='', inner='';
+  const its=[];
+  fs.forEach(f=>{
+    const frac=f.wNum/total, len=frac*C;
+    const rot=(acc/total)*360-90+offDeg;
+    segs+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${f.cor}" stroke-width="${SW}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" transform="rotate(${rot.toFixed(2)} ${cx} ${cy})"></circle>`;
+    const mid=((acc+f.wNum/2)/total)*2*Math.PI-Math.PI/2+offRad;
+    inner+=`<text x="${(cx+Math.cos(mid)*R).toFixed(1)}" y="${(cy+Math.sin(mid)*R).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="800" fill="#ffffff">${Math.round(frac*100)}%</text>`;
+    its.push({f,mid});
+    acc+=f.wNum;
+  });
+  const wrap=(t,m,ml)=>{const out=[];let cur='';(''+t).split(' ').forEach(w=>{if((cur+' '+w).trim().length>m){if(cur)out.push(cur.trim());cur=w;}else cur+=' '+w;});if(cur.trim())out.push(cur.trim());return out.slice(0,ml||2);};
+  const esc=t=>(''+t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const BW=276;
+  let call='';
+  ['l','r'].forEach(side=>{
+    const arr=its.filter(i=> side==='r' ? Math.cos(i.mid)>=0 : Math.cos(i.mid)<0 )
+                 .sort((a,b)=>Math.sin(a.mid)-Math.sin(b.mid));
+    const n=arr.length; if(!n) return;
+    arr.forEach((it,idx)=>{
+      const f=it.f;
+      const nameLines=wrap(f.n,13), tagLines=wrap(f.tag,21,3);
+      const bh = 28 + nameLines.length*36 + 48 + tagLines.length*27 + 36 + (f.isento?30:0);
+      const ly = cy + (idx-(n-1)/2)*350;
+      const by = ly-bh/2;
+      const bx = side==='r' ? 578 : 6;
+      const sx=cx+Math.cos(it.mid)*(R+SW/2+4), sy=cy+Math.sin(it.mid)*(R+SW/2+4);
+      const ex = side==='r' ? bx-4 : bx+BW+4;
+      call+=`<polyline points="${sx.toFixed(1)},${sy.toFixed(1)} ${ex},${ly}" fill="none" stroke="#c9ced6" stroke-width="3"></polyline><circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6.5" fill="${f.cor}"></circle>`;
+      call+=`<rect x="${bx}" y="${by.toFixed(1)}" width="${BW}" height="${bh}" rx="18" fill="#ffffff" stroke="#e6e3da" stroke-width="2.5"></rect>`;
+      call+=`<rect x="${side==='r'?bx:bx+BW-10}" y="${by.toFixed(1)}" width="10" height="${bh}" rx="5" fill="${f.cor}"></rect>`;
+      const tx = bx + (side==='r'?28:20);
+      let y=by+28+22;
+      nameLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="30" font-weight="800" fill="#19222e">${esc(t)}</text>`;y+=36;});
+      y+=6;
+      call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="33" font-weight="800" fill="#0a3a86">${f.vlr}</text>`;y+=44;
+      tagLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="21" font-weight="700" fill="#5a6573">${esc(t)}</text>`;y+=27;});
+      y+=6;
+      call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="19" font-weight="800" fill="${f.cor}">&#9679; Risco ${f.risco.toLowerCase()}</text>`;
+      if(f.isento){ y+=30; call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="19" font-weight="800" fill="#1f9d57">&#9679; Isento de IR</text>`; }
+    });
+  });
+  return `<svg width="${Wd}" height="${H}" viewBox="0 0 ${Wd} ${H}" style="display:block;margin:0 -46px">
+    ${segs}${inner}${call}
+    <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="64" font-weight="800" fill="#19222e">${D.lowPct}%</text>
+    <text x="${cx}" y="${cy+36}" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="1.5" fill="#1f9d57">EM BAIXO RISCO</text>
+  </svg>`;
 }
 
 function cardPngHTML(D){
-  const seg = D.funds.filter(f=>f.tipo!=='ipca');
-  const gr  = D.funds.filter(f=>f.tipo==='ipca');
+  const c = D.comp;
+  const compHTML = c ? `
+  <div class="png-comp">
+    <div class="png-comp-k">Rendimento extra no ${c.highNome} vs nova LCA</div>
+    <div class="png-comp-v">+${c.diffReais}<span>/ano</span></div>
+    <div class="png-comp-s">${c.hp}% do CDI contra ${D.taxa} da LCA (= ${c.gross}% no gross-up)</div>
+    <div class="png-sim">Simulação baseada no histórico dos últimos 12 meses · sujeito a análise de perfil</div>
+  </div>` : '';
   return `<div class="png-bar"></div><div class="png-wrap">
     <div class="png-over">Banco do Brasil · Assessoria de Investimentos</div>
-    <div class="png-title">A Estratégia da Assessoria</div>
-    <div class="png-sub">Sua <b>LCA de ${D.valor}</b> venceu. Em vez de renovar a apenas <b>${D.taxa}</b> com bloqueio até <b>${D.venc}</b>, montamos uma alocação mais dinâmica:</div>
-    ${pngGrp(seg, D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido', 'seg')}
-    ${pngGrp(gr,  D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação', 'gr')}
-    <div class="png-cta"><b>${D.grupos.seg.pct}</b> disponível em poucos dias + proteção contra a inflação.<br>Vamos conversar sobre a sua nova carteira?</div>
-    <div class="png-foot">Recomendações baseadas nas Carteiras Sugeridas BB. Sujeito a confirmação de taxas/prazos e análise de perfil. Fundos e debêntures não têm garantia do FGC.</div>
-  </div>`;
+    <div class="png-title">${D.nome}, nossa estratégia para os seus <b>${D.valor}</b></div>
+    <div class="png-donut-wrap">${pngDonut(D)}</div>
+  </div>
+  ${compHTML}
+  <div class="png-endbar"></div>`;
 }
 
 async function baixarCardPng(btn){
@@ -1191,8 +1257,8 @@ async function baixarCardPng(btn){
   stage.innerHTML = cardPngHTML(WP_D || buildD());
   try{
     if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
-    const opts = { pixelRatio:2.5, backgroundColor:'#ffffff', cacheBust:true, width:820, height:stage.offsetHeight };
-    await htmlToImage.toPng(stage, { pixelRatio:1, backgroundColor:'#ffffff', width:820, height:stage.offsetHeight }); // aquece fontes/imagem
+    const opts = { pixelRatio:2.5, backgroundColor:'#ffffff', cacheBust:true, width:860, height:stage.offsetHeight };
+    await htmlToImage.toPng(stage, { pixelRatio:1, backgroundColor:'#ffffff', width:860, height:stage.offsetHeight }); // aquece fontes/imagem
     const dataUrl = await htmlToImage.toPng(stage, opts);
     const slug = ($('nome') && $('nome').value.trim()) ? slugify($('nome').value.trim()) : 'cliente';
     const a=document.createElement('a'); a.href=dataUrl; a.download='estrategia-'+slug+'.png';
@@ -1218,8 +1284,9 @@ function wpToast(msg){
   clearTimeout(window.__wptt); window.__wptt=setTimeout(()=>t.classList.remove('show'),5200);
 }
 
-async function copiarWhatsApp(){
-  const txt = textoSimples(buildD());
+async function copiarWhatsApp(parte){
+  const D = buildD();
+  const txt = (parte===2) ? textoParte2(D) : textoParte1(D);
   let ok=false;
   try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){ ok=false; }
   if(!ok){
@@ -1228,8 +1295,10 @@ async function copiarWhatsApp(){
     try{ ok=document.execCommand('copy'); }catch(e){ ok=false; } document.body.removeChild(ta);
   }
   wpToast(ok
-    ? '<b>Texto copiado.</b> Cole no WhatsApp do cliente (Ctrl/Cmd+V).'
-    : 'Não consegui copiar automaticamente. Selecione o texto do card e copie manualmente (Ctrl/Cmd+C).');
+    ? (parte===2
+        ? '<b>Texto 2 copiado.</b> Envie depois do card PNG. Ordem: texto 1 → card → texto 2.'
+        : '<b>Texto 1 copiado.</b> Envie primeiro. Ordem: texto 1 → card PNG → texto 2.')
+    : 'Não consegui copiar automaticamente. Selecione o texto e copie manualmente (Ctrl/Cmd+C).');
 }
 
 async function copiarFormatado(){
