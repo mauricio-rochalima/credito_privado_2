@@ -429,6 +429,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .png-comp-s{font-size:24px;font-weight:800;color:#0a3a86;line-height:1.45}
 .png-sim{font-size:21px;font-weight:800;color:#3b4d72;margin-top:16px;line-height:1.4}
 .png-endbar{height:16px;background:#0a3a86}
+.pngb-bar-wrap{margin:24px 0 4px}
+.pngb-rows{display:flex;flex-direction:column;gap:20px;margin-top:14px}
+.pngb-row{position:relative;background:#fff;border:2.5px solid #e6e3da;border-radius:22px;padding:26px 30px 26px 44px;overflow:hidden}
+.pngb-acc{position:absolute;left:0;top:0;bottom:0;width:13px}
+.pngb-top{display:flex;align-items:baseline;justify-content:space-between;gap:18px}
+.pngb-name{font-size:37px;font-weight:800;color:#19222e;letter-spacing:-.01em;line-height:1.12}
+.pngb-val{font-size:40px;font-weight:800;color:#0a3a86;letter-spacing:-.015em;white-space:nowrap}
+.pngb-tag{font-size:24px;font-weight:700;color:#5a6573;margin-top:8px;line-height:1.3}
+.pngb-meta{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:16px;align-items:center}
+.pngb-liq{background:#eef3fb;color:#0a3a86;font-size:23px;font-weight:800;padding:10px 18px;border-radius:14px}
+.pngb-risk{font-size:22px;font-weight:800}
+.pngb-isento{font-size:22px;font-weight:800;color:#1f9d57}
 </style>
 </head>
 <body>
@@ -625,10 +637,16 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
       </button>
     </div>
     <div class="wp-actions">
-      <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Card PNG
+      <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this,'donut')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        PNG · Donut
       </button>
+      <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this,'bar')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="5" rx="2"/><rect x="3" y="14" width="11" height="5" rx="2"/></svg>
+        PNG · Barras
+      </button>
+    </div>
+    <div class="wp-actions">
       <button class="wp-abtn wp-abtn-em" onclick="abrirEmail()">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
         Gerar e-mail
@@ -1258,38 +1276,92 @@ function pngDonut(D){
   </svg>`;
 }
 
-function cardPngHTML(D){
+function compBandHTML(D){
   const c = D.comp;
-  const compHTML = c ? `
+  return c ? `
   <div class="png-comp">
     <div class="png-comp-k">Rendimento extra da Carteira Sugerida vs nova LCA</div>
     <div class="png-comp-v">+${c.diffReais}<span>/ano</span></div>
     <div class="png-comp-s">≈ ${c.cartNet}% a.a. líquidos na carteira · ${c.lcaNet}% a.a. na LCA (${D.taxa})</div>
     <div class="png-sim">Simulação baseada no histórico dos últimos 12 meses · sujeito a análise de perfil</div>
   </div>` : '';
+}
+
+function cardPngHTML(D){
   return `<div class="png-bar"></div><div class="png-wrap">
     <div class="png-over">Banco do Brasil · Assessoria de Investimentos</div>
     <div class="png-title">${D.nome}, nossa estratégia para os seus <b>${D.valor}</b></div>
     <div class="png-donut-wrap">${pngDonut(D)}</div>
   </div>
-  ${compHTML}
+  ${compBandHTML(D)}
   <div class="png-endbar"></div>`;
 }
 
-async function baixarCardPng(btn){
+function pngBar(D){
+  const Wd=860, BH=76, BY=6;
+  const fs=D.funds.slice().sort((a,b)=>a.riscoNum-b.riscoNum);
+  const total=fs.reduce((a,f)=>a+f.wNum,0)||100;
+  let x=0, seg='', lab='';
+  fs.forEach(f=>{
+    const w=f.wNum/total*Wd;
+    seg+=`<rect x="${x.toFixed(1)}" y="${BY}" width="${(w+1.5).toFixed(1)}" height="${BH}" fill="${f.cor}"></rect>`;
+    const fsz = w>=80 ? 34 : 25;
+    lab+=`<text x="${(x+w/2).toFixed(1)}" y="${BY+BH/2}" text-anchor="middle" dominant-baseline="central" font-size="${fsz}" font-weight="800" fill="#ffffff">${Math.round(f.wNum/total*100)}%</text>`;
+    x+=w;
+  });
+  const lowW = fs.reduce((a,f)=>a+(f.riscoNum<=2?f.wNum:0),0)/total*Wd;
+  let bracket='';
+  if(lowW>40){
+    const yb=BY+BH+16;
+    bracket=`<path d="M3 ${yb} v12 M${(lowW-3).toFixed(1)} ${yb} v12 M3 ${yb+12} H${(lowW-3).toFixed(1)}" stroke="#1f9d57" stroke-width="5" fill="none" stroke-linecap="round"></path>
+    <text x="${(lowW/2).toFixed(1)}" y="${yb+56}" text-anchor="middle" font-size="31" font-weight="800" fill="#1f9d57">${D.lowPct}% EM BAIXO RISCO</text>`;
+  }
+  const H=BY+BH+16+12+66;
+  return `<svg width="${Wd}" height="${H}" viewBox="0 0 ${Wd} ${H}" style="display:block;margin:0 -46px">
+    <defs><clipPath id="pbclip"><rect x="0" y="${BY}" width="${Wd}" height="${BH}" rx="24"></rect></clipPath></defs>
+    <g clip-path="url(#pbclip)">${seg}</g>${lab}${bracket}
+  </svg>`;
+}
+
+function cardPngBarHTML(D){
+  const esc=t=>(''+t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const fs=D.funds.slice().sort((a,b)=>a.riscoNum-b.riscoNum);
+  const rows=fs.map(f=>`
+    <div class="pngb-row">
+      <span class="pngb-acc" style="background:${f.cor}"></span>
+      <div class="pngb-top"><div class="pngb-name">${esc(f.n)}</div><div class="pngb-val">${f.vlr}</div></div>
+      <div class="pngb-tag">${esc(f.tag)}</div>
+      <div class="pngb-meta">
+        ${f.liq?`<span class="pngb-liq">&#9201; ${esc(f.liq)}</span>`:''}
+        <span class="pngb-risk" style="color:${f.cor}">&#9679; Risco ${f.risco.toLowerCase()}</span>
+        ${f.isento?'<span class="pngb-isento">&#9679; Isento de IR</span>':''}
+      </div>
+    </div>`).join('');
+  return `<div class="png-bar"></div><div class="png-wrap" style="padding-bottom:34px">
+    <div class="png-over">Banco do Brasil · Assessoria de Investimentos</div>
+    <div class="png-title">${D.nome}, nossa estratégia para os seus <b>${D.valor}</b></div>
+    <div class="pngb-bar-wrap">${pngBar(D)}</div>
+    <div class="pngb-rows">${rows}</div>
+  </div>
+  ${compBandHTML(D)}
+  <div class="png-endbar"></div>`;
+}
+
+async function baixarCardPng(btn,layout){
   if(typeof htmlToImage==='undefined'){ wpToast('Biblioteca de imagem indisponível. Verifique a conexão e recarregue a página.'); return; }
   const stage = $('wpPngStage');
   if(!stage){ return; }
   const original = btn ? btn.innerHTML : '';
   if(btn){ btn.disabled=true; btn.textContent='Gerando imagem…'; }
-  stage.innerHTML = cardPngHTML(WP_D || buildD());
+  const D = WP_D || buildD();
+  stage.innerHTML = (layout==='bar' ? cardPngBarHTML(D) : cardPngHTML(D));
   try{
     if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
     const opts = { pixelRatio:2.5, backgroundColor:'#ffffff', cacheBust:true, width:860, height:stage.offsetHeight };
     await htmlToImage.toPng(stage, { pixelRatio:1, backgroundColor:'#ffffff', width:860, height:stage.offsetHeight }); // aquece fontes/imagem
     const dataUrl = await htmlToImage.toPng(stage, opts);
     const slug = ($('nome') && $('nome').value.trim()) ? slugify($('nome').value.trim()) : 'cliente';
-    const a=document.createElement('a'); a.href=dataUrl; a.download='estrategia-'+slug+'.png';
+    const a=document.createElement('a'); a.href=dataUrl; a.download='estrategia-'+slug+(layout==='bar'?'-barras':'')+'.png';
     document.body.appendChild(a); a.click(); a.remove();
     wpToast('<b>Imagem PNG baixada.</b> Formato vertical e largo — é só anexar no WhatsApp do cliente.');
   }catch(e){
