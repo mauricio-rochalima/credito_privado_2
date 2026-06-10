@@ -1143,23 +1143,20 @@ function emailHTML(D){
 function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
 
 function textoParte1(D){
-  let s='🚨 *ATENÇÃO* 🚨\n';
-  s+=D.nome+', a sua *LCA venceu!*\n\n';
-  s+='Aqui é o '+D.assessorFirst+', da *Assessoria de Investimentos do Banco do Brasil*.\n\n';
-  s+='Os *'+D.valor+'* já estão livres na sua conta — e novas LCAs hoje pagam só *'+D.taxa+'*, com trava até '+D.venc+'.';
+  let s='*'+D.nome+', venceu hoje uma LCA de '+D.valor+'*\n\n';
+  s+='Quem fala é '+D.assessorFirst+', da Assessoria de Investimentos do Banco do Brasil 💛💙\n\n';
+  s+='O valor já está livre na sua conta — e novas LCAs hoje pagam só *'+D.taxa+'*, com *bloqueio total do valor até '+D.venc+'*.';
   return s;
 }
 
 function textoParte2(D){
-  let s='👆 Essa é a *Estratégia da Assessoria* que preparamos para você.\n\n';
-  s+='✅ O diferencial: *'+D.grupos.seg.pct+' do valor com resgate em poucos dias* — diferente da LCA, que trava tudo até o vencimento.\n\n';
-  const comLink = D.funds.filter(f=>f.link);
-  if(comLink.length){
-    s+='Conheça os investimentos:\n';
-    comLink.forEach(f=>{ s+='• '+f.n+': '+f.link+'\n'; });
-    s+='\n';
-  }
-  s+='💬 *Responda esta mensagem e reaplique o valor hoje mesmo.*';
+  let s='*📋 Conheça os investimentos:*\n\n';
+  D.funds.filter(f=>f.link).forEach(f=>{ s+='▪ *'+f.n+'*\n'+f.link+'\n\n'; });
+  s+='▪ *Carteira Sugerida BB*\n'+D.carteiraLink+'\n\n';
+  s+='- - - - - - - - - - - - - - -\n\n';
+  s+='*Não deixe o seu dinheiro parado!* 💛\n\n';
+  s+='Ficou com alguma dúvida? Estamos aqui para te ajudar.\n\n';
+  s+='Me responda com um *"vamos"* que eu cuido de toda a reaplicação para você 🤝';
   return s;
 }
 
