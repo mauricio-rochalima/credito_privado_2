@@ -1032,7 +1032,13 @@ function buildD(){
     carteiraLink:'https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf',
     funds: FUNDS.map(f=>{
       const rk = RISKS[f.risco]||RISKS[3];
-      return { w: Math.round(f.w)+'%', wNum:+f.w||0, riscoNum:+f.risco||3, vlr: wpFmtC(cap*(+f.w||0)/100), n: f.nome, d:(f.desc||f.sub||''), tag:(f.tag||f.desc||f.sub||''), link:f.link||'', risco: rk.n, cor: rk.cor, tipo: f.tipo, isento: !!f.isento };
+      const lq=(''+(f.liq||'')).trim();
+      let liqTxt='';
+      const m=lq.match(/^D\s*\+\s*(\d+)$/i);
+      if(m){ const n=+m[1]; liqTxt = n===0 ? 'Resgate no mesmo dia' : (n===1 ? 'Resgate em 1 dia' : 'Resgate em '+n+' dias'); }
+      else if(/venc/i.test(lq)){ liqTxt='No vencimento do investimento'; }
+      else if(lq){ liqTxt='Resgate: '+lq; }
+      return { w: Math.round(f.w)+'%', wNum:+f.w||0, riscoNum:+f.risco||3, vlr: wpFmtC(cap*(+f.w||0)/100), n: f.nome, d:(f.desc||f.sub||''), tag:(f.tag||f.desc||f.sub||''), liq:liqTxt, link:f.link||'', risco: rk.n, cor: rk.cor, tipo: f.tipo, isento: !!f.isento };
     }),
     lowPct: Math.round(FUNDS.reduce((a,f)=>a+((+f.risco||3)<=2?(+f.w||0):0),0)),
     comp: (()=>{
@@ -1169,15 +1175,10 @@ function textoParte1(D){
 
 function textoParte2(D){
   let s='*📋 Carteira recomendada — detalhes:*\n'+D.carteiraLink+'\n\n';
-  if(D.cmp12){
-    s+='📊 *Segue um comparativo — rentabilidade 12 meses:*\n\n';
-    s+='▪ Nova LCA ('+D.taxa+'), em equivalente bruto: *≈ '+D.cmp12.lcaAa+'% a.a.*\n';
-    s+='▪ Carteira Sugerida: *≈ '+D.cmp12.cartAa+'% a.a.* ✅\n\n';
-  }
   s+='- - - - - - - - - - - - - - -\n\n';
   s+='*Não deixe o seu dinheiro parado!* 💛\n\n';
   s+='Ficou com alguma dúvida? Estamos aqui para te ajudar.\n\n';
-  s+='Me responda com um *"vamos"* que eu cuido de toda a reaplicação para você 🤝';
+  s+='Me responda com um *"ok"* que eu cuido de toda a reaplicação para você 🤝';
   return s;
 }
 
@@ -1192,7 +1193,7 @@ function abrirWp(){
 function fecharWp(){ $('wpOverlay').classList.remove('show'); }
 
 function pngDonut(D){
-  const Wd=860, H=790, cx=430, cy=386, R=120, SW=60, C=2*Math.PI*R;
+  const Wd=860, H=830, cx=430, cy=408, R=110, SW=56, C=2*Math.PI*R;
   const fs = D.funds.slice().sort((a,b)=>a.riscoNum-b.riscoNum); // menor risco primeiro
   const total = fs.reduce((a,f)=>a+f.wNum,0)||100;
   // gira o donut para que a fatia de MAIOR risco fique embaixo
@@ -1206,13 +1207,13 @@ function pngDonut(D){
     const rot=(acc/total)*360-90+offDeg;
     segs+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${f.cor}" stroke-width="${SW}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" transform="rotate(${rot.toFixed(2)} ${cx} ${cy})"></circle>`;
     const mid=((acc+f.wNum/2)/total)*2*Math.PI-Math.PI/2+offRad;
-    inner+=`<text x="${(cx+Math.cos(mid)*R).toFixed(1)}" y="${(cy+Math.sin(mid)*R).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="800" fill="#ffffff">${Math.round(frac*100)}%</text>`;
+    inner+=`<text x="${(cx+Math.cos(mid)*R).toFixed(1)}" y="${(cy+Math.sin(mid)*R).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="32" font-weight="800" fill="#ffffff">${Math.round(frac*100)}%</text>`;
     its.push({f,mid});
     acc+=f.wNum;
   });
   const wrap=(t,m,ml)=>{const out=[];let cur='';(''+t).split(' ').forEach(w=>{if((cur+' '+w).trim().length>m){if(cur)out.push(cur.trim());cur=w;}else cur+=' '+w;});if(cur.trim())out.push(cur.trim());return out.slice(0,ml||2);};
   const esc=t=>(''+t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const BW=276;
+  const BW=282;
   let call='';
   ['l','r'].forEach(side=>{
     const arr=its.filter(i=> side==='r' ? Math.cos(i.mid)>=0 : Math.cos(i.mid)<0 )
@@ -1220,31 +1221,40 @@ function pngDonut(D){
     const n=arr.length; if(!n) return;
     arr.forEach((it,idx)=>{
       const f=it.f;
-      const nameLines=wrap(f.n,13), tagLines=wrap(f.tag,21,3);
-      const bh = 28 + nameLines.length*36 + 48 + tagLines.length*27 + 36 + (f.isento?30:0);
-      const ly = cy + (idx-(n-1)/2)*350;
+      const nameLines=wrap(f.n,14), tagLines=wrap(f.tag,21,3);
+      const liqLines = f.liq ? wrap(f.liq,21,2) : [];
+      const liqH = liqLines.length ? (liqLines.length*28+22) : 0;
+      const bh = 28 + nameLines.length*36 + 48 + tagLines.length*27 + 10 + liqH + 34 + (f.isento?32:0) + 10;
+      const ly = cy + (idx-(n-1)/2)*400;
       const by = ly-bh/2;
-      const bx = side==='r' ? 578 : 6;
+      const bx = side==='r' ? 572 : 6;
       const sx=cx+Math.cos(it.mid)*(R+SW/2+4), sy=cy+Math.sin(it.mid)*(R+SW/2+4);
       const ex = side==='r' ? bx-4 : bx+BW+4;
-      call+=`<polyline points="${sx.toFixed(1)},${sy.toFixed(1)} ${ex},${ly}" fill="none" stroke="#c9ced6" stroke-width="3"></polyline><circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6.5" fill="${f.cor}"></circle>`;
-      call+=`<rect x="${bx}" y="${by.toFixed(1)}" width="${BW}" height="${bh}" rx="18" fill="#ffffff" stroke="#e6e3da" stroke-width="2.5"></rect>`;
-      call+=`<rect x="${side==='r'?bx:bx+BW-10}" y="${by.toFixed(1)}" width="10" height="${bh}" rx="5" fill="${f.cor}"></rect>`;
-      const tx = bx + (side==='r'?28:20);
-      let y=by+28+22;
-      nameLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="30" font-weight="800" fill="#19222e">${esc(t)}</text>`;y+=36;});
+      call+=`<polyline points="${sx.toFixed(1)},${sy.toFixed(1)} ${ex},${ly}" fill="none" stroke="#c9ced6" stroke-width="3"></polyline><circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="7" fill="${f.cor}"></circle>`;
+      call+=`<rect x="${bx}" y="${by.toFixed(1)}" width="${BW}" height="${bh}" rx="20" fill="#ffffff" stroke="#e6e3da" stroke-width="2.5"></rect>`;
+      call+=`<rect x="${side==='r'?bx:bx+BW-11}" y="${by.toFixed(1)}" width="11" height="${bh}" rx="5.5" fill="${f.cor}"></rect>`;
+      const tx = bx + (side==='r'?30:20);
+      let y=by+28+24;
+      nameLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="31" font-weight="800" fill="#19222e">${esc(t)}</text>`;y+=36;});
+      y+=4;
+      call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="34" font-weight="800" fill="#0a3a86">${f.vlr}</text>`;y+=46;
+      tagLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="22" font-weight="700" fill="#5a6573">${esc(t)}</text>`;y+=27;});
+      if(liqLines.length){
+        y+=8;
+        const pillH=liqLines.length*28+16;
+        call+=`<rect x="${tx-10}" y="${(y-22).toFixed(1)}" width="${BW-(side==='r'?30:20)-14}" height="${pillH}" rx="12" fill="#eef3fb"></rect>`;
+        liqLines.forEach((t,i)=>{call+=`<text x="${tx+4}" y="${y.toFixed(1)}" font-size="20.5" font-weight="800" fill="#0a3a86">${i===0?'&#9201; ':'&#8195;'}${esc(t)}</text>`;y+=28;});
+        y+=8;
+      }
       y+=6;
-      call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="33" font-weight="800" fill="#0a3a86">${f.vlr}</text>`;y+=44;
-      tagLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="21" font-weight="700" fill="#5a6573">${esc(t)}</text>`;y+=27;});
-      y+=6;
-      call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="19" font-weight="800" fill="${f.cor}">&#9679; Risco ${f.risco.toLowerCase()}</text>`;
-      if(f.isento){ y+=30; call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="19" font-weight="800" fill="#1f9d57">&#9679; Isento de IR</text>`; }
+      call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="20" font-weight="800" fill="${f.cor}">&#9679; Risco ${f.risco.toLowerCase()}</text>`;
+      if(f.isento){ y+=32; call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="20" font-weight="800" fill="#1f9d57">&#9679; Isento de IR</text>`; }
     });
   });
   return `<svg width="${Wd}" height="${H}" viewBox="0 0 ${Wd} ${H}" style="display:block;margin:0 -46px">
     ${segs}${inner}${call}
-    <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="64" font-weight="800" fill="#19222e">${D.lowPct}%</text>
-    <text x="${cx}" y="${cy+36}" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="1.5" fill="#1f9d57">EM BAIXO RISCO</text>
+    <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="68" font-weight="800" fill="#19222e">${D.lowPct}%</text>
+    <text x="${cx}" y="${cy+38}" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="1.5" fill="#1f9d57">EM BAIXO RISCO</text>
   </svg>`;
 }
 
