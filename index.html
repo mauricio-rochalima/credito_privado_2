@@ -431,8 +431,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .png-endbar{height:16px;background:#0a3a86}
 .pngb-bar-wrap{margin:24px 0 4px}
 .pngb-rows{display:flex;flex-direction:column;gap:20px;margin-top:14px}
-.pngb-row{position:relative;background:#fff;border:2.5px solid #e6e3da;border-radius:22px;padding:26px 30px 26px 44px;overflow:hidden}
-.pngb-acc{position:absolute;left:0;top:0;bottom:0;width:13px}
+.pngb-row{position:relative;background:#fff;border:2.5px solid #e6e3da;border-radius:22px;padding:26px 30px 26px 118px;overflow:hidden}
+.pngb-pct{position:absolute;left:0;top:0;bottom:0;width:92px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:33px;font-weight:800;letter-spacing:-.01em}
 .pngb-top{display:flex;align-items:baseline;justify-content:space-between;gap:18px}
 .pngb-name{font-size:37px;font-weight:800;color:#19222e;letter-spacing:-.01em;line-height:1.12}
 .pngb-val{font-size:40px;font-weight:800;color:#0a3a86;letter-spacing:-.015em;white-space:nowrap}
@@ -1328,7 +1328,7 @@ function cardPngBarHTML(D){
   const fs=D.funds.slice().sort((a,b)=>a.riscoNum-b.riscoNum);
   const rows=fs.map(f=>`
     <div class="pngb-row">
-      <span class="pngb-acc" style="background:${f.cor}"></span>
+      <span class="pngb-pct" style="background:${f.cor}">${f.w}</span>
       <div class="pngb-top"><div class="pngb-name">${esc(f.n)}</div><div class="pngb-val">${f.vlr}</div></div>
       <div class="pngb-tag">${esc(f.tag)}</div>
       <div class="pngb-meta">
