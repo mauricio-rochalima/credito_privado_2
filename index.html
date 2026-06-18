@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Proposta BB Customizável</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;700&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<style>
+:root{
+  --pr:#0040a8;--prd:#002b6b;--prl:#e6eefb;
+  --ac:#fcd500;--acd:#8a6d00;
+  --gn:#1a9a50;--gnd:#127038;--gnl:#e2f5ec;
+  --rd:#d94436;--rdl:#fbe7e4;
+  --ink:#10213d;--k2:#46587a;--k3:#93a1b8;
+  --ln:#e6ecf5;--bg:#f4f7fd;--sf:#fff;
+  --sans:'Roboto',sans-serif;--slab:'Roboto Slab',serif;--mono:'Roboto Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.mi{font-family:'Material Icons';font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;vertical-align:middle;font-size:inherit;-webkit-font-feature-settings:'liga';font-feature-settings:'liga';-webkit-font-smoothing:antialiased}
+
+.fabs{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.fab{height:44px;padding:0 18px;border:none;border-radius:22px;cursor:pointer;font:700 13px/1 var(--sans);display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s}
+.fb1{background:var(--pr);color:#fff}.fb1:hover{background:var(--prd)}
+.fb2{background:var(--ac);color:var(--ink)}.fb2:hover{background:#e6c200}
+.fb3{background:var(--gn);color:#fff}.fb3:hover{background:var(--gnd)}
+.fb4{background:#0a3a86;color:#fff}.fb4:hover{background:#072a63}
+
+.exp-overlay{position:fixed;inset:0;background:rgba(16,33,61,.7);z-index:400;display:none;align-items:center;justify-content:center}
+.exp-overlay.show{display:flex}
+.exp-modal{background:#fff;border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.exp-modal h3{font:700 17px/1.3 var(--slab);color:var(--pr);margin-bottom:6px}
+.exp-modal p{font-size:13px;color:var(--k2);margin-bottom:18px;line-height:1.5}
+.exp-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;margin-bottom:18px}
+.exp-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--ln);border-radius:10px;cursor:pointer;transition:.15s;background:var(--bg)}
+.exp-item:hover{border-color:var(--pr);background:var(--prl)}
+.exp-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--pr);flex-shrink:0}
+.exp-item-name{font-size:13px;font-weight:700;color:var(--ink)}
+.exp-item-sub{font-size:11px;color:var(--k2)}
+.exp-actions{display:flex;gap:8px}
+.exp-btn{flex:1;padding:10px;border:none;border-radius:8px;cursor:pointer;font:700 13px/1 var(--sans)}
+.exp-btn-cancel{background:var(--bg);color:var(--k2)}
+.exp-btn-go{background:var(--gn);color:#fff}
+.exp-progress{margin-top:14px;font-size:12px;color:var(--k2);text-align:center;display:none}
+.exp-progress.show{display:block}
+
+.panel{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--sf);overflow-y:auto;z-index:300;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.12)}
+.panel.open{transform:none}
+.ptop{background:var(--pr);color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1}
+.ptop h2{font-size:14px;font-weight:700}
+.ptop button{background:none;border:none;color:#fff;cursor:pointer;font-size:20px}
+.pin{padding:14px 18px}
+.pg{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--pr);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--ln)}
+.pr2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.fld label{font-size:11px;color:var(--k2);display:block;margin-bottom:4px;font-weight:500}
+.fld input,.fld select{width:100%;border:none;border-bottom:2px solid var(--ln);background:var(--bg);padding:7px 9px;border-radius:5px 5px 0 0;font-size:12px;font-family:var(--sans);color:var(--ink);outline:none;transition:.2s}
+.fld input:focus,.fld select:focus{border-bottom-color:var(--pr);background:#fff}
+.fc{background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:10px;margin-bottom:8px}
+.fc-top{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.fc-top input{flex:1;font-weight:700;font-size:12px}
+.fc-del{flex-shrink:0;background:var(--rdl);color:var(--rd);border:none;border-radius:5px;width:26px;height:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ml{font-size:9px;color:var(--k3);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.btn-g{width:100%;background:var(--prl);color:var(--pr);border:none;border-radius:7px;padding:8px;cursor:pointer;font:700 12px/1 var(--sans);display:flex;align-items:center;justify-content:center;gap:5px;margin-top:3px}
+.fgc-m{font-size:11px;padding:8px 10px;border-radius:7px;margin-top:6px;display:none}
+.fgc-m.show{display:block;background:var(--gnl);color:var(--gnd);border:1px solid var(--gn)}
+
+.screen{max-width:860px;margin:0 auto;padding:24px 16px 90px}
+.stitle{font:900 22px/1.2 var(--slab);color:var(--pr);margin-bottom:4px}
+.ssub{font-size:13px;color:var(--k2);margin-bottom:20px}
+.card{background:var(--sf);border-radius:12px;box-shadow:0 2px 8px rgba(16,33,61,.07);border:1px solid var(--ln);overflow:hidden;margin-bottom:12px}
+.ey{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pr);background:var(--prl);padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:8px}
+.sh{font:700 17px/1.25 var(--slab)}
+.sp{font-size:13px;color:var(--k2);margin-top:5px;line-height:1.55}
+.sec{padding:16px 18px 12px}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  color:#fff;
+  border-radius:18px;
+  margin-bottom:12px;
+  padding:32px 32px 30px;
+  background: linear-gradient(135deg, #023894 0%, #001a4d 100%);
+  box-shadow:0 12px 36px rgba(0,34,86,0.18);
+}
+.hero-content{position:relative;z-index:1}
+
+.hey-wrapper{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+.hey-trending-group {
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.hey-trending-text {
+  font-family:var(--sans);
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:#3ad17e;
+}
+.hey-trending-text.white-text {
+  color:#ffffff;
+}
+.hey-title{
+  font-family:var(--sans);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+}
+
+.hero-intro {
+  margin-bottom: 24px;
+}
+.hero-intro h1 {
+  font: 900 28px/1.2 var(--slab);
+  margin-bottom: 8px;
+  color: var(--ac);
+  letter-spacing: -0.01em;
+}
+.hero-intro p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  max-width: 90%;
+}
+
+.kpis{margin-top:2px}
+.kpi-big{
+  font-family:var(--sans);
+  font-weight:900;
+  font-size:48px;
+  line-height:1;
+  letter-spacing:-0.015em;
+  margin-bottom:22px;
+  color:#ffffff;
+}
+
+.kpi-footer{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:16px;
+}
+@media (max-width: 520px) {
+  .kpi-footer {
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+}
+.kpi-footer-right{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  align-items:flex-start;
+  text-align:left;
+}
+.kpi-footer-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:18px;
+  font-weight:700;
+  color:#ffffff;
+}
+.kpi-footer-row.curadoria-title{
+  color:#fcd500;
+}
+.kpi-footer-sub{
+  font-size:12px;
+  color:rgba(255,255,255,0.55);
+}
+
+.fonte-selo{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--k2);line-height:1.4}
+.fonte-selo .mi{font-size:15px;color:var(--k3);margin-top:1px}
+.fonte-selo a{color:var(--pr);font-weight:700;text-decoration:none}
+.fonte-selo a:hover{text-decoration:underline}
+
+.r3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ln)}
+.rc{padding:14px;border-right:1px solid var(--ln)}
+.rc:last-child{border-right:none}
+.ri{width:32px;height:32px;border-radius:50%;background:var(--prl);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.ri .mi{font-size:16px;color:var(--pr)}
+.rc h4{font-size:12px;font-weight:700;margin-bottom:4px}
+.rc p{font-size:11px;color:var(--k2);line-height:1.5}
+
+.l4{display:grid;border-top:1px solid var(--ln)}
+.ly{padding:14px;border-right:1px solid var(--ln);position:relative;padding-top:18px}
+.ly:last-child{border-right:none}
+.ly-tag{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.ly h4{font-size:12px;font-weight:700;margin-bottom:3px}
+.ly p{font-size:11px;color:var(--k2);line-height:1.45}
+.ly-meta{font-size:10px;font-weight:700;color:var(--ink);margin-top:4px}
+.ly-link{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:10px;font-weight:700;text-decoration:none;opacity:.85}
+.ly-link:hover{opacity:1;text-decoration:underline}
+.ly-link .mi{font-size:11px}
+
+.rtab{width:100%;border-collapse:collapse;font-size:13px}
+.rtab td{padding:9px 0;border-bottom:1px solid var(--ln);vertical-align:middle}
+.rtab tr:last-child td{border-bottom:none;font-weight:700;padding-top:11px}
+.rtab .num{text-align:right;font:700 13px/1 var(--mono)}
+
+.ci{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--ln)}
+.ci:last-child{border-bottom:none}
+.cii{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cii .mi{font-size:16px;color:#fff}
+.cn{font-size:12px;font-weight:700}
+.cs{font-size:11px;color:var(--k2);margin-top:1px}
+.cb{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.cpct{font:900 20px/1 var(--slab);text-align:right}
+.cpct small{font-size:11px;font-family:var(--sans);color:var(--k3)}
+
+.ds{display:grid;grid-template-columns:.85fr 1.15fr;border-top:1px solid var(--ln)}
+.db{padding:16px;border-right:1px solid var(--ln)}
+.dr{position:relative;height:160px}
+.dc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.dcv{font:900 24px/1 var(--slab)}
+.dcl{font-size:10px;color:var(--k3);text-transform:uppercase;letter-spacing:.04em}
+.rl{padding:16px;display:flex;flex-direction:column;justify-content:center;gap:7px}
+.rli{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;border:1px solid var(--ln)}
+.rld{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.rln{font-size:12px;font-weight:700}
+.rls{font-size:11px;color:var(--k2)}
+.rlp{margin-left:auto;font:700 16px/1 var(--mono)}
+
+.mt{width:100%;border-collapse:collapse;font-size:12px}
+.mt th{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;padding:8px 12px;text-align:left}
+.mt td{padding:8px 12px;border-bottom:1px solid var(--ln);vertical-align:middle}
+.mt tr:last-child td{border-bottom:none;font-weight:700;background:rgba(252,213,0,.15)}
+.mt .num{font:700 12px/1 var(--mono);text-align:right;white-space:nowrap} 
+.bg{background:var(--gnl);color:var(--gnd);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
+.bgr{background:#f0f0f0;color:var(--k2);padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700}
+
+.ct{width:100%;border-collapse:collapse;font-size:12px}
+.ct th{padding:9px 12px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;text-align:left}
+.ct td{padding:9px 12px;border-bottom:1px solid var(--ln);vertical-align:middle}
+.ct tr:last-child td{border-bottom:none}
+.ct .win{background:var(--gnl);color:var(--gnd);font-weight:700}
+
+.disc-box{background:var(--bg);border-radius:12px;border:1px solid var(--ln);padding:14px 18px;margin-top:12px}
+.disc{font-size:10px;color:var(--k3);line-height:1.6}
+
+.exp-shot{width:480px;background:var(--bg);padding:16px;box-sizing:border-box}
+.exp-shot>*{margin:0!important}
+.exp-shot *,.exp-shot *::before,.exp-shot *::after{animation:none!important;transition:none!important}
+.exp-shot .hero{padding:28px 24px!important}
+.exp-shot .hero-content{max-width:none!important}
+.exp-shot .r3{grid-template-columns:1fr 1fr!important}
+.exp-shot .l4{grid-template-columns:1fr 1fr!important}
+.exp-shot .ly{border-right:none!important}
+.exp-shot .ds{grid-template-columns:1fr!important}
+.exp-shot .db{border-right:none!important;border-bottom:1px solid var(--ln)}
+.exp-shot .fonte-selo{margin-top:10px!important}
+
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{size:A4 portrait;margin:12mm}
+  html{font-size:11.5px!important}
+  body{background:#fff!important}
+  .fabs,.panel,.exp-overlay{display:none!important}
+  .screen{padding:0!important;max-width:100%!important;margin:0!important}
+  .card,.disc-box,.hero{page-break-inside:avoid!important;break-inside:avoid!important;box-shadow:none!important;margin-bottom:10px!important}
+  .card{border-radius:10px!important}
+  .pb{page-break-before:always!important;break-before:page!important;display:block!important;height:0!important}
+  img,canvas{max-width:100%!important}
+  .ds .dr canvas{max-height:150px!important}
+}
+
+@media(max-width:640px){
+  .r3{grid-template-columns:1fr 1fr}
+  .ds{grid-template-columns:1fr}
+  .db{border-right:none}
+}
+
+/* ═══ SUBPRODUTO: Mensagem WhatsApp + E-mail ═══ */
+.wp-scope{
+  --wp-ink:#19222e;--wp-k2:#5a6573;--wp-k3:#9aa2ad;
+  --wp-line:#ebe8e0;--wp-sf:#fff;
+  --wp-accent:#0a3a86;--wp-tint:#eef3fb;--wp-amber:#9a6b00;--wp-amberbg:#fbf3df;
+  --wp-serif:'Spectral',Georgia,serif;--wp-sans:'Hanken Grotesk',system-ui,sans-serif;
+}
+.wp-overlay{position:fixed;inset:0;background:rgba(16,33,61,.72);z-index:420;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:26px 16px 96px}
+.wp-overlay.show{display:flex}
+.wp-shell{width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px}
+.wp-bar{display:flex;align-items:center;justify-content:space-between;color:#fff}
+.wp-bar h3{font:700 15px/1 var(--wp-sans);color:#fff}
+.wp-x{background:rgba(255,255,255,.16);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:20px;line-height:1}
+.wp-x:hover{background:rgba(255,255,255,.28)}
+.wp-card{width:100%;background:var(--wp-sf);border:1px solid var(--wp-line);border-radius:14px;padding:28px 26px 22px;box-shadow:0 10px 32px rgba(25,34,46,.22);font-family:var(--wp-sans);color:var(--wp-ink)}
+.wp-over{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--wp-k3);margin-bottom:14px}
+.wp-greet{font:600 21px/1.32 var(--wp-serif);letter-spacing:-.01em;margin-bottom:12px;color:var(--wp-ink)}
+.wp-intro{font-size:13.5px;line-height:1.55;color:var(--wp-k2);margin-bottom:22px}
+.wp-intro b{color:var(--wp-ink);font-weight:600}
+.wp-opt{padding:16px 0}
+.wp-opt-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.wp-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--wp-sans);background:#eef0f2;color:var(--wp-k2)}
+.wp-num.hi{background:var(--wp-accent);color:#fff}
+.wp-opt-t{font:600 16px/1.2 var(--wp-serif)}
+.wp-opt-t.hi{color:var(--wp-accent)}
+.wp-opt-b{font-size:13px;line-height:1.55;color:var(--wp-k2)}
+.wp-opt-b b{color:var(--wp-ink);font-weight:600}
+.wp-lock{display:inline-block;margin-top:10px;background:var(--wp-amberbg);color:var(--wp-amber);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:7px;line-height:1.3}
+.wp-div{display:flex;align-items:center;gap:10px;margin:6px 0;color:var(--wp-k3);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.wp-div::before,.wp-div::after{content:"";flex:1;height:1px;background:var(--wp-line)}
+.wp-clink{display:inline-flex;align-items:center;gap:3px;color:var(--wp-accent);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(10,58,134,.3)}
+.wp-funds{margin-top:14px;border:1px solid var(--wp-line);border-radius:10px;overflow:hidden}
+.wp-fund{display:flex;align-items:flex-start;gap:12px;padding:12px 13px;border-bottom:1px solid var(--wp-line);background:#fff}
+.wp-fund:last-child{border-bottom:none}
+.wp-fw{flex-shrink:0;min-width:86px;text-align:center;background:var(--wp-tint);color:var(--wp-accent);padding:8px 6px;border-radius:8px;display:flex;flex-direction:column;gap:2px;align-self:flex-start}
+.wp-fw b{font:700 13px/1.15 var(--wp-sans)}
+.wp-fw i{font-style:normal;font:600 10px/1 var(--wp-sans);color:var(--wp-k3)}
+.wp-sign{margin-top:18px}
+.wp-sign-hi{font-size:13px;color:var(--wp-k2);margin-bottom:10px}
+.wp-sign-row{display:flex;align-items:center;gap:12px}
+.wp-sign-badge{width:54px;height:54px;flex-shrink:0;border-radius:6px;display:block}
+.wp-sign-name{font:600 15px/1.25 var(--wp-serif);color:var(--wp-ink)}
+.wp-sign-role{font-size:10.5px;color:var(--wp-k3);margin-top:2px}
+.wp-warn{background:#f6f7f9;border-left:3px solid #c9ced6;padding:11px 13px;border-radius:6px;margin-top:14px;font-size:12.5px;line-height:1.5;color:var(--wp-k2)}
+.wp-warn b{color:var(--wp-ink);font-weight:600}
+.wp-strat{font:700 18px/1.25 var(--wp-serif);color:var(--wp-accent);margin:18px 0 6px}
+.wp-grp{display:flex;align-items:center;gap:8px;margin:18px 0 8px;flex-wrap:wrap}
+.wp-grp-pill{font-size:11.5px;font-weight:700;color:#fff;padding:4px 9px;border-radius:6px;white-space:nowrap}
+.wp-grp-pill.seg{background:var(--wp-accent)}
+.wp-grp-pill.gr{background:var(--wp-amber)}
+.wp-grp-lbl{font-size:13px;font-weight:700;color:var(--wp-ink)}
+.wp-isento{display:inline-block;margin-top:6px;margin-left:5px;background:#e9f6ee;color:#1f9d57;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;line-height:1.3}
+.wp-benefit{font-size:13px;line-height:1.55;color:var(--wp-k2);margin-top:16px}
+.wp-benefit b{color:var(--wp-ink);font-weight:600}
+.wp-cta{font:600 15px/1.35 var(--wp-serif);color:var(--wp-ink);margin-top:14px}
+.wp-fmid{flex:1;min-width:0}
+.wp-fn{font-size:13px;font-weight:700;color:var(--wp-ink);line-height:1.25}
+.wp-fd{font-size:11px;color:var(--wp-k3);line-height:1.35;margin-top:2px}
+.wp-risk{display:inline-block;margin-top:6px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;line-height:1.3}
+.wp-fv{flex-shrink:0;align-self:center;font-size:11.5px;font-weight:600;color:var(--wp-accent);text-decoration:none;white-space:nowrap}
+.wp-fv.none{color:var(--wp-k3);font-weight:500}
+.wp-close{font-size:13px;line-height:1.55;color:var(--wp-k2);margin-top:20px;padding-top:18px;border-top:1px solid var(--wp-line)}
+.wp-close b{color:var(--wp-ink);font-weight:600}
+.wp-foot{font-size:9.5px;line-height:1.5;color:var(--wp-k3);margin-top:14px}
+.wp-actions{display:flex;gap:9px}
+.wp-abtn{flex:1;border:none;border-radius:10px;padding:13px 10px;font:700 13px/1.1 var(--wp-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.wp-abtn svg{width:16px;height:16px}
+.wp-abtn-wa{background:#1a9a50;color:#fff}
+.wp-abtn-wa:hover{background:#127038}
+.wp-abtn-em{background:var(--wp-accent);color:#fff}
+.wp-abtn-em:hover{background:#072a63}
+.wp-abtn-png{background:#19222e;color:#fff}
+.wp-abtn-png:hover{background:#0c1118}
+.wp-abtn[disabled]{opacity:.6;cursor:default}
+
+.wp-modal{position:fixed;inset:0;background:rgba(25,34,46,.6);z-index:440;display:none;align-items:center;justify-content:center;padding:16px}
+.wp-modal.show{display:flex}
+.wp-mbox{background:#fff;border-radius:14px;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.32);font-family:var(--wp-sans)}
+.wp-mhead{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--wp-line)}
+.wp-mhead h3{font:600 16px/1.2 var(--wp-serif);color:var(--wp-ink)}
+.wp-mx{background:none;border:none;font-size:24px;color:var(--wp-k3);cursor:pointer;line-height:1}
+.wp-mscroll{overflow:auto;background:#fff;flex:1}
+.wp-mactions{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--wp-line);background:#fff}
+.wp-mbtn{flex:1;border:none;border-radius:9px;padding:13px 10px;font:700 13px/1.1 var(--wp-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.wp-mbtn svg{width:16px;height:16px}
+.wp-mbtn-pri{background:var(--wp-accent);color:#fff}
+.wp-mbtn-pri:hover{background:#072a63}
+.wp-mbtn-sec{background:#fff;color:var(--wp-accent);border:1px solid var(--wp-line)}
+.wp-mbtn-sec:hover{background:var(--wp-tint)}
+
+.wp-toast{position:fixed;bottom:80px;right:20px;background:#19222e;color:#fff;padding:13px 16px;border-radius:11px;font:500 12.5px/1.45 var(--wp-sans);max-width:320px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:460;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.wp-toast.show{opacity:1;transform:none}
+.wp-toast b{font-weight:700}
+
+/* ── Layout do PNG de exportação customizado ── */
+#wpPngHolder{position:fixed;left:-10000px;top:0;width:860px;pointer-events:none;opacity:1}
+#wpPngStage{width:860px;background:#fff;font-family:var(--wp-sans);color:var(--wp-ink)}
+.png-bar{height:16px;background:#0a3a86}
+.png-wrap{padding:42px 46px 8px}
+.png-over{font-size:19px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#8a93a0;margin-bottom:16px}
+.png-title{font:800 54px/1.14 var(--wp-sans);color:#0a3a86;letter-spacing:-.02em}
+.png-title b{background:#ffe73b;padding:2px 14px;border-radius:12px;color:#0a3a86;white-space:nowrap}
+.png-donut-wrap{margin:0}
+.png-comp{background:#ffe73b;padding:40px 46px 42px;text-align:center}
+.png-comp-k{font-size:30px;font-weight:800;color:#0a3a86;line-height:1.25}
+.png-comp-v{font:800 80px/1.05 var(--wp-sans);color:#0a3a86;margin:10px 0 12px;letter-spacing:-.02em}
+.png-comp-v span{font-size:36px;font-weight:800}
+.png-comp-s{font-size:24px;font-weight:800;color:#0a3a86;line-height:1.45}
+.png-sim{font-size:21px;font-weight:800;color:#3b4d72;margin-top:16px;line-height:1.4}
+.png-endbar{height:16px;background:#0a3a86}
+.pngb-bar-wrap{margin:24px 0 4px}
+.pngb-rows{display:flex;flex-direction:column;gap:20px;margin-top:14px}
+.pngb-row{position:relative;background:#fff;border:2.5px solid #e6e3da;border-radius:22px;padding:26px 30px 26px 118px;overflow:hidden}
+.pngb-pct{position:absolute;left:0;top:0;bottom:0;width:92px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:33px;font-weight:800;letter-spacing:-.01em}
+.pngb-top{display:flex;align-items:baseline;justify-content:space-between;gap:18px}
+.pngb-name{font-size:37px;font-weight:800;color:#19222e;letter-spacing:-.01em;line-height:1.12}
+.pngb-val{font-size:40px;font-weight:800;color:#0a3a86;letter-spacing:-.015em;white-space:nowrap}
+.pngb-tag{font-size:24px;font-weight:700;color:#5a6573;margin-top:8px;line-height:1.3}
+.pngb-meta{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:16px;align-items:center}
+.pngb-liq{background:#eef3fb;color:#0a3a86;font-size:23px;font-weight:800;padding:10px 18px;border-radius:14px}
+.pngb-risk{font-size:22px;font-weight:800}
+.pngb-isento{font-size:22px;font-weight:800;color:#1f9d57}
+
+/* ── Exportação em lote ── */
+.wp-abtn-lote{background:#5a3fae;color:#fff}
+.wp-abtn-lote:hover{background:#46309a}
+.lote-pill{flex:1;border:1.5px solid var(--wp-line);background:#fff;color:#5a6573;border-radius:8px;padding:9px;font:700 12px/1 var(--wp-sans);cursor:pointer}
+.lote-pill.on{border-color:var(--wp-accent);background:var(--wp-tint);color:var(--wp-accent)}
+</style>
+</head>
+<body>
+
+<div class="fabs">
+  <button class="fab fb1" onclick="togglePanel()"><span class="mi">tune</span> Parâmetros</button>
+  <button class="fab fb4" onclick="abrirWp()"><span class="mi">forum</span> Mensagem / E-mail</button>
+  <button class="fab fb3" onclick="abrirExport()"><span class="mi">image</span> Exportar cards</button>
+  <button class="fab fb2" onclick="imp()"><span class="mi">picture_as_pdf</span> PDF A4</button>
+</div>
+
+<div class="exp-overlay" id="expOverlay">
+  <div class="exp-modal">
+    <h3>Exportar cards como imagem</h3>
+    <p>Selecione os cards que deseja exportar. Cada um será salvo como imagem vertical, ideal para WhatsApp.</p>
+    <div class="exp-list" id="expList"></div>
+    <div class="exp-actions">
+      <button class="exp-btn exp-btn-cancel" onclick="fecharExport()">Cancelar</button>
+      <button class="exp-btn exp-btn-go" onclick="exportarSelecionados()"><span class="mi" style="font-size:15px">download</span> Exportar</button>
+    </div>
+    <div class="exp-progress" id="expProgress"></div>
+  </div>
+</div>
+
+<div class="panel" id="panel">
+  <div class="ptop"><h2>Ajustar proposta</h2><button onclick="togglePanel()"><span class="mi">close</span></button></div>
+  <div class="pin">
+    <div class="pg">Dados do cliente</div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome do cliente</label><input type="text" id="nome" value="João"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>MCI do Cliente (Opcional)</label><input type="text" id="mci" value="482.910.384" placeholder="Ex: 123456789"/></div>
+    <div class="pr2">
+      <div class="fld"><label>Capital (R$)</label><input type="number" id="capital" value="300000"/></div>
+      <div class="fld"><label>Prazo (anos)</label><input type="number" id="prazo" value="3"/></div>
+    </div>
+    <div class="pg">Cenário futuro estimado</div>
+    <div class="pr2">
+      <div class="fld"><label>CDI futuro (% a.a.)</label><input type="number" step="0.01" id="cdi" value="13.35"/></div>
+      <div class="fld"><label>IPCA futuro (% a.a.)</label><input type="number" step="0.01" id="ipca" value="5"/></div>
+    </div>
+    <div class="pg">Investimento Anterior — Raio-x do passado</div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome do Investimento</label><input type="text" id="invAntNome" value="LCA" placeholder="Ex: LCA, CDB..."/></div>
+    <div class="pr2">
+      <div class="fld"><label>CDI realizado (%)</label><input type="number" step="0.01" id="cdiPass" value="14.45"/></div>
+      <div class="fld"><label>IPCA realizado (%)</label><input type="number" step="0.01" id="ipcaPass" value="4.62"/></div>
+    </div>
+    <div class="fld" style="margin-bottom:8px"><label>Instituição Financeira</label><input type="text" id="banco" value="Banco ABC"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Taxa Contratada (% CDI)</label><input type="number" step="0.1" id="lcaTaxaPass" value="90"/></div>
+    
+    <div class="pg">Comparação de Cenário Futuro</div>
+    <div class="fld" style="margin-bottom:8px"><label>Nome do Ofertado / Concorrente</label><input type="text" id="invCompNome" value="Nova LCA" placeholder="Ex: CDB Ofertado"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Taxa Oferecida (% CDI)</label><input type="number" step="0.1" id="lcaTaxaNova" value="65"/></div>
+    <div class="fld" style="margin-bottom:8px"><label>Vencimento Oferecido</label><input type="month" id="lcaVenc"/></div>
+    
+    <div class="pg">Mensagem (reaplicação)</div>
+    <div class="fld" style="margin-bottom:8px"><label>Assessor (seu nome)</label><input type="text" id="assessor" value="Mauricio Fernandes" placeholder="Nome que assina a mensagem"/></div>
+    <button class="btn-g" onclick="fgc()"><span class="mi">verified_user</span> Otimizar FGC</button>
+    <div class="fgc-m" id="fgcM"></div>
+    <div class="pg">Composição (soma = 100%)</div>
+    <div id="fed"></div>
+    <button class="btn-g" onclick="addF()"><span class="mi">add</span> Adicionar ativo</button>
+  </div>
+</div>
+
+<div class="screen">
+  <div class="stitle">Proposta de Carteira Diversificada</div>
+  <div class="ssub">Banco do Brasil · GEINV · Perfil Conservador</div>
+
+  <div data-export="Capa — Apresentação" style="margin-bottom:12px;">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="hey-wrapper">
+          <div class="hey-trending-group">
+            <span class="hey-trending-text">TRENDING</span>
+            <span class="hey-trending-text white-text">UP</span>
+          </div>
+          <span class="hey-title">PATRIMÔNIO PROJETADO · CARTEIRA</span>
+        </div>
+        
+        <div class="hero-intro">
+          <h1 id="hero-l1">Olá, tudo bom?</h1>
+          <p id="hero-l2">Avaliamos o mercado para trazer as melhores opções disponíveis hoje para o seu perfil.</p>
+        </div>
+        
+        <div class="kpis">
+          <div class="kpi-footer" style="display:flex; justify-content:flex-start;">
+            <div class="kpi-footer-right" style="align-items:flex-start; text-align:left;">
+              <div class="kpi-footer-row curadoria-title">
+                <span class="mi" style="font-size:18px; color: #fcd500;">shield</span>
+                <span>Curadoria BB</span>
+              </div>
+              <div class="kpi-footer-sub">Risco distribuído · Conservador</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="fonte-selo" style="padding: 0 4px;">
+      <span class="mi">description</span>
+      <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
+    </div>
+  </div>
+
+  <div class="card" data-export="Gestão de Risco">
+    <div class="sec"><div class="ey">Gestão de Risco</div><div class="sh">Três razões para não concentrar os investimentos.</div></div>
+    <div class="r3">
+      <div class="rc"><div class="ri"><span class="mi">hub</span></div><h4>Concentração</h4><p>100% num emissor amplifica risco de crédito. <b>Pulverizar dilui.</b></p></div>
+      <div class="rc"><div class="ri"><span class="mi">savings</span></div><h4>Limite FGC</h4><p>Garantia de <b>R$ 250k por instituição.</b> Fundos completam a proteção.</p></div>
+      <div class="rc"><div class="ri"><span class="mi">schedule</span></div><h4>Reinvestimento</h4><p>Com Selic caindo, <b>travar prêmios reais longos</b> protege a rentabilidade.</p></div>
+    </div>
+  </div>
+
+  <div class="card" data-export="A Curadoria BB — Fortaleza">
+    <div class="sec"><div class="ey">A Curadoria BB</div><div class="sh">A fortaleza: cada camada com sua função.</div></div>
+    <div class="l4" id="fortaleza"></div>
+  </div>
+
+  <div class="pb"></div>
+
+  <div class="card" data-export="O Seu Raio-X">
+    <div class="sec"><div class="ey">O Seu Raio-X</div><div class="sh">O que de fato sobrou na conta (Investimento anterior)?</div></div>
+    <div style="padding:0 18px 16px"><table class="rtab" id="raix"></table></div>
+  </div>
+
+  <div class="card" data-export="A Composição + Mapa de Risco">
+    <div class="sec"><div class="ey">A Composição</div><div class="sh">Os ativos selecionados.</div></div>
+    <div id="compList"></div>
+    <div class="ds">
+      <div class="db">
+        <div class="dr">
+          <canvas id="donut"></canvas>
+          <div class="dc"><div class="dcv" id="dcv">—</div><div class="dcl">baixo risco</div></div>
+        </div>
+      </div>
+      <div class="rl" id="rleg"></div>
+    </div>
+    <div class="fonte-selo" style="padding: 12px 18px; border-top: 1px solid var(--ln);">
+      <span class="mi">description</span>
+      <span>Nossas recomendações se baseiam nas <a href="https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf" target="_blank">Carteiras Sugeridas BB</a> — documento oficial de recomendações de investimento do Banco do Brasil.</span>
+    </div>
+  </div>
+
+  <div class="pb"></div>
+
+  <div class="card" data-export="Transparência — Memória de Cálculo">
+    <div class="sec"><div class="ey">Transparência</div><div class="sh">Memória de cálculo — CDI <span id="m-cdi">—</span> · IPCA <span id="m-ipca">—</span></div></div>
+    <div style="overflow-x:auto">
+      <table class="mt">
+        <thead><tr style="background:var(--pr)">
+          <th>Ativo</th><th style="text-align:center">Peso</th><th style="text-align:right">Taxa bruta</th><th style="text-align:center">IR</th><th style="text-align:right">Líq. a.a.</th>
+        </tr></thead>
+        <tbody id="calc"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" data-export="Comparação — Lado a Lado">
+    <div class="sec"><div class="ey">Lado a Lado</div><div class="sh"><span id="cmp-b">Nova LCA</span> vs. carteira diversificada.</div></div>
+    <div style="overflow-x:auto">
+      <table class="ct">
+        <thead><tr>
+          <th style="background:var(--pr);color:#fff">Dimensão</th>
+          <th id="cmp-th-nova" style="background:#6b7a99;color:#fff">Nova LCA</th>
+          <th style="background:var(--gn);color:#fff">Carteira BB</th>
+        </tr></thead>
+        <tbody id="cmp"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="disc-box">
+    <p class="disc">Material de apoio à decisão; não constitui oferta vinculante. Fundos não têm garantia do FGC e estão sujeitos a marcação a mercado e tributação. Debêntures incentivadas são isentas de IR para PF. Rentabilidade passada não garante resultados futuros. Sujeito à verificação de perfil (suitability).</p>
+  </div>
+</div>
+
+<div class="wp-overlay wp-scope" id="wpOverlay">
+  <div class="wp-shell">
+    <div class="wp-bar">
+      <h3>Mensagem de Reaplicação</h3>
+      <button class="wp-x" onclick="fecharWp()">&times;</button>
+    </div>
+
+    <!-- PAINEL DE CUSTOMIZAÇÃO GLOBAL COM DRAG-AND-DROP UNIFICADO -->
+    <div class="wp-card" style="padding: 18px 22px; background: #fffdf2; border-left: 4px solid var(--wp-accent);">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid #ebe8e0; padding-bottom: 8px;">
+        <span class="mi" style="color: var(--wp-accent); font-size: 18px;">tune</span>
+        <span style="font-weight: 700; font-size: 13.5px; color: var(--wp-ink);">Customização do E-mail e PNG</span>
+      </div>
+      
+      <div style="font-size: 11.5px; color: var(--wp-k3); margin-bottom: 14px;">Arraste e solte os blocos para reordenar o layout final da proposta (E-mail e Imagem PNG).</div>
+      
+      <div id="cfgAllBlocks" style="display: flex; flex-direction: column; gap: 8px;">
+        <!-- Inserido dinamicamente via JS -->
+      </div>
+
+      <button class="wp-mbtn wp-mbtn-sec" onclick="addCustomText()" style="margin-top: 14px; width: 100%; border: 1.5px dashed var(--wp-accent); background: #ffffff;">
+        <span class="mi" style="font-size:16px;">add_circle_outline</span> Adicionar bloco de texto livre
+      </button>
+    </div>
+
+    <!-- Preview da Mensagem (WhatsApp) -->
+    <div class="wp-card" id="wpCard"></div>
+
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp(1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Texto 1 · antes
+      </button>
+      <button class="wp-abtn wp-abtn-wa" onclick="copiarWhatsApp(2)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Texto 2 · depois
+      </button>
+    </div>
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this,'donut')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        PNG · Donut
+      </button>
+      <button class="wp-abtn wp-abtn-png" onclick="baixarCardPng(this,'bar')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="5" rx="2"/><rect x="3" y="14" width="11" height="5" rx="2"/></svg>
+        PNG · Barras
+      </button>
+    </div>
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-em" onclick="abrirEmail()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Gerar e-mail
+      </button>
+    </div>
+    <div class="wp-actions">
+      <button class="wp-abtn wp-abtn-lote" onclick="abrirLote()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+        Gerar cards em lote (planilha)
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wp-modal wp-scope" id="wpEmailModal">
+  <div class="wp-mbox">
+    <div class="wp-mhead">
+      <h3>Pré-visualização do e-mail</h3>
+      <button class="wp-mx" onclick="fecharEmail()">&times;</button>
+    </div>
+    <div class="wp-mscroll"><div id="wpEmailRender"></div></div>
+    <div class="wp-mactions">
+      <button class="wp-mbtn wp-mbtn-pri" onclick="copiarFormatado()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        Copiar formatado
+      </button>
+      <button class="wp-mbtn wp-mbtn-sec" onclick="baixarEml()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0a3a86" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+        Baixar .eml
+      </button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="loteFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="loteFileSelected(event)"/>
+
+<div class="wp-modal wp-scope" id="loteModal">
+  <div class="wp-mbox" style="max-width:520px;">
+    <div class="wp-mhead">
+      <h3>Gerar cards em lote</h3>
+      <button class="wp-mx" onclick="fecharLote()">&times;</button>
+    </div>
+    <div class="wp-mscroll" style="padding:20px;">
+      <p style="font-size:13px;color:#5a6573;line-height:1.55;margin-bottom:14px;">
+        Envie uma planilha com as colunas <b>mci</b>, <b>nome</b> e <b>valor</b>. Cada linha vira um card,
+        usando exatamente os <b>parâmetros</b>, a <b>composição</b> e a <b>configuração de blocos</b> que estão ativos agora.
+        O resultado sai num único arquivo <b>.zip</b> (card PNG, e opcionalmente o texto do WhatsApp e o e-mail).
+      </p>
+
+      <button class="wp-mbtn wp-mbtn-sec" style="width:100%;margin-bottom:16px;" onclick="baixarTemplate()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0a3a86" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+        Baixar modelo de planilha
+      </button>
+
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;">
+        <button class="wp-mbtn wp-mbtn-pri" style="flex:1;" onclick="document.getElementById('loteFile').click()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21V9m0 0l-4 4m4-4l4 4M5 3h14"/></svg>
+          Selecionar planilha
+        </button>
+        <span id="loteFileName" style="font-size:12px;color:#9aa2ad;flex:1;">Nenhum arquivo</span>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;color:#19222e;margin-bottom:7px;">Layout do card</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button id="loteLayoutDonut" class="lote-pill on" onclick="setLoteLayout('donut')">Donut (rosca)</button>
+        <button id="loteLayoutBar" class="lote-pill" onclick="setLoteLayout('bar')">Barras</button>
+      </div>
+
+      <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#19222e;margin-bottom:10px;cursor:pointer;">
+        <input type="checkbox" id="loteIncTexto" checked style="width:16px;height:16px;accent-color:#0a3a86;"/>
+        Incluir textos do WhatsApp (.txt) por cliente no .zip
+      </label>
+
+      <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#19222e;margin-bottom:16px;cursor:pointer;">
+        <input type="checkbox" id="loteIncEmail" style="width:16px;height:16px;accent-color:#0a3a86;"/>
+        Incluir e-mail pronto (.eml) por cliente no .zip
+      </label>
+
+      <div id="lotePreview" style="background:#f7f8fa;border:1px solid #ebe8e0;border-radius:10px;padding:12px;min-height:48px;margin-bottom:14px;">
+        <div style="color:#9aa2ad;font-size:12px;">Selecione uma planilha para ver a prévia.</div>
+      </div>
+
+      <div id="loteProg" style="display:none;font-size:12.5px;color:#5a6573;text-align:center;margin-bottom:6px;"></div>
+    </div>
+    <div class="wp-mactions">
+      <button class="wp-mbtn wp-mbtn-sec" onclick="fecharLote()">Fechar</button>
+      <button id="loteGoBtn" class="wp-mbtn wp-mbtn-pri" disabled onclick="gerarLote()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        Gerar e baixar .zip
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wp-toast wp-scope" id="wpToast"></div>
+
+<div id="wpPngHolder" aria-hidden="true"><div id="wpPngStage" class="wp-scope"></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0,maximumFractionDigits:0}).format(v||0);
+const pct=(v,d=1)=>Math.abs(v).toFixed(d).replace('.',',')+' %';
+const gV=(id,fb=0)=>{const e=$(id);if(!e)return fb;const v=e.type==='number'?parseFloat(e.value):e.value;return(isNaN(v)||v==='')?fb:v};
+const gT=(id,fb='')=>{const e=$(id);const v=e?(''+e.value).trim():'';return v||fb;};
+
+const RISKS={1:{n:'Muito baixo',cor:'#1f9d57'},2:{n:'Baixo',cor:'#7cb342'},3:{n:'Médio',cor:'#ffb300'},4:{n:'Alto',cor:'#fb8c00'},5:{n:'Muito alto',cor:'#d94436'}};
+const ICO={lca:'foundation',liq:'water_drop',cred:'business_center',deb:'shield'};
+const LCORS=['var(--pr)','var(--gn)','var(--acd)','var(--rd)','var(--k3)','#7b2fff','#00838f'];
+
+let FUNDS=[
+  {nome:'BB RF LP High',               sub:'Caixa · Liquidez D+0',  tag:'Caixa D+0',                                              desc:'Liquidez imediata - Reserva de Emergência', w:50, proj:101,   tipo:'cdi',  risco:1, ico:'liq',  liq:'D+0',           isento:false, link:'https://fundos.bb.com.br/fundo?gfi=1320'},
+  {nome:'BB Régia Equilíbrio',         sub:'Crédito privado · ASG', tag:'Diversificação com impacto positivo e controle de risco',desc:'Crédito Privado com estratégia ASG',        w:40, proj:104.8, tipo:'cdi',  risco:2, ico:'cred', liq:'D+6',           isento:false, link:'https://fundos.bb.com.br/fundo?gfi=2363'},
+  {nome:'Debênture Incentivada EQMAA2',sub:'IPCA+ Isenta · brAAA',  tag:'Rentabilidade com pagamento da inflação',                desc:'Trava ganho real. brAAA, isenta IR PF.',   w:10, proj:7.77,  tipo:'ipca', risco:5, ico:'deb',  liq:'No vencimento', isento:true,  link:'https://www.bb.com.br/docs/portal/upb/SelecaoCP.pdf'}
+];
+
+// O LOGO ANBIMA CORRETO (Profissional CEA)
+const ANBIMA_B64 = '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';
+
+// ── ARRAY GLOBAL E UNIFICADO PARA DRAG-AND-DROP (CORE + ANEXOS + EXTRAS) ──
+let LAYOUT_BLOCKS = [
+  { id: 'capa', type: 'core', name: 'Cabeçalho de saudação', desc: 'Apresentação com o nome do cliente' },
+  { id: 'grafico', type: 'core', name: 'Gráfico de alocação', desc: 'Visualização da carteira (barras ou donut)' },
+  { id: 'ativos', type: 'core', name: 'Cards detalhados dos ativos', desc: 'Lista de fundos recomendados' },
+  { id: 'cmp', type: 'core', name: 'Faixa Amarela de Comparação', desc: 'Comparativo (+R$ ao ano)' },
+  { id: 'm_risco', type: 'anexo', name: 'Gestão de Risco', desc: 'Módulo de anexo visual', dataExport: 'Gestão de Risco' },
+  { id: 'm_fortaleza', type: 'anexo', name: 'A Curadoria BB — Fortaleza', desc: 'Módulo de anexo visual', dataExport: 'A Curadoria BB — Fortaleza' },
+  { id: 'm_raiox', type: 'anexo', name: 'O Seu Raio-X', desc: 'Módulo de anexo visual', dataExport: 'O Seu Raio-X' },
+  { id: 'm_comp', type: 'anexo', name: 'A Composição + Mapa de Risco', desc: 'Módulo de anexo visual', dataExport: 'A Composição + Mapa de Risco' },
+  { id: 'm_transp', type: 'anexo', name: 'Transparência — Memória de Cálculo', desc: 'Módulo de anexo visual', dataExport: 'Transparência — Memória de Cálculo' },
+  { id: 'm_compara', type: 'anexo', name: 'Comparação — Lado a Lado', desc: 'Módulo de anexo visual', dataExport: 'Comparação — Lado a Lado' },
+  { id: 'm_assinatura', type: 'assinatura', name: 'Assinatura com Logo e Nome', desc: 'Assinatura do assessor' }
+];
+
+let cfgModulos = {
+  'capa': true, 'grafico': true, 'ativos': true, 'cmp': true,
+  'm_risco': false, 'm_fortaleza': true, 'm_raiox': true, 'm_comp': true, 'm_transp': true, 'm_compara': true, 'm_assinatura': true
+};
+
+let cfgAtivosAtivos = []; 
+let customTextCounter = 0;
+let dragSrcEl = null;
+
+const WP_MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+let WP_D=null;
+
+function handleDragStart(e, idx) {
+  dragSrcEl = idx; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', idx); e.currentTarget.style.opacity = '0.4';
+}
+function handleDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; return false; }
+function handleDragEnter(e) { e.currentTarget.style.borderStyle = 'dashed'; }
+function handleDragLeave(e) { e.currentTarget.style.borderStyle = 'solid'; }
+function handleDrop(e, idx) {
+  e.stopPropagation();
+  if (dragSrcEl !== null && dragSrcEl !== idx) {
+    const item = LAYOUT_BLOCKS.splice(dragSrcEl, 1)[0];
+    LAYOUT_BLOCKS.splice(idx, 0, item);
+    renderAllBlocks(); abrirWp(true);
+  }
+  return false;
+}
+function handleDragEnd(e) {
+  e.currentTarget.style.opacity = '1';
+  document.querySelectorAll('#cfgAllBlocks > div').forEach(div => div.style.borderStyle = 'solid');
+}
+
+function togglePanel(){$('panel').classList.toggle('open')}
+function imp(){$('panel').classList.remove('open');setTimeout(()=>window.print(),350)}
+function getExportables(){ return [...document.querySelectorAll('[data-export]')]; }
+
+function abrirExport(){
+  const items = getExportables();
+  $('expList').innerHTML = items.map((el,i)=>`<label class="exp-item"><input type="checkbox" value="${i}" checked/><div><div class="exp-item-name">${el.dataset.export}</div><div class="exp-item-sub">${i===0?'Card de capa (Hero)':'Card de conteúdo'}</div></div></label>`).join('');
+  $('expOverlay').classList.add('show'); $('expProgress').className='exp-progress';
+}
+function fecharExport(){ $('expOverlay').classList.remove('show'); }
+function slugify(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+
+async function exportarSelecionados(){
+  const checks = [...$('expList').querySelectorAll('input:checked')];
+  if(!checks.length){return;}
+  const items = getExportables(); const prog  = $('expProgress'); prog.className='exp-progress show';
+  try{ await document.fonts.ready; }catch(e){}
+  const OPTS = { pixelRatio:2.5, backgroundColor:'#f4f7fd' };
+
+  for(let idx=0; idx<checks.length; idx++){
+    const i = +checks[idx].value; const el = items[i]; const nome = el.dataset.export;
+    prog.textContent=`Gerando ${idx+1} de ${checks.length}: ${nome}…`;
+    const holder = document.createElement('div'); holder.style.cssText='position:fixed;left:-10000px;top:0;width:480px;z-index:-1;pointer-events:none;opacity:1';
+    const shot = document.createElement('div'); shot.className='exp-shot';
+    const clone = el.cloneNode(true); clone.style.margin='0';
+    const oc = el.querySelectorAll('canvas'); const cc = clone.querySelectorAll('canvas');
+    oc.forEach((canvas, c) => { if(cc[c] && canvas.width && canvas.height){ cc[c].width = canvas.width; cc[c].height = canvas.height; cc[c].getContext('2d').drawImage(canvas, 0, 0); } });
+    shot.appendChild(clone); holder.appendChild(shot); document.body.appendChild(holder);
+
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    await new Promise(r=>setTimeout(r,120));
+
+    let dataUrl;
+    try{ await htmlToImage.toPng(shot, { pixelRatio:1, backgroundColor:'#f4f7fd' }); dataUrl = await htmlToImage.toPng(shot, OPTS); }
+    catch(err){ prog.textContent = `Erro ao gerar "${nome}". Tente novamente.`; if(holder.parentNode) document.body.removeChild(holder); await new Promise(r=>setTimeout(r,1200)); continue; }
+    if(holder.parentNode) document.body.removeChild(holder);
+    const a = document.createElement('a'); a.download = `proposta-bb_${String(idx+1).padStart(2,'0')}_${slugify(nome)}.png`; a.href = dataUrl; a.click();
+    await new Promise(r=>setTimeout(r,500));
+  }
+  prog.textContent=`✓ ${checks.length} imagem(ns) exportada(s)!`; setTimeout(fecharExport,2200);
+}
+
+function hasIR(f){ if(typeof f.isento === 'boolean') return !f.isento; return !/(lca|lci|cri|cra|lig|isent|incentivad|deb[êe]nture)/i.test((f.nome||'')+' '+(f.sub||'')); }
+function rate(f, cdi, ipca){ if(f.tipo==='cdi') return cdi * (f.proj/100); if(f.tipo==='ipca') return ipca + (f.proj/100); return f.proj/100; }
+function fgc(){
+  const cap=gV('capital',300000), m=$('fgcM');
+  if(cap>250000){
+    const p=(250000/cap)*100, r=100-p; FUNDS[0].w=+p.toFixed(1); FUNDS[1].w=+(r*.4).toFixed(1); FUNDS[2].w=+(r*.2).toFixed(1); FUNDS[3].w=+(r*.4).toFixed(1);
+    renderEd(); calc(); m.textContent=`✓ Investimento ajustado a R$ 250k (${p.toFixed(1)}%). Excedente redistribuído.`;
+  } else { m.textContent='✓ Capital dentro do limite FGC.'; }
+  m.className='fgc-m show';
+}
+function renderEd(){
+  $('fed').innerHTML=FUNDS.map((f,i)=>`<div class="fc"><div class="fc-top"><input value="${f.nome}" oninput="U(${i},'nome',this.value)" placeholder="Nome do ativo"/><button class="fc-del" onclick="delF(${i})"><span class="mi">delete</span></button></div><div class="g2" style="margin-bottom:6px"><div><span class="ml">Rótulo (tag)</span><input value="${f.tag||''}" oninput="U(${i},'tag',this.value)"/></div><div><span class="ml">Classe / sub</span><input value="${f.sub}" oninput="U(${i},'sub',this.value)"/></div></div><div style="margin-bottom:6px"><span class="ml">Descrição (quadro curadoria)</span><input value="${f.desc||''}" oninput="U(${i},'desc',this.value)"/></div><div style="margin-bottom:6px"><span class="ml">Link do produto</span><input value="${f.link||''}" oninput="U(${i},'link',this.value)" placeholder="https://..."/></div><div class="g3"><div><span class="ml">Peso %</span><input type="number" value="${f.w}" oninput="U(${i},'w',+this.value)"/></div><div><span class="ml">Proj.</span><input type="number" step="0.1" value="${f.proj}" oninput="U(${i},'proj',+this.value)"/></div><div><span class="ml">Tipo</span><select onchange="U(${i},'tipo',this.value)"><option value="cdi" ${f.tipo==='cdi' ?'selected':''}>% CDI</option><option value="ipca" ${f.tipo==='ipca'?'selected':''}>IPCA+%</option></select></div></div><div class="g2" style="margin-top:6px"><div><span class="ml">Risco</span><select onchange="U(${i},'risco',+this.value)">${Object.entries(RISKS).map(([k,v])=>`<option value="${k}" ${+f.risco===+k?'selected':''}>${k}·${v.n}</option>`).join('')}</select></div><div><span class="ml">Liquidez</span><input value="${f.liq}" oninput="U(${i},'liq',this.value)"/></div></div><label style="display:flex;align-items:center;gap:7px;margin-top:8px;font-size:12px;cursor:pointer;user-select:none"><input type="checkbox" ${hasIR(f)?'':'checked'} onchange="U(${i},'isento',this.checked)" style="width:16px;height:16px;cursor:pointer"/><span><b>Isento de IR</b> · LCA, LCI, CRI, CRA, LIG, debênture incentivada</span></label></div>`).join('');
+}
+function U(i,k,v){FUNDS[i][k]=v; calc()}
+function addF(){FUNDS.push({nome:'Novo Ativo',sub:'Classe',tag:'Novo',desc:'Descrição.',w:0,proj:100,tipo:'cdi',risco:3,ico:'cred',liq:'D+1',isento:false,link:''}); renderEd(); calc()}
+function delF(i){FUNDS.splice(i,1); renderEd(); calc()}
+function syncCfgAtivos() { while(cfgAtivosAtivos.length < FUNDS.length) cfgAtivosAtivos.push(true); if(cfgAtivosAtivos.length > FUNDS.length) cfgAtivosAtivos = cfgAtivosAtivos.slice(0, FUNDS.length); }
+
+['nome','mci','capital','prazo','cdi','ipca','banco','cdiPass','ipcaPass','lcaTaxaPass','lcaTaxaNova','invAntNome','invCompNome','lcaVenc'].forEach(id=>{const e=$(id); if(e) e.addEventListener('input',calc)});
+let donutI=null;
+
+function calc(){
+  const nome = gT('nome', ''); const mci = gT('mci', ''); const cap = gV('capital',300000); const prazo = gV('prazo',3);
+  const cdi = gV('cdi',13.35)/100; const ipca = gV('ipca',5)/100; const banco = gT('banco','Banco ABC');
+  const lcaTaxaPass = gV('lcaTaxaPass',90)/100; const lcaTaxaNova = gV('lcaTaxaNova',65)/100;
+  const cdiPass = gV('cdiPass',14.45)/100; const ipcaPass = gV('ipcaPass',4.62)/100;
+  const invAntNome = gT('invAntNome','LCA'); const invCompNome = gT('invCompNome','Nova LCA');
+  syncCfgAtivos();
+
+  $('hero-l1').textContent = nome ? `Olá, ${nome}, tudo bom?` : 'Olá! Tudo bom?';
+  const valStr = (cap > 0 && !isNaN(cap)) ? ` de ${fmt(cap)}` : '';
+  $('hero-l2').textContent = `Seu investimento em ${invAntNome}${valStr} venceu. Avaliamos o mercado para trazer as melhores opções disponíveis hoje para o seu perfil.`;
+
+  const lcaRateNova = cdi * lcaTaxaNova; const lcaFinal = cap * Math.pow(1+lcaRateNova, prazo);
+  let divFinal=0, wNet=0;
+  FUNDS.forEach(f=>{ const w = f.w/100; const g = rate(f, cdi, ipca); const n = hasIR(f) ? g*0.85 : g; divFinal += (cap*w) * Math.pow(1+n, prazo); wNet += w * n; });
+
+  const rendPass = cap*(cdiPass*lcaTaxaPass); const corrInfl = cap*ipcaPass; const ganhoReal = rendPass-corrInfl;
+  $('raix').innerHTML=`<tr><td>Capital investido</td><td class="num" style="color:var(--pr)">${fmt(cap)}</td></tr><tr><td>Taxa contratada (${invAntNome})</td><td class="num">${pct(lcaTaxaPass*100,0)+' CDI'}</td></tr><tr><td>Rendimento bruto nominal</td><td class="num" style="color:var(--pr)">+${fmt(rendPass)}</td></tr><tr><td style="color:var(--rd)">Corrosão inflação (IPCA realizado)</td><td class="num" style="color:var(--rd)">−${fmt(corrInfl)}</td></tr><tr><td><b>Ganho real efetivo</b></td><td class="num" style="color:var(--gnd)"><b>${ganhoReal>=0?'+':''}${fmt(ganhoReal)}</b></td></tr>`;
+
+  const fort = $('fortaleza'); fort.style.gridTemplateColumns = `repeat(${FUNDS.length},1fr)`;
+  fort.innerHTML = FUNDS.map((f,i)=>{
+    const cor = LCORS[i]||'var(--k2)'; const pt = f.tipo==='cdi' ? `${(''+f.proj).replace('.',',')}% CDI` : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<div class="ly" style="border-top:3px solid ${cor}"><div class="ly-tag" style="color:${cor}">${f.tag||f.nome}</div><h4>${f.nome}</h4><p>${f.desc||f.sub}</p><div class="ly-meta">${f.w}% · ${pt} · ${f.liq}</div>${f.link?`<a href="${f.link}" target="_blank" class="ly-link" style="color:${cor}"><span class="mi">open_in_new</span> Ver produto</a>`:''}</div>`;
+  }).join('');
+
+  $('compList').innerHTML = FUNDS.map(f=>{
+    const rk = RISKS[f.risco]||RISKS[3]; const pt = f.tipo==='cdi' ? `${(''+f.proj).replace('.',',')}% CDI` : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<div class="ci"><div class="cii" style="background:${rk.cor}"><span class="mi">${ICO[f.ico]||'paid'}</span></div><div><div class="cn">${f.nome}</div><div class="cs">${f.sub} · ${pt} · ${f.liq}</div></div><span class="cb" style="background:${rk.cor}20;color:${rk.cor}">${rk.n}</span><div class="cpct">${Math.round(f.w)}<small>%</small></div></div>`;
+  }).join('');
+
+  const byR={}; FUNDS.forEach(f=>{byR[f.risco]=(byR[f.risco]||0)+(+f.w||0)});
+  const ord = Object.keys(RISKS).filter(k=>byR[k]>0); const tot = ord.reduce((a,k)=>a+byR[k],0)||1;
+  const cons = ((byR[1]||0)+(byR[2]||0))/tot*100; $('dcv').textContent = Math.round(cons)+'%';
+  if(donutI) donutI.destroy();
+  donutI = new Chart($('donut'),{type:'doughnut', data:{labels:ord.map(k=>RISKS[k].n), datasets:[{data:ord.map(k=>byR[k]),backgroundColor:ord.map(k=>RISKS[k].cor),borderColor:'#fff',borderWidth:3,hoverOffset:6}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false}}}});
+  $('rleg').innerHTML = ord.map(k=>{ const v=RISKS[k], p=Math.round(byR[k]/tot*100); return `<div class="rli"><span class="rld" style="background:${v.cor}"></span><div><div class="rln">${v.n}</div><div class="rls">${fmt(cap*byR[k]/100)}</div></div><span class="rlp" style="color:${v.cor}">${p}%</span></div>`; }).join('');
+
+  $('m-cdi').textContent = pct(cdi*100); $('m-ipca').textContent = pct(ipca*100);
+  $('calc').innerHTML = FUNDS.map(f=>{
+    const g = rate(f, cdi, ipca); const ir = hasIR(f); const n = ir ? g*0.85 : g; const pt = f.tipo==='cdi' ? `${(''+f.proj).replace('.',',')}% CDI` : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+    return `<tr><td>${f.nome}</td><td style="text-align:center">${f.w}%</td><td style="text-align:right">${pt}</td><td style="text-align:center">${ir?'<span class="bgr">15%</span>':'<span class="bg">Isento</span>'}</td><td class="num" style="color:var(--pr)">${pct(n*100)}</td></tr>`;
+  }).join('')+`<tr><td><b>Média ponderada</b></td><td style="text-align:center"><b>100%</b></td><td></td><td></td><td class="num" style="color:var(--gnd)"><b>${pct(wNet*100)}</b></td></tr>`;
+
+  $('cmp-b').textContent = invCompNome; if($('cmp-th-nova')) $('cmp-th-nova').textContent = invCompNome;
+  const ipcaW = FUNDS.filter(f=>f.tipo==='ipca').reduce((s,f)=>s+f.w,0); const isentoW = FUNDS.filter(f=>!hasIR(f)).reduce((s,f)=>s+f.w,0);
+  const lcaRealAno = ((1+lcaRateNova)/(1+ipca)-1)*100; const divRealAno = ((1+wNet)/(1+ipca)-1)*100;
+  $('cmp').innerHTML=[
+    ['Patrimônio final', fmt(lcaFinal), fmt(divFinal), divFinal>lcaFinal],
+    ['Rent. líquida a.a.', pct(lcaRateNova*100), pct(wNet*100), wNet>lcaRateNova],
+    ['Ganho real a.a.', pct(lcaRealAno), pct(divRealAno), divRealAno>lcaRealAno],
+    ['Proteção inflação', 'Não há', ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
+    ['Concentração', '1 emissor', `✓ ${Math.round(cons)}% baixo risco`, true],
+    ['Liquidez', 'No vencimento', '✓ Parte em D+0', true],
+    ['Tributação IR', 'Isento', `${Math.round(isentoW)}% isento`, false],
+    ['Gestão', 'Autônoma', '✓ Curadoria BB-BI', true],
+  ].map(r=>`<tr><td><b>${r[0]}</b></td><td style="color:var(--k2)">${r[1]}</td><td class="${r[3]?'win':''}">${r[2]}</td></tr>`).join('');
+}
+
+const wpNum=v=>Number.isInteger(v)?v.toFixed(0):(''+v).replace('.',',');
+const wpFmtC=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(v||0);
+
+function buildD(ovr){
+  ovr = ovr || {};
+  const nome = (ovr.nome!=null && (''+ovr.nome).trim()) ? (''+ovr.nome).trim() : gT('nome','cliente');
+  const mci  = (ovr.mci!=null) ? (''+ovr.mci).trim() : gT('mci','');
+  const cap  = (ovr.valor!=null && !isNaN(parseFloat(ovr.valor))) ? parseFloat(ovr.valor) : gV('capital',300000);
+  const prazo = gV('prazo',3); const cdi = gV('cdi',13.35)/100; const ipca = gV('ipca',5)/100;
+  const lcaNova = gV('lcaTaxaNova',65); const lcaTaxaPass = gV('lcaTaxaPass',90)/100;
+  const cdiPass = gV('cdiPass',14.45)/100; const ipcaPass = gV('ipcaPass',4.62)/100;
+  const invAntNome = gT('invAntNome','LCA'); const invCompNome = gT('invCompNome','Nova LCA');
+  const lcaVenc = $('lcaVenc') ? $('lcaVenc').value : ''; const assessor = gT('assessor','Mauricio Fernandes');
+  let vencStr;
+  if(lcaVenc){ const p = lcaVenc.split('-'); vencStr = WP_MESES[(+p[1]||1)-1] + '/' + p[0]; } 
+  else { const v = new Date(); v.setMonth(v.getMonth()+Math.round(prazo*12)); vencStr = WP_MESES[v.getMonth()] + '/' + v.getFullYear(); }
+
+  const lcaRateNova = (lcaNova/100) * cdi; const lcaFinal = cap * Math.pow(1+lcaRateNova, prazo);
+  let divFinal=0, wNet=0, ipcaW=0, isentoW=0;
+  FUNDS.forEach(f=>{ const w = (+f.w||0)/100; const g = rate(f, cdi, ipca); const n = f.isento ? g : g*0.85; divFinal += (cap*w) * Math.pow(1+n, prazo); wNet += w * n; if(f.tipo==='ipca') ipcaW += (+f.w||0); if(f.isento) isentoW += (+f.w||0); });
+  const lcaRealAno = ((1+lcaRateNova)/(1+ipca)-1)*100; const divRealAno = ((1+wNet)/(1+ipca)-1)*100;
+  const cons = FUNDS.reduce((a,f)=>a+((+f.risco||3)<=2?(+f.w||0):0),0);
+  const rendPass = cap*(cdiPass*lcaTaxaPass); const corrInfl = cap*ipcaPass; const ganhoReal = rendPass-corrInfl;
+
+  const D = {
+    nome, mci, valor: fmt(cap), invAntNome, invCompNome, taxa: wpNum(lcaNova)+'% do CDI', venc: vencStr,
+    assessor, assessorFirst: assessor.split(' ')[0], carteiraLink:'https://www.bb.com.br/docs/portal/uci/CarteiraSugeridaBB.pdf',
+    raiox: { cap: fmt(cap), taxa: pct(lcaTaxaPass*100,0)+' CDI', rend: '+'+fmt(rendPass), infl: '−'+fmt(corrInfl), ganho: (ganhoReal>=0?'+':'')+fmt(ganhoReal), ganhoPos: ganhoReal>=0 },
+    cmp: [
+      ['Patrimônio final', fmt(lcaFinal), fmt(divFinal), divFinal>lcaFinal],
+      ['Rent. líquida a.a.', pct(lcaRateNova*100), pct(wNet*100), wNet>lcaRateNova],
+      ['Ganho real a.a.', pct(lcaRealAno), pct(divRealAno), divRealAno>lcaRealAno],
+      ['Proteção inflação', 'Não há', ipcaW>0?`✓ ${Math.round(ipcaW)}% IPCA+`:'—', ipcaW>0],
+      ['Concentração', '1 emissor', `✓ ${Math.round(cons)}% baixo risco`, true],
+      ['Liquidez', 'No vencimento', '✓ Parte em D+0', true],
+      ['Tributação IR', 'Isento', `${Math.round(isentoW)}% isento`, false],
+      ['Gestão', 'Autônoma', '✓ Curadoria BB-BI', true]
+    ],
+    calcMedia: pct(wNet*100),
+    calcAtivos: FUNDS.map(f=>{
+      const g = rate(f, cdi, ipca); const n = f.isento ? g : g*0.85;
+      const pt = f.tipo==='cdi' ? `${(''+f.proj).replace('.',',')}% CDI` : `IPCA+ ${(''+f.proj).replace('.',',')}%`;
+      return { nome: f.nome, peso: f.w+'%', taxa: pt, ir: f.isento?'Isento':'15%', liq: pct(n*100) };
+    }),
+    funds: FUNDS.map(f=>{
+      const rk = RISKS[f.risco]||RISKS[3]; const lq=(''+(f.liq||'')).trim(); let liqTxt='';
+      const m=lq.match(/^D\s*\+\s*(\d+)$/i);
+      if(m){ const n=+m[1]; liqTxt = n===0 ? 'Resgate no mesmo dia' : (n===1 ? 'Resgate em 1 dia' : 'Resgate em '+n+' dias'); }
+      else if(/venc/i.test(lq)){ liqTxt='No vencimento do investimento'; } else if(lq){ liqTxt='Resgate: '+lq; }
+      const pt = f.tipo==='cdi' ? `${Number(f.proj).toFixed(1).replace('.',',')}% CDI` : `IPCA+ ${Number(f.proj).toFixed(1).replace('.',',')}%`;
+      return { w: Math.round(f.w)+'%', wNum:+f.w||0, riscoNum:+f.risco||3, vlr: wpFmtC(cap*(+f.w||0)/100), n: f.nome, d:(f.desc||f.sub||''), tag:(f.tag||f.desc||f.sub||''), taxaEmail: pt, liq:liqTxt, link:f.link||'', risco: rk.n, cor: rk.cor, tipo: f.tipo, isento: !!f.isento };
+    }),
+    compBar: (()=>{
+      if(!(lcaNova>0) || !(cdi>0)) return null;
+      const tw = FUNDS.reduce((a,f)=>a+(+f.w||0),0)||100;
+      const cartNet = FUNDS.reduce((a,f)=>{
+        const bruta = f.tipo==='ipca' ? (ipca*100 + (+f.proj||0)) : ((+f.proj||0)/100*cdi*100);
+        return a + (f.isento ? bruta : bruta*0.85)*(+f.w||0)/tw;
+      },0);
+      const lcaNet = lcaNova/100*cdi*100;
+      return { diffReais: fmt(cap*(cartNet-lcaNet)/100), cartNet: cartNet.toFixed(1).replace('.',','), lcaNet: lcaNet.toFixed(1).replace('.',',') };
+    })(),
+    grupos: (()=>{
+      let sw=0,sv=0,gw=0,gv=0;
+      FUNDS.forEach(f=>{ const v=cap*(+f.w||0)/100; if(f.tipo==='ipca'){gw+=(+f.w||0);gv+=v;} else {sw+=(+f.w||0);sv+=v;} });
+      return { seg:{pct:Math.round(sw)+'%', vlr:wpFmtC(sv), has:sw>0}, gr: {pct:Math.round(gw)+'%', vlr:wpFmtC(gv), has:gw>0} };
+    })()
+  };
+  return D;
+}
+
+function wpGrp(funds, pct, vlr, label, cls){
+  if(!funds.length) return '';
+  const rows = funds.map(f=>{
+    const acao = f.link ? `<a class="wp-fv" href="${f.link}" target="_blank">Ver ↗</a>` : `<span class="wp-fv none">—</span>`;
+    const isento = f.isento ? `<span class="wp-isento">Isento de IR</span>` : '';
+    return `<div class="wp-fund"><span class="wp-fw"><b>${f.vlr}</b><i>${f.w}</i></span><div class="wp-fmid"><div class="wp-fn">${f.n}</div><div class="wp-fd">${f.d}</div><span class="wp-risk" style="background:${f.cor}1a;color:${f.cor}">Risco: ${f.risco}</span>${isento}</div>${acao}</div>`;
+  }).join('');
+  return `<div class="wp-grp"><span class="wp-grp-pill ${cls}">${pct} · ${vlr}</span><span class="wp-grp-lbl">${label}</span></div><div class="wp-funds">${rows}</div>`;
+}
+
+function wpCardHTML(D){
+  const segFunds = D.funds.filter(f=>f.tipo!=='ipca'); const grFunds  = D.funds.filter(f=>f.tipo==='ipca');
+  const segHTML  = wpGrp(segFunds, D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido', 'seg');
+  const grHTML   = wpGrp(grFunds,  D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação', 'gr');
+  
+  let dynamicAnexos = '';
+  LAYOUT_BLOCKS.forEach(mod => {
+    if (cfgModulos[mod.id]) {
+      if (mod.type === 'custom_text') {
+        dynamicAnexos += `<div class="wp-strat" style="margin-top:24px;">${mod.title}</div><p class="wp-intro" style="margin-top:6px;">${mod.content.replace(/\n/g, '<br/>')}</p>`;
+      } else if (mod.type === 'assinatura') {
+        dynamicAnexos += `
+        <div class="wp-sign" style="margin-top:24px; padding-top:18px; border-top:1px solid var(--wp-line);">
+          <div class="wp-sign-hi">Um abraço,</div>
+          <div class="wp-sign-row">
+            <img class="wp-sign-badge" src="data:image/png;base64,${ANBIMA_B64}" alt="ANBIMA Profissional CEA"/>
+            <div><div class="wp-sign-name">${D.assessor}</div><div class="wp-sign-role">ANBIMA Profissional CEA · Assessoria de Investimentos BB</div></div>
+          </div>
+        </div>`;
+      }
+    }
+  });
+
+  return `
+    <p class="wp-greet">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</p>
+    <p class="wp-intro">Seu investimento de <b>${D.valor} em ${D.invAntNome}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
+    <div class="wp-warn">A taxa oferecida hoje em um novo <b>${D.invCompNome}</b> é de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b>${D.venc}</b>.</div>
+    <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
+    <div class="wp-strat">A Estratégia da Assessoria</div>
+    <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</p>
+    ${segHTML}
+    ${grHTML}
+    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</p>
+    <p class="wp-cta">${D.nome}, faz sentido migrarmos para essa estratégia hoje?</p>
+    <p class="wp-close" style="border-top:none; padding-top:0;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</p>
+    
+    ${dynamicAnexos}
+    
+    <p class="wp-foot">Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.</p>
+  `;
+}
+
+function buildSingleEmailAnexoHTML(modId, D) {
+  function wrapCard(title, subtitle, contentHTML) {
+    return `<div style="margin-top:24px;border:1px solid #ebe8e0;border-radius:12px;background:#ffffff;padding:22px;box-shadow:0 4px 12px rgba(25,34,46,0.04);"><div style="font-size:11px;font-weight:bold;color:#0a3a86;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">${title}</div><div style="font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#19222e;margin-bottom:18px;">${subtitle}</div>${contentHTML}</div>`;
+  }
+
+  if (modId === 'm_risco') {
+     return wrapCard('Gestão de Risco', 'Três razões para não concentrar os investimentos.', `<table width="100%" cellspacing="0" cellpadding="0" style="font-size:13px;color:#5a6573; text-align:left;"><tr><td width="33%" valign="top" style="padding-right:12px;"><div style="font-size:24px;color:#0040a8;margin-bottom:8px;">&#10051;</div><b style="color:#19222e;font-size:14px;display:block;margin-bottom:4px;">Concentração</b>100% num emissor amplifica risco de crédito. Pulverizar dilui.</td><td width="33%" valign="top" style="padding:0 12px;border-left:1px solid #f0eee8;"><div style="font-size:24px;color:#0040a8;margin-bottom:8px;">&#128176;</div><b style="color:#19222e;font-size:14px;display:block;margin-bottom:4px;">Limite FGC</b>Garantia de R$ 250k por instituição. Fundos completam a proteção.</td><td width="33%" valign="top" style="padding-left:12px;border-left:1px solid #f0eee8;"><div style="font-size:24px;color:#0040a8;margin-bottom:8px;">&#9201;</div><b style="color:#19222e;font-size:14px;display:block;margin-bottom:4px;">Reinvestimento</b>Com Selic caindo, travar prêmios reais longos protege a rentabilidade.</td></tr></table>`);
+  }
+  if (modId === 'm_fortaleza') {
+     const rows = D.funds.map((f, i) => `<tr><td style="padding:14px 0;${i<D.funds.length-1?'border-bottom:1px solid #f0eee8;':''}"><div style="font-size:10px;font-weight:bold;color:${f.cor};text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">${f.tag}</div><div style="font-size:15px;font-weight:bold;color:#19222e;margin-bottom:2px;">${f.n}</div><div style="font-size:13.5px;color:#5a6573;line-height:1.45;margin-bottom:6px;">${f.d}</div><div style="font-size:12px;font-weight:bold;color:#19222e;">${f.w} &middot; ${f.taxaEmail}</div></td></tr>`).join('');
+     return wrapCard('A Curadoria BB', 'A fortaleza: cada camada com sua função.', `<table width="100%" cellspacing="0" cellpadding="0">${rows}</table>`);
+  }
+  if (modId === 'm_raiox' && D.raiox) {
+     return wrapCard('O Seu Raio-X', 'O que de fato sobrou na conta (Investimento anterior)?', `<table width="100%" cellspacing="0" cellpadding="10" style="font-size:14px;color:#5a6573;"><tr><td style="padding-left:0;">Capital investido</td><td align="right" style="padding-right:0;color:#0a3a86;font-weight:bold;">${D.raiox.cap}</td></tr><tr><td style="border-top:1px solid #f0eee8;padding-left:0;">Taxa contratada</td><td align="right" style="border-top:1px solid #f0eee8;padding-right:0;font-weight:bold;">${D.raiox.taxa}</td></tr><tr><td style="border-top:1px solid #f0eee8;padding-left:0;">Rendimento bruto nominal</td><td align="right" style="border-top:1px solid #f0eee8;padding-right:0;color:#0a3a86;font-weight:bold;">${D.raiox.rend}</td></tr><tr><td style="border-top:1px solid #f0eee8;padding-left:0;color:#d94436;">Corrosão inflação (IPCA)</td><td align="right" style="border-top:1px solid #f0eee8;padding-right:0;color:#d94436;font-weight:bold;">${D.raiox.infl}</td></tr><tr><td style="border-top:1px solid #f0eee8;padding-left:0;font-weight:bold;color:#19222e;">Ganho real efetivo</td><td align="right" style="border-top:1px solid #f0eee8;padding-right:0;font-weight:bold;color:${D.raiox.ganhoPos?'#127038':'#d94436'};">${D.raiox.ganho}</td></tr></table>`);
+  }
+  if (modId === 'm_comp') {
+      const rows = D.funds.map((f, i) => `<tr><td width="28" style="padding:10px 0;${i<D.funds.length-1?'border-bottom:1px solid #f0eee8;':''}"><div style="background:${f.cor};color:#fff;width:20px;height:20px;border-radius:10px;text-align:center;line-height:20px;font-size:11px;">✓</div></td><td style="padding:10px 8px;${i<D.funds.length-1?'border-bottom:1px solid #f0eee8;':''}"><div style="font-size:14px;font-weight:bold;color:#19222e;margin-bottom:2px;">${f.n}</div><div style="font-size:12px;color:#5a6573;">${f.taxaEmail} &middot; Risco ${f.risco}</div></td><td align="right" style="padding:10px 0;${i<D.funds.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:17px;font-weight:bold;color:#19222e;">${f.w}</td></tr>`).join('');
+      return wrapCard('A Composição', 'Os ativos selecionados.', `<table width="100%" cellspacing="0" cellpadding="0">${rows}</table>`);
+  }
+  if (modId === 'm_transp' && D.calcAtivos) {
+      const rows = D.calcAtivos.map((f, i) => `<tr><td style="padding:10px 4px 10px 0;${i<D.calcAtivos.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:12.5px;color:#5a6573;">${f.nome}</td><td align="center" style="padding:10px 4px;${i<D.calcAtivos.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:13px;font-weight:bold;color:#19222e;">${f.peso}</td><td align="center" style="padding:10px 4px;${i<D.calcAtivos.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:11px;color:#7a8aa0;">${f.ir}</td><td align="right" style="padding:10px 0 10px 4px;${i<D.calcAtivos.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:13px;font-weight:bold;color:#0a3a86;">${f.liq}</td></tr>`).join('');
+      return wrapCard('Transparência', `Memória de cálculo — Média ${D.calcMedia} a.a.`, `<table width="100%" cellspacing="0" cellpadding="0"><tr style="background:#0a3a86;"><th align="left" style="padding:10px 8px;color:#fff;font-size:10px;text-transform:uppercase;border-radius:6px 0 0 6px;">Ativo</th><th align="center" style="padding:10px 8px;color:#fff;font-size:10px;text-transform:uppercase;">Peso</th><th align="center" style="padding:10px 8px;color:#fff;font-size:10px;text-transform:uppercase;">IR</th><th align="right" style="padding:10px 8px;color:#fff;font-size:10px;text-transform:uppercase;border-radius:0 6px 6px 0;">Líq. a.a.</th></tr>${rows}</table>`);
+  }
+  if (modId === 'm_compara' && D.cmp) {
+      const rows = D.cmp.map((r, i) => `<tr><td style="padding:12px 6px 12px 0;${i<D.cmp.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:13px;font-weight:bold;color:#19222e;">${r[0]}</td><td style="padding:12px 6px;${i<D.cmp.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:13px;color:#5a6573;">${r[1]}</td><td style="padding:12px 0 12px 6px;${i<D.cmp.length-1?'border-bottom:1px solid #f0eee8;':''}font-size:13px;font-weight:bold;color:${r[3]?'#127038':'#19222e'};">${r[2]}</td></tr>`).join('');
+      return wrapCard('Lado a Lado', `${D.invCompNome} vs. Carteira diversificada`, `<table width="100%" cellspacing="0" cellpadding="0"><tr><th align="left" style="padding:10px 8px;background:#0a3a86;color:#fff;font-size:10px;text-transform:uppercase;border-radius:6px 0 0 6px;">Dimensão</th><th align="left" style="padding:10px 8px;background:#6b7a99;color:#fff;font-size:10px;text-transform:uppercase;">${D.invCompNome}</th><th align="left" style="padding:10px 8px;background:#1a9a50;color:#fff;font-size:10px;text-transform:uppercase;border-radius:0 6px 6px 0;">Carteira BB</th></tr>${rows}</table>`);
+  }
+  return '';
+}
+
+function emailHTML(D) {
+  const segFunds = D.funds.filter((f, idx) => cfgAtivosAtivos[idx] !== false && f.tipo !== 'ipca');
+  const grFunds = D.funds.filter((f, idx) => cfgAtivosAtivos[idx] !== false && f.tipo === 'ipca');
+
+  const fundRow = (f,last) => {
+    const bb = last ? '' : 'border-bottom:1px solid #f0eee8;';
+    const acao = f.link ? ' &nbsp; <a href="'+f.link+'" target="_blank" style="color:#0a3a86;font-weight:bold;font-size:12px;text-decoration:none;white-space:nowrap;">Ver &#8599;</a>' : '';
+    const isento = f.isento ? ' <span style="display:inline-block;background:#e9f6ee;color:#1f9d57;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:6px;">Isento de IR</span>' : '';
+    return '<tr style="background:#ffffff;">'
+      +'<td width="120" valign="top" style="padding:13px;'+bb+'"><div style="background:#eef3fb;color:#0a3a86;border-radius:8px;padding:10px 6px;text-align:center;"><div style="font-weight:bold;font-size:15px;line-height:1.1;">'+f.vlr+'</div><div style="font-size:11px;font-weight:bold;color:#7a8aa0;margin-top:3px;">'+f.w+'</div></div></td>'
+      +'<td valign="top" style="padding:13px 13px 13px 0;'+bb+'"><div style="font-size:15px;font-weight:bold;color:#19222e;line-height:1.3;">'+f.n+'</div><div style="font-size:13.5px;color:#5a6573;line-height:1.5;margin-top:4px;">'+f.d+'</div><div style="margin-top:8px;"><span style="display:inline-block;border:1px solid '+f.cor+';color:'+f.cor+';font-size:11px;font-weight:bold;padding:3px 9px;border-radius:6px;">Risco: '+f.risco+'</span>'+isento+acao+'</div></td>'
+      +'</tr>';
+  };
+
+  const group = (funds, accent, pct, vlr, title) => {
+    if(!funds.length) return '';
+    const rows = funds.map((f,i)=>fundRow(f, i===funds.length-1)).join('');
+    return '<div style="margin-top:22px;margin-bottom:6px;">'
+      +'<span style="display:inline-block;background:'+accent+';color:#ffffff;font-size:13px;font-weight:bold;padding:5px 11px;border-radius:6px;">'+pct+' &middot; '+vlr+'</span> '
+      +'<span style="font-size:15px;font-weight:bold;color:#19222e;">'+title+'</span></div>'
+      +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #ebe8e0;border-radius:10px;border-collapse:separate;overflow:hidden;">'+rows+'</table>';
+  };
+
+  let emailContent = '';
+  let anexoHeaderAdded = false;
+
+  LAYOUT_BLOCKS.forEach(mod => {
+    if(!cfgModulos[mod.id]) return;
+
+    if(mod.id === 'capa') {
+      emailContent += `
+        <div style="font-family:Georgia,'Times New Roman',serif;font-size:23px;line-height:1.34;color:#19222e;font-weight:bold;margin-bottom:15px;">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</div>
+        <div style="font-size:15px;line-height:1.6;color:#5a6573;">Seu investimento de <b style="color:#19222e;">${D.valor} em ${D.invAntNome}</b> venceu — o valor já está disponível e seguro na sua conta.</div>
+      `;
+    } else if (mod.id === 'cmp') {
+      emailContent += `<div style="background:#f7f8fa;border-left:3px solid #c9ced6;padding:13px 16px;border-radius:6px;margin:16px 0;font-size:14.5px;color:#5a6573;line-height:1.55;">A taxa oferecida hoje para um novo <b style="color:#19222e;">${D.invCompNome}</b> é de apenas <b style="color:#19222e;">${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b style="color:#19222e;">${D.venc}</b>.</div>`;
+    } else if (mod.id === 'grafico') {
+      emailContent += `
+        <div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:16px;">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a href="${D.carteiraLink}" target="_blank" style="color:#0a3a86;font-weight:bold;text-decoration:underline;">Carteira Sugerida BB &#8599;</a>:</div>
+        <div style="font-family:Georgia,serif;font-size:19px;font-weight:bold;color:#0a3a86;margin:18px 0 4px;">A Estratégia da Assessoria</div>
+        <div style="font-size:15px;color:#5a6573;line-height:1.55;">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</div>
+      `;
+    } else if (mod.id === 'ativos') {
+      emailContent += group(segFunds, '#0a3a86', D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido');
+      emailContent += group(grFunds,  '#9a6b00', D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação');
+      emailContent += `<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:18px;">Assim, <b style="color:#19222e;">${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</div>`;
+    } else if (mod.type === 'custom_text') {
+      emailContent += `
+        <div style="margin-top:32px; margin-bottom:16px;">
+          <div style="font-family:Georgia,'Times New Roman',serif; font-size:23px; line-height:1.34; color:#0a3a86; font-weight:bold; margin-bottom:12px;">${mod.title}</div>
+          <div style="font-size:15.5px; line-height:1.6; color:#5a6573; white-space:pre-line;">${mod.content}</div>
+        </div>
+      `;
+    } else if (mod.type === 'assinatura') {
+      emailContent += `
+        <div style="font-size:15px;color:#5a6573;margin-top:32px;margin-bottom:12px;">Um abraço,</div>
+        <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+          <tr>
+            <td valign="middle" style="padding-right:16px;"><img src="data:image/png;base64,${ANBIMA_B64}" width="64" height="64" alt="ANBIMA Profissional CEA" style="display:block; border-radius:6px;"/></td>
+            <td valign="middle">
+              <div style="font-family:Georgia,serif; font-size:18px; font-weight:bold; color:#19222e;">${D.assessor}</div>
+              <div style="font-size:13px; color:#5a6573; margin-top:4px;">ANBIMA Profissional CEA &middot; Assessoria de Investimentos BB</div>
+            </td>
+          </tr>
+        </table>
+      `;
+    } else if (mod.type === 'anexo') {
+      if(!anexoHeaderAdded) {
+         emailContent += '<div style="font-family:Georgia,serif;font-size:19px;font-weight:bold;color:#19222e;margin:36px 0 8px; border-bottom: 2px solid #ebe8e0; padding-bottom: 12px;">Detalhes e Comparativos (Anexos)</div>';
+         anexoHeaderAdded = true;
+      }
+      emailContent += buildSingleEmailAnexoHTML(mod.id, D);
+    }
+  });
+
+  const mciFooter = D.mci ? `<div style="font-size:9px;color:#d0d6e0;text-align:right;margin-top:6px;font-family:monospace;letter-spacing:0.05em;">Ref: ${D.mci}</div>` : '';
+
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">'
+  +'<tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;"><tr><td style="padding:30px 32px 28px;">'
+  + emailContent
+  +'<div style="font-size:16px;line-height:1.55;color:#19222e;font-weight:bold;margin-top:24px;">'+D.nome+', faz sentido migrarmos para essa estratégia hoje?</div>'
+  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
+  +'<div style="font-size:11px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.'
+  + mciFooter
+  +'</div>'
+  +'</td></tr></table></td></tr></table>';
+}
+function emailDoc(D){ return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"></head><body style="margin:0;">'+emailHTML(D)+'</body></html>'; }
+
+function textoParte1(D){
+  let s='*'+D.nome+', seu investimento de '+D.valor+' em '+D.invAntNome+' venceu!*\n\n';
+  s+='Quem fala é '+D.assessorFirst+', da Assessoria de Investimentos do Banco do Brasil 💛💙\n\n';
+  s+='Renovar em um novo *'+D.invCompNome+'* hoje te daria apenas *'+D.taxa+'* e o valor ficaria *indisponível até '+D.venc+'*.\n\n';
+  s+='Nossa equipe de especialistas estruturou uma carteira superior para você: 👇';
+  if(D.mci) s+='\n\n_Ref: ' + D.mci + '_';
+  return s;
+}
+
+function textoParte2(D){
+  let s='*📋 Carteira recomendada — detalhes:*\n'+D.carteiraLink+'\n\n';
+  s+='- - - - - - - - - - - - - - -\n\n';
+  
+  LAYOUT_BLOCKS.forEach(mod => {
+    if (cfgModulos[mod.id] && mod.type === 'custom_text') {
+      s += `*${mod.title}*\n${mod.content}\n\n`;
+    }
+  });
+
+  s+='*Não deixe o seu dinheiro parado!* 💛\n\n';
+  s+='Ficou com alguma dúvida? Estamos aqui para te ajudar.\n\n';
+  s+='Me responda com um *"ok"* que eu cuido de toda a reaplicação para você 🤝';
+
+  const hasSig = LAYOUT_BLOCKS.find(m => m.type === 'assinatura' && cfgModulos[m.id]);
+  if (hasSig) { s += `\n\nUm abraço,\n*${D.assessor}*\n_ANBIMA Profissional CEA_`; }
+
+  if(D.mci) s+='\n\n_Ref: ' + D.mci + '_';
+  return s;
+}
+
+function textoSimples(D){ return textoParte1(D)+'\n\n'+textoParte2(D); }
+
+function toggleModulo(id, val) {
+   cfgModulos[id] = val; renderAllBlocks(); abrirWp(true);
+}
+
+function toggleAssetCfg(idx, val) {
+  syncCfgAtivos(); cfgAtivosAtivos[idx] = val; abrirWp(true);
+}
+
+function updateCustomText(id, field, value) {
+  const mod = LAYOUT_BLOCKS.find(m => m.id === id);
+  if (mod) mod[field] = value;
+  clearTimeout(window._wpDebounce);
+  window._wpDebounce = setTimeout(() => abrirWp(true), 400);
+}
+
+function addCustomText() {
+  customTextCounter++;
+  const newId = 'm_custom_' + customTextCounter;
+  LAYOUT_BLOCKS.push({
+    id: newId, name: 'Texto Livre ' + customTextCounter, type: 'custom_text',
+    title: 'Sua mensagem especial', content: 'Escreva seu texto aqui...'
+  });
+  cfgModulos[newId] = true;
+  renderAllBlocks();
+  abrirWp(true);
+}
+
+function renderAllBlocks() {
+  const div = $('cfgAllBlocks');
+  if(!div) return;
+  div.innerHTML = LAYOUT_BLOCKS.map((m, idx) => {
+    const isChecked = cfgModulos[m.id];
+    let extraUI = '';
+
+    if (m.id === 'ativos') {
+      syncCfgAtivos();
+      const subChecks = FUNDS.map((f, fIdx) => {
+        const fChecked = cfgAtivosAtivos[fIdx] !== false ? 'checked' : '';
+        return `
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 11px; margin-top: 6px; pointer-events:auto;">
+            <input type="checkbox" ${fChecked} onchange="toggleAssetCfg(${fIdx}, this.checked); event.stopPropagation();" style="width: 15px; height: 15px; accent-color: ${RISKS[f.risco]?.cor || 'var(--wp-accent)'};"/>
+            <span>${f.nome} (${f.w}%)</span>
+          </label>
+        `;
+      }).join('');
+      extraUI = `<div id="cfgAtivosCheks" style="margin-top: 6px; margin-bottom: 2px; padding-left: 10px; border-left: 2px solid #e1e4e8; display: flex; flex-direction: column; opacity: ${isChecked ? '1' : '0.5'}; pointer-events: ${isChecked ? 'auto' : 'none'};">${subChecks}</div>`;
+    } 
+    else if (m.type === 'custom_text') {
+      extraUI = `
+        <div style="margin-top: 8px; display: ${isChecked ? 'flex' : 'none'}; flex-direction: column; gap: 6px; pointer-events:auto;">
+          <input type="text" value="${m.title}" oninput="updateCustomText('${m.id}', 'title', this.value)" onmousedown="event.stopPropagation()" placeholder="Título (ex: Olá, João!)" style="width:100%; font-size:13px; font-weight:bold; border:1px solid var(--wp-line); padding:6px 8px; border-radius:6px; font-family:var(--wp-sans);"/>
+          <textarea oninput="updateCustomText('${m.id}', 'content', this.value)" onmousedown="event.stopPropagation()" placeholder="Mensagem..." style="width:100%; font-size:13px; border:1px solid var(--wp-line); padding:6px 8px; border-radius:6px; resize:vertical; min-height:50px; font-family:var(--wp-sans); line-height: 1.4;">${m.content}</textarea>
+        </div>
+      `;
+    }
+
+    return `
+      <div draggable="true"
+           ondragstart="handleDragStart(event, ${idx})"
+           ondragover="handleDragOver(event)"
+           ondragenter="handleDragEnter(event)"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, ${idx})"
+           ondragend="handleDragEnd(event)"
+           style="display: flex; flex-direction: column; cursor: grab; padding: 12px 14px; border: 1.5px solid ${isChecked ? (m.type==='core'?'#d1d5db':'var(--wp-tint)') : '#ebe8e0'}; background: ${isChecked ? (m.type==='core'?'#ffffff':'var(--wp-tint)') : '#ffffff'}; border-radius: 12px; transition: 0.2s; opacity: ${isChecked ? '1' : '0.6'};">
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <span class="mi" style="color:var(--wp-k3); font-size:18px; pointer-events:none; margin-top:1px;">drag_indicator</span>
+          <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleModulo('${m.id}', this.checked)" style="width: 18px; height: 18px; accent-color: ${m.id === 'cmp' ? '#8a6d00' : 'var(--wp-accent)'}; flex-shrink: 0; cursor: pointer; pointer-events:auto; margin-top:2px;"/>
+          <div style="pointer-events:none; flex:1;">
+            <div style="font-size: 13.5px; font-weight: 700; color: ${m.id === 'cmp' ? '#8a6d00' : 'var(--wp-ink)'}; margin-bottom: 2px;">${m.name}</div>
+            <div style="font-size: 11.5px; color: var(--wp-k2);">${m.desc}</div>
+            ${extraUI}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function abrirWp(skipCardRebuild = false){
+  WP_D = buildD();
+  if(!skipCardRebuild) $('wpCard').innerHTML = wpCardHTML(WP_D);
+  renderAllBlocks();
+  $('panel').classList.remove('open');
+  $('wpOverlay').classList.add('show');
+}
+
+function fecharWp(){ $('wpOverlay').classList.remove('show'); }
+
+function pngDonutCustom(D){
+  const Wd=860, H=830, cx=430, cy=408, R=110, SW=56, C=2*Math.PI*R;
+  const fs = D.funds.filter((f, idx) => cfgAtivosAtivos[idx] !== false).sort((a,b)=>a.riscoNum-b.riscoNum);
+  const total = fs.reduce((a,f)=>a+f.wNum,0)||100;
+  if (fs.length === 0) return '';
+
+  let accL=0; fs.forEach((f,i)=>{ if(i<fs.length-1) accL+=f.wNum; });
+  const lastMidFrac=(accL+(fs[fs.length-1]?.wNum||0)/2)/total;
+  const offDeg=180-lastMidFrac*360, offRad=offDeg*Math.PI/180;
+  let acc=0, segs='', inner='';
+  const its=[];
+  fs.forEach(f=>{
+    const frac=f.wNum/total, len=frac*C;
+    const rot=(acc/total)*360-90+offDeg;
+    segs+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${f.cor}" stroke-width="${SW}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" transform="rotate(${rot.toFixed(2)} ${cx} ${cy})"></circle>`;
+    const mid=((acc+f.wNum/2)/total)*2*Math.PI-Math.PI/2+offRad;
+    inner+=`<text x="${(cx+Math.cos(mid)*R).toFixed(1)}" y="${(cy+Math.sin(mid)*R).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="32" font-weight="800" fill="#ffffff">${Math.round(frac*100)}%</text>`;
+    its.push({f,mid});
+    acc+=f.wNum;
+  });
+  const wrap=(t,m,ml)=>{const out=[];let cur='';(''+t).split(' ').forEach(w=>{if((cur+' '+w).trim().length>m){if(cur)out.push(cur.trim());cur=w;}else cur+=' '+w;});if(cur.trim())out.push(cur.trim());return out.slice(0,ml||2);};
+  const esc=t=>(''+t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const BW=282;
+  let call='';
+  if (cfgModulos['ativos']) {
+    ['l','r'].forEach(side=>{
+      const arr=its.filter(i=> side==='r' ? Math.cos(i.mid)>=0 : Math.cos(i.mid)<0 )
+                   .sort((a,b)=>Math.sin(a.mid)-Math.sin(b.mid));
+      const n=arr.length; if(!n) return;
+      arr.forEach((it,idx)=>{
+        const f=it.f;
+        const nameLines=wrap(f.n,14), tagLines=wrap(f.tag,21,3);
+        const liqLines = f.liq ? wrap(f.liq,21,2) : [];
+        const liqH = liqLines.length ? (liqLines.length*28+22) : 0;
+        const bh = 28 + nameLines.length*36 + 48 + tagLines.length*27 + 10 + liqH + 34 + (f.isento?32:0) + 10;
+        const ly = cy + (idx-(n-1)/2)*400;
+        const by = ly-bh/2;
+        const bx = side==='r' ? 572 : 6;
+        const sx=cx+Math.cos(it.mid)*(R+SW/2+4), sy=cy+Math.sin(it.mid)*(R+SW/2+4);
+        const ex = side==='r' ? bx-4 : bx+BW+4;
+        call+=`<polyline points="${sx.toFixed(1)},${sy.toFixed(1)} ${ex},${ly}" fill="none" stroke="#c9ced6" stroke-width="3"></polyline><circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="7" fill="${f.cor}"></circle>`;
+        call+=`<rect x="${bx}" y="${by.toFixed(1)}" width="${BW}" height="${bh}" rx="20" fill="#ffffff" stroke="#e6e3da" stroke-width="2.5"></rect>`;
+        call+=`<rect x="${side==='r'?bx:bx+BW-11}" y="${by.toFixed(1)}" width="11" height="${bh}" rx="5.5" fill="${f.cor}"></rect>`;
+        const tx = bx + (side==='r'?30:20);
+        let y=by+28+24;
+        nameLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="31" font-weight="800" fill="#19222e">${esc(t)}</text>`;y+=36;});
+        y+=4;
+        call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="34" font-weight="800" fill="#0a3a86">${f.vlr}</text>`;y+=46;
+        tagLines.forEach(t=>{call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="22" font-weight="700" fill="#5a6573">${esc(t)}</text>`;y+=27;});
+        if(liqLines.length){
+          y+=8;
+          const pillH=liqLines.length*28+16;
+          call+=`<rect x="${tx-10}" y="${(y-22).toFixed(1)}" width="${BW-(side==='r'?30:20)-14}" height="${pillH}" rx="12" fill="#eef3fb"></rect>`;
+          liqLines.forEach((t,i)=>{call+=`<text x="${tx+4}" y="${y.toFixed(1)}" font-size="20.5" font-weight="800" fill="#0a3a86">${i===0?'&#9201; ':'&#8195;'}${esc(t)}</text>`;y+=28;});
+          y+=4;
+        }
+        y+=6;
+        call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="20" font-weight="800" fill="${f.cor}">&#9679; Risco ${f.risco.toLowerCase()}</text>`;
+        if(f.isento){ y+=32; call+=`<text x="${tx}" y="${y.toFixed(1)}" font-size="20" font-weight="800" fill="#1f9d57">&#9679; Isento de IR</text>`; }
+      });
+    });
+  }
+  const lowPct = Math.round(fs.reduce((a,f)=>a+(f.riscoNum<=2?f.wNum:0),0)/total*100);
+  return `<svg width="${Wd}" height="${H}" viewBox="0 0 ${Wd} ${H}" style="display:block;margin:0 -46px">
+    ${segs}${inner}${call}
+    <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="68" font-weight="800" fill="#19222e">${lowPct}%</text>
+    <text x="${cx}" y="${cy+38}" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="1.5" fill="#1f9d57">EM BAIXO RISCO</text>
+  </svg>`;
+}
+
+function compBandHTML(D){
+  const c = D.compBar;
+  return c ? `
+  <div class="png-comp" style="margin-top: 10px;">
+    <div class="png-comp-k">Rendimento extra da Carteira Sugerida vs ${D.invCompNome}</div>
+    <div class="png-comp-v">+${c.diffReais}<span>/ano</span></div>
+    <div class="png-comp-s">≈ ${c.cartNet}% a.a. líquidos na carteira · ${c.lcaNet}% a.a. em ${D.invCompNome} (${D.taxa})</div>
+    <div class="png-sim">Simulação baseada no histórico dos últimos 12 meses · sujeito a análise de perfil</div>
+  </div>` : '';
+}
+
+function pngBarCustom(D){
+  const Wd=860, BH=76, BY=6;
+  const fs = D.funds.filter((f, idx) => cfgAtivosAtivos[idx] !== false);
+  const total = fs.reduce((a,f)=>a+f.wNum,0)||100;
+  let x=0, seg='', lab='';
+  fs.forEach(f=>{
+    const w=f.wNum/total*Wd;
+    seg+=`<rect x="${x.toFixed(1)}" y="${BY}" width="${(w+1.5).toFixed(1)}" height="${BH}" fill="${f.cor}"></rect>`;
+    const fsz = w>=80 ? 34 : 25;
+    if (w > 40) {
+      lab+=`<text x="${(x+w/2).toFixed(1)}" y="${BY+BH/2}" text-anchor="middle" dominant-baseline="central" font-size="${fsz}" font-weight="800" fill="#ffffff">${Math.round(f.wNum/total*100)}%</text>`;
+    }
+    x+=w;
+  });
+  const lowW = fs.reduce((a,f)=>a+(f.riscoNum<=2?f.wNum:0),0)/total*Wd;
+  const lowPct = Math.round(fs.reduce((a,f)=>a+(f.riscoNum<=2?f.wNum:0),0)/total*100);
+  let bracket='';
+  if(lowW>40){
+    const yb=BY+BH+16;
+    bracket=`<path d="M3 ${yb} v12 M${(lowW-3).toFixed(1)} ${yb} v12 M3 ${yb+12} H${(lowW-3).toFixed(1)}" stroke="#1f9d57" stroke-width="5" fill="none" stroke-linecap="round"></path>
+    <text x="${(lowW/2).toFixed(1)}" y="${yb+56}" text-anchor="middle" font-size="31" font-weight="800" fill="#1f9d57">${lowPct}% EM BAIXO RISCO</text>`;
+  }
+  const H=BY+BH+16+12+66;
+  return `<svg width="${Wd}" height="${H}" viewBox="0 0 ${Wd} ${H}" style="display:block;margin:0 -46px">
+    <defs><clipPath id="pbclip_c"><rect x="0" y="${BY}" width="${Wd}" height="${BH}" rx="24"></rect></clipPath></defs>
+    <g clip-path="url(#pbclip_c)">${seg}</g>${lab}${bracket}
+  </svg>`;
+}
+
+async function baixarCardPng(btn,layout,Dovr,opts2){
+  opts2 = opts2 || {};
+  if(typeof htmlToImage==='undefined'){ wpToast('Biblioteca indisponível. Recarregue a página.'); return; }
+  const stage = $('wpPngStage');
+  if(!stage){ return; }
+  const original = btn ? btn.innerHTML : '';
+  if(btn){ btn.disabled=true; btn.textContent='Gerando imagem…'; }
+  const D = Dovr || WP_D || buildD();
+  
+  // Constrói o fluxo perfeitamente seguindo a ordem de LAYOUT_BLOCKS
+  stage.innerHTML = '<div class="png-bar"></div>';
+  const wrap = document.createElement('div');
+  wrap.className = 'png-wrap';
+  wrap.style.padding = '20px 46px 30px';
+  wrap.style.display = 'flex';
+  wrap.style.flexDirection = 'column';
+  wrap.style.gap = '20px';
+  stage.appendChild(wrap);
+
+  LAYOUT_BLOCKS.forEach(mod => {
+    if(!cfgModulos[mod.id]) return;
+
+    if (mod.id === 'capa') {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div class="png-over">Banco do Brasil · Assessoria de Investimentos</div>
+        <div class="png-title">${D.nome}, nossa estratégia para os seus <b>${D.valor}</b></div>
+      `;
+      wrap.appendChild(div);
+    } 
+    else if (mod.id === 'grafico') {
+      const div = document.createElement('div');
+      div.innerHTML = layout === 'bar' ? `<div class="pngb-bar-wrap">${pngBarCustom(D)}</div>` : `<div class="png-donut-wrap">${pngDonutCustom(D)}</div>`;
+      wrap.appendChild(div);
+    } 
+    else if (mod.id === 'ativos' && layout === 'bar') {
+      const activeFunds = D.funds.filter((f, idx) => cfgAtivosAtivos[idx] !== false);
+      if (activeFunds.length > 0) {
+        const esc=t=>(''+t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+        const rows = activeFunds.map(f=>`
+          <div class="pngb-row">
+            <span class="pngb-pct" style="background:${f.cor}">${f.w}</span>
+            <div class="pngb-top"><div class="pngb-name">${esc(f.n)}</div><div class="pngb-val">${f.vlr}</div></div>
+            <div class="pngb-tag">${esc(f.tag)}</div>
+            <div class="pngb-meta">
+              ${f.liq?`<span class="pngb-liq">&#9201; ${esc(f.liq)}</span>`:''}
+              <span class="pngb-risk" style="color:${f.cor}">&#9679; Risco ${f.risco.toLowerCase()}</span>
+              ${f.isento?'<span class="pngb-isento">&#9679; Isento de IR</span>':''}
+            </div>
+          </div>`).join('');
+        const div = document.createElement('div');
+        div.innerHTML = `<div class="pngb-rows">${rows}</div>`;
+        wrap.appendChild(div);
+      }
+    } 
+    else if (mod.id === 'cmp') {
+      const div = document.createElement('div');
+      div.innerHTML = compBandHTML(D);
+      wrap.appendChild(div);
+    } 
+    else if (mod.type === 'custom_text') {
+      const div = document.createElement('div');
+      div.style.backgroundColor = '#ffffff';
+      div.style.padding = '10px 0';
+      div.innerHTML = `
+        <div style="font:800 50px/1.14 var(--wp-sans); color:#0a3a86; letter-spacing:-.02em; margin-bottom: 16px;">${mod.title}</div>
+        <div style="font-size:26px; font-weight:600; color:#5a6573; line-height:1.5;">${mod.content.replace(/\n/g, '<br/>')}</div>
+      `;
+      wrap.appendChild(div);
+    }
+    else if (mod.type === 'assinatura') {
+      const div = document.createElement('div');
+      div.style.backgroundColor = '#ffffff';
+      div.style.padding = '10px 0';
+      // Módulo de Assinatura sem o "Um abraço," conforme solicitado para o PNG
+      div.innerHTML = `
+        <div style="display:flex; align-items:center; gap:20px;">
+          <img src="data:image/png;base64,${ANBIMA_B64}" style="width:84px; height:84px; border-radius:8px; display:block;" />
+          <div>
+            <div style="font-family:Georgia,serif; font-size:32px; font-weight:bold; color:#19222e;">${D.assessor}</div>
+            <div style="font-size:20px; color:#5a6573; margin-top:6px;">ANBIMA Profissional CEA · Assessoria de Investimentos BB</div>
+          </div>
+        </div>
+      `;
+      wrap.appendChild(div);
+    }
+    else if (mod.type === 'anexo') {
+      const originalEl = document.querySelector(`[data-export="${mod.dataExport}"]`);
+      if(originalEl) {
+        const clone = originalEl.cloneNode(true);
+        clone.style.margin = '0';
+        clone.style.boxShadow = 'none';
+        clone.style.border = '2.5px solid #e6e3da';
+        clone.style.borderRadius = '22px';
+        clone.style.pageBreakInside = 'avoid';
+        const origCanvas = originalEl.querySelectorAll('canvas');
+        const cloneCanvas = clone.querySelectorAll('canvas');
+        origCanvas.forEach((canvas, c) => {
+          if(cloneCanvas[c]) {
+            cloneCanvas[c].width = canvas.width;
+            cloneCanvas[c].height = canvas.height;
+            cloneCanvas[c].getContext('2d').drawImage(canvas, 0, 0);
+          }
+        });
+        wrap.appendChild(clone);
+      }
+    }
+  });
+
+  if (D.mci) {
+    const mciDiv = document.createElement('div');
+    mciDiv.innerHTML = `<div id="png-mci" style="font-size: 10px; color: #d0d6e0; text-align: right; margin: 0; font-family: monospace; letter-spacing: 0.05em;">Ref: ${D.mci}</div>`;
+    wrap.appendChild(mciDiv);
+  }
+
+  stage.insertAdjacentHTML('beforeend', '<div class="png-endbar"></div>');
+
+  try{
+    if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
+    const opts = { pixelRatio:2.5, backgroundColor:'#ffffff', cacheBust:true, width:860, height:stage.offsetHeight };
+    await htmlToImage.toPng(stage, { pixelRatio:1, backgroundColor:'#ffffff', width:860, height:stage.offsetHeight });
+    const dataUrl = await htmlToImage.toPng(stage, opts);
+    if(opts2.returnDataUrl){ return dataUrl; }
+    const slug = ($('nome') && $('nome').value.trim()) ? slugify($('nome').value.trim()) : 'cliente';
+    const a=document.createElement('a'); a.href=dataUrl; a.download='estrategia-'+slug+(layout==='bar'?'-barras':'')+'.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    wpToast('<b>Imagem PNG baixada.</b> Formato vertical pronto para envio.');
+  }catch(e){
+    if(opts2.returnDataUrl){ throw e; }
+    wpToast('Não consegui gerar a imagem agora. Tente novamente em instantes.');
+  }finally{
+    stage.innerHTML='';
+    if(btn){ btn.disabled=false; btn.innerHTML=original; }
+  }
+}
+
+function abrirEmail(){
+  WP_D = buildD();
+  $('wpEmailRender').innerHTML = emailHTML(WP_D);
+  $('wpEmailModal').classList.add('show');
+}
+function fecharEmail(){ $('wpEmailModal').classList.remove('show'); }
+function wpToast(msg){
+  const t=$('wpToast'); t.innerHTML=msg; t.classList.add('show');
+  clearTimeout(window.__wptt); window.__wptt=setTimeout(()=>t.classList.remove('show'),5200);
+}
+
+async function copiarWhatsApp(parte){
+  const D = buildD(); const txt = (parte===2) ? textoParte2(D) : textoParte1(D);
+  let ok=false;
+  try{ await navigator.clipboard.writeText(txt); ok=true; }catch(e){ ok=false; }
+  if(!ok){
+    const ta=document.createElement('textarea'); ta.value=txt; ta.style.cssText='position:fixed;left:-9999px;top:0'; document.body.appendChild(ta); ta.select();
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; } document.body.removeChild(ta);
+  }
+  wpToast(ok ? (parte===2 ? '<b>Texto 2 copiado.</b> Envie depois do card PNG. Ordem: texto 1 → card → texto 2.' : '<b>Texto 1 copiado.</b> Envie primeiro. Ordem: texto 1 → card PNG → texto 2.') : 'Não consegui copiar automaticamente. Selecione o texto e copie manualmente.');
+}
+
+async function copiarFormatado(){
+  const node = $('wpEmailRender');
+  if(!node.innerHTML) { wpToast('Erro: E-mail não renderizado.'); return; }
+  const range = document.createRange(); range.selectNodeContents(node);
+  const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+  sel.removeAllRanges();
+  
+  wpToast(ok
+    ? '<b>E-mail formatado copiado.</b> Cole no Gmail ou Outlook.'
+    : 'Cópia automática bloqueada. Selecione e copie manualmente ou use <b>Baixar .eml</b>.');
+}
+
+function encSubject(s){
+  try { return '=?UTF-8?B?' + btoa(unescape(encodeURIComponent(s))) + '?='; }
+  catch(e){ return s; }
+}
+function buildEmlString(D){
+  const subject = encSubject(D.nome + ', sobre a reaplicação do seu investimento');
+  return 'X-Unsent: 1\r\n'
+    + 'Subject: ' + subject + '\r\n'
+    + 'Content-Type: text/html; charset=UTF-8\r\n'
+    + 'MIME-Version: 1.0\r\n\r\n'
+    + emailDoc(D);
+}
+function baixarEml(){
+  const D = WP_D || buildD();
+  const blob=new Blob([buildEmlString(D)],{type:'message/rfc822'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='email-reaplicacao.eml'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  wpToast('Arquivo <b>.eml</b> baixado. Pronto para abrir e disparar.');
+}
+
+/* ═══ EXPORTAÇÃO EM LOTE (planilha → cards WhatsApp) ═══ */
+let LOTE_ROWS = [];
+let LOTE_LAYOUT = 'donut';
+
+function abrirLote(){ $('loteModal').classList.add('show'); }
+function fecharLote(){ const m=$('loteModal'); if(m) m.classList.remove('show'); }
+function loteMsg(t){ const p=$('loteProg'); if(p){ p.style.display='block'; p.textContent=t; } }
+
+function setLoteLayout(l){
+  LOTE_LAYOUT = l;
+  $('loteLayoutDonut').classList.toggle('on', l==='donut');
+  $('loteLayoutBar').classList.toggle('on', l==='bar');
+}
+
+function parseValorBR(v){
+  if(typeof v === 'number') return v;
+  let s = (''+v).trim();
+  if(!s) return 0;
+  s = s.replace(/r\$/ig,'').replace(/\s/g,'');
+  if(s.indexOf(',')>-1 && s.indexOf('.')>-1){ s = s.replace(/\./g,'').replace(',','.'); }
+  else if(s.indexOf(',')>-1){ s = s.replace(',','.'); }
+  else { const parts = s.split('.'); if(parts.length>1 && parts[parts.length-1].length===3){ s = parts.join(''); } }
+  const n = parseFloat(s); return isNaN(n) ? 0 : n;
+}
+
+function normalizeRows(raw){
+  const norm = s => (''+s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+  const KEYS = {
+    mci:   ['mci','mcicliente','mcidocliente','codigo','referencia','ref','documento','cpf','cpfcnpj'],
+    nome:  ['nome','cliente','nomecliente','nomedocliente','razaosocial'],
+    valor: ['valor','capital','montante','valorinvestido','aplicacao','saldo','valoraplicado','valorvencido']
+  };
+  return raw.map(row => {
+    const out = { mci:'', nome:'', valor:0 }; const found = {};
+    Object.keys(row).forEach(k => {
+      const nk = norm(k);
+      for(const target in KEYS){
+        if(!found[target] && KEYS[target].indexOf(nk)>-1){
+          found[target] = true;
+          if(target==='valor') out.valor = parseValorBR(row[k]);
+          else out[target] = (''+row[k]).trim();
+        }
+      }
+    });
+    return out;
+  }).filter(r => r.nome && r.valor>0);
+}
+
+function loteFileSelected(ev){
+  const file = ev.target.files && ev.target.files[0];
+  if(!file) return;
+  $('loteFileName').textContent = file.name;
+  $('loteFileName').style.color = '#5a6573';
+  if(typeof XLSX === 'undefined'){ loteMsg('Leitor de planilha indisponível. Recarregue a página.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type:'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { defval:'' });
+      LOTE_ROWS = normalizeRows(rows);
+      atualizarPreviewLote();
+    }catch(err){
+      $('lotePreview').innerHTML = '<div style="color:#d94436;font-size:12px;">Não consegui ler o arquivo. Use o modelo de planilha como referência.</div>';
+      $('loteGoBtn').disabled = true;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  ev.target.value = '';
+}
+
+function atualizarPreviewLote(){
+  const box = $('lotePreview');
+  if(!LOTE_ROWS.length){
+    box.innerHTML = '<div style="color:#d94436;font-size:12px;">Nenhuma linha válida encontrada (preciso das colunas <b>nome</b> e <b>valor</b>).</div>';
+    $('loteGoBtn').disabled = true; return;
+  }
+  const rows = LOTE_ROWS.slice(0,6).map(r =>
+    `<tr><td style="padding:3px 8px;color:#5a6573;">${r.mci||'—'}</td><td style="padding:3px 8px;font-weight:600;">${r.nome}</td><td style="padding:3px 8px;text-align:right;color:#0a3a86;font-weight:700;">${wpFmtC(r.valor)}</td></tr>`
+  ).join('');
+  const more = LOTE_ROWS.length>6 ? `<div style="font-size:11px;color:#9aa2ad;margin-top:6px;">+ ${LOTE_ROWS.length-6} outro(s)…</div>` : '';
+  box.innerHTML = `<div style="font-weight:700;font-size:13px;color:#19222e;margin-bottom:8px;">${LOTE_ROWS.length} cliente(s) prontos</div><table style="width:100%;font-size:12px;border-collapse:collapse;">${rows}</table>${more}`;
+  $('loteGoBtn').disabled = false;
+}
+
+function baixarTemplate(){
+  if(typeof XLSX === 'undefined'){
+    const csv = 'mci;nome;valor\n482.910.384;João da Silva;300000\n123.456.789;Maria Souza;150000\n';
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='modelo-lote-bb.csv';
+    document.body.appendChild(a); a.click(); a.remove(); return;
+  }
+  const ws = XLSX.utils.aoa_to_sheet([['mci','nome','valor'],['482.910.384','João da Silva',300000],['123.456.789','Maria Souza',150000]]);
+  ws['!cols'] = [{wch:16},{wch:26},{wch:14}];
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Clientes');
+  XLSX.writeFile(wb, 'modelo-lote-bb.xlsx');
+}
+
+async function gerarLote(){
+  if(!LOTE_ROWS.length){ loteMsg('Nenhuma linha válida para gerar.'); return; }
+  if(typeof JSZip === 'undefined'){ loteMsg('Compactador indisponível. Recarregue a página.'); return; }
+  const zip = new JSZip();
+  const incTexto = $('loteIncTexto').checked;
+  const incEmail = $('loteIncEmail').checked;
+  const layout = LOTE_LAYOUT;
+  const btn = $('loteGoBtn'); if(btn) btn.disabled = true;
+  const savedWPD = WP_D;
+  let okCount = 0;
+  try{
+    for(let i=0;i<LOTE_ROWS.length;i++){
+      const r = LOTE_ROWS[i];
+      loteMsg(`Gerando ${i+1} de ${LOTE_ROWS.length}: ${r.nome}…`);
+      const D = buildD({ nome:r.nome, mci:r.mci, valor:r.valor });
+      let dataUrl = null;
+      try{ dataUrl = await baixarCardPng(null, layout, D, { returnDataUrl:true }); }catch(e){ dataUrl = null; }
+      if(dataUrl){
+        const base = String(i+1).padStart(2,'0') + '_' + (r.mci ? slugify(r.mci)+'_' : '') + slugify(r.nome||'cliente');
+        zip.file(base + '.png', dataUrl.split(',')[1], { base64:true });
+        if(incTexto){
+          const txt = textoParte1(D) + '\n\n— — — — — — — — — —\n\n' + textoParte2(D);
+          zip.file(base + '.txt', txt);
+        }
+        if(incEmail){
+          zip.file(base + '.eml', buildEmlString(D));
+        }
+        okCount++;
+      }
+      await new Promise(res => setTimeout(res, 60));
+    }
+    loteMsg('Compactando arquivos…');
+    const blob = await zip.generateAsync({ type:'blob' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'cards-lote-bb.zip'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2500);
+    loteMsg(`✓ ${okCount} card(s) gerado(s). Download do .zip iniciado.`);
+  }catch(e){
+    loteMsg('Erro ao gerar o lote. Tente novamente.');
+  }finally{
+    WP_D = savedWPD;
+    if(btn) btn.disabled = false;
+  }
+}
+
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ fecharEmail(); fecharWp(); fecharLote(); } });
+$('loteModal').addEventListener('click',e=>{ if(e.target.id==='loteModal') fecharLote(); });
+$('wpEmailModal').addEventListener('click',e=>{ if(e.target.id==='wpEmailModal') fecharEmail(); });
+$('wpOverlay').addEventListener('click',e=>{ if(e.target.id==='wpOverlay') fecharWp(); });
+
+renderEd(); calc();
+</script>
+</body>
+</html>
