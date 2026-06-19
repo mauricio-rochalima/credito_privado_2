@@ -1198,14 +1198,14 @@ function wpCardHTML(D){
 
   return `
     <p class="wp-greet">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</p>
-    <p class="wp-intro">Seu investimento de <b>${D.valor} em ${D.invAntNome}</b> acabou de vencer — o valor já está disponível e seguro na sua conta.</p>
+    <p class="wp-intro">Seu investimento de <b>${D.valor} em ${D.invAntNome}</b> acabou de vencer — o valor já está disponível na sua conta.</p>
     <div class="wp-warn">A taxa oferecida hoje em um novo <b>${D.invCompNome}</b> é de apenas <b>${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b>${D.venc}</b>.</div>
     <p class="wp-intro" style="margin:14px 0 0">Montamos uma estratégia mais dinâmica para o cenário atual, seguindo a <a class="wp-clink" href="${D.carteiraLink}" target="_blank">Carteira Sugerida BB ↗</a>:</p>
     <div class="wp-strat">A Estratégia da Assessoria</div>
-    <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança, liquidez e ganho real acima da inflação:</p>
+    <p class="wp-opt-b">Em vez de trancar tudo numa única opção, dividimos o valor para unir segurança e liquidez:</p>
     ${segHTML}
     ${grHTML}
-    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</p>
+    <p class="wp-benefit">Assim, <b>${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias.</p>
     <p class="wp-cta">${D.nome}, faz sentido migrarmos para essa estratégia hoje?</p>
     <p class="wp-close" style="border-top:none; padding-top:0;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</p>
     
@@ -1292,7 +1292,7 @@ function emailHTML(D) {
     } else if (mod.id === 'ativos') {
       emailContent += group(segFunds, '#0a3a86', D.grupos.seg.pct, D.grupos.seg.vlr, 'Segurança e resgate rápido');
       emailContent += group(grFunds,  '#9a6b00', D.grupos.gr.pct,  D.grupos.gr.vlr,  'Ganho real acima da inflação');
-      emailContent += `<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:18px;">Assim, <b style="color:#19222e;">${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias, e o restante blinda seu dinheiro contra a inflação.</div>`;
+      emailContent += `<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:18px;">Assim, <b style="color:#19222e;">${D.grupos.seg.pct}</b> do seu patrimônio fica disponível em poucos dias.</div>`;
     } else if (mod.type === 'custom_text') {
       emailContent += `
         <div style="margin-top:32px; margin-bottom:16px;">
