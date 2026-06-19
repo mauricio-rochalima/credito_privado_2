@@ -1325,7 +1325,7 @@ function emailHTML(D) {
       `;
     } else if (mod.type === 'anexo') {
       if(!anexoHeaderAdded) {
-         emailContent += '<div style="font-family:Georgia,serif;font-size:19px;font-weight:bold;color:#19222e;margin:36px 0 8px; border-bottom: 2px solid #ebe8e0; padding-bottom: 12px;">Detalhes e Comparativos (Anexos)</div>';
+         emailContent += '<div style="font-family:Georgia,serif;font-size:19px;font-weight:bold;color:#19222e;margin:36px 0 8px; border-bottom: 2px solid #ebe8e0; padding-bottom: 12px;">Detalhes e Comparativos</div>';
          anexoHeaderAdded = true;
       }
       emailContent += buildSingleEmailAnexoHTML(mod.id, D);
