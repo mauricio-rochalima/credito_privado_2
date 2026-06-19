@@ -1843,7 +1843,12 @@ function montarCardRico(stage, D, layout){
   const ctx = {D, layout, funds, total, lowPct, liqWeight, vencAno, c};
 
   let html = `<div class="rc-card">
-    <div class="rc-head"><span class="rc-bb">BB</span><span class="rc-head-t">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</span></div>
+
+   <div class="rc-head">
+    <span class="rc-head-t">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</span>
+</div>
+   
+   // <div class="rc-head"><span class="rc-bb">BB</span><span class="rc-head-t">BANCO DO BRASIL · ASSESSORIA DE INVESTIMENTOS</span></div>
     <div class="rc-body">`;
 
   LAYOUT_BLOCKS.forEach(mod => {
