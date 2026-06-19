@@ -1848,7 +1848,7 @@ function montarCardRico(stage, D, layout){
     html += rcBlockHTML(mod.id, mod, ctx);
   });
 
-  html += `</div><div class="rc-foot">BANCO DO BRASIL · {nome} </div></div>`;
+  html += `</div><div class="rc-foot">BANCO DO BRASIL · REF: ${rcEsc(D.mci)} </div></div>`;
   stage.innerHTML = html;
 }
 
