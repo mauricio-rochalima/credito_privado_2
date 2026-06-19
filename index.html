@@ -1277,7 +1277,7 @@ function emailHTML(D) {
     if(mod.id === 'capa') {
       emailContent += `
         <div style="font-family:Georgia,'Times New Roman',serif;font-size:23px;line-height:1.34;color:#19222e;font-weight:bold;margin-bottom:15px;">Olá, ${D.nome}! Tudo bem? Aqui é o ${D.assessorFirst} da Assessoria de Investimentos do BB.</div>
-        <div style="font-size:15px;line-height:1.6;color:#5a6573;">Seu investimento de <b style="color:#19222e;">${D.valor} em ${D.invAntNome}</b> venceu — o valor já está disponível e seguro na sua conta.</div>
+        <div style="font-size:15px;line-height:1.6;color:#5a6573;">Seu investimento de <b style="color:#19222e;">${D.valor} em ${D.invAntNome}</b> venceu — o valor já está disponível na sua conta.</div>
       `;
     } else if (mod.id === 'warn') {
       emailContent += `<div style="background:#fdf3df;border-left:3px solid #e6b800;padding:13px 16px;border-radius:6px;margin:16px 0;font-size:14.5px;color:#5a6573;line-height:1.55;">A taxa oferecida hoje para um novo <b style="color:#19222e;">${D.invCompNome}</b> é de apenas <b style="color:#19222e;">${D.taxa}</b> — rendendo abaixo do potencial com bloqueio do valor até <b style="color:#19222e;">${D.venc}</b>.</div>`;
@@ -1300,6 +1300,10 @@ function emailHTML(D) {
           <div style="font-size:15.5px; line-height:1.6; color:#5a6573; white-space:pre-line;">${mod.content}</div>
         </div>
       `;
+
+       +'<div style="font-size:16px;line-height:1.55;color:#19222e;font-weight:bold;margin-top:24px;">'+D.nome+', faz sentido migrarmos para essa estratégia hoje?</div>'
+  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
+      
     } else if (mod.type === 'assinatura') {
       emailContent += `
         <div style="font-size:15px;color:#5a6573;margin-top:32px;margin-bottom:12px;">Um abraço,</div>
@@ -1327,8 +1331,7 @@ function emailHTML(D) {
   return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">'
   +'<tr><td align="center"><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;"><tr><td style="padding:30px 32px 28px;">'
   + emailContent
-  +'<div style="font-size:16px;line-height:1.55;color:#19222e;font-weight:bold;margin-top:24px;">'+D.nome+', faz sentido migrarmos para essa estratégia hoje?</div>'
-  +'<div style="font-size:15px;line-height:1.6;color:#5a6573;margin-top:6px;">Me responda por aqui ou pelo seu canal de preferência — eu cuido de toda a transição para você.</div>'
+ 
   +'<div style="font-size:11px;line-height:1.5;color:#9aa2ad;margin-top:18px;padding-top:14px;border-top:1px solid #ebe8e0;">Rentabilidade passada não é garantia de rentabilidade futura. Recomendações baseadas nas Carteiras Sugeridas BB. Taxas e prazos sujeitos a confirmação. Fundos não têm garantia do FGC; LCA coberta pelo FGC até R$ 250 mil por instituição. Debêntures, CRA e CRI possuem risco de crédito, liquidez e mercado e não possuem garantia do FGC.'
   + mciFooter
   +'</div>'
